@@ -1,0 +1,24 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="XmlExplorer.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="Location" Type="System.Drawing.Point" Scope="User">
+      <Value Profile="(Default)">0, 0</Value>
+    </Setting>
+    <Setting Name="ClientSize" Type="System.Drawing.Size" Scope="User">
+      <Value Profile="(Default)">800, 600</Value>
+    </Setting>
+    <Setting Name="Font" Type="System.Drawing.Font" Scope="User">
+      <Value Profile="(Default)">Consolas, 9.75pt</Value>
+    </Setting>
+    <Setting Name="WindowState" Type="System.Windows.Forms.FormWindowState" Scope="User">
+      <Value Profile="(Default)">Normal</Value>
+    </Setting>
+    <Setting Name="AutoCompleteMode" Type="System.Windows.Forms.AutoCompleteMode" Scope="User">
+      <Value Profile="(Default)">SuggestAppend</Value>
+    </Setting>
+    <Setting Name="ForeColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">ControlText</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
