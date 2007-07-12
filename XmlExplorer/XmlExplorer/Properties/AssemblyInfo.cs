@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("XML Explorer")]
 [assembly: AssemblyDescription("XML Explorer")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Jason Coon")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("XML Explorer")]
 [assembly: AssemblyCopyright("Copyright © Jason Coon 2007")]
 [assembly: AssemblyTrademark("")]
