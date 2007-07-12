@@ -5,9 +5,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XmlExplorer", "XmlExplorer\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XmlExplorer.Controls", "XmlExplorer.Controls\XmlExplorer.Controls.csproj", "{BF406750-6711-4034-A05A-46F8F8026CC4}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "XmlExplorer.Setup", "XmlExplorer.Setup\XmlExplorer.Setup.vdproj", "{35E49BE0-B895-4C80-BE37-D6E851390B1C}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 3
+		SccNumberOfProjects = 4
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs04.codeplex.com/
 		SccLocalPath0 = .
@@ -17,6 +19,9 @@ Global
 		SccProjectUniqueName2 = XmlExplorer\\XmlExplorer.csproj
 		SccProjectName2 = XmlExplorer
 		SccLocalPath2 = XmlExplorer
+		SccProjectUniqueName3 = XmlExplorer.Setup\\XmlExplorer.Setup.vdproj
+		SccProjectName3 = XmlExplorer.Setup
+		SccLocalPath3 = XmlExplorer.Setup
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +36,8 @@ Global
 		{BF406750-6711-4034-A05A-46F8F8026CC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF406750-6711-4034-A05A-46F8F8026CC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF406750-6711-4034-A05A-46F8F8026CC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35E49BE0-B895-4C80-BE37-D6E851390B1C}.Debug|Any CPU.ActiveCfg = Debug
+		{35E49BE0-B895-4C80-BE37-D6E851390B1C}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
