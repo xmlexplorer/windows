@@ -951,6 +951,7 @@ namespace XmlExplorer.Controls
                 // update any tools that depend on one or more tab pages being open
                 bool hasOpenTabPages = this.tabControl.TabPages.Count > 0;
 
+                this.toolStripMenuItemOpenInEditor.Enabled = hasOpenTabPages;
                 this.toolStripMenuItemClose.Enabled = hasOpenTabPages;
                 this.toolStripMenuItemSaveAs.Enabled = hasOpenTabPages;
                 this.toolStripMenuItemSaveWithFormatting.Enabled = hasOpenTabPages;

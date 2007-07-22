@@ -41,6 +41,7 @@ namespace XmlExplorer.Controls
             this.menuStripMain = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItemFile = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemOpen = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemOpenInEditor = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemClose = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItemSaveWithFormatting = new System.Windows.Forms.ToolStripMenuItem();
@@ -71,7 +72,6 @@ namespace XmlExplorer.Controls
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItemCopyFullPath = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemOpenContainingFolder = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemOpenInEditor = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer.ContentPanel.SuspendLayout();
             this.toolStripContainer.TopToolStripPanel.SuspendLayout();
@@ -184,6 +184,13 @@ namespace XmlExplorer.Controls
             this.toolStripMenuItemOpen.Size = new System.Drawing.Size(232, 22);
             this.toolStripMenuItemOpen.Text = "&Open...";
             // 
+            // toolStripMenuItemOpenInEditor
+            // 
+            this.toolStripMenuItemOpenInEditor.Name = "toolStripMenuItemOpenInEditor";
+            this.toolStripMenuItemOpenInEditor.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
+            this.toolStripMenuItemOpenInEditor.Size = new System.Drawing.Size(232, 22);
+            this.toolStripMenuItemOpenInEditor.Text = "Open in &Editor";
+            // 
             // toolStripMenuItemClose
             // 
             this.toolStripMenuItemClose.Name = "toolStripMenuItemClose";
@@ -264,7 +271,7 @@ namespace XmlExplorer.Controls
             this.toolStripMenuItemFont});
             this.toolStripMenuItemFormat.Name = "toolStripMenuItemFormat";
             this.toolStripMenuItemFormat.Size = new System.Drawing.Size(57, 20);
-            this.toolStripMenuItemFormat.Text = "&Format";
+            this.toolStripMenuItemFormat.Text = "F&ormat";
             // 
             // toolStripMenuItemFont
             // 
@@ -286,7 +293,7 @@ namespace XmlExplorer.Controls
             this.toolStripMenuItemRefresh.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItemRefresh.Image")));
             this.toolStripMenuItemRefresh.Name = "toolStripMenuItemRefresh";
             this.toolStripMenuItemRefresh.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.toolStripMenuItemRefresh.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItemRefresh.Size = new System.Drawing.Size(132, 22);
             this.toolStripMenuItemRefresh.Text = "&Refresh";
             // 
             // toolStripStandardButtons
@@ -423,13 +430,6 @@ namespace XmlExplorer.Controls
             this.toolStripMenuItemOpenContainingFolder.Name = "toolStripMenuItemOpenContainingFolder";
             this.toolStripMenuItemOpenContainingFolder.Size = new System.Drawing.Size(201, 22);
             this.toolStripMenuItemOpenContainingFolder.Text = "Open Containing Folder";
-            // 
-            // toolStripMenuItemOpenInEditor
-            // 
-            this.toolStripMenuItemOpenInEditor.Name = "toolStripMenuItemOpenInEditor";
-            this.toolStripMenuItemOpenInEditor.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
-            this.toolStripMenuItemOpenInEditor.Size = new System.Drawing.Size(232, 22);
-            this.toolStripMenuItemOpenInEditor.Text = "Open in &Editor";
             // 
             // TabbedXmlExplorerWindow
             // 
