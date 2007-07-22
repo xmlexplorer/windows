@@ -11,6 +11,8 @@ namespace XmlExplorer.Controls
     using System.Xml;
     using System.Xml.XPath;
     using System.IO;
+    using System.Security.Permissions;
+    using System.Security;
 
     public partial class TabbedXmlExplorerWindow : Form
     {
@@ -44,7 +46,15 @@ namespace XmlExplorer.Controls
             this.InitializeComponent();
 
             // handle file drag-drop operations
-            this.AllowDrop = true;
+            try
+            {
+                new UIPermission(UIPermissionWindow.AllWindows).Demand();
+                this.AllowDrop = true;
+            }
+            catch (SecurityException)
+            {
+            }
+
             this.DragOver += this.OnDragOver;
             this.DragDrop += this.OnDragDrop;
 
@@ -202,7 +212,18 @@ namespace XmlExplorer.Controls
                 dialog.Multiselect = true;
                 if (dialog.ShowDialog(this) == DialogResult.OK)
                 {
-                    this.Open(dialog.FileNames);
+                    try
+                    {
+                        this.Open(dialog.FileNames);
+                    }
+                    catch (SecurityException)
+                    {
+                        dialog.Multiselect = false;
+                        using (Stream stream = dialog.OpenFile())
+                        {
+                            this.Open(stream);
+                        }
+                    }
                 }
             }
         }
@@ -242,6 +263,24 @@ namespace XmlExplorer.Controls
 
             // instruct the tab to open the specified file.
             tabPage.Open(filename);
+
+            // add the tabpage to the tab control
+            this.tabControl.TabPages.Add(tabPage);
+
+            // select the newly opened tab
+            this.tabControl.SelectedTab = tabPage;
+        }
+
+        /// <summary>
+        /// Opens a tab for the specified stream.
+        /// </summary>
+        public void Open(Stream stream)
+        {
+            // create a tab page
+            XmlExplorerTabPage tabPage = this.CreateXmlExplorerTabPage();
+
+            // instruct the tab to open the specified stream.
+            tabPage.Open(stream);
 
             // add the tabpage to the tab control
             this.tabControl.TabPages.Add(tabPage);

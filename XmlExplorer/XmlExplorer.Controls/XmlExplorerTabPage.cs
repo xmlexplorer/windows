@@ -23,6 +23,8 @@ namespace XmlExplorer.Controls
         // from a file, or once a node set has been saved to a file
         private string _filename;
 
+        private Stream _stream;
+
         // the node set currently opened, if opened from
         // an XPath expression result
         private XPathNodeIterator _nodes;
@@ -181,6 +183,21 @@ namespace XmlExplorer.Controls
         }
 
         /// <summary>
+        /// Loads XML file data from a given stream.
+        /// </summary>
+        public void Open(Stream stream)
+        {
+            _stream = stream;
+
+            // set the tab text and tooltip
+            this.Text = "<Unknown>";
+            this.ToolTipText = "This file was loaded from a stream (likely due to restricted permissions), and no filename is available.";
+
+            // begin loading the file on a background thread
+            this.BeginLoadFile();
+        }
+
+        /// <summary>
         /// Loads an XML node set.
         /// </summary>
         /// <param name="iterator"></param>
@@ -266,7 +283,12 @@ namespace XmlExplorer.Controls
                 DateTime start = DateTime.Now;
 
                 // load the document
-                XPathDocument document = new XPathDocument(_filename);
+                XPathDocument document = null;
+
+                if(!string.IsNullOrEmpty(_filename))
+                    document = new XPathDocument(_filename);
+                else if(_stream != null)
+                    document = new XPathDocument(_stream);
 
                 Debug.WriteLine(string.Format("Done. Elapsed: {0}ms.", DateTime.Now.Subtract(start).TotalMilliseconds));
 

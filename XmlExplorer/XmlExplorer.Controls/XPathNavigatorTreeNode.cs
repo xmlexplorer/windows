@@ -87,7 +87,7 @@ namespace XmlExplorer.Controls
 				case XPathNodeType.Root:
 				case XPathNodeType.Element:
                     // append the start of the element
-					builder.AppendFormat("<{0} ", _navigator.Name);
+					builder.AppendFormat("<{0}", _navigator.Name);
 
                     // append any attributes
 					if (_navigator.HasAttributes)
@@ -97,8 +97,10 @@ namespace XmlExplorer.Controls
 						if (attributeNavigator.MoveToFirstAttribute())
 						{
 							do
-							{
-								builder.AppendFormat("{0}=\"{1}\" ", attributeNavigator.Name, attributeNavigator.Value);
+                            {
+                                builder.Append(" ");
+
+								builder.AppendFormat("{0}=\"{1}\"", attributeNavigator.Name, attributeNavigator.Value);
 							}
 							while (attributeNavigator.MoveToNextAttribute());
 						}

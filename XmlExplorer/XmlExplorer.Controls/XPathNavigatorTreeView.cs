@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Xml.XPath;
 using System.IO;
 using System.Text;
+using System.Drawing;
+using System.Text.RegularExpressions;
 
 namespace XmlExplorer.Controls
 {
@@ -17,6 +19,16 @@ namespace XmlExplorer.Controls
         /// </summary>
         protected XPathNavigator _navigator;
 
+        /// <summary>
+        /// Default StringFormat used for measuring and rendering TreeNode text.
+        /// </summary>
+        private StringFormat _stringFormat;
+
+        /// <summary>
+        /// A debug flag used to troubleshoot the rendering of TreeNode text.
+        /// </summary>
+        private bool _displayCharacterRangeBounds = false;
+
         #endregion
 
         #region Constructors
@@ -26,6 +38,16 @@ namespace XmlExplorer.Controls
         /// </summary>
         public XPathNavigatorTreeView()
         {
+            // to implement syntax highlighting, we'll be owner drawing the node text
+            this.DrawMode = TreeViewDrawMode.OwnerDrawText;
+
+            // this is required for sequentially rendering adjacent text, see the article
+            // 'Why text appears different when drawn with GDIPlus versus GDI', section 'How to Display Adjacent Text'
+            // http://support.microsoft.com/?id=307208 for more details
+            _stringFormat = new StringFormat(StringFormat.GenericTypographic);
+            _stringFormat.FormatFlags = _stringFormat.FormatFlags | StringFormatFlags.FitBlackBox | StringFormatFlags.NoWrap | StringFormatFlags.NoClip;
+            _stringFormat.LineAlignment = StringAlignment.Center;
+
             // I always end up forgetting to turn this off each time I use a TreeView,
             // so I'll just take care of it here automatically.
             base.HideSelection = false;
@@ -35,6 +57,9 @@ namespace XmlExplorer.Controls
 
         #region Properties
 
+        /// <summary>
+        /// The XPathNavigator that this XPathNavigatorTreeView should display.
+        /// </summary>
         public XPathNavigator Navigator
         {
             get
@@ -111,9 +136,10 @@ namespace XmlExplorer.Controls
             if (treeNode.HasExpanded)
                 return;
 
+            // make sure we don't have to load this tree node again.
             treeNode.HasExpanded = true;
 
-            base.BeginUpdate();
+            this.BeginUpdate();
             try
             {
                 // load the child nodes of the specified xml tree node
@@ -121,10 +147,10 @@ namespace XmlExplorer.Controls
             }
             finally
             {
-                base.EndUpdate();
+                this.EndUpdate();
             }
         }
-        
+
         /// <summary>
         /// Loads an XPathNavigatorTreeNode for each XPathNavigator in the specified XPathNodeIterator, into the 
         /// specified TreeNodeCollection.
@@ -148,11 +174,11 @@ namespace XmlExplorer.Controls
                 treeNodeCollection.Clear();
 
                 // create and add a node for each navigator
-		foreach (XPathNavigator navigator in iterator)
-		{
-			XPathNavigatorTreeNode node = new XPathNavigatorTreeNode(navigator.Clone());
-			treeNodeCollection.Add(node);
-		}
+                foreach (XPathNavigator navigator in iterator)
+                {
+                    XPathNavigatorTreeNode node = new XPathNavigatorTreeNode(navigator.Clone());
+                    treeNodeCollection.Add(node);
+                }
             }
             finally
             {
@@ -452,6 +478,138 @@ namespace XmlExplorer.Controls
             }
 
             base.OnBeforeExpand(e);
+        }
+
+        protected override void OnDrawNode(DrawTreeNodeEventArgs e)
+        {
+            // not sure why the TreeView doesn't take care of this...
+            // I was getting requests to draw nodes that weren't even visible on the screen.
+            // Obviously, this was drastically slowing down the drawing of the tree!
+            if (!e.Node.IsVisible)
+                return;
+
+            Rectangle bounds = e.Bounds;
+
+            using (SolidBrush brush = new SolidBrush(this.BackColor))
+                e.Graphics.FillRectangle(brush, bounds);
+
+            if (e.Node.IsEditing)
+                return;
+
+            // this is required for sequentially rendering adjacent text, see the article
+            // 'Why text appears different when drawn with GDIPlus versus GDI', section 'How to Display Adjacent Text'
+            // http://support.microsoft.com/?id=307208 for more details
+            e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
+
+            string text = e.Node.Text;
+
+            if ((e.State & TreeNodeStates.Selected) == TreeNodeStates.Selected)
+            {
+                // Fill the backgound with the highlight color
+                e.Graphics.FillRectangle(SystemBrushes.Highlight, bounds);
+
+                // Draw the string
+                e.Graphics.DrawString(text, this.Font, SystemBrushes.HighlightText, bounds, _stringFormat);
+
+                return;
+            }
+
+            // the node isn't focused, draw it's text with syntax highlights
+            this.DrawStrings(text, bounds, e.Graphics);
+
+            // If the node has focus, draw the focus rectangle.
+            if ((e.State & TreeNodeStates.Focused) != 0)
+                ControlPaint.DrawFocusRectangle(e.Graphics, e.Bounds);
+        }
+
+        private void DrawStrings(string text, Rectangle bounds, Graphics graphics)
+        {
+            bool drawn = false;
+
+            // draw delimiters
+            Color color = Color.FromArgb(0, 0, 255);
+            drawn = this.DrawStrings(text, bounds, graphics, color, RegularExpressions.Xml, "Delimiter");
+
+            // draw attribute values
+            drawn |= this.DrawStrings(text, bounds, graphics, color, RegularExpressions.Xml, "AttributeValue");
+
+            // draw text
+            color = SystemColors.ControlText;
+            drawn |= this.DrawStrings(text, bounds, graphics, color, RegularExpressions.Xml, "Text");
+
+            // draw name
+            color = Color.FromArgb(163, 21, 21);
+            drawn |= this.DrawStrings(text, bounds, graphics, color, RegularExpressions.Xml, "Name");
+
+            // draw attribute names
+            color = Color.FromArgb(255, 0, 0);
+            drawn |= this.DrawStrings(text, bounds, graphics, color, RegularExpressions.Xml, "AttributeName");
+
+            // draw comment delimiters
+            color = Color.FromArgb(0, 0, 255);
+            drawn |= this.DrawStrings(text, bounds, graphics, color, RegularExpressions.Comments, "Delimiter");
+
+            // draw comments
+            color = Color.FromArgb(0, 128, 0);
+            drawn |= this.DrawStrings(text, bounds, graphics, color, RegularExpressions.Comments, "Comments");
+
+            // if the text wasn't matched by any of our regular expressions, it's likely just a text node
+            // draw it without any syntax highlights
+            if (!drawn)
+            {
+                // Draw the text
+                using (SolidBrush brush = new SolidBrush(this.ForeColor))
+                    graphics.DrawString(text, this.Font, brush, bounds, _stringFormat);
+            }
+        }
+
+        private bool DrawStrings(string text, Rectangle bounds, Graphics graphics, Color color, Regex regex, string groupName)
+        {
+            if (!regex.IsMatch(text))
+                return false;
+
+            MatchCollection matches = regex.Matches(text);
+
+            bool result = false;
+
+            foreach (Match match in matches)
+            {
+                using (SolidBrush brush = new SolidBrush(color))
+                {
+                    foreach (Capture capture in match.Groups[groupName].Captures)
+                    {
+                        // create a character range for the capture
+                        CharacterRange[] characterRanges = new CharacterRange[] {
+                                new CharacterRange(capture.Index, capture.Length)};
+
+                        // create a new string format, using the default one as a prototype
+                        StringFormat stringFormat = new StringFormat(_stringFormat);
+
+                        stringFormat.SetMeasurableCharacterRanges(characterRanges);
+
+                        // measure the character ranges for the capture, getting an array of regions
+                        Region[] regions = new Region[1];
+                        regions = graphics.MeasureCharacterRanges(text, this.Font, bounds, stringFormat);
+
+                        // Draw each measured string within each region.
+                        foreach (Region region in regions)
+                        {
+                            RectangleF rectangle = region.GetBounds(graphics);
+
+                            graphics.DrawString(capture.Value, this.Font, brush, rectangle, _stringFormat);
+
+                            // draw character range bounding rectangles, for troubleshooting only
+                            if (_displayCharacterRangeBounds)
+                                using (Pen pen = new Pen(brush.Color))
+                                    graphics.DrawRectangle(pen, rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
+
+                            result = true;
+                        }
+                    }
+                }
+            }
+
+            return result;
         }
 
         #endregion

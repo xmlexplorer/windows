@@ -6,6 +6,8 @@ namespace XmlExplorer
     using System.Collections.ObjectModel;
     using System.Windows.Forms;
 	using System.Diagnostics;
+using System.Security.Permissions;
+    using System.Security;
 
     public class SingleInstanceApplication : WindowsFormsApplicationBase
     {
@@ -31,7 +33,17 @@ namespace XmlExplorer
         public virtual void Run(Form mainForm)
         {
             base.MainForm = mainForm;
-            this.Run(base.CommandLineArgs);
+
+            try
+            {
+                new EnvironmentPermission(EnvironmentPermissionAccess.Read, "PATH").Demand();
+                this.Run(base.CommandLineArgs);
+            }
+            catch (SecurityException)
+            {
+                MessageBox.Show("Unable to access command-line args due to security restrictions.");
+                this.Run(new string[] { });
+            }
         }
     }
 }

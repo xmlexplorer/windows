@@ -268,7 +268,7 @@ namespace XmlExplorer.Controls
             // 
             this.toolStripMenuItemFont.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItemFont.Image")));
             this.toolStripMenuItemFont.Name = "toolStripMenuItemFont";
-            this.toolStripMenuItemFont.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItemFont.Size = new System.Drawing.Size(107, 22);
             this.toolStripMenuItemFont.Text = "&Font...";
             // 
             // toolStripMenuItemView
@@ -284,7 +284,7 @@ namespace XmlExplorer.Controls
             this.toolStripMenuItemRefresh.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItemRefresh.Image")));
             this.toolStripMenuItemRefresh.Name = "toolStripMenuItemRefresh";
             this.toolStripMenuItemRefresh.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.toolStripMenuItemRefresh.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItemRefresh.Size = new System.Drawing.Size(132, 22);
             this.toolStripMenuItemRefresh.Text = "&Refresh";
             // 
             // toolStripStandardButtons
