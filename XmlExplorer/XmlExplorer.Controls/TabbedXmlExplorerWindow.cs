@@ -82,6 +82,8 @@ namespace XmlExplorer.Controls
             this.toolStripMenuItemOpen.Click += this.OnToolStripButtonOpenClick;
             this.toolStripButtonOpen.Click += this.OnToolStripButtonOpenClick;
 
+            this.toolStripMenuItemOpenInEditor.Click += this.OnToolStripButtonOpenInEditorClick;
+
             this.toolStripButtonRefresh.Click += this.OnToolStripButtonRefreshClick;
             this.toolStripMenuItemRefresh.Click += this.OnToolStripButtonRefreshClick;
 
@@ -124,7 +126,7 @@ namespace XmlExplorer.Controls
             get { return this.toolStripTextBoxXpath.AutoCompleteMode; }
             set { this.toolStripTextBoxXpath.AutoCompleteMode = value; }
         }
-	
+
         #endregion
 
         #region Methods
@@ -307,6 +309,33 @@ namespace XmlExplorer.Controls
 
             // select the newly opened tab
             this.tabControl.SelectedTab = tabPage;
+        }
+
+        /// <summary>
+        /// Opens the selected tab page's file in the default editor for it's file type.
+        /// </summary>
+        private void OpenInEditor()
+        {
+            try
+            {
+                // get the selected tab
+                XmlExplorerTabPage tabPage = this.tabControl.SelectedTab as XmlExplorerTabPage;
+                if (tabPage == null)
+                    return;
+
+                if (string.IsNullOrEmpty(tabPage.Filename))
+                    return;
+
+                ProcessStartInfo info = new ProcessStartInfo(tabPage.Filename);
+                info.Verb = "edit";
+
+                Process.Start(info);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                MessageBox.Show(this, ex.ToString());
+            }
         }
 
         /// <summary>
@@ -1110,6 +1139,19 @@ namespace XmlExplorer.Controls
             try
             {
                 this.Open();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                MessageBox.Show(this, ex.ToString());
+            }
+        }
+
+        private void OnToolStripButtonOpenInEditorClick(object sender, EventArgs e)
+        {
+            try
+            {
+                this.OpenInEditor();
             }
             catch (Exception ex)
             {
