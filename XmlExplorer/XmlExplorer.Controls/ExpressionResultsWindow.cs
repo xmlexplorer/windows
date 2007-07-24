@@ -1,19 +1,3 @@
-// ============================================================================
-//
-// This file is a part of the Secure Passage codebase. The contents of
-// this file are confidential and cannot be distributed without prior 
-// written authorization.
-//
-// Copyright © 2000-2005 Secure Passage All rights reserved.
-//
-// Warning: This computer program is protected by copyright law and 
-// international treaties. Unauthorized reproduction or distribution of 
-// this program, or any portion of it, may result in severe civil and 
-// criminal penalties, and will be prosecuted to the maximum extent 
-// possible under the law.
-//
-// ============================================================================
-
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

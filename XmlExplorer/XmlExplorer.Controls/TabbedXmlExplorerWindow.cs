@@ -65,14 +65,15 @@ namespace XmlExplorer.Controls
             this.tabControl.Selected += this.OnTabControlSelected;
 
             // wire up all of the toolbar and menu events
-            // where applicable, I wire the click events of multiple tools to the same event handler
-            // to reduce redundant code (for example, for the Open menu item and the Open toolbar button).
             this.toolStripMenuItemFile.DropDownOpening += this.OnToolStripMenuItemFileDropDownOpening;
+			this.toolStripMenuItemEdit.DropDownOpening += this.OnToolStripMenuItemEditDropDownOpening;
             this.toolStripMenuItemView.DropDownOpening += this.OnToolStripMenuItemViewDropDownOpening;
 
             this.toolStripTextBoxXpath.KeyDown += this.OnToolStripTextBoxXpathKeyDown;
             this.toolStripTextBoxXpath.TextChanged += this.OnToolStripTextBoxXpathTextChanged;
 
+			// where applicable, I wire the click events of multiple tools to the same event handler
+			// to reduce redundant code (for example, for the Open menu item and the Open toolbar button).
             this.contextMenuStripMenuItemClose.Click += this.OnToolStripMenuItemCloseClick;
             this.toolStripMenuItemClose.Click += this.OnToolStripMenuItemCloseClick;
 
@@ -955,10 +956,6 @@ namespace XmlExplorer.Controls
                 this.toolStripMenuItemClose.Enabled = hasOpenTabPages;
                 this.toolStripMenuItemSaveAs.Enabled = hasOpenTabPages;
                 this.toolStripMenuItemSaveWithFormatting.Enabled = hasOpenTabPages;
-
-                this.toolStripMenuItemCopyFormattedOuterXml.Enabled = hasOpenTabPages;
-                this.toolStripMenuItemCopy.Enabled = hasOpenTabPages;
-                this.toolStripMenuItemCopyXPath.Enabled = hasOpenTabPages;
             }
             catch (Exception ex)
             {
@@ -966,6 +963,24 @@ namespace XmlExplorer.Controls
                 MessageBox.Show(this, ex.ToString());
             }
         }
+
+		private void OnToolStripMenuItemEditDropDownOpening(object sender, EventArgs e)
+		{
+			try
+			{
+				// update any tools that depend on one or more tab pages being open
+				bool hasOpenTabPages = this.tabControl.TabPages.Count > 0;
+
+				this.toolStripMenuItemCopyFormattedOuterXml.Enabled = hasOpenTabPages;
+				this.toolStripMenuItemCopy.Enabled = hasOpenTabPages;
+				this.toolStripMenuItemCopyXPath.Enabled = hasOpenTabPages;
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine(ex);
+				MessageBox.Show(this, ex.ToString());
+			}
+		}
 
         private void OnToolStripMenuItemViewDropDownOpening(object sender, EventArgs e)
         {
@@ -980,7 +995,6 @@ namespace XmlExplorer.Controls
                 MessageBox.Show(this, ex.ToString());
             }
         }
-
 
         private void OnToolStripTextBoxXpathKeyDown(object sender, KeyEventArgs e)
         {

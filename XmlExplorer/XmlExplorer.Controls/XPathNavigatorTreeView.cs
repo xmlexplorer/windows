@@ -496,10 +496,13 @@ namespace XmlExplorer.Controls
             if (e.Node.IsEditing)
                 return;
 
+			// I tried using the suggested TextRenderingHint.AntiAlias, but I don't think it looks right with
+			// small fonts, so I'm disabling it.  Need to make this a user option in a later version.
+
             // this is required for sequentially rendering adjacent text, see the article
             // 'Why text appears different when drawn with GDIPlus versus GDI', section 'How to Display Adjacent Text'
             // http://support.microsoft.com/?id=307208 for more details
-            e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
+            // e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
 
             string text = e.Node.Text;
 
