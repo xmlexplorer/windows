@@ -28,13 +28,13 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_07F3FD367BCB97AB509016633066194B"
+        "OwnerKey" = "8:_3F5F639A5C5F4BFAA0A05A6CF0E260F3"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_3F5F639A5C5F4BFAA0A05A6CF0E260F3"
+        "OwnerKey" = "8:_07F3FD367BCB97AB509016633066194B"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -55,6 +55,17 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                }
+            }
         }
         "Release"
         {
@@ -71,6 +82,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Net.Framework.2.0"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 2.0"
+                    "ProductCode" = "8:Microsoft.Net.Framework.2.0"
+                    }
+                }
+            }
         }
     }
     "Deployable"
@@ -104,7 +131,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:XmlExplorer.Controls, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:XmlExplorer.Controls, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_07F3FD367BCB97AB509016633066194B"
@@ -186,14 +213,14 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:XML Explorer"
-        "ProductCode" = "8:{181EC1A4-3A5C-46B8-A9A4-C0B3FB94C7B2}"
-        "PackageCode" = "8:{F08A85D3-27D8-4BF9-87A4-51A354DEA7B5}"
+        "ProductCode" = "8:{BD9B90F7-1912-4812-9504-9BE064E8B6BB}"
+        "PackageCode" = "8:{37FEAF7D-3419-4361-8824-B096CC1F999A}"
         "UpgradeCode" = "8:{DCF30FC8-6E77-47AB-97A5-36C54754E243}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:1.0.0"
+        "ProductVersion" = "8:1.1.1"
         "Manufacturer" = "8:XML Explorer"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:http://www.codeplex.com/xmlexplorer"

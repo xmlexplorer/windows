@@ -35,49 +35,53 @@ namespace XmlExplorer.Controls
             );
 
         /// <summary>
-        ///  Regular expression built for C# on: Fri, Jul 20, 2007, 10:51:05 PM
+        ///  Regular expression built for C# on: Thu, Jul 26, 2007, 07:03:25 PM
         ///  Using Expresso Version: 3.0.2745, http://www.ultrapico.com
         ///  
         ///  A description of the regular expression:
         ///  
-        ///  [OpenTagStart]: A named capture group. [<|<\?|</]
+        ///  [Delimiter]: A named capture group. [</?|<\?|<!--]
         ///      Select from 3 alternatives
-        ///          <
+        ///          </?
+        ///              </, zero or one repetitions
         ///          <\?
         ///              <
         ///              Literal ?
-        ///          </
-        ///              </
+        ///          <!--
+        ///              <!--
         ///  Whitespace, any number of repetitions
-        ///  [OpenTagName]: A named capture group. [\w+]
-        ///      Alphanumeric, one or more repetitions
+        ///  [Name]: A named capture group. [\S+]
+        ///      Anything other than whitespace, one or more repetitions
         ///  Whitespace, any number of repetitions
-        ///  [Attribute]: A named capture group. [(?<AttributeName>\w+)(?<Equals>=)(?<Quote>")(?<AttributeValue>\w*)(?<Quote>")], any number of repetitions
-        ///      (?<AttributeName>\w+)(?<Equals>=)(?<Quote>")(?<AttributeValue>\w*)(?<Quote>")
-        ///          [AttributeName]: A named capture group. [\w+]
-        ///              Alphanumeric, one or more repetitions
-        ///          [Equals]: A named capture group. [=]
+        ///  [Attribute]: A named capture group. [(?<AttributeName>\S+)(?<Delimiter>=)(?<Text>")(?<AttributeValue>.*?)(?<Text>")\s*], any number of repetitions, as few as possible
+        ///      (?<AttributeName>\S+)(?<Delimiter>=)(?<Text>")(?<AttributeValue>.*?)(?<Text>")\s*
+        ///          [AttributeName]: A named capture group. [\S+]
+        ///              Anything other than whitespace, one or more repetitions
+        ///          [Delimiter]: A named capture group. [=]
         ///              =
-        ///          [Quote]: A named capture group. ["]
+        ///          [Text]: A named capture group. ["]
         ///              "
-        ///          [AttributeValue]: A named capture group. [\w*]
-        ///              Alphanumeric, any number of repetitions
-        ///          [Quote]: A named capture group. ["]
+        ///          [AttributeValue]: A named capture group. [.*?]
+        ///              Any character, any number of repetitions, as few as possible
+        ///          [Text]: A named capture group. ["]
         ///              "
-        ///  Whitespace, any number of repetitions
-        ///  [OpenTagEnd]: A named capture group. [>|/>|\?>]
+        ///          Whitespace, any number of repetitions
+        ///  [Delimiter]: A named capture group. [/?>|\?>|-->]
         ///      Select from 3 alternatives
-        ///          >
-        ///          />
-        ///              />
+        ///          /?>
+        ///              /, zero or one repetitions>
         ///          \?>
         ///              Literal ?
         ///              >
+        ///          -->
+        ///              -->
         ///  
         ///
         /// </summary>
         public static Regex Xml = new Regex(
-              @"(?<Delimiter></?|<\?|<!--)\s*(?<Name>\w+)\s*(?<Attribute>(?<AttributeName>\S+)(?<Delimiter>=)(?<Text>"")(?<AttributeValue>.*?)(?<Text>"")\s*)*?(?<Delimiter>/?>|\?>|-->)",
+              "(?<Delimiter></?|<\\?)\\s*(?<Name>\\S+)\\s*(?<Attribute" +
+              ">(?<AttributeName>\\S+)(?<Delimiter>=)(?<Text>\")(?<Attribut" +
+              "eValue>.*?)(?<Text>\")\\s*)*?(?<Delimiter>/?>|\\?>)",
             RegexOptions.IgnoreCase
             | RegexOptions.CultureInvariant
             | RegexOptions.IgnorePatternWhitespace

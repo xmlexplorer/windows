@@ -29,6 +29,8 @@ namespace XmlExplorer.Controls
         /// </summary>
         private bool _displayCharacterRangeBounds = false;
 
+        private XmlNamespaceManager _xmlNamespaceManager;
+
         #endregion
 
         #region Constructors
@@ -97,6 +99,16 @@ namespace XmlExplorer.Controls
                 // no exception needs thrown
                 if (_navigator != null)
                 {
+                    _xmlNamespaceManager = new System.Xml.XmlNamespaceManager(_navigator.NameTable);
+
+                    if (!string.IsNullOrEmpty(_navigator.Prefix))
+                    {
+                        if (!string.IsNullOrEmpty(_navigator.NamespaceURI))
+                        {
+                            _xmlNamespaceManager.AddNamespace(_navigator.Prefix, _navigator.NamespaceURI);
+                        }
+                    }
+
                     // if it's the root node of the document, load it's children
                     // we don't display the root
                     if (_navigator.NodeType == XPathNodeType.Root)
@@ -176,6 +188,14 @@ namespace XmlExplorer.Controls
                 // create and add a node for each navigator
                 foreach (XPathNavigator navigator in iterator)
                 {
+                    if (!string.IsNullOrEmpty(navigator.Prefix) && !_xmlNamespaceManager.HasNamespace(navigator.Prefix))
+                    {
+                        if (!string.IsNullOrEmpty(navigator.NamespaceURI))
+                        {
+                            _xmlNamespaceManager.AddNamespace(navigator.Prefix, navigator.NamespaceURI);
+                        }
+                    }
+
                     XPathNavigatorTreeNode node = new XPathNavigatorTreeNode(navigator.Clone());
                     treeNodeCollection.Add(node);
                 }
@@ -338,7 +358,7 @@ namespace XmlExplorer.Controls
                 return null;
 
             // evaluate the expression, return the result
-            return node.Navigator.Evaluate(xpath);
+            return node.Navigator.Evaluate(xpath, _xmlNamespaceManager);
         }
 
         /// <summary>
@@ -517,15 +537,34 @@ namespace XmlExplorer.Controls
                 return;
             }
 
-            // the node isn't focused, draw it's text with syntax highlights
-            this.DrawStrings(text, bounds, e.Graphics);
+            // the node isn't selected, draw it's text with syntax highlights
+            bool drawn = false;
+
+            // don't bother with syntax highlighting for text nodes
+            XPathNavigatorTreeNode xpathNode = e.Node as XPathNavigatorTreeNode;
+            if (xpathNode == null || xpathNode.Navigator.NodeType != XPathNodeType.Text)
+            {
+                // draw non text nodes with syntax highlights
+                drawn = this.DrawStrings(text, bounds, e.Graphics);
+            }
+
+            // if the text wasn't matched by any of our regular expressions, it's likely just a text node
+            // draw it without any syntax highlights
+            if (!drawn)
+            {
+                // Draw the text
+                using (SolidBrush brush = new SolidBrush(this.ForeColor))
+                {
+                    e.Graphics.DrawString(text, this.Font, brush, bounds, _stringFormat);
+                }
+            }
 
             // If the node has focus, draw the focus rectangle.
             if ((e.State & TreeNodeStates.Focused) != 0)
                 ControlPaint.DrawFocusRectangle(e.Graphics, e.Bounds);
         }
 
-        private void DrawStrings(string text, Rectangle bounds, Graphics graphics)
+        private bool DrawStrings(string text, Rectangle bounds, Graphics graphics)
         {
             bool drawn = false;
 
@@ -556,14 +595,7 @@ namespace XmlExplorer.Controls
             color = Color.FromArgb(0, 128, 0);
             drawn |= this.DrawStrings(text, bounds, graphics, color, RegularExpressions.Comments, "Comments");
 
-            // if the text wasn't matched by any of our regular expressions, it's likely just a text node
-            // draw it without any syntax highlights
-            if (!drawn)
-            {
-                // Draw the text
-                using (SolidBrush brush = new SolidBrush(this.ForeColor))
-                    graphics.DrawString(text, this.Font, brush, bounds, _stringFormat);
-            }
+            return drawn;
         }
 
         private bool DrawStrings(string text, Rectangle bounds, Graphics graphics, Color color, Regex regex, string groupName)
