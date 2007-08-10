@@ -468,9 +468,19 @@ namespace XmlExplorer.Controls
                     {
                         foreach (XPathNavigator node in _nodes)
                         {
-                            node.WriteSubtree(writer);
-                            if (node.NodeType == XPathNodeType.Text)
-                                writer.WriteWhitespace(Environment.NewLine);
+							switch(node.NodeType)
+							{
+								case XPathNodeType.Attribute:
+									writer.WriteString(node.Value);
+									writer.WriteWhitespace(Environment.NewLine);
+									break;
+
+								default:
+									node.WriteSubtree(writer);
+									if (node.NodeType == XPathNodeType.Text)
+										writer.WriteWhitespace(Environment.NewLine);
+									break;
+							}
                         }
                     }
                 }
