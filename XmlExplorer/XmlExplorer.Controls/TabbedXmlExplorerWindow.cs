@@ -34,6 +34,12 @@ namespace XmlExplorer.Controls
         private Font _treeFont;
         private Color _treeForeColor;
 
+        /// <summary>
+        /// A flag to bypass the custom drawing of syntax highlights,
+        /// optionally used to improve performance on large documents.
+        /// </summary>
+        private bool _useSyntaxHighlighting = true;
+
         #endregion
 
         #region Constructors
@@ -66,19 +72,21 @@ namespace XmlExplorer.Controls
 
             // wire up all of the toolbar and menu events
             this.toolStripMenuItemFile.DropDownOpening += this.OnToolStripMenuItemFileDropDownOpening;
-			this.toolStripMenuItemEdit.DropDownOpening += this.OnToolStripMenuItemEditDropDownOpening;
+            this.toolStripMenuItemEdit.DropDownOpening += this.OnToolStripMenuItemEditDropDownOpening;
             this.toolStripMenuItemView.DropDownOpening += this.OnToolStripMenuItemViewDropDownOpening;
 
             this.toolStripTextBoxXpath.KeyDown += this.OnToolStripTextBoxXpathKeyDown;
             this.toolStripTextBoxXpath.TextChanged += this.OnToolStripTextBoxXpathTextChanged;
 
-			// where applicable, I wire the click events of multiple tools to the same event handler
-			// to reduce redundant code (for example, for the Open menu item and the Open toolbar button).
+            // where applicable, I wire the click events of multiple tools to the same event handler
+            // to reduce redundant code (for example, for the Open menu item and the Open toolbar button).
             this.contextMenuStripMenuItemClose.Click += this.OnToolStripMenuItemCloseClick;
             this.toolStripMenuItemClose.Click += this.OnToolStripMenuItemCloseClick;
 
             this.toolStripMenuItemExit.Click += this.OnToolStripMenuItemExitClick;
             this.toolStripMenuItemFont.Click += this.OnToolStripMenuItemFontClick;
+
+            this.toolStripMenuItemUseHighlighting.Click += this.OnToolStripMenuItemUseHighlightingClick;
 
             this.toolStripMenuItemOpen.Click += this.OnToolStripButtonOpenClick;
             this.toolStripButtonOpen.Click += this.OnToolStripButtonOpenClick;
@@ -126,6 +134,22 @@ namespace XmlExplorer.Controls
         {
             get { return this.toolStripTextBoxXpath.AutoCompleteMode; }
             set { this.toolStripTextBoxXpath.AutoCompleteMode = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets whether the custom drawing of syntax highlights
+        /// should be bypassed. This can be optionally used to improve 
+        /// performance on large documents.
+        /// </summary>
+        public bool UseSyntaxHighlighting
+        {
+            get { return _useSyntaxHighlighting; }
+            set
+            {
+                _useSyntaxHighlighting = value;
+                this.toolStripMenuItemUseHighlighting.Checked = _useSyntaxHighlighting;
+                this.SetXmlExplorerTabHighlighting(_useSyntaxHighlighting);
+            }
         }
 
         #endregion
@@ -372,6 +396,7 @@ namespace XmlExplorer.Controls
         {
             tabPage.XPathNavigatorTreeView.Font = _treeFont;
             tabPage.XPathNavigatorTreeView.ForeColor = _treeForeColor;
+            tabPage.UseSyntaxHighlighting = _useSyntaxHighlighting;
         }
 
         /// <summary>
@@ -386,6 +411,16 @@ namespace XmlExplorer.Controls
                 // apply font changes
                 this.ApplyFont();
             }
+        }
+
+        /// <summary>
+        /// Toggles the use of syntax highlighing
+        /// </summary>
+        public void TogggleSyntaxHighlighting()
+        {
+            _useSyntaxHighlighting = !_useSyntaxHighlighting;
+            this.toolStripMenuItemUseHighlighting.Checked = _useSyntaxHighlighting;
+            this.SetXmlExplorerTabHighlighting(_useSyntaxHighlighting);
         }
 
         /// <summary>
@@ -593,6 +628,23 @@ namespace XmlExplorer.Controls
                     continue;
 
                 xmlExplorerTabPage.XPathNavigatorTreeView.Font = font;
+            }
+        }
+
+        /// <summary>
+        /// Applies syntax highlighting changes to all of the currently open tab pages.
+        /// </summary>
+        /// <param name="useSyntaxHighlighting">Whether or not to use syntax highlighting.</param>
+        private void SetXmlExplorerTabHighlighting(bool useSyntaxHighlighting)
+        {
+            foreach (TabPage tabPage in this.tabControl.TabPages)
+            {
+                XmlExplorerTabPage xmlExplorerTabPage = tabPage as XmlExplorerTabPage;
+
+                if (xmlExplorerTabPage == null)
+                    continue;
+
+                xmlExplorerTabPage.UseSyntaxHighlighting = useSyntaxHighlighting;
             }
         }
 
@@ -964,23 +1016,23 @@ namespace XmlExplorer.Controls
             }
         }
 
-		private void OnToolStripMenuItemEditDropDownOpening(object sender, EventArgs e)
-		{
-			try
-			{
-				// update any tools that depend on one or more tab pages being open
-				bool hasOpenTabPages = this.tabControl.TabPages.Count > 0;
+        private void OnToolStripMenuItemEditDropDownOpening(object sender, EventArgs e)
+        {
+            try
+            {
+                // update any tools that depend on one or more tab pages being open
+                bool hasOpenTabPages = this.tabControl.TabPages.Count > 0;
 
-				this.toolStripMenuItemCopyFormattedOuterXml.Enabled = hasOpenTabPages;
-				this.toolStripMenuItemCopy.Enabled = hasOpenTabPages;
-				this.toolStripMenuItemCopyXPath.Enabled = hasOpenTabPages;
-			}
-			catch (Exception ex)
-			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
-			}
-		}
+                this.toolStripMenuItemCopyFormattedOuterXml.Enabled = hasOpenTabPages;
+                this.toolStripMenuItemCopy.Enabled = hasOpenTabPages;
+                this.toolStripMenuItemCopyXPath.Enabled = hasOpenTabPages;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                MessageBox.Show(this, ex.ToString());
+            }
+        }
 
         private void OnToolStripMenuItemViewDropDownOpening(object sender, EventArgs e)
         {
@@ -1141,6 +1193,19 @@ namespace XmlExplorer.Controls
             try
             {
                 this.ShowFontDialog();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                MessageBox.Show(this, ex.ToString());
+            }
+        }
+
+        private void OnToolStripMenuItemUseHighlightingClick(object sender, EventArgs e)
+        {
+            try
+            {
+                this.TogggleSyntaxHighlighting();
             }
             catch (Exception ex)
             {

@@ -119,6 +119,17 @@ namespace XmlExplorer.Controls
             }
         }
 
+        /// <summary>
+        /// Gets or sets whether the custom drawing of syntax highlights
+        /// should be bypassed. This can be optionally used to improve 
+        /// performance on large documents.
+        /// </summary>
+        public bool UseSyntaxHighlighting
+        {
+            get { return this.xmlTreeView.UseSyntaxHighlighting; }
+            set { this.xmlTreeView.UseSyntaxHighlighting = value; }
+        }
+
         #endregion
 
         #region Methods
@@ -285,20 +296,20 @@ namespace XmlExplorer.Controls
                 // load the document
                 XPathDocument document = null;
 
-                if(!string.IsNullOrEmpty(_filename))
+                if (!string.IsNullOrEmpty(_filename))
                     document = new XPathDocument(_filename);
-                else if(_stream != null)
+                else if (_stream != null)
                     document = new XPathDocument(_stream);
 
                 Debug.WriteLine(string.Format("Done. Elapsed: {0}ms.", DateTime.Now.Subtract(start).TotalMilliseconds));
 
                 // the UI has to be updated on the thread that created it, so invoke back to the main UI thread.
                 MethodInvoker del = delegate()
-			{
-				this.LoadDocument(document);
-			};
+            {
+                this.LoadDocument(document);
+            };
 
-		this.Invoke(del);
+                this.Invoke(del);
 
                 if (this.LoadingFileCompleted != null)
                     this.LoadingFileCompleted(this, EventArgs.Empty);
@@ -468,19 +479,19 @@ namespace XmlExplorer.Controls
                     {
                         foreach (XPathNavigator node in _nodes)
                         {
-							switch(node.NodeType)
-							{
-								case XPathNodeType.Attribute:
-									writer.WriteString(node.Value);
-									writer.WriteWhitespace(Environment.NewLine);
-									break;
+                            switch (node.NodeType)
+                            {
+                                case XPathNodeType.Attribute:
+                                    writer.WriteString(node.Value);
+                                    writer.WriteWhitespace(Environment.NewLine);
+                                    break;
 
-								default:
-									node.WriteSubtree(writer);
-									if (node.NodeType == XPathNodeType.Text)
-										writer.WriteWhitespace(Environment.NewLine);
-									break;
-							}
+                                default:
+                                    node.WriteSubtree(writer);
+                                    if (node.NodeType == XPathNodeType.Text)
+                                        writer.WriteWhitespace(Environment.NewLine);
+                                    break;
+                            }
                         }
                     }
                 }

@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual Studio 2005
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XmlExplorer", "XmlExplorer\XmlExplorer.csproj", "{E6133FF0-7DC4-42A3-8F73-48630274CAF8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XmlExplorer.Controls", "XmlExplorer.Controls\XmlExplorer.Controls.csproj", "{BF406750-6711-4034-A05A-46F8F8026CC4}"

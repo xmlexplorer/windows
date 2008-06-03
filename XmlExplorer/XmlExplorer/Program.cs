@@ -77,6 +77,9 @@ namespace XmlExplorer
                 if (Properties.Settings.Default.WindowState != FormWindowState.Minimized)
                     window.WindowState = Properties.Settings.Default.WindowState;
                 window.FormClosing += OnClosing;
+
+                // UseSyntaxHighlighting
+                window.UseSyntaxHighlighting = Properties.Settings.Default.UseSyntaxHighlighting;
             }
             catch (Exception ex)
             {
@@ -165,6 +168,7 @@ namespace XmlExplorer
             Properties.Settings.Default.Font = _window.TreeFont;
             Properties.Settings.Default.ForeColor = _window.TreeForeColor;
             Properties.Settings.Default.AutoCompleteMode = _window.AutoCompleteMode;
+            Properties.Settings.Default.UseSyntaxHighlighting = _window.UseSyntaxHighlighting;
         }
 
         #endregion
