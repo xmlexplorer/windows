@@ -23,5 +23,14 @@
     <Setting Name="UseSyntaxHighlighting" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="Expressions" Type="XmlExplorer.Controls.XPathExpressionLibrary" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ShowExpressions" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="ExpressionsHeight" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">150</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

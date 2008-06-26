@@ -60,6 +60,13 @@ namespace XmlExplorer.Controls.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap close {
+            get {
+                object obj = ResourceManager.GetObject("close", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap CopyHS {
             get {
                 object obj = ResourceManager.GetObject("CopyHS", resourceCulture);
@@ -105,6 +112,27 @@ namespace XmlExplorer.Controls.Properties {
         internal static System.Drawing.Bitmap saveHS {
             get {
                 object obj = ResourceManager.GetObject("saveHS", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap star {
+            get {
+                object obj = ResourceManager.GetObject("star", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap unstarred {
+            get {
+                object obj = ResourceManager.GetObject("unstarred", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap ZoomHS {
+            get {
+                object obj = ResourceManager.GetObject("ZoomHS", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

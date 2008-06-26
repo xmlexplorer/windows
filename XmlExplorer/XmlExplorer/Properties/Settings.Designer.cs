@@ -106,5 +106,40 @@ namespace XmlExplorer.Properties {
                 this["UseSyntaxHighlighting"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::XmlExplorer.Controls.XPathExpressionLibrary Expressions {
+            get {
+                return ((global::XmlExplorer.Controls.XPathExpressionLibrary)(this["Expressions"]));
+            }
+            set {
+                this["Expressions"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowExpressions {
+            get {
+                return ((bool)(this["ShowExpressions"]));
+            }
+            set {
+                this["ShowExpressions"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("150")]
+        public int ExpressionsHeight {
+            get {
+                return ((int)(this["ExpressionsHeight"]));
+            }
+            set {
+                this["ExpressionsHeight"] = value;
+            }
+        }
     }
 }

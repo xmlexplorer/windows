@@ -40,6 +40,8 @@ namespace XmlExplorer.Controls
         /// </summary>
         private bool _useSyntaxHighlighting = true;
 
+        private XPathExpressionLibrary _expressions;
+
         #endregion
 
         #region Constructors
@@ -98,9 +100,13 @@ namespace XmlExplorer.Controls
 
             this.toolStripButtonCopyFormattedOuterXml.Click += this.OnToolStripButtonCopyFormattedOuterXmlClick;
             this.toolStripMenuItemCopyFormattedOuterXml.Click += this.OnToolStripButtonCopyFormattedOuterXmlClick;
+            this.contextMenuStripNodesItemCopyFormattedOuterXml.Click += this.OnToolStripButtonCopyFormattedOuterXmlClick;
 
             this.toolStripMenuItemCopy.Click += this.OnToolStripMenuItemCopyClick;
+            this.contextMenuStripNodesItemCopy.Click += this.OnToolStripMenuItemCopyClick;
+
             this.toolStripMenuItemCopyXPath.Click += this.OnToolStripMenuItemCopyXPathClick;
+            this.contextMenuStripNodesItemCopyXPath.Click += this.OnToolStripMenuItemCopyXPathClick;
 
             this.toolStripButtonLaunchXpath.Click += this.OnToolStripButtonLaunchXpathClick;
 
@@ -112,6 +118,21 @@ namespace XmlExplorer.Controls
             this.toolStripMenuItemOpenContainingFolder.Click += this.OnToolStripMenuItemOpenContainingFolderClick;
 
             this.toolStripStatusLabelChildCount.Text = string.Empty;
+
+            this.toolStripButtonXPathExpression.Click += this.OnToolStripButtonXPathExpressionClick;
+            this.toolStripMenuItemViewExpressions.Click += this.OnToolStripMenuItemViewExpressionsClick;
+
+            this.buttonCloseExpressions.Click += this.OnButtonCloseExpressionsClick;
+
+            this.listViewExpressions.ItemActivate += this.OnListViewExpressionsItemActivate;
+            this.listViewExpressions.AfterLabelEdit += this.OnListViewExpressionsAfterLabelEdit;
+            this.listViewExpressions.SelectedIndexChanged += this.OnListViewExpressionsSelectedIndexChanged;
+            this.listViewExpressions.KeyDown += this.OnListViewExpressionsKeyDown;
+            this.listViewExpressions.MouseUp += this.OnListViewExpressionsMouseUp;
+
+            this.textBoxSearchExpressions.TextChanged += this.OnTextBoxSearchExpressionsTextChanged;
+
+            _expressions = new XPathExpressionLibrary();
         }
 
         #endregion
@@ -149,6 +170,47 @@ namespace XmlExplorer.Controls
                 _useSyntaxHighlighting = value;
                 this.toolStripMenuItemUseHighlighting.Checked = _useSyntaxHighlighting;
                 this.SetXmlExplorerTabHighlighting(_useSyntaxHighlighting);
+            }
+        }
+
+        public XPathExpressionLibrary Expressions
+        {
+            get
+            {
+                return _expressions;
+            }
+
+            set
+            {
+                _expressions = value;
+
+                this.LoadExpressions();
+            }
+        }
+
+        public bool ShowExpressions
+        {
+            get
+            {
+                return this.panelExpressions.Visible;
+            }
+
+            set
+            {
+                this.ToggleExpressionsVisibility(value);
+            }
+        }
+
+        public int ExpressionsHeight
+        {
+            get
+            {
+                return this.splitterTabBottom.SplitPosition;
+            }
+
+            set
+            {
+                this.splitterTabBottom.SplitPosition = value;
             }
         }
 
@@ -384,6 +446,7 @@ namespace XmlExplorer.Controls
             tabPage.LoadingFileFailed += this.OnTabPageLoadingFileFailed;
             tabPage.LoadingFileStarted += this.OnTabPageLoadingFileStarted;
             tabPage.XPathNavigatorTreeView.AfterSelect += this.OnTabPage_XmlTreeView_AfterSelect;
+            tabPage.XPathNavigatorTreeView.MouseUp += this.OnTabPage_XmlTreeView_MouseUp;
 
             return tabPage;
         }
@@ -481,6 +544,8 @@ namespace XmlExplorer.Controls
         /// <returns></returns>
         private bool FindByXpath(string xpath)
         {
+            bool result = false;
+
             try
             {
                 // get the selected tab page, returning if none are found
@@ -489,7 +554,12 @@ namespace XmlExplorer.Controls
                     return false;
 
                 // instruct the tab page to perform the expression evaluation
-                return tabPage.FindByXpath(xpath);
+                result = tabPage.FindByXpath(xpath);
+
+                if (result)
+                    this.toolStripStatusLabelMain.Text = "";
+                else
+                    this.toolStripStatusLabelMain.Text = "No matches were found";
             }
             catch (System.Xml.XPath.XPathException ex)
             {
@@ -505,7 +575,7 @@ namespace XmlExplorer.Controls
                 MessageBox.Show(this, ex.ToString());
             }
 
-            return false;
+            return result;
         }
 
         /// <summary>
@@ -678,6 +748,259 @@ namespace XmlExplorer.Controls
             tabPage.CopyNodeText();
         }
 
+        private void AddOrEditXPathExpression(string expression)
+        {
+            XPathExpression xpathExpression = _expressions.Find(expression);
+
+            if (xpathExpression != null)
+            {
+                // edit
+                this.EditXPathExpression(xpathExpression);
+            }
+            else
+            {
+                // add
+                this.AddXPathExpression(expression);
+            }
+        }
+
+        private void AddXPathExpression(string expression)
+        {
+            XPathExpression xpathExpression = new XPathExpression();
+            xpathExpression.Expression = expression;
+            _expressions.Add(xpathExpression);
+            XPathExpressionListViewItem item = new XPathExpressionListViewItem(xpathExpression);
+            this.listViewExpressions.Items.Add(item);
+            this.UpdateXPathExpressionTool(expression);
+            this.AutoSizeListViewColumns(this.listViewExpressions);
+            this.toolStripButtonXPathExpression.ToolTipText = "Edit expression";
+        }
+
+        private void EditXPathExpression(XPathExpression xpathExpression)
+        {
+            using (XPathExpressionDialog dialog = new XPathExpressionDialog(xpathExpression))
+            {
+                if (dialog.ShowDialog(this) != DialogResult.OK)
+                    return;
+            }
+
+            foreach (ListViewItem item in this.listViewExpressions.Items)
+            {
+                XPathExpressionListViewItem expressionItem = item as XPathExpressionListViewItem;
+                if (expressionItem == null)
+                    continue;
+
+                if (expressionItem.XPathExpression == xpathExpression)
+                {
+                    expressionItem.Initialize();
+                    this.toolStripTextBoxXpath.Text = xpathExpression.Expression;
+                    break;
+                }
+            }
+
+            this.AutoSizeListViewColumns(this.listViewExpressions);
+        }
+
+        private void UpdateXPathExpressionTool(string text)
+        {
+            if (_expressions.Contains(text))
+            {
+                this.toolStripButtonXPathExpression.Image = Properties.Resources.star;
+                this.toolStripButtonXPathExpression.ToolTipText = "Edit expression";
+            }
+            else
+            {
+                this.toolStripButtonXPathExpression.Image = Properties.Resources.unstarred;
+                this.toolStripButtonXPathExpression.ToolTipText = "Add expression to library";
+            }
+        }
+
+        private void UpdateXPathAutoComplete(string text)
+        {
+            try
+            {
+                // we'll update the autocomplete custom source every time a / is entered
+                if (string.IsNullOrEmpty(text) || !text.EndsWith("/"))
+                    return;
+
+                // append a * to return all matching nodes
+                string xpath = text + "*";
+
+                // get the selected tab
+                XmlExplorerTabPage tabPage = this.tabControl.SelectedTab as XmlExplorerTabPage;
+                if (tabPage == null)
+                    return;
+
+                // evaluate the expression
+                XPathNodeIterator nodes = tabPage.SelectXmlNodes(xpath);
+
+                // return if an empty result set is returned
+                if (nodes == null || nodes.Count < 1)
+                    return;
+
+                // create a new autocomplete source
+                AutoCompleteStringCollection source = new AutoCompleteStringCollection();
+
+                // add the full path of each xml node to the source
+                while (nodes.MoveNext())
+                {
+                    string fullPath = text + nodes.Current.Name;
+
+                    // eliminate duplicates
+                    if (!source.Contains(fullPath))
+                        source.Add(fullPath);
+                }
+
+                // update the autocomplete source of the textbox
+                // I beleive this is the source of the exception mentioned above
+                this.toolStripTextBoxXpath.AutoCompleteCustomSource = source;
+            }
+            catch (System.Xml.XPath.XPathException ex)
+            {
+                Debug.WriteLine(ex);
+            }
+        }
+
+        private void LoadExpressions()
+        {
+            this.LoadExpressions(null);
+        }
+
+        private void LoadExpressions(string searchText)
+        {
+            try
+            {
+                this.listViewExpressions.BeginUpdate();
+                this.listViewExpressions.Items.Clear();
+
+                if (_expressions == null)
+                    return;
+
+                string lowerSearchText = null;
+                if (!string.IsNullOrEmpty(searchText))
+                    lowerSearchText = searchText.ToLower();
+
+                foreach (XPathExpression expression in _expressions)
+                {
+                    if (string.IsNullOrEmpty(searchText) || this.IsMatchingExpression(expression, lowerSearchText))
+                    {
+                        XPathExpressionListViewItem item = new XPathExpressionListViewItem(expression);
+
+                        this.listViewExpressions.Items.Add(item);
+                    }
+                }
+
+                this.AutoSizeListViewColumns(this.listViewExpressions);
+            }
+            finally
+            {
+                this.listViewExpressions.EndUpdate();
+            }
+        }
+
+        private bool IsMatchingExpression(XPathExpression expression, string lowerSearchText)
+        {
+            if (!string.IsNullOrEmpty(expression.Name))
+                if (expression.Name.ToLower().Contains(lowerSearchText))
+                    return true;
+
+            if (!string.IsNullOrEmpty(expression.Expression))
+                if (expression.Expression.ToLower().Contains(lowerSearchText))
+                    return true;
+
+            return false;
+        }
+
+        private void ToggleExpressionsVisibility(bool showExpressions)
+        {
+            this.toolStripMenuItemViewExpressions.Checked = showExpressions;
+            this.panelExpressions.Visible = showExpressions;
+        }
+
+        private void UpdateExpressionSearch(string searchText)
+        {
+            this.LoadExpressions(searchText);
+        }
+
+        private void HandleExpressionKeyPress(KeyEventArgs e, string xpath)
+        {
+            this.toolStripTextBoxXpath.Text = xpath;
+            if (e.Shift)
+            {
+                // Shift-Enter has been pressed, evaluate the expression
+                // if successful, open results in a new tab page
+                // if there is a problem with the expression, notify the user
+                // by highlighting the XPath text box
+                if (!this.LaunchXpathResults(xpath))
+                    this.toolStripTextBoxXpath.BackColor = Color.LightPink;
+            }
+            else
+            {
+                // Shift-Enter has been pressed, evaluate the expression
+                // if successful, the first node of the result set will be selected
+                // (selection is performed by the tab)
+                // if there is a problem with the expression, notify the user
+                // by highlighting the XPath text box
+                if (!this.FindByXpath(xpath))
+                    this.toolStripTextBoxXpath.BackColor = Color.LightPink;
+                this.toolStripTextBoxXpath.SelectionStart = this.toolStripTextBoxXpath.TextLength;
+            }
+        }
+
+        private void DeleteSelectedExpressionItems(bool skipConfirmation)
+        {
+            DialogResult result = DialogResult.Yes;
+
+            if (!skipConfirmation)
+            {
+                string message = "";
+                string caption = "";
+
+                int count = this.listViewExpressions.SelectedItems.Count;
+                if (count > 1)
+                {
+                    message = string.Format("Are you sure you want to delete these {0} expressions?", count);
+                    caption = "Confirm multiple expression delete";
+                }
+                else
+                {
+                    message = "Are you sure you want to delete this expression?";
+                    caption = "Confirm expression delete";
+                }
+                result = MessageBox.Show(this, message, caption, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
+            }
+
+            if (result != DialogResult.Yes)
+                return;
+
+            foreach (ListViewItem item in this.listViewExpressions.SelectedItems)
+            {
+                XPathExpressionListViewItem expressionItem = item as XPathExpressionListViewItem;
+                if (expressionItem != null)
+                {
+                    _expressions.Remove(expressionItem.XPathExpression);
+                }
+
+                item.Remove();
+            }
+
+            string text = this.toolStripTextBoxXpath.Text;
+
+            this.UpdateXPathExpressionTool(text);
+        }
+
+        private void AutoSizeListViewColumns(ListView listView)
+        {
+            foreach (ColumnHeader header in listView.Columns)
+            {
+                header.Width = -1;
+                int width = header.Width;
+                header.Width = -2;
+                if (width > header.Width)
+                    header.Width = width;
+            }
+        }
+
         #endregion
 
         #region Event Handlers
@@ -748,8 +1071,8 @@ namespace XmlExplorer.Controls
                 {
                     case MouseButtons.Right:
                         // right mouse button, show the context menu
-                        this.contextMenuStrip.Tag = this.GetTabAtPoint(e.Location);
-                        this.contextMenuStrip.Show(this.tabControl, e.Location);
+                        this.contextMenuStripTabs.Tag = this.GetTabAtPoint(e.Location);
+                        this.contextMenuStripTabs.Show(this.tabControl, e.Location);
                         break;
 
                     case MouseButtons.Middle:
@@ -993,6 +1316,46 @@ namespace XmlExplorer.Controls
             }
         }
 
+        private void OnTabPage_XmlTreeView_MouseUp(object sender, MouseEventArgs e)
+        {
+            try
+            {
+                if (e.Button != MouseButtons.Right)
+                    return;
+
+                // get the selectd tab page
+                XmlExplorerTabPage tabPage = this.tabControl.SelectedTab as XmlExplorerTabPage;
+                if (tabPage == null)
+                    return;
+
+                // get the node that was clicked
+                TreeViewHitTestInfo info = tabPage.XPathNavigatorTreeView.HitTest(e.Location);
+
+                if (info.Node == null)
+                    return;
+
+                XPathNavigatorTreeNode node = info.Node as XPathNavigatorTreeNode;
+                if (node == null)
+                    return;
+
+                if (node.Navigator == null)
+                    return;
+
+                XPathNavigatorTreeView treeView = sender as XPathNavigatorTreeView;
+                if (treeView == null)
+                    return;
+
+                treeView.SelectedNode = node;
+
+                this.contextMenuStripNodes.Show(treeView, e.Location);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                MessageBox.Show(this, ex.ToString());
+            }
+        }
+
         #endregion
 
         #region Tool Event Handlers
@@ -1060,26 +1423,7 @@ namespace XmlExplorer.Controls
                 {
                     case Keys.Enter:
                         string xpath = this.toolStripTextBoxXpath.Text;
-                        if (e.Shift)
-                        {
-                            // Shift-Enter has been pressed, evaluate the expression
-                            // if successful, open results in a new tab page
-                            // if there is a problem with the expression, notify the user
-                            // by highlighting the XPath text box
-                            if (!this.LaunchXpathResults(xpath))
-                                this.toolStripTextBoxXpath.BackColor = Color.LightPink;
-                        }
-                        else
-                        {
-                            // Shift-Enter has been pressed, evaluate the expression
-                            // if successful, the first node of the result set will be selected
-                            // (selection is performed by the tab)
-                            // if there is a problem with the expression, notify the user
-                            // by highlighting the XPath text box
-                            if (!this.FindByXpath(xpath))
-                                this.toolStripTextBoxXpath.BackColor = Color.LightPink;
-                            this.toolStripTextBoxXpath.SelectionStart = this.toolStripTextBoxXpath.TextLength;
-                        }
+                        this.HandleExpressionKeyPress(e, xpath);
                         break;
                 }
             }
@@ -1101,45 +1445,9 @@ namespace XmlExplorer.Controls
                 // get the current XPath expression
                 string text = this.toolStripTextBoxXpath.Text;
 
-                // we'll update the autocomplete custom source every time a / is entered
-                if (string.IsNullOrEmpty(text) || !text.EndsWith("/"))
-                    return;
+                //this.UpdateXPathAutoComplete(text);
 
-                // append a * to return all matching nodes
-                string xpath = text + "*";
-
-                // get the selected tab
-                XmlExplorerTabPage tabPage = this.tabControl.SelectedTab as XmlExplorerTabPage;
-                if (tabPage == null)
-                    return;
-
-                // evaluate the expression
-                XPathNodeIterator nodes = tabPage.SelectXmlNodes(xpath);
-
-                // return if an empty result set is returned
-                if (nodes == null || nodes.Count < 1)
-                    return;
-
-                // create a new autocomplete source
-                AutoCompleteStringCollection source = new AutoCompleteStringCollection();
-
-                // add the full path of each xml node to the source
-                while (nodes.MoveNext())
-                {
-                    string fullPath = text + nodes.Current.Name;
-
-                    // eliminate duplicates
-                    if (!source.Contains(fullPath))
-                        source.Add(fullPath);
-                }
-
-                // update the autocomplete source of the textbox
-                // I beleive this is the source of the exception mentioned above
-                this.toolStripTextBoxXpath.AutoCompleteCustomSource = source;
-            }
-            catch (System.Xml.XPath.XPathException ex)
-            {
-                Debug.WriteLine(ex);
+                this.UpdateXPathExpressionTool(text);
             }
             catch (Exception ex)
             {
@@ -1148,13 +1456,12 @@ namespace XmlExplorer.Controls
             }
         }
 
-
         private void OnToolStripMenuItemCloseClick(object sender, EventArgs e)
         {
             try
             {
                 // get the tab for which the context menu was opened
-                XmlExplorerTabPage page = this.contextMenuStrip.Tag as XmlExplorerTabPage;
+                XmlExplorerTabPage page = this.contextMenuStripTabs.Tag as XmlExplorerTabPage;
                 if (page == null)
                     page = this.tabControl.SelectedTab as XmlExplorerTabPage;
 
@@ -1165,7 +1472,7 @@ namespace XmlExplorer.Controls
                 }
 
                 // reset the context menu's tag
-                this.contextMenuStrip.Tag = null;
+                this.contextMenuStripTabs.Tag = null;
             }
             catch (Exception ex)
             {
@@ -1348,11 +1655,11 @@ namespace XmlExplorer.Controls
         }
 
 
-        void OnToolStripMenuItemCopyFullPathClick(object sender, EventArgs e)
+        private void OnToolStripMenuItemCopyFullPathClick(object sender, EventArgs e)
         {
             try
             {
-                XmlExplorerTabPage page = this.contextMenuStrip.Tag as XmlExplorerTabPage;
+                XmlExplorerTabPage page = this.contextMenuStripTabs.Tag as XmlExplorerTabPage;
                 if (page == null)
                     page = this.tabControl.SelectedTab as XmlExplorerTabPage;
 
@@ -1361,7 +1668,7 @@ namespace XmlExplorer.Controls
                     Clipboard.SetText(page.Filename);
                 }
 
-                this.contextMenuStrip.Tag = null;
+                this.contextMenuStripTabs.Tag = null;
             }
             catch (Exception ex)
             {
@@ -1370,12 +1677,12 @@ namespace XmlExplorer.Controls
             }
         }
 
-        void OnToolStripMenuItemOpenContainingFolderClick(object sender, EventArgs e)
+        private void OnToolStripMenuItemOpenContainingFolderClick(object sender, EventArgs e)
         {
             try
             {
                 // get the tab for which the context menu was opened
-                XmlExplorerTabPage page = this.contextMenuStrip.Tag as XmlExplorerTabPage;
+                XmlExplorerTabPage page = this.contextMenuStripTabs.Tag as XmlExplorerTabPage;
                 if (page == null)
                     page = this.tabControl.SelectedTab as XmlExplorerTabPage;
 
@@ -1387,7 +1694,196 @@ namespace XmlExplorer.Controls
                     Process.Start("explorer", args);
                 }
 
-                this.contextMenuStrip.Tag = null;
+                this.contextMenuStripTabs.Tag = null;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                MessageBox.Show(this, ex.ToString());
+            }
+        }
+
+        private void OnToolStripButtonXPathExpressionClick(object sender, EventArgs e)
+        {
+            try
+            {
+                this.AddOrEditXPathExpression(this.toolStripTextBoxXpath.Text);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                MessageBox.Show(this, ex.ToString());
+            }
+        }
+
+        private void OnToolStripMenuItemViewExpressionsClick(object sender, EventArgs e)
+        {
+            try
+            {
+                bool showExpressions = !this.toolStripMenuItemViewExpressions.Checked;
+
+                this.ToggleExpressionsVisibility(showExpressions);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                MessageBox.Show(this, ex.ToString());
+            }
+        }
+
+        private void OnButtonCloseExpressionsClick(object sender, EventArgs e)
+        {
+            try
+            {
+                this.ToggleExpressionsVisibility(false);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                MessageBox.Show(this, ex.ToString());
+            }
+        }
+
+        private void OnTextBoxSearchExpressionsTextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                this.UpdateExpressionSearch(this.textBoxSearchExpressions.Text);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                MessageBox.Show(this, ex.ToString());
+            }
+        }
+
+        private void OnListViewExpressionsItemActivate(object sender, EventArgs e)
+        {
+            try
+            {
+                foreach (ListViewItem item in this.listViewExpressions.SelectedItems)
+                {
+                    XPathExpressionListViewItem expressionItem = item as XPathExpressionListViewItem;
+
+                    if (expressionItem == null)
+                        continue;
+
+                    this.LaunchXpathResults(this.toolStripTextBoxXpath.Text);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                MessageBox.Show(this, ex.ToString());
+            }
+        }
+
+        private void OnListViewExpressionsAfterLabelEdit(object sender, LabelEditEventArgs e)
+        {
+            try
+            {
+                XPathExpressionListViewItem item = this.listViewExpressions.Items[e.Item] as XPathExpressionListViewItem;
+
+                if (item == null)
+                    return;
+
+                item.XPathExpression.Name = e.Label;
+
+                this.AutoSizeListViewColumns(this.listViewExpressions);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                MessageBox.Show(this, ex.ToString());
+            }
+        }
+
+        private void OnListViewExpressionsKeyDown(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                if (this.listViewExpressions.SelectedItems.Count < 1)
+                    return;
+
+                XPathExpressionListViewItem item = this.listViewExpressions.SelectedItems[0] as XPathExpressionListViewItem;
+
+                if (item == null)
+                    return;
+
+                switch (e.KeyCode)
+                {
+                    case Keys.Enter:
+                        string xpath = item.XPathExpression.Expression;
+                        this.HandleExpressionKeyPress(e, xpath);
+                        break;
+                    case Keys.Delete:
+                        this.DeleteSelectedExpressionItems(e.Shift);
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                MessageBox.Show(this, ex.ToString());
+            }
+        }
+
+        private void OnListViewExpressionsSelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                //if (this.listViewExpressions.SelectedItems.Count < 1)
+                //    return;
+
+                //XPathExpressionListViewItem item = this.listViewExpressions.SelectedItems[0] as XPathExpressionListViewItem;
+
+                //if (item == null)
+                //    return;
+
+                //string xpath = item.XPathExpression.Expression;
+                //this.toolStripTextBoxXpath.Text = xpath;
+
+                //// evaluate the expression
+                //// if successful, the first node of the result set will be selected
+                //// (selection is performed by the tab)
+                //// if there is a problem with the expression, notify the user
+                //// by highlighting the XPath text box
+                //if (!this.FindByXpath(xpath))
+                //    this.toolStripTextBoxXpath.BackColor = Color.LightPink;
+                //this.toolStripTextBoxXpath.SelectionStart = this.toolStripTextBoxXpath.TextLength;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                MessageBox.Show(this, ex.ToString());
+            }
+        }
+
+        private void OnListViewExpressionsMouseUp(object sender, MouseEventArgs e)
+        {
+            try
+            {
+                this.toolStripTextBoxXpath.BackColor = SystemColors.Window;
+
+                if (this.listViewExpressions.SelectedItems.Count < 1)
+                    return;
+
+                XPathExpressionListViewItem item = this.listViewExpressions.SelectedItems[0] as XPathExpressionListViewItem;
+
+                if (item == null)
+                    return;
+
+                string xpath = item.XPathExpression.Expression;
+                this.toolStripTextBoxXpath.Text = xpath;
+
+                // evaluate the expression
+                // if successful, the first node of the result set will be selected
+                // (selection is performed by the tab)
+                // if there is a problem with the expression, notify the user
+                // by highlighting the XPath text box
+                if (!this.FindByXpath(xpath))
+                    this.toolStripTextBoxXpath.BackColor = Color.LightPink;
+                this.toolStripTextBoxXpath.SelectionStart = this.toolStripTextBoxXpath.TextLength;
             }
             catch (Exception ex)
             {

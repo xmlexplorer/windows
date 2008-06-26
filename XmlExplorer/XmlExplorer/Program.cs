@@ -80,6 +80,15 @@ namespace XmlExplorer
 
                 // UseSyntaxHighlighting
                 window.UseSyntaxHighlighting = Properties.Settings.Default.UseSyntaxHighlighting;
+
+                // XPath Expression Library
+                window.Expressions = Properties.Settings.Default.Expressions;
+                if (window.Expressions == null)
+                    window.Expressions = new XPathExpressionLibrary();
+
+                // Expression sidebar
+                window.ShowExpressions = Properties.Settings.Default.ShowExpressions;
+                window.ExpressionsHeight = Properties.Settings.Default.ExpressionsHeight;
             }
             catch (Exception ex)
             {
@@ -169,6 +178,9 @@ namespace XmlExplorer
             Properties.Settings.Default.ForeColor = _window.TreeForeColor;
             Properties.Settings.Default.AutoCompleteMode = _window.AutoCompleteMode;
             Properties.Settings.Default.UseSyntaxHighlighting = _window.UseSyntaxHighlighting;
+            Properties.Settings.Default.Expressions = _window.Expressions;
+            Properties.Settings.Default.ExpressionsHeight = _window.ExpressionsHeight;
+            Properties.Settings.Default.ShowExpressions = _window.ShowExpressions;
         }
 
         #endregion

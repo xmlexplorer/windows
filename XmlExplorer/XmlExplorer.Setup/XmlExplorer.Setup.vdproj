@@ -131,7 +131,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:XmlExplorer.Controls, Version=1.1.2.1, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:XmlExplorer.Controls, Version=1.1.3.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_FB409C06740FF017B3BCE33734BC774A"
@@ -214,14 +214,14 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:XML Explorer"
-        "ProductCode" = "8:{21816803-F74B-4495-8FAD-F4CC0690C604}"
-        "PackageCode" = "8:{C68D59D9-5CD2-4AC0-9256-2E62B7D2C67E}"
+        "ProductCode" = "8:{1E54B0A3-CC9D-43DE-8EF8-64C978802B65}"
+        "PackageCode" = "8:{9CB24CEB-7CF0-4D2A-A396-B52E7D5530A7}"
         "UpgradeCode" = "8:{DCF30FC8-6E77-47AB-97A5-36C54754E243}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:1.1.3"
+        "ProductVersion" = "8:1.2.0"
         "Manufacturer" = "8:XML Explorer"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:http://www.codeplex.com/xmlexplorer"
