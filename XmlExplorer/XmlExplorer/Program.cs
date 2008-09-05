@@ -85,10 +85,6 @@ namespace XmlExplorer
                 window.Expressions = Properties.Settings.Default.Expressions;
                 if (window.Expressions == null)
                     window.Expressions = new XPathExpressionLibrary();
-
-                // Expression sidebar
-                window.ShowExpressions = Properties.Settings.Default.ShowExpressions;
-                window.ExpressionsHeight = Properties.Settings.Default.ExpressionsHeight;
             }
             catch (Exception ex)
             {
@@ -134,6 +130,8 @@ namespace XmlExplorer
 
                 // handle any command-line args
                 _window.Open(e.CommandLine);
+
+                e.BringToForeground = true;
             }
             catch (Exception ex)
             {
@@ -179,8 +177,6 @@ namespace XmlExplorer
             Properties.Settings.Default.AutoCompleteMode = _window.AutoCompleteMode;
             Properties.Settings.Default.UseSyntaxHighlighting = _window.UseSyntaxHighlighting;
             Properties.Settings.Default.Expressions = _window.Expressions;
-            Properties.Settings.Default.ExpressionsHeight = _window.ExpressionsHeight;
-            Properties.Settings.Default.ShowExpressions = _window.ShowExpressions;
         }
 
         #endregion

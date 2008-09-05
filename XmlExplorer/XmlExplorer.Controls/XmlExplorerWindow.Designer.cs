@@ -2,7 +2,7 @@ using System.Windows.Forms;
 using System.Drawing;
 namespace XmlExplorer.Controls
 {
-    partial class XmlExplorerTabPage
+    partial class XmlExplorerWindow
     {
         /// <summary>
         /// Required designer variable.
@@ -30,18 +30,29 @@ namespace XmlExplorer.Controls
         /// </summary>
         private void InitializeComponent()
         {
-            this.xmlTreeView = new XPathNavigatorTreeView();
-            base.SuspendLayout();
-            this.xmlTreeView.Dock = DockStyle.Fill;
+            this.xmlTreeView = new XmlExplorer.Controls.XPathNavigatorTreeView();
+            this.SuspendLayout();
+            // 
+            // xmlTreeView
+            // 
+            this.xmlTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.xmlTreeView.DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawText;
             this.xmlTreeView.HideSelection = false;
-            this.xmlTreeView.LineColor = Color.Empty;
-            this.xmlTreeView.Location = new Point(0, 0);
+            this.xmlTreeView.Location = new System.Drawing.Point(0, 0);
             this.xmlTreeView.Name = "xmlTreeView";
-            this.xmlTreeView.Size = new Size(0x79, 0x61);
-            this.xmlTreeView.TabIndex = 0;
             this.xmlTreeView.Navigator = null;
-            base.Controls.Add(this.xmlTreeView);
-            base.ResumeLayout(false);
+            this.xmlTreeView.Size = new System.Drawing.Size(292, 266);
+            this.xmlTreeView.TabIndex = 0;
+            this.xmlTreeView.UseSyntaxHighlighting = true;
+            // 
+            // XmlExplorerWindow
+            // 
+            this.ClientSize = new System.Drawing.Size(292, 266);
+            this.Controls.Add(this.xmlTreeView);
+            this.Name = "XmlExplorerWindow";
+            this.ShowHint = WeifenLuo.WinFormsUI.Docking.DockState.Document;
+            this.ResumeLayout(false);
+
         }
 
         #endregion

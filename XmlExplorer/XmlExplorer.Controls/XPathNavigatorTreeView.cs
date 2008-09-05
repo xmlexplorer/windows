@@ -8,6 +8,7 @@ using System.Text;
 using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Diagnostics;
+using System.Xml.Schema;
 
 namespace XmlExplorer.Controls
 {
@@ -37,6 +38,10 @@ namespace XmlExplorer.Controls
         private bool _useSyntaxHighlighting = true;
 
         private XmlNamespaceManager _xmlNamespaceManager;
+
+        private string _schemaFilename;
+
+        private List<ValidationEventArgs> _validationEventArgs;
 
         #endregion
 
@@ -99,6 +104,27 @@ namespace XmlExplorer.Controls
             {
                 _useSyntaxHighlighting = value;
                 this.DrawMode = _useSyntaxHighlighting ? TreeViewDrawMode.OwnerDrawText : TreeViewDrawMode.Normal;
+            }
+        }
+
+        public List<ValidationEventArgs> ValidationEventArgs
+        {
+            get
+            {
+                return _validationEventArgs;
+            }
+        }
+
+        public string SchemaFileName
+        {
+            get
+            {
+                return _schemaFilename;
+            }
+
+            set
+            {
+                _schemaFilename = value;
             }
         }
 
@@ -495,6 +521,31 @@ namespace XmlExplorer.Controls
             return sb.ToString();
         }
 
+        public List<ValidationEventArgs> Validate()
+        {
+            _validationEventArgs = new List<ValidationEventArgs>();
+
+            XmlSchemaSet schemas = new XmlSchemaSet();
+            schemas.Add("", _schemaFilename);
+            _navigator.CheckValidity(schemas, this.OnValidationEvent);
+
+            return _validationEventArgs;
+        }
+
+        private void OnValidationEvent(object sender, ValidationEventArgs e)
+        {
+            Debug.WriteLine(String.Format("{0} - Line: {1} Position: {2}", e.Message, e.Exception.LineNumber, e.Exception.LinePosition));
+
+            _validationEventArgs.Add(e);
+
+            XmlSchemaValidationException exception = e.Exception as XmlSchemaValidationException;
+
+            if (exception == null || exception.SourceObject == null)
+                return;
+
+            Debug.WriteLine(exception.SourceObject);
+        }
+
         #endregion
 
         #region Overrides
@@ -701,6 +752,10 @@ namespace XmlExplorer.Controls
 
             return result;
         }
+
+        #endregion
+
+        #region Event Handlers
 
         #endregion
     }

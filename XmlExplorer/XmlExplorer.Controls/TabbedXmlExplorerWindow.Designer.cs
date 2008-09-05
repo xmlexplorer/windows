@@ -32,22 +32,10 @@ namespace XmlExplorer.Controls
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TabbedXmlExplorerWindow));
-            this.tabControl = new System.Windows.Forms.TabControl();
-            this.toolStripContainer = new System.Windows.Forms.ToolStripContainer();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabelMain = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabelChildCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
-            this.splitterTabBottom = new System.Windows.Forms.Splitter();
-            this.panelExpressions = new System.Windows.Forms.Panel();
-            this.pictureBoxSearch = new System.Windows.Forms.PictureBox();
-            this.listViewExpressions = new System.Windows.Forms.ListView();
-            this.columnHeaderName = new System.Windows.Forms.ColumnHeader();
-            this.columnHeaderExpression = new System.Windows.Forms.ColumnHeader();
-            this.columnHeaderComments = new System.Windows.Forms.ColumnHeader();
-            this.textBoxSearchExpressions = new System.Windows.Forms.TextBox();
-            this.buttonCloseExpressions = new System.Windows.Forms.Button();
-            this.labelExpressions = new System.Windows.Forms.Label();
             this.menuStripMain = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItemFile = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemOpen = new System.Windows.Forms.ToolStripMenuItem();
@@ -67,7 +55,6 @@ namespace XmlExplorer.Controls
             this.toolStripMenuItemUseHighlighting = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemView = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemRefresh = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemViewExpressions = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripStandardButtons = new System.Windows.Forms.ToolStrip();
             this.toolStripButtonOpen = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonSave = new System.Windows.Forms.ToolStripButton();
@@ -90,61 +77,21 @@ namespace XmlExplorer.Controls
             this.contextMenuStripNodesItemCopy = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStripNodesItemCopyFormattedOuterXml = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStripNodesItemCopyXPath = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripContainer.BottomToolStripPanel.SuspendLayout();
-            this.toolStripContainer.ContentPanel.SuspendLayout();
-            this.toolStripContainer.TopToolStripPanel.SuspendLayout();
-            this.toolStripContainer.SuspendLayout();
+            this.dockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
             this.statusStrip.SuspendLayout();
-            this.panelExpressions.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSearch)).BeginInit();
             this.menuStripMain.SuspendLayout();
             this.toolStripStandardButtons.SuspendLayout();
             this.contextMenuStripTabs.SuspendLayout();
             this.contextMenuStripNodes.SuspendLayout();
             this.SuspendLayout();
             // 
-            // tabControl
-            // 
-            this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl.Location = new System.Drawing.Point(0, 0);
-            this.tabControl.Name = "tabControl";
-            this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(792, 378);
-            this.tabControl.TabIndex = 2;
-            // 
-            // toolStripContainer
-            // 
-            // 
-            // toolStripContainer.BottomToolStripPanel
-            // 
-            this.toolStripContainer.BottomToolStripPanel.Controls.Add(this.statusStrip);
-            // 
-            // toolStripContainer.ContentPanel
-            // 
-            this.toolStripContainer.ContentPanel.Controls.Add(this.tabControl);
-            this.toolStripContainer.ContentPanel.Controls.Add(this.splitterTabBottom);
-            this.toolStripContainer.ContentPanel.Controls.Add(this.panelExpressions);
-            this.toolStripContainer.ContentPanel.Size = new System.Drawing.Size(792, 495);
-            this.toolStripContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.toolStripContainer.Location = new System.Drawing.Point(0, 0);
-            this.toolStripContainer.Name = "toolStripContainer";
-            this.toolStripContainer.Size = new System.Drawing.Size(792, 566);
-            this.toolStripContainer.TabIndex = 3;
-            this.toolStripContainer.Text = "toolStripContainer1";
-            // 
-            // toolStripContainer.TopToolStripPanel
-            // 
-            this.toolStripContainer.TopToolStripPanel.Controls.Add(this.menuStripMain);
-            this.toolStripContainer.TopToolStripPanel.Controls.Add(this.toolStripStandardButtons);
-            // 
             // statusStrip
             // 
-            this.statusStrip.Dock = System.Windows.Forms.DockStyle.None;
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabelMain,
             this.toolStripStatusLabelChildCount,
             this.toolStripProgressBar});
-            this.statusStrip.Location = new System.Drawing.Point(0, 0);
+            this.statusStrip.Location = new System.Drawing.Point(0, 544);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Size = new System.Drawing.Size(792, 22);
             this.statusStrip.TabIndex = 0;
@@ -170,106 +117,8 @@ namespace XmlExplorer.Controls
             this.toolStripProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
             this.toolStripProgressBar.Visible = false;
             // 
-            // splitterTabBottom
-            // 
-            this.splitterTabBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.splitterTabBottom.Location = new System.Drawing.Point(0, 378);
-            this.splitterTabBottom.Name = "splitterTabBottom";
-            this.splitterTabBottom.Size = new System.Drawing.Size(792, 3);
-            this.splitterTabBottom.TabIndex = 4;
-            this.splitterTabBottom.TabStop = false;
-            // 
-            // panelExpressions
-            // 
-            this.panelExpressions.Controls.Add(this.pictureBoxSearch);
-            this.panelExpressions.Controls.Add(this.listViewExpressions);
-            this.panelExpressions.Controls.Add(this.textBoxSearchExpressions);
-            this.panelExpressions.Controls.Add(this.buttonCloseExpressions);
-            this.panelExpressions.Controls.Add(this.labelExpressions);
-            this.panelExpressions.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelExpressions.Location = new System.Drawing.Point(0, 381);
-            this.panelExpressions.MinimumSize = new System.Drawing.Size(367, 0);
-            this.panelExpressions.Name = "panelExpressions";
-            this.panelExpressions.Size = new System.Drawing.Size(792, 114);
-            this.panelExpressions.TabIndex = 3;
-            // 
-            // pictureBoxSearch
-            // 
-            this.pictureBoxSearch.Image = global::XmlExplorer.Controls.Properties.Resources.ZoomHS;
-            this.pictureBoxSearch.Location = new System.Drawing.Point(172, 7);
-            this.pictureBoxSearch.Name = "pictureBoxSearch";
-            this.pictureBoxSearch.Size = new System.Drawing.Size(16, 20);
-            this.pictureBoxSearch.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pictureBoxSearch.TabIndex = 5;
-            this.pictureBoxSearch.TabStop = false;
-            // 
-            // listViewExpressions
-            // 
-            this.listViewExpressions.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.listViewExpressions.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeaderName,
-            this.columnHeaderExpression,
-            this.columnHeaderComments});
-            this.listViewExpressions.FullRowSelect = true;
-            this.listViewExpressions.HideSelection = false;
-            this.listViewExpressions.LabelEdit = true;
-            this.listViewExpressions.Location = new System.Drawing.Point(3, 32);
-            this.listViewExpressions.Name = "listViewExpressions";
-            this.listViewExpressions.Size = new System.Drawing.Size(786, 79);
-            this.listViewExpressions.TabIndex = 4;
-            this.listViewExpressions.UseCompatibleStateImageBehavior = false;
-            this.listViewExpressions.View = System.Windows.Forms.View.Details;
-            // 
-            // columnHeaderName
-            // 
-            this.columnHeaderName.Text = "Name";
-            // 
-            // columnHeaderExpression
-            // 
-            this.columnHeaderExpression.Text = "Expression";
-            this.columnHeaderExpression.Width = 600;
-            // 
-            // columnHeaderComments
-            // 
-            this.columnHeaderComments.Text = "Comments";
-            this.columnHeaderComments.Width = 74;
-            // 
-            // textBoxSearchExpressions
-            // 
-            this.textBoxSearchExpressions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxSearchExpressions.Location = new System.Drawing.Point(194, 6);
-            this.textBoxSearchExpressions.Name = "textBoxSearchExpressions";
-            this.textBoxSearchExpressions.Size = new System.Drawing.Size(566, 20);
-            this.textBoxSearchExpressions.TabIndex = 2;
-            this.toolTip.SetToolTip(this.textBoxSearchExpressions, "Search Expressions");
-            // 
-            // buttonCloseExpressions
-            // 
-            this.buttonCloseExpressions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonCloseExpressions.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.buttonCloseExpressions.Image = global::XmlExplorer.Controls.Properties.Resources.close;
-            this.buttonCloseExpressions.Location = new System.Drawing.Point(766, 4);
-            this.buttonCloseExpressions.Name = "buttonCloseExpressions";
-            this.buttonCloseExpressions.Size = new System.Drawing.Size(23, 23);
-            this.buttonCloseExpressions.TabIndex = 1;
-            this.toolTip.SetToolTip(this.buttonCloseExpressions, "Close the Expressions pane");
-            this.buttonCloseExpressions.UseVisualStyleBackColor = true;
-            // 
-            // labelExpressions
-            // 
-            this.labelExpressions.AutoSize = true;
-            this.labelExpressions.Location = new System.Drawing.Point(3, 9);
-            this.labelExpressions.Name = "labelExpressions";
-            this.labelExpressions.Size = new System.Drawing.Size(63, 13);
-            this.labelExpressions.TabIndex = 0;
-            this.labelExpressions.Text = "Expressions";
-            // 
             // menuStripMain
             // 
-            this.menuStripMain.Dock = System.Windows.Forms.DockStyle.None;
             this.menuStripMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemFile,
             this.toolStripMenuItemEdit,
@@ -410,8 +259,7 @@ namespace XmlExplorer.Controls
             // toolStripMenuItemView
             // 
             this.toolStripMenuItemView.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItemRefresh,
-            this.toolStripMenuItemViewExpressions});
+            this.toolStripMenuItemRefresh});
             this.toolStripMenuItemView.Name = "toolStripMenuItemView";
             this.toolStripMenuItemView.Size = new System.Drawing.Size(41, 20);
             this.toolStripMenuItemView.Text = "&View";
@@ -421,21 +269,11 @@ namespace XmlExplorer.Controls
             this.toolStripMenuItemRefresh.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItemRefresh.Image")));
             this.toolStripMenuItemRefresh.Name = "toolStripMenuItemRefresh";
             this.toolStripMenuItemRefresh.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.toolStripMenuItemRefresh.Size = new System.Drawing.Size(131, 22);
+            this.toolStripMenuItemRefresh.Size = new System.Drawing.Size(152, 22);
             this.toolStripMenuItemRefresh.Text = "&Refresh";
-            // 
-            // toolStripMenuItemViewExpressions
-            // 
-            this.toolStripMenuItemViewExpressions.Checked = true;
-            this.toolStripMenuItemViewExpressions.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.toolStripMenuItemViewExpressions.Name = "toolStripMenuItemViewExpressions";
-            this.toolStripMenuItemViewExpressions.Size = new System.Drawing.Size(131, 22);
-            this.toolStripMenuItemViewExpressions.Text = "Expressions";
-            this.toolStripMenuItemViewExpressions.ToolTipText = "Show the Expressions sidebar";
             // 
             // toolStripStandardButtons
             // 
-            this.toolStripStandardButtons.Dock = System.Windows.Forms.DockStyle.None;
             this.toolStripStandardButtons.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButtonOpen,
             this.toolStripButtonSave,
@@ -610,26 +448,28 @@ namespace XmlExplorer.Controls
             this.contextMenuStripNodesItemCopyXPath.Size = new System.Drawing.Size(232, 22);
             this.contextMenuStripNodesItemCopyXPath.Text = "Copy Node &XPath to Address Bar";
             // 
+            // dockPanel
+            // 
+            this.dockPanel.ActiveAutoHideContent = null;
+            this.dockPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dockPanel.Location = new System.Drawing.Point(0, 49);
+            this.dockPanel.Name = "dockPanel";
+            this.dockPanel.Size = new System.Drawing.Size(792, 495);
+            this.dockPanel.TabIndex = 5;
+            // 
             // TabbedXmlExplorerWindow
             // 
             this.ClientSize = new System.Drawing.Size(792, 566);
-            this.Controls.Add(this.toolStripContainer);
+            this.Controls.Add(this.dockPanel);
+            this.Controls.Add(this.toolStripStandardButtons);
+            this.Controls.Add(this.menuStripMain);
+            this.Controls.Add(this.statusStrip);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.IsMdiContainer = true;
             this.Name = "TabbedXmlExplorerWindow";
             this.Text = "XmlExplorer";
-            this.toolStripContainer.BottomToolStripPanel.ResumeLayout(false);
-            this.toolStripContainer.BottomToolStripPanel.PerformLayout();
-            this.toolStripContainer.ContentPanel.ResumeLayout(false);
-            this.toolStripContainer.TopToolStripPanel.ResumeLayout(false);
-            this.toolStripContainer.TopToolStripPanel.PerformLayout();
-            this.toolStripContainer.ResumeLayout(false);
-            this.toolStripContainer.PerformLayout();
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
-            this.panelExpressions.ResumeLayout(false);
-            this.panelExpressions.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSearch)).EndInit();
             this.menuStripMain.ResumeLayout(false);
             this.menuStripMain.PerformLayout();
             this.toolStripStandardButtons.ResumeLayout(false);
@@ -637,6 +477,7 @@ namespace XmlExplorer.Controls
             this.contextMenuStripTabs.ResumeLayout(false);
             this.contextMenuStripNodes.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -653,8 +494,6 @@ namespace XmlExplorer.Controls
         internal ToolStripButton toolStripButtonOpen;
         internal ToolStripMenuItem toolStripMenuItemOpen;
         protected ToolStrip toolStripStandardButtons;
-        private TabControl tabControl;
-        private ToolStripContainer toolStripContainer;
         private StatusStrip statusStrip;
         private ToolStripStatusLabel toolStripStatusLabelMain;
         private ToolStripProgressBar toolStripProgressBar;
@@ -685,21 +524,11 @@ namespace XmlExplorer.Controls
         private ToolStripMenuItem toolStripMenuItemOpenInEditor;
         private ToolStripMenuItem toolStripMenuItemUseHighlighting;
         private ToolStripButton toolStripButtonXPathExpression;
-        private Panel panelExpressions;
-        private Splitter splitterTabBottom;
-        private Button buttonCloseExpressions;
-        private Label labelExpressions;
-        private TextBox textBoxSearchExpressions;
-        private ListView listViewExpressions;
         private ToolTip toolTip;
-        private ColumnHeader columnHeaderName;
-        private ColumnHeader columnHeaderExpression;
-        private ToolStripMenuItem toolStripMenuItemViewExpressions;
         private ContextMenuStrip contextMenuStripNodes;
         private ToolStripMenuItem contextMenuStripNodesItemCopy;
         private ToolStripMenuItem contextMenuStripNodesItemCopyFormattedOuterXml;
         private ToolStripMenuItem contextMenuStripNodesItemCopyXPath;
-        private PictureBox pictureBoxSearch;
-        private ColumnHeader columnHeaderComments;
+        private WeifenLuo.WinFormsUI.Docking.DockPanel dockPanel;
     }
 }

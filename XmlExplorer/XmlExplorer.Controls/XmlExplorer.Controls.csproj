@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{BF406750-6711-4034-A05A-46F8F8026CC4}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -46,11 +46,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ValidationWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ValidationWindow.Designer.cs">
+      <DependentUpon>ValidationWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="XmlExplorerWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="XmlExplorerWindow.Designer.cs">
+      <DependentUpon>XmlExplorerWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="ExpressionResultsWindow.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ExpressionResultsWindow.Designer.cs">
       <DependentUpon>ExpressionResultsWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ExpressionsWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExpressionsWindow.Designer.cs">
+      <DependentUpon>ExpressionsWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -73,12 +91,6 @@
     <Compile Include="ToolStripSpringTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="XmlExplorerTabPage.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="XmlExplorerTabPage.Designer.cs">
-      <DependentUpon>XmlExplorerTabPage.cs</DependentUpon>
-    </Compile>
     <Compile Include="XPathExpression.cs" />
     <Compile Include="XPathExpressionDialog.cs">
       <SubType>Form</SubType>
@@ -95,9 +107,15 @@
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ValidationWindow.resx">
+      <DependentUpon>ValidationWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ExpressionResultsWindow.resx">
       <DependentUpon>ExpressionResultsWindow.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExpressionsWindow.resx">
+      <DependentUpon>ExpressionsWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <SubType>Designer</SubType>
@@ -107,6 +125,9 @@
     <EmbeddedResource Include="TabbedXmlExplorerWindow.resx">
       <DependentUpon>TabbedXmlExplorerWindow.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="XmlExplorerWindow.resx">
+      <DependentUpon>XmlExplorerWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="XPathExpressionDialog.resx">
       <DependentUpon>XPathExpressionDialog.cs</DependentUpon>
@@ -149,6 +170,26 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ZoomHS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DockPanelSuite\WeifenLuo.WinFormsUI.Docking.csproj">
+      <Project>{C75532C4-765B-418E-B09B-46D36B2ABDB1}</Project>
+      <Name>WeifenLuo.WinFormsUI.Docking</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\XMLFileHS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TaskHS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Book_openHS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\Book_openHS.ico" />
+    <None Include="Resources\CheckGrammarHS.png" />
+    <Content Include="Resources\TaskHS.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

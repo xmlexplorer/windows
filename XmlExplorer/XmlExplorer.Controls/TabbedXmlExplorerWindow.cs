@@ -19,15 +19,15 @@ namespace XmlExplorer.Controls
         #region Variables
 
         /// <summary>
-        /// Dialog used to change the font and forecolor for the tab tree views.
+        /// Dialog used to change the font and forecolor for the window tree views.
         /// </summary>
         private FontDialog _fontDialog;
 
         /// <summary>
-        /// A list of the XmlExplorerTabPages that are currently loading an XML file.
+        /// A list of the XmlExplorerWindows that are currently loading an XML file.
         /// Used to display progress in the status bar.
         /// </summary>
-        private List<object> _tabsCurrentlyLoading = new List<object>();
+        private List<object> _windowsCurrentlyLoading = new List<object>();
 
         private DateTime _startedLoading;
 
@@ -40,14 +40,15 @@ namespace XmlExplorer.Controls
         /// </summary>
         private bool _useSyntaxHighlighting = true;
 
-        private XPathExpressionLibrary _expressions;
+        private ExpressionsWindow _expressionsWindow;
+        private ValidationWindow _validationWindow;
 
         #endregion
 
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the TabbedXmlExplorerDialog.
+        /// Initializes a new instance of the TabbedXmlExplorerWindow.
         /// </summary>
         public TabbedXmlExplorerWindow()
         {
@@ -65,12 +66,6 @@ namespace XmlExplorer.Controls
 
             this.DragOver += this.OnDragOver;
             this.DragDrop += this.OnDragDrop;
-
-            // set up the tab control
-            this.tabControl.ShowToolTips = true;
-            this.tabControl.MouseUp += this.OnTabControlMouseUp;
-            this.tabControl.Selecting += this.OnTabControlSelecting;
-            this.tabControl.Selected += this.OnTabControlSelected;
 
             // wire up all of the toolbar and menu events
             this.toolStripMenuItemFile.DropDownOpening += this.OnToolStripMenuItemFileDropDownOpening;
@@ -120,19 +115,24 @@ namespace XmlExplorer.Controls
             this.toolStripStatusLabelChildCount.Text = string.Empty;
 
             this.toolStripButtonXPathExpression.Click += this.OnToolStripButtonXPathExpressionClick;
-            this.toolStripMenuItemViewExpressions.Click += this.OnToolStripMenuItemViewExpressionsClick;
 
-            this.buttonCloseExpressions.Click += this.OnButtonCloseExpressionsClick;
+            // set up the expressions window
+            _expressionsWindow = new ExpressionsWindow();
+            _expressionsWindow.ShowHint = WeifenLuo.WinFormsUI.Docking.DockState.DockBottom;
+            _expressionsWindow.SelectedExpressionChanged += this.OnExpressionsWindow_SelectedExpressionChanged;
+            _expressionsWindow.ExpressionsActivated += this.OnExpressionsWindow_ExpressionsActivated;
+            _expressionsWindow.Show(this.dockPanel);
 
-            this.listViewExpressions.ItemActivate += this.OnListViewExpressionsItemActivate;
-            this.listViewExpressions.AfterLabelEdit += this.OnListViewExpressionsAfterLabelEdit;
-            this.listViewExpressions.SelectedIndexChanged += this.OnListViewExpressionsSelectedIndexChanged;
-            this.listViewExpressions.KeyDown += this.OnListViewExpressionsKeyDown;
-            this.listViewExpressions.MouseUp += this.OnListViewExpressionsMouseUp;
+            // set up the validation window
+            _validationWindow = new ValidationWindow();
+            _validationWindow.ValidateSchema += this.OnValidationWindow_Validate;
+            _validationWindow.SchemaFileNameChanged += this.OnValidationWindow_SchemaFileNameChanged;
+            _validationWindow.ShowHint = WeifenLuo.WinFormsUI.Docking.DockState.DockBottom;
+            _validationWindow.Show(this.dockPanel);
 
-            this.textBoxSearchExpressions.TextChanged += this.OnTextBoxSearchExpressionsTextChanged;
+            this.MdiChildActivate += this.OnMdiChildActivate;
 
-            _expressions = new XPathExpressionLibrary();
+            this.UpdateTools();
         }
 
         #endregion
@@ -169,7 +169,7 @@ namespace XmlExplorer.Controls
             {
                 _useSyntaxHighlighting = value;
                 this.toolStripMenuItemUseHighlighting.Checked = _useSyntaxHighlighting;
-                this.SetXmlExplorerTabHighlighting(_useSyntaxHighlighting);
+                this.SetXmlExplorerWindowHighlighting(_useSyntaxHighlighting);
             }
         }
 
@@ -177,40 +177,12 @@ namespace XmlExplorer.Controls
         {
             get
             {
-                return _expressions;
+                return _expressionsWindow.Expressions;
             }
 
             set
             {
-                _expressions = value;
-
-                this.LoadExpressions();
-            }
-        }
-
-        public bool ShowExpressions
-        {
-            get
-            {
-                return this.panelExpressions.Visible;
-            }
-
-            set
-            {
-                this.ToggleExpressionsVisibility(value);
-            }
-        }
-
-        public int ExpressionsHeight
-        {
-            get
-            {
-                return this.splitterTabBottom.SplitPosition;
-            }
-
-            set
-            {
-                this.splitterTabBottom.SplitPosition = value;
+                _expressionsWindow.Expressions = value;
             }
         }
 
@@ -227,52 +199,9 @@ namespace XmlExplorer.Controls
             _treeFont = _fontDialog.Font;
             _treeForeColor = _fontDialog.Color;
 
-            // apply the font and forecolor to any open tabs
-            this.SetXmlExplorerTabFonts(_fontDialog.Font);
-            this.SetXmlExplorerTabForeColors(_fontDialog.Color);
-        }
-
-        /// <summary>
-        /// Closes the tab that exist at the specified point (used when a tab is clicked with
-        /// the middle mouse button.
-        /// </summary>
-        /// <param name="point">The point at which to close a tab.</param>
-        private void CloseTabAtPoint(Point point)
-        {
-            // get the tab at the specified point
-            XmlExplorerTabPage tabAtPoint = this.GetTabAtPoint(point);
-
-            // if a tab was found
-            if (tabAtPoint != null)
-            {
-                // close it
-                tabAtPoint.Close();
-            }
-        }
-
-        /// <summary>
-        /// Returns the tab that exists at the specified point (or null if none are found).
-        /// </summary>
-        /// <param name="point">The point at which to return a tab.</param>
-        /// <returns></returns>
-        private XmlExplorerTabPage GetTabAtPoint(Point point)
-        {
-            // loop through the tabs
-            for (int index = 0; index < this.tabControl.TabCount; index++)
-            {
-                // get the tab's bounds
-                Rectangle rectangle = this.tabControl.GetTabRect(index);
-
-                // if the point is on a tab
-                if (rectangle.Contains(point))
-                {
-                    // return the tab at the specified point
-                    return this.tabControl.TabPages[index] as XmlExplorerTabPage;
-                }
-            }
-
-            // no tabs found at the specified point, return null
-            return null;
+            // apply the font and forecolor to any open windows
+            this.SetXmlExplorerWindowFonts(_fontDialog.Font);
+            this.SetXmlExplorerWindowForeColors(_fontDialog.Color);
         }
 
         /// <summary>
@@ -297,7 +226,7 @@ namespace XmlExplorer.Controls
         {
             using (OpenFileDialog dialog = new OpenFileDialog())
             {
-                dialog.Filter = "Xml Documents (*.xml)|*.xml|All Files (*.*)|*.*";
+                dialog.Filter = "All Files (*.*)|*.*|Xml Documents (*.xml)|*.xml";
                 dialog.Multiselect = true;
                 if (dialog.ShowDialog(this) == DialogResult.OK)
                 {
@@ -318,7 +247,7 @@ namespace XmlExplorer.Controls
         }
 
         /// <summary>
-        /// Opens a tab for each specified file.
+        /// Opens a window for each specified file.
         /// </summary>
         /// <param name="filenames">The full paths of the files to open.</param>
         public void Open(ReadOnlyCollection<string> filenames)
@@ -330,7 +259,7 @@ namespace XmlExplorer.Controls
         }
 
         /// <summary>
-        /// Opens a tab for each specified file.
+        /// Opens a window for each specified file.
         /// </summary>
         /// <param name="filenames">The full paths of the files to open.</param>
         public void Open(string[] filenames)
@@ -342,78 +271,75 @@ namespace XmlExplorer.Controls
         }
 
         /// <summary>
-        /// Opens a tab for the specified file.
+        /// Opens a window for the specified file.
         /// </summary>
         /// <param name="filename">The full path of the file to open.</param>
         public void Open(string filename)
         {
-            // create a tab page
-            XmlExplorerTabPage tabPage = this.CreateXmlExplorerTabPage();
+            // create a window
+            XmlExplorerWindow window = this.CreateXmlExplorerWindow();
 
-            // instruct the tab to open the specified file.
-            tabPage.Open(filename);
+            //// instruct the window to open the specified file.
+            window.Open(filename);
 
-            // add the tabpage to the tab control
-            this.tabControl.TabPages.Add(tabPage);
+            // show the window
+            window.Show(this.dockPanel);
 
-            // select the newly opened tab
-            this.tabControl.SelectedTab = tabPage;
+            this.UpdateTools();
         }
 
         /// <summary>
-        /// Opens a tab for the specified stream.
+        /// Opens a window for the specified stream.
         /// </summary>
         public void Open(Stream stream)
         {
-            // create a tab page
-            XmlExplorerTabPage tabPage = this.CreateXmlExplorerTabPage();
+            // create a window
+            XmlExplorerWindow window = this.CreateXmlExplorerWindow();
 
-            // instruct the tab to open the specified stream.
-            tabPage.Open(stream);
+            //// instruct the window to open the specified file.
+            window.Open(stream);
 
-            // add the tabpage to the tab control
-            this.tabControl.TabPages.Add(tabPage);
+            // show the window
+            window.Show(this.dockPanel);
 
-            // select the newly opened tab
-            this.tabControl.SelectedTab = tabPage;
+            this.UpdateTools();
         }
 
         /// <summary>
-        /// Opens a tab for the specified node set.  This method is used to open XPath expressions that 
+        /// Opens a window for the specified node set.  This method is used to open XPath expressions that 
         /// evaluate to a node set.
         /// </summary>
-        /// <param name="iterator">An XPathNodeIterator with which to open a tab.</param>
+        /// <param name="iterator">An XPathNodeIterator with which to open a window.</param>
         public void Open(XPathNodeIterator iterator)
         {
-            // create a tab page
-            XmlExplorerTabPage tabPage = this.CreateXmlExplorerTabPage();
+            // create a window
+            XmlExplorerWindow window = this.CreateXmlExplorerWindow();
 
-            // instruct the tab to open the specified node set
-            tabPage.Open(iterator);
+            //// instruct the window to open the specified file.
+            window.Open(iterator);
 
-            // add the tabpage to the tab control
-            this.tabControl.TabPages.Add(tabPage);
+            // show the window
+            window.Show(this.dockPanel);
 
-            // select the newly opened tab
-            this.tabControl.SelectedTab = tabPage;
+            this.UpdateTools();
         }
 
         /// <summary>
-        /// Opens the selected tab page's file in the default editor for it's file type.
+        /// Opens the selected window's file in the default editor for it's file type.
         /// </summary>
         private void OpenInEditor()
         {
             try
             {
-                // get the selected tab
-                XmlExplorerTabPage tabPage = this.tabControl.SelectedTab as XmlExplorerTabPage;
-                if (tabPage == null)
+                // get the selected window
+                XmlExplorerWindow window = this.ActiveMdiChild as XmlExplorerWindow;
+                if (window == null)
                     return;
 
-                if (string.IsNullOrEmpty(tabPage.Filename))
+                if (string.IsNullOrEmpty(window.Filename))
                     return;
 
-                ProcessStartInfo info = new ProcessStartInfo(tabPage.Filename);
+                ProcessStartInfo info = new ProcessStartInfo(window.Filename);
                 info.Verb = "edit";
 
                 Process.Start(info);
@@ -426,40 +352,45 @@ namespace XmlExplorer.Controls
         }
 
         /// <summary>
-        /// Returns an initialized XmlExplorerTabPage.
+        /// Returns an initialized XmlExplorerWindow.
         /// </summary>
         /// <returns></returns>
-        private XmlExplorerTabPage CreateXmlExplorerTabPage()
+        private XmlExplorerWindow CreateXmlExplorerWindow()
         {
-            // the main window handle needs to be created before creating a new tab page
+            // the main window handle needs to be created before creating a new window
             if (!this.IsHandleCreated)
                 this.CreateHandle();
 
-            XmlExplorerTabPage tabPage = new XmlExplorerTabPage();
+            XmlExplorerWindow window = new XmlExplorerWindow();
 
-            // read the options for the tab page, such as font and forecolor
-            this.ReadTabPageOptions(tabPage);
+            window.Icon = this.Icon;
 
-            // wire to the tab's events
-            tabPage.NeedsClosed += this.OnTabPageNeedsClosed;
-            tabPage.LoadingFileCompleted += this.OnTabPageLoadingFileCompleted;
-            tabPage.LoadingFileFailed += this.OnTabPageLoadingFileFailed;
-            tabPage.LoadingFileStarted += this.OnTabPageLoadingFileStarted;
-            tabPage.XPathNavigatorTreeView.AfterSelect += this.OnTabPage_XmlTreeView_AfterSelect;
-            tabPage.XPathNavigatorTreeView.MouseUp += this.OnTabPage_XmlTreeView_MouseUp;
+            // read the options for the window, such as font and forecolor
+            this.ReadWindowOptions(window);
 
-            return tabPage;
+            // wire to the window's events
+            window.FormClosed += this.OnChildWindowFormClosed;
+            window.LoadingFileCompleted += this.OnWindowLoadingFileCompleted;
+            window.LoadingFileFailed += this.OnWindowLoadingFileFailed;
+            window.LoadingFileStarted += this.OnWindowLoadingFileStarted;
+            window.XPathNavigatorTreeView.AfterSelect += this.OnWindow_XmlTreeView_AfterSelect;
+            window.XPathNavigatorTreeView.MouseUp += this.OnWindow_XmlTreeView_MouseUp;
+            window.TabPageContextMenuStrip = this.contextMenuStripTabs;
+
+            window.MdiParent = this;
+
+            return window;
         }
 
         /// <summary>
-        /// Initializes an XmlExplorerTabPage with saved settings.
+        /// Initializes an XmlExplorerWindow with saved settings.
         /// </summary>
-        /// <param name="tabPage">The XmlExplorerTabPage to initialize.</param>
-        private void ReadTabPageOptions(XmlExplorerTabPage tabPage)
+        /// <param name="window">The XmlExplorerWindow to initialize.</param>
+        private void ReadWindowOptions(XmlExplorerWindow window)
         {
-            tabPage.XPathNavigatorTreeView.Font = _treeFont;
-            tabPage.XPathNavigatorTreeView.ForeColor = _treeForeColor;
-            tabPage.UseSyntaxHighlighting = _useSyntaxHighlighting;
+            window.XPathNavigatorTreeView.Font = _treeFont;
+            window.XPathNavigatorTreeView.ForeColor = _treeForeColor;
+            window.UseSyntaxHighlighting = _useSyntaxHighlighting;
         }
 
         /// <summary>
@@ -483,16 +414,16 @@ namespace XmlExplorer.Controls
         {
             _useSyntaxHighlighting = !_useSyntaxHighlighting;
             this.toolStripMenuItemUseHighlighting.Checked = _useSyntaxHighlighting;
-            this.SetXmlExplorerTabHighlighting(_useSyntaxHighlighting);
+            this.SetXmlExplorerWindowHighlighting(_useSyntaxHighlighting);
         }
 
         /// <summary>
-        /// Displays progress for tabs that are loading xml files.
+        /// Displays progress for windows that are loading xml files.
         /// </summary>
         private void UpdateLoadingStatus()
         {
-            // get the number of tabs that are currently loading xml files
-            int count = _tabsCurrentlyLoading.Count;
+            // get the number of windows that are currently loading xml files
+            int count = _windowsCurrentlyLoading.Count;
 
             string loadingStatus = string.Empty;
 
@@ -508,7 +439,7 @@ namespace XmlExplorer.Controls
                 loadingStatus = string.Format("Loaded in {0}", elapsed.ToString());
             }
 
-            // update the progress bar, we want it to scroll if any tabs are still loading,
+            // update the progress bar, we want it to scroll if any windows are still loading,
             // but be hidden if there are none loading
             this.toolStripProgressBar.Style = ProgressBarStyle.Marquee;
             this.toolStripProgressBar.Enabled = count > 0;
@@ -519,18 +450,18 @@ namespace XmlExplorer.Controls
         }
 
         /// <summary>
-        /// Removes a tab from our list of tabs currently loading xml files.
+        /// Removes a window from our list of windows currently loading xml files.
         /// </summary>
-        /// <param name="tab">The tab that has finished loading, and needs removed from
-        /// the list of currently loading tabs.</param>
-        private void RemoveLoadingTab(object tab)
+        /// <param name="window">The window that has finished loading, and needs removed from
+        /// the list of currently loading windows.</param>
+        private void RemoveLoadingWindow(object window)
         {
             // lock the list for thread safety
-            lock (_tabsCurrentlyLoading)
+            lock (_windowsCurrentlyLoading)
             {
-                // remove the tab if it's in the list
-                if (_tabsCurrentlyLoading.Contains(tab))
-                    _tabsCurrentlyLoading.Remove(tab);
+                // remove the window if it's in the list
+                if (_windowsCurrentlyLoading.Contains(window))
+                    _windowsCurrentlyLoading.Remove(window);
 
                 // update the loading status
                 this.UpdateLoadingStatus();
@@ -538,9 +469,9 @@ namespace XmlExplorer.Controls
         }
 
         /// <summary>
-        /// Evaluates the specified XPath expression against the xml content of the currently selected tab.
+        /// Evaluates the specified XPath expression against the xml content of the currently selected window.
         /// </summary>
-        /// <param name="xpath">An XPath expression to evaluate against the currently selected tab.</param>
+        /// <param name="xpath">An XPath expression to evaluate against the currently selected window.</param>
         /// <returns></returns>
         private bool FindByXpath(string xpath)
         {
@@ -548,13 +479,13 @@ namespace XmlExplorer.Controls
 
             try
             {
-                // get the selected tab page, returning if none are found
-                XmlExplorerTabPage tabPage = this.tabControl.SelectedTab as XmlExplorerTabPage;
-                if (tabPage == null)
+                // get the selected window, returning if none are found
+                XmlExplorerWindow window = this.ActiveMdiChild as XmlExplorerWindow;
+                if (window == null)
                     return false;
 
-                // instruct the tab page to perform the expression evaluation
-                result = tabPage.FindByXpath(xpath);
+                // instruct the window to perform the expression evaluation
+                result = window.FindByXpath(xpath);
 
                 if (result)
                     this.toolStripStatusLabelMain.Text = "";
@@ -579,27 +510,27 @@ namespace XmlExplorer.Controls
         }
 
         /// <summary>
-        /// Opens a new tab page with the evaluated results of the specified XPath expression.
+        /// Opens a new window with the evaluated results of the specified XPath expression.
         /// </summary>
-        /// <param name="xpath">An XPath expression to evaluate against the currently selected tab.</param>
+        /// <param name="xpath">An XPath expression to evaluate against the currently selected window.</param>
         /// <returns></returns>
         private bool LaunchXpathResults(string xpath)
         {
             try
             {
-                // get the selected tab page
-                XmlExplorerTabPage tabPage = this.tabControl.SelectedTab as XmlExplorerTabPage;
-                if (tabPage == null)
+                // get the selected window
+                XmlExplorerWindow window = this.ActiveMdiChild as XmlExplorerWindow;
+                if (window == null)
                     return false;
 
                 // evaluate the expression
-                XPathNodeIterator iterator = tabPage.SelectXmlNodes(xpath);
+                XPathNodeIterator iterator = window.SelectXmlNodes(xpath);
 
                 // check for empty results
                 if (iterator == null || iterator.Count < 1)
                     return false;
 
-                // open the results in a new tab page
+                // open the results in a new window
                 this.Open(iterator);
 
                 return true;
@@ -627,19 +558,19 @@ namespace XmlExplorer.Controls
         }
 
         /// <summary>
-        /// Overwrites the selected tab page's file with XML formatting (tabs and crlf's)
+        /// Overwrites the selected window's file with XML formatting (tabs and crlf's)
         /// </summary>
         private void SaveWithFormatting()
         {
             try
             {
-                // get the selected tab
-                XmlExplorerTabPage tabPage = this.tabControl.SelectedTab as XmlExplorerTabPage;
-                if (tabPage == null)
+                // get the selected window
+                XmlExplorerWindow window = this.ActiveMdiChild as XmlExplorerWindow;
+                if (window == null)
                     return;
 
-                // instruct the tab to save with formatting
-                tabPage.SaveWithFormatting();
+                // instruct the window to save with formatting
+                window.SaveWithFormatting();
             }
             catch (Exception ex)
             {
@@ -649,16 +580,16 @@ namespace XmlExplorer.Controls
         }
 
         /// <summary>
-        /// Prompts the user to save a copy of the selected tab page's XML file.
+        /// Prompts the user to save a copy of the selected window's XML file.
         /// </summary>
         private void SaveAs()
         {
             try
             {
-                XmlExplorerTabPage tabPage = this.tabControl.SelectedTab as XmlExplorerTabPage;
-                if (tabPage == null)
+                XmlExplorerWindow window = this.ActiveMdiChild as XmlExplorerWindow;
+                if (window == null)
                     return;
-                tabPage.SaveAs();
+                window.SaveAs();
             }
             catch (Exception ex)
             {
@@ -668,142 +599,89 @@ namespace XmlExplorer.Controls
         }
 
         /// <summary>
-        /// Applies a fore color to all of the currently open tab pages.
+        /// Applies a fore color to all of the currently open windows.
         /// </summary>
         /// <param name="color">A color to apply as the fore color.</param>
-        private void SetXmlExplorerTabForeColors(Color color)
+        private void SetXmlExplorerWindowForeColors(Color color)
         {
-            foreach (TabPage tabPage in this.tabControl.TabPages)
+            foreach (Form window in this.MdiChildren)
             {
-                XmlExplorerTabPage xmlExplorerTabPage = tabPage as XmlExplorerTabPage;
+                XmlExplorerWindow xmlExplorerWindow = window as XmlExplorerWindow;
 
-                if (xmlExplorerTabPage == null)
+                if (xmlExplorerWindow == null)
                     continue;
 
-                xmlExplorerTabPage.XPathNavigatorTreeView.ForeColor = color;
+                xmlExplorerWindow.XPathNavigatorTreeView.ForeColor = color;
             }
         }
 
         /// <summary>
-        /// Applies a font to all of the currently open tab pages.
+        /// Applies a font to all of the currently open windows.
         /// </summary>
         /// <param name="font">A font to apply.</param>
-        private void SetXmlExplorerTabFonts(Font font)
+        private void SetXmlExplorerWindowFonts(Font font)
         {
-            foreach (TabPage tabPage in this.tabControl.TabPages)
+            foreach (Form window in this.MdiChildren)
             {
-                XmlExplorerTabPage xmlExplorerTabPage = tabPage as XmlExplorerTabPage;
+                XmlExplorerWindow xmlExplorerWindow = window as XmlExplorerWindow;
 
-                if (xmlExplorerTabPage == null)
+                if (xmlExplorerWindow == null)
                     continue;
 
-                xmlExplorerTabPage.XPathNavigatorTreeView.Font = font;
+                xmlExplorerWindow.XPathNavigatorTreeView.Font = font;
             }
         }
 
         /// <summary>
-        /// Applies syntax highlighting changes to all of the currently open tab pages.
+        /// Applies syntax highlighting changes to all of the currently open windows.
         /// </summary>
         /// <param name="useSyntaxHighlighting">Whether or not to use syntax highlighting.</param>
-        private void SetXmlExplorerTabHighlighting(bool useSyntaxHighlighting)
+        private void SetXmlExplorerWindowHighlighting(bool useSyntaxHighlighting)
         {
-            foreach (TabPage tabPage in this.tabControl.TabPages)
+            foreach (Form window in this.MdiChildren)
             {
-                XmlExplorerTabPage xmlExplorerTabPage = tabPage as XmlExplorerTabPage;
+                XmlExplorerWindow xmlExplorerWindow = window as XmlExplorerWindow;
 
-                if (xmlExplorerTabPage == null)
+                if (xmlExplorerWindow == null)
                     continue;
 
-                xmlExplorerTabPage.UseSyntaxHighlighting = useSyntaxHighlighting;
+                xmlExplorerWindow.UseSyntaxHighlighting = useSyntaxHighlighting;
             }
         }
 
         /// <summary>
-        /// Copies the current tab page's selected xml node (and all of it's sub nodes) to the clipboard
+        /// Copies the current window's selected xml node (and all of it's sub nodes) to the clipboard
         /// as formatted XML text.
         /// </summary>
         private void CopyFormattedOuterXml()
         {
-            // get the selectd tab page
-            XmlExplorerTabPage tabPage = this.tabControl.SelectedTab as XmlExplorerTabPage;
-            if (tabPage == null)
+            // get the selectd window
+            XmlExplorerWindow window = this.ActiveMdiChild as XmlExplorerWindow;
+            if (window == null)
                 return;
 
-            // instruct the tab to copy
-            tabPage.CopyFormattedOuterXml();
+            // instruct the window to copy
+            window.CopyFormattedOuterXml();
         }
 
         /// <summary>
-        /// Copies the current tab page's selected xml node to the clipboard
+        /// Copies the current window's selected xml node to the clipboard
         /// as XML text.
         /// </summary>
         private void CopyNodeText()
         {
-            // get the selectd tab page
-            XmlExplorerTabPage tabPage = this.tabControl.SelectedTab as XmlExplorerTabPage;
-            if (tabPage == null)
+            // get the selectd window
+            XmlExplorerWindow window = this.ActiveMdiChild as XmlExplorerWindow;
+            if (window == null)
                 return;
 
-            // instruct the tab to copy
-            tabPage.CopyNodeText();
-        }
-
-        private void AddOrEditXPathExpression(string expression)
-        {
-            XPathExpression xpathExpression = _expressions.Find(expression);
-
-            if (xpathExpression != null)
-            {
-                // edit
-                this.EditXPathExpression(xpathExpression);
-            }
-            else
-            {
-                // add
-                this.AddXPathExpression(expression);
-            }
-        }
-
-        private void AddXPathExpression(string expression)
-        {
-            XPathExpression xpathExpression = new XPathExpression();
-            xpathExpression.Expression = expression;
-            _expressions.Add(xpathExpression);
-            XPathExpressionListViewItem item = new XPathExpressionListViewItem(xpathExpression);
-            this.listViewExpressions.Items.Add(item);
-            this.UpdateXPathExpressionTool(expression);
-            this.AutoSizeListViewColumns(this.listViewExpressions);
-            this.toolStripButtonXPathExpression.ToolTipText = "Edit expression";
-        }
-
-        private void EditXPathExpression(XPathExpression xpathExpression)
-        {
-            using (XPathExpressionDialog dialog = new XPathExpressionDialog(xpathExpression))
-            {
-                if (dialog.ShowDialog(this) != DialogResult.OK)
-                    return;
-            }
-
-            foreach (ListViewItem item in this.listViewExpressions.Items)
-            {
-                XPathExpressionListViewItem expressionItem = item as XPathExpressionListViewItem;
-                if (expressionItem == null)
-                    continue;
-
-                if (expressionItem.XPathExpression == xpathExpression)
-                {
-                    expressionItem.Initialize();
-                    this.toolStripTextBoxXpath.Text = xpathExpression.Expression;
-                    break;
-                }
-            }
-
-            this.AutoSizeListViewColumns(this.listViewExpressions);
+            // instruct the window to copy
+            window.CopyNodeText();
         }
 
         private void UpdateXPathExpressionTool(string text)
         {
-            if (_expressions.Contains(text))
+            if (_expressionsWindow.Expressions.Contains(text))
             {
                 this.toolStripButtonXPathExpression.Image = Properties.Resources.star;
                 this.toolStripButtonXPathExpression.ToolTipText = "Edit expression";
@@ -826,13 +704,13 @@ namespace XmlExplorer.Controls
                 // append a * to return all matching nodes
                 string xpath = text + "*";
 
-                // get the selected tab
-                XmlExplorerTabPage tabPage = this.tabControl.SelectedTab as XmlExplorerTabPage;
-                if (tabPage == null)
+                // get the selected window
+                XmlExplorerWindow window = this.ActiveMdiChild as XmlExplorerWindow;
+                if (window == null)
                     return;
 
                 // evaluate the expression
-                XPathNodeIterator nodes = tabPage.SelectXmlNodes(xpath);
+                XPathNodeIterator nodes = window.SelectXmlNodes(xpath);
 
                 // return if an empty result set is returned
                 if (nodes == null || nodes.Count < 1)
@@ -861,74 +739,13 @@ namespace XmlExplorer.Controls
             }
         }
 
-        private void LoadExpressions()
-        {
-            this.LoadExpressions(null);
-        }
-
-        private void LoadExpressions(string searchText)
-        {
-            try
-            {
-                this.listViewExpressions.BeginUpdate();
-                this.listViewExpressions.Items.Clear();
-
-                if (_expressions == null)
-                    return;
-
-                string lowerSearchText = null;
-                if (!string.IsNullOrEmpty(searchText))
-                    lowerSearchText = searchText.ToLower();
-
-                foreach (XPathExpression expression in _expressions)
-                {
-                    if (string.IsNullOrEmpty(searchText) || this.IsMatchingExpression(expression, lowerSearchText))
-                    {
-                        XPathExpressionListViewItem item = new XPathExpressionListViewItem(expression);
-
-                        this.listViewExpressions.Items.Add(item);
-                    }
-                }
-
-                this.AutoSizeListViewColumns(this.listViewExpressions);
-            }
-            finally
-            {
-                this.listViewExpressions.EndUpdate();
-            }
-        }
-
-        private bool IsMatchingExpression(XPathExpression expression, string lowerSearchText)
-        {
-            if (!string.IsNullOrEmpty(expression.Name))
-                if (expression.Name.ToLower().Contains(lowerSearchText))
-                    return true;
-
-            if (!string.IsNullOrEmpty(expression.Expression))
-                if (expression.Expression.ToLower().Contains(lowerSearchText))
-                    return true;
-
-            return false;
-        }
-
-        private void ToggleExpressionsVisibility(bool showExpressions)
-        {
-            this.toolStripMenuItemViewExpressions.Checked = showExpressions;
-            this.panelExpressions.Visible = showExpressions;
-        }
-
-        private void UpdateExpressionSearch(string searchText)
-        {
-            this.LoadExpressions(searchText);
-        }
-
         private void HandleExpressionKeyPress(KeyEventArgs e, string xpath)
         {
             this.toolStripTextBoxXpath.Text = xpath;
             if (e.Shift)
             {
                 // Shift-Enter has been pressed, evaluate the expression
-                // if successful, open results in a new tab page
+                // if successful, open results in a new window
                 // if there is a problem with the expression, notify the user
                 // by highlighting the XPath text box
                 if (!this.LaunchXpathResults(xpath))
@@ -938,7 +755,7 @@ namespace XmlExplorer.Controls
             {
                 // Shift-Enter has been pressed, evaluate the expression
                 // if successful, the first node of the result set will be selected
-                // (selection is performed by the tab)
+                // (selection is performed by the window)
                 // if there is a problem with the expression, notify the user
                 // by highlighting the XPath text box
                 if (!this.FindByXpath(xpath))
@@ -947,57 +764,36 @@ namespace XmlExplorer.Controls
             }
         }
 
-        private void DeleteSelectedExpressionItems(bool skipConfirmation)
+        private void UpdateTools()
         {
-            DialogResult result = DialogResult.Yes;
-
-            if (!skipConfirmation)
-            {
-                string message = "";
-                string caption = "";
-
-                int count = this.listViewExpressions.SelectedItems.Count;
-                if (count > 1)
-                {
-                    message = string.Format("Are you sure you want to delete these {0} expressions?", count);
-                    caption = "Confirm multiple expression delete";
-                }
-                else
-                {
-                    message = "Are you sure you want to delete this expression?";
-                    caption = "Confirm expression delete";
-                }
-                result = MessageBox.Show(this, message, caption, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
-            }
-
-            if (result != DialogResult.Yes)
-                return;
-
-            foreach (ListViewItem item in this.listViewExpressions.SelectedItems)
-            {
-                XPathExpressionListViewItem expressionItem = item as XPathExpressionListViewItem;
-                if (expressionItem != null)
-                {
-                    _expressions.Remove(expressionItem.XPathExpression);
-                }
-
-                item.Remove();
-            }
-
-            string text = this.toolStripTextBoxXpath.Text;
-
-            this.UpdateXPathExpressionTool(text);
+            this.UpdateTools(false);
         }
 
-        private void AutoSizeListViewColumns(ListView listView)
+        private void UpdateTools(bool isLastWindowClosing)
         {
-            foreach (ColumnHeader header in listView.Columns)
+            try
             {
-                header.Width = -1;
-                int width = header.Width;
-                header.Width = -2;
-                if (width > header.Width)
-                    header.Width = width;
+                // update any tools that depend on one or more windows being open
+                bool hasOpenWindows = this.MdiChildren.Length > 0 && !isLastWindowClosing;
+
+                this.toolStripMenuItemOpenInEditor.Enabled = hasOpenWindows;
+                this.toolStripMenuItemClose.Enabled = hasOpenWindows;
+                this.toolStripMenuItemSaveAs.Enabled = hasOpenWindows;
+                this.toolStripButtonSave.Enabled = hasOpenWindows;
+                this.toolStripMenuItemSaveWithFormatting.Enabled = hasOpenWindows;
+
+                this.toolStripMenuItemCopyFormattedOuterXml.Enabled = hasOpenWindows;
+                this.toolStripButtonCopyFormattedOuterXml.Enabled = hasOpenWindows;
+                this.toolStripMenuItemCopy.Enabled = hasOpenWindows;
+                this.toolStripMenuItemCopyXPath.Enabled = hasOpenWindows;
+
+                this.toolStripMenuItemRefresh.Enabled = hasOpenWindows;
+                this.toolStripButtonRefresh.Enabled = hasOpenWindows;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                MessageBox.Show(this, ex.ToString());
             }
         }
 
@@ -1060,26 +856,37 @@ namespace XmlExplorer.Controls
             }
         }
 
-        /// <summary>
-        /// Occurs when a mouse button is released over a tab.
-        /// </summary>
-        private void OnTabControlMouseUp(object sender, MouseEventArgs e)
+        void OnMdiChildActivate(object sender, EventArgs e)
         {
             try
             {
-                switch (e.Button)
-                {
-                    case MouseButtons.Right:
-                        // right mouse button, show the context menu
-                        this.contextMenuStripTabs.Tag = this.GetTabAtPoint(e.Location);
-                        this.contextMenuStripTabs.Show(this.tabControl, e.Location);
-                        break;
+                // get the window
+                XmlExplorerWindow window = this.ActiveMdiChild as XmlExplorerWindow;
 
-                    case MouseButtons.Middle:
-                        // middle mouse button, close any tabs at the location
-                        this.CloseTabAtPoint(e.Location);
-                        break;
+                if (window == null)
+                {
+                    this.Text = "XML Explorer";
+                    return;
                 }
+
+                _validationWindow.ValidationEventArgs = window.ValidationEventArgs;
+                _validationWindow.SchemaFileName = window.SchemaFileName;
+
+                // unwire from child mdi window events
+                foreach (Form form in this.MdiChildren)
+                {
+                    XmlExplorerWindow otherWindow = form as XmlExplorerWindow;
+                    if (otherWindow == null)
+                        continue;
+
+                    otherWindow.XPathNavigatorTreeView.KeyDown -= this.OnWindow_XmlTreeView_KeyDown;
+                }
+
+                // update the main window text
+                this.Text = string.Format("XML Explorer - [{0}]", window.Text);
+
+                // wire to the newly active child mdi window events
+                window.XPathNavigatorTreeView.KeyDown += this.OnWindow_XmlTreeView_KeyDown;
             }
             catch (Exception ex)
             {
@@ -1088,69 +895,7 @@ namespace XmlExplorer.Controls
             }
         }
 
-        /// <summary>
-        /// Occurs when the selected tab is about to change.
-        /// </summary>
-        private void OnTabControlSelecting(object sender, TabControlCancelEventArgs e)
-        {
-            try
-            {
-                // get the tab
-                XmlExplorerTabPage tabPage = e.TabPage as XmlExplorerTabPage;
-
-                switch (e.Action)
-                {
-                    case TabControlAction.Deselecting:
-                        // if the tab is becoming deselected, unwire from it's events
-                        if (tabPage != null)
-                            tabPage.XPathNavigatorTreeView.KeyDown -= this.OnTabPage_XmlTreeView_KeyDown;
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-                MessageBox.Show(this, ex.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Occurs after the selected tab has changed.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void OnTabControlSelected(object sender, TabControlEventArgs e)
-        {
-            try
-            {
-                // get the tab
-                XmlExplorerTabPage tabPage = e.TabPage as XmlExplorerTabPage;
-
-                switch (e.Action)
-                {
-                    case TabControlAction.Selected:
-                        // if a tab is becoming selected, unwire from it's events
-                        // and the window's title bar text
-                        if (tabPage == null)
-                        {
-                            this.Text = "XML Explorer";
-                        }
-                        else
-                        {
-                            this.Text = string.Format("XML Explorer - [{0}]", tabPage.Text);
-                            tabPage.XPathNavigatorTreeView.KeyDown += this.OnTabPage_XmlTreeView_KeyDown;
-                        }
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-                MessageBox.Show(this, ex.ToString());
-            }
-        }
-
-        private void OnTabPage_XmlTreeView_KeyDown(object sender, KeyEventArgs e)
+        private void OnWindow_XmlTreeView_KeyDown(object sender, KeyEventArgs e)
         {
             try
             {
@@ -1171,31 +916,11 @@ namespace XmlExplorer.Controls
         }
 
         /// <summary>
-        /// Occurs when a user has chosen to close a tab, and the tab needs removed
-        /// from the main window.
+        /// Occurs when a window has begun asynchronously loading an XML file.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void OnTabPageNeedsClosed(object sender, EventArgs e)
-        {
-            try
-            {
-                // remove the tab
-                this.tabControl.TabPages.Remove(sender as TabPage);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-                MessageBox.Show(this, ex.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Occurs when a tab page has begun asynchronously loading an XML file.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void OnTabPageLoadingFileStarted(object sender, EventArgs e)
+        private void OnWindowLoadingFileStarted(object sender, EventArgs e)
         {
             try
             {
@@ -1203,18 +928,18 @@ namespace XmlExplorer.Controls
                 // marshal the event back to the window's thread
                 if (this.InvokeRequired)
                 {
-                    this.Invoke(new EventHandler<EventArgs>(this.OnTabPageLoadingFileStarted), sender, e);
+                    this.Invoke(new EventHandler<EventArgs>(this.OnWindowLoadingFileStarted), sender, e);
                     return;
                 }
 
                 // lock the list for thread safety
-                lock (_tabsCurrentlyLoading)
+                lock (_windowsCurrentlyLoading)
                 {
-                    if (_tabsCurrentlyLoading.Count < 1)
+                    if (_windowsCurrentlyLoading.Count < 1)
                         _startedLoading = DateTime.Now;
 
-                    // add the tab
-                    _tabsCurrentlyLoading.Add(sender);
+                    // add the window
+                    _windowsCurrentlyLoading.Add(sender);
 
                     // update the status and progress
                     this.UpdateLoadingStatus();
@@ -1232,7 +957,7 @@ namespace XmlExplorer.Controls
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void OnTabPageLoadingFileFailed(object sender, EventArgs e)
+        private void OnWindowLoadingFileFailed(object sender, EventArgs e)
         {
             try
             {
@@ -1240,12 +965,12 @@ namespace XmlExplorer.Controls
                 // marshal the event back to the window's thread
                 if (this.InvokeRequired)
                 {
-                    this.Invoke(new EventHandler<EventArgs>(this.OnTabPageLoadingFileFailed), sender, e);
+                    this.Invoke(new EventHandler<EventArgs>(this.OnWindowLoadingFileFailed), sender, e);
                     return;
                 }
 
-                // remove the tab
-                this.RemoveLoadingTab(sender);
+                // remove the window
+                this.RemoveLoadingWindow(sender);
             }
             catch (Exception ex)
             {
@@ -1255,11 +980,11 @@ namespace XmlExplorer.Controls
         }
 
         /// <summary>
-        /// Occurs when a tab page has completed asynchronously loading an XML file.
+        /// Occurs when a window has completed asynchronously loading an XML file.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void OnTabPageLoadingFileCompleted(object sender, EventArgs e)
+        private void OnWindowLoadingFileCompleted(object sender, EventArgs e)
         {
             try
             {
@@ -1267,12 +992,12 @@ namespace XmlExplorer.Controls
                 // marshal the event back to the window's thread
                 if (this.InvokeRequired)
                 {
-                    this.Invoke(new EventHandler<EventArgs>(this.OnTabPageLoadingFileCompleted), sender, e);
+                    this.Invoke(new EventHandler<EventArgs>(this.OnWindowLoadingFileCompleted), sender, e);
                     return;
                 }
 
-                // remove the tab
-                this.RemoveLoadingTab(sender);
+                // remove the window
+                this.RemoveLoadingWindow(sender);
             }
             catch (Exception ex)
             {
@@ -1282,9 +1007,9 @@ namespace XmlExplorer.Controls
         }
 
         /// <summary>
-        /// Occurs when the selected xml node of a tab page has changed.
+        /// Occurs when the selected xml node of a window has changed.
         /// </summary>
-        private void OnTabPage_XmlTreeView_AfterSelect(object sender, TreeViewEventArgs e)
+        private void OnWindow_XmlTreeView_AfterSelect(object sender, TreeViewEventArgs e)
         {
             try
             {
@@ -1316,20 +1041,20 @@ namespace XmlExplorer.Controls
             }
         }
 
-        private void OnTabPage_XmlTreeView_MouseUp(object sender, MouseEventArgs e)
+        private void OnWindow_XmlTreeView_MouseUp(object sender, MouseEventArgs e)
         {
             try
             {
                 if (e.Button != MouseButtons.Right)
                     return;
 
-                // get the selectd tab page
-                XmlExplorerTabPage tabPage = this.tabControl.SelectedTab as XmlExplorerTabPage;
-                if (tabPage == null)
+                // get the selectd window
+                XmlExplorerWindow window = this.ActiveMdiChild as XmlExplorerWindow;
+                if (window == null)
                     return;
 
                 // get the node that was clicked
-                TreeViewHitTestInfo info = tabPage.XPathNavigatorTreeView.HitTest(e.Location);
+                TreeViewHitTestInfo info = window.XPathNavigatorTreeView.HitTest(e.Location);
 
                 if (info.Node == null)
                     return;
@@ -1356,6 +1081,125 @@ namespace XmlExplorer.Controls
             }
         }
 
+        private void OnExpressionsWindow_ExpressionsActivated(object sender, EventArgs e)
+        {
+            try
+            {
+                foreach (String xpath in _expressionsWindow.SelectedExpressions)
+                {
+                    // evaluate the expression
+                    // if successful, open results in a new window
+                    // if there is a problem with the expression, notify the user
+                    // by highlighting the XPath text box
+                    if (!this.LaunchXpathResults(xpath))
+                        this.toolStripTextBoxXpath.BackColor = Color.LightPink;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                MessageBox.Show(this, ex.ToString());
+            }
+        }
+
+        private void OnExpressionsWindow_SelectedExpressionChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                String xpath = null;
+
+                if (_expressionsWindow.SelectedExpressions.Count > 0)
+                {
+                    xpath = _expressionsWindow.SelectedExpressions[0];
+
+                    // evaluate the expression
+                    // if successful, the first node of the result set will be selected
+                    // (selection is performed by the window)
+                    // if there is a problem with the expression, notify the user
+                    // by highlighting the XPath text box
+                    if (!this.FindByXpath(xpath))
+                        this.toolStripTextBoxXpath.BackColor = Color.LightPink;
+                    this.toolStripTextBoxXpath.SelectionStart = this.toolStripTextBoxXpath.TextLength;
+                }
+
+                this.UpdateXPathExpressionTool(xpath);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                MessageBox.Show(this, ex.ToString());
+            }
+        }
+
+        void OnChildWindowFormClosed(object sender, FormClosedEventArgs e)
+        {
+            try
+            {
+                XmlExplorerWindow window = sender as XmlExplorerWindow;
+
+                if (window == null)
+                    return;
+
+                // unwire from the window's events
+                window.FormClosed -= this.OnChildWindowFormClosed;
+                window.LoadingFileCompleted -= this.OnWindowLoadingFileCompleted;
+                window.LoadingFileFailed -= this.OnWindowLoadingFileFailed;
+                window.LoadingFileStarted -= this.OnWindowLoadingFileStarted;
+                window.XPathNavigatorTreeView.AfterSelect -= this.OnWindow_XmlTreeView_AfterSelect;
+                window.XPathNavigatorTreeView.MouseUp -= this.OnWindow_XmlTreeView_MouseUp;
+                window.TabPageContextMenuStrip = null;
+
+                this.UpdateTools(this.MdiChildren.Length == 1);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                MessageBox.Show(this, ex.ToString());
+            }
+        }
+
+        void OnValidationWindow_SchemaFileNameChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                // get the active window
+                XmlExplorerWindow window = this.ActiveMdiChild as XmlExplorerWindow;
+
+                if (window == null)
+                    return;
+
+                window.SchemaFileName = _validationWindow.SchemaFileName;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                MessageBox.Show(this, ex.ToString());
+            }
+        }
+
+        void OnValidationWindow_Validate(object sender, EventArgs e)
+        {
+            try
+            {
+                // get the active window
+                XmlExplorerWindow window = this.ActiveMdiChild as XmlExplorerWindow;
+
+                if (window == null)
+                    return;
+
+                window.SchemaFileName = _validationWindow.SchemaFileName;
+
+                window.ValidateSchema();
+
+                _validationWindow.ValidationEventArgs = window.ValidationEventArgs;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                MessageBox.Show(this, ex.ToString());
+            }
+        }
+
         #endregion
 
         #region Tool Event Handlers
@@ -1364,13 +1208,7 @@ namespace XmlExplorer.Controls
         {
             try
             {
-                // update any tools that depend on one or more tab pages being open
-                bool hasOpenTabPages = this.tabControl.TabPages.Count > 0;
-
-                this.toolStripMenuItemOpenInEditor.Enabled = hasOpenTabPages;
-                this.toolStripMenuItemClose.Enabled = hasOpenTabPages;
-                this.toolStripMenuItemSaveAs.Enabled = hasOpenTabPages;
-                this.toolStripMenuItemSaveWithFormatting.Enabled = hasOpenTabPages;
+                this.UpdateTools();
             }
             catch (Exception ex)
             {
@@ -1383,12 +1221,7 @@ namespace XmlExplorer.Controls
         {
             try
             {
-                // update any tools that depend on one or more tab pages being open
-                bool hasOpenTabPages = this.tabControl.TabPages.Count > 0;
-
-                this.toolStripMenuItemCopyFormattedOuterXml.Enabled = hasOpenTabPages;
-                this.toolStripMenuItemCopy.Enabled = hasOpenTabPages;
-                this.toolStripMenuItemCopyXPath.Enabled = hasOpenTabPages;
+                this.UpdateTools();
             }
             catch (Exception ex)
             {
@@ -1401,8 +1234,7 @@ namespace XmlExplorer.Controls
         {
             try
             {
-                // update any tools that depend on one or more tab pages being open
-                this.toolStripMenuItemRefresh.Enabled = this.tabControl.TabPages.Count > 0;
+                this.UpdateTools();
             }
             catch (Exception ex)
             {
@@ -1460,12 +1292,12 @@ namespace XmlExplorer.Controls
         {
             try
             {
-                // get the tab for which the context menu was opened
-                XmlExplorerTabPage page = this.contextMenuStripTabs.Tag as XmlExplorerTabPage;
+                // get the window for which the context menu was opened
+                XmlExplorerWindow page = this.contextMenuStripTabs.Tag as XmlExplorerWindow;
                 if (page == null)
-                    page = this.tabControl.SelectedTab as XmlExplorerTabPage;
+                    page = this.ActiveMdiChild as XmlExplorerWindow;
 
-                // close the tab
+                // close the window
                 if (page != null)
                 {
                     page.Close();
@@ -1551,7 +1383,7 @@ namespace XmlExplorer.Controls
         {
             try
             {
-                XmlExplorerTabPage page = this.tabControl.SelectedTab as XmlExplorerTabPage;
+                XmlExplorerWindow page = this.ActiveMdiChild as XmlExplorerWindow;
                 if (page != null)
                 {
                     page.Reload();
@@ -1594,18 +1426,18 @@ namespace XmlExplorer.Controls
         {
             try
             {
-                XmlExplorerTabPage tabPage = this.tabControl.SelectedTab as XmlExplorerTabPage;
-                if (tabPage == null)
+                XmlExplorerWindow window = this.ActiveMdiChild as XmlExplorerWindow;
+                if (window == null)
                     return;
 
-                XPathNavigatorTreeNode node = tabPage.XPathNavigatorTreeView.SelectedNode as XPathNavigatorTreeNode;
+                XPathNavigatorTreeNode node = window.XPathNavigatorTreeView.SelectedNode as XPathNavigatorTreeNode;
                 if (node == null)
                     return;
 
                 if (node.Navigator == null)
                     return;
 
-                this.toolStripTextBoxXpath.Text = tabPage.XPathNavigatorTreeView.GetXmlNodeFullPath(node.Navigator);
+                this.toolStripTextBoxXpath.Text = window.XPathNavigatorTreeView.GetXmlNodeFullPath(node.Navigator);
             }
             catch (Exception ex)
             {
@@ -1659,9 +1491,9 @@ namespace XmlExplorer.Controls
         {
             try
             {
-                XmlExplorerTabPage page = this.contextMenuStripTabs.Tag as XmlExplorerTabPage;
+                XmlExplorerWindow page = this.ActiveMdiChild as XmlExplorerWindow;
                 if (page == null)
-                    page = this.tabControl.SelectedTab as XmlExplorerTabPage;
+                    page = this.ActiveMdiChild as XmlExplorerWindow;
 
                 if (page != null)
                 {
@@ -1681,12 +1513,12 @@ namespace XmlExplorer.Controls
         {
             try
             {
-                // get the tab for which the context menu was opened
-                XmlExplorerTabPage page = this.contextMenuStripTabs.Tag as XmlExplorerTabPage;
+                // get the window for which the context menu was opened
+                XmlExplorerWindow page = this.contextMenuStripTabs.Tag as XmlExplorerWindow;
                 if (page == null)
-                    page = this.tabControl.SelectedTab as XmlExplorerTabPage;
+                    page = this.ActiveMdiChild as XmlExplorerWindow;
 
-                // open an explorer window to the folder containing the selected tab's file
+                // open an explorer window to the folder containing the selected window's file
                 if (page != null && !string.IsNullOrEmpty(page.Filename))
                 {
                     // open explorer to the file's parent folder, with the file selected
@@ -1707,7 +1539,7 @@ namespace XmlExplorer.Controls
         {
             try
             {
-                this.AddOrEditXPathExpression(this.toolStripTextBoxXpath.Text);
+                _expressionsWindow.AddOrEditXPathExpression(this.toolStripTextBoxXpath.Text);
             }
             catch (Exception ex)
             {
@@ -1716,110 +1548,19 @@ namespace XmlExplorer.Controls
             }
         }
 
-        private void OnToolStripMenuItemViewExpressionsClick(object sender, EventArgs e)
+        private void OnExpressionsItemActivate(object sender, EventArgs e)
         {
             try
             {
-                bool showExpressions = !this.toolStripMenuItemViewExpressions.Checked;
+                //foreach (ListViewItem item in this.listViewExpressions.SelectedItems)
+                //{
+                //    XPathExpressionListViewItem expressionItem = item as XPathExpressionListViewItem;
 
-                this.ToggleExpressionsVisibility(showExpressions);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-                MessageBox.Show(this, ex.ToString());
-            }
-        }
+                //    if (expressionItem == null)
+                //        continue;
 
-        private void OnButtonCloseExpressionsClick(object sender, EventArgs e)
-        {
-            try
-            {
-                this.ToggleExpressionsVisibility(false);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-                MessageBox.Show(this, ex.ToString());
-            }
-        }
-
-        private void OnTextBoxSearchExpressionsTextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                this.UpdateExpressionSearch(this.textBoxSearchExpressions.Text);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-                MessageBox.Show(this, ex.ToString());
-            }
-        }
-
-        private void OnListViewExpressionsItemActivate(object sender, EventArgs e)
-        {
-            try
-            {
-                foreach (ListViewItem item in this.listViewExpressions.SelectedItems)
-                {
-                    XPathExpressionListViewItem expressionItem = item as XPathExpressionListViewItem;
-
-                    if (expressionItem == null)
-                        continue;
-
-                    this.LaunchXpathResults(this.toolStripTextBoxXpath.Text);
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-                MessageBox.Show(this, ex.ToString());
-            }
-        }
-
-        private void OnListViewExpressionsAfterLabelEdit(object sender, LabelEditEventArgs e)
-        {
-            try
-            {
-                XPathExpressionListViewItem item = this.listViewExpressions.Items[e.Item] as XPathExpressionListViewItem;
-
-                if (item == null)
-                    return;
-
-                item.XPathExpression.Name = e.Label;
-
-                this.AutoSizeListViewColumns(this.listViewExpressions);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-                MessageBox.Show(this, ex.ToString());
-            }
-        }
-
-        private void OnListViewExpressionsKeyDown(object sender, KeyEventArgs e)
-        {
-            try
-            {
-                if (this.listViewExpressions.SelectedItems.Count < 1)
-                    return;
-
-                XPathExpressionListViewItem item = this.listViewExpressions.SelectedItems[0] as XPathExpressionListViewItem;
-
-                if (item == null)
-                    return;
-
-                switch (e.KeyCode)
-                {
-                    case Keys.Enter:
-                        string xpath = item.XPathExpression.Expression;
-                        this.HandleExpressionKeyPress(e, xpath);
-                        break;
-                    case Keys.Delete:
-                        this.DeleteSelectedExpressionItems(e.Shift);
-                        break;
-                }
+                //    this.LaunchXpathResults(this.toolStripTextBoxXpath.Text);
+                //}
             }
             catch (Exception ex)
             {
@@ -1845,7 +1586,7 @@ namespace XmlExplorer.Controls
 
                 //// evaluate the expression
                 //// if successful, the first node of the result set will be selected
-                //// (selection is performed by the tab)
+                //// (selection is performed by the window)
                 //// if there is a problem with the expression, notify the user
                 //// by highlighting the XPath text box
                 //if (!this.FindByXpath(xpath))
@@ -1863,27 +1604,27 @@ namespace XmlExplorer.Controls
         {
             try
             {
-                this.toolStripTextBoxXpath.BackColor = SystemColors.Window;
+                //this.toolStripTextBoxXpath.BackColor = SystemColors.Window;
 
-                if (this.listViewExpressions.SelectedItems.Count < 1)
-                    return;
+                //if (this.listViewExpressions.SelectedItems.Count < 1)
+                //    return;
 
-                XPathExpressionListViewItem item = this.listViewExpressions.SelectedItems[0] as XPathExpressionListViewItem;
+                //XPathExpressionListViewItem item = this.listViewExpressions.SelectedItems[0] as XPathExpressionListViewItem;
 
-                if (item == null)
-                    return;
+                //if (item == null)
+                //    return;
 
-                string xpath = item.XPathExpression.Expression;
-                this.toolStripTextBoxXpath.Text = xpath;
+                //string xpath = item.XPathExpression.Expression;
+                //this.toolStripTextBoxXpath.Text = xpath;
 
-                // evaluate the expression
-                // if successful, the first node of the result set will be selected
-                // (selection is performed by the tab)
-                // if there is a problem with the expression, notify the user
-                // by highlighting the XPath text box
-                if (!this.FindByXpath(xpath))
-                    this.toolStripTextBoxXpath.BackColor = Color.LightPink;
-                this.toolStripTextBoxXpath.SelectionStart = this.toolStripTextBoxXpath.TextLength;
+                //// evaluate the expression
+                //// if successful, the first node of the result set will be selected
+                //// (selection is performed by the window)
+                //// if there is a problem with the expression, notify the user
+                //// by highlighting the XPath text box
+                //if (!this.FindByXpath(xpath))
+                //    this.toolStripTextBoxXpath.BackColor = Color.LightPink;
+                //this.toolStripTextBoxXpath.SelectionStart = this.toolStripTextBoxXpath.TextLength;
             }
             catch (Exception ex)
             {

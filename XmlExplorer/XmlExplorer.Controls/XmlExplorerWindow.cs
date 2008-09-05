@@ -1,18 +1,19 @@
+using System;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
+using System.Text;
+using System.Threading;
+using System.Windows.Forms;
+using System.Xml;
+using System.Xml.Schema;
+using System.Xml.XPath;
+using WeifenLuo.WinFormsUI.Docking;
+using System.Collections.Generic;
+
 namespace XmlExplorer.Controls
 {
-    using System;
-    using System.ComponentModel;
-    using System.Drawing;
-    using System.IO;
-    using System.Runtime.CompilerServices;
-    using System.Windows.Forms;
-    using System.Xml;
-    using System.Diagnostics;
-    using System.Threading;
-    using System.Text;
-    using System.Xml.XPath;
-
-    public partial class XmlExplorerTabPage : TabPage
+    public partial class XmlExplorerWindow : DockContent
     {
         #region Variables
 
@@ -38,10 +39,10 @@ namespace XmlExplorer.Controls
         /// </summary>
         public event EventHandler<CancelEventArgs> BeforeClosed;
 
-        /// <summary>
-        /// Occurs after a tab has been closed, and needs removed from the display.
-        /// </summary>
-        public event EventHandler<EventArgs> NeedsClosed;
+        ///// <summary>
+        ///// Occurs after a tab has been closed, and needs removed from the display.
+        ///// </summary>
+        //public event EventHandler<EventArgs> NeedsClosed;
 
         /// <summary>
         /// Occurs when the asynchronous loading of an xml file has started.
@@ -62,17 +63,18 @@ namespace XmlExplorer.Controls
 
         #region Constructors
 
-        public XmlExplorerTabPage()
+        public XmlExplorerWindow()
             : base()
         {
             this.InitializeComponent();
+
             this.xmlTreeView.HideSelection = false;
             this.xmlTreeView.LabelEdit = true;
             this.xmlTreeView.AfterLabelEdit += new NodeLabelEditEventHandler(xmlTreeView_AfterLabelEdit);
             this.xmlTreeView.ItemDrag += new ItemDragEventHandler(xmlTreeView_ItemDrag);
         }
 
-        public XmlExplorerTabPage(string text)
+        public XmlExplorerWindow(string text)
             : this()
         {
             base.Text = text;
@@ -130,43 +132,30 @@ namespace XmlExplorer.Controls
             set { this.xmlTreeView.UseSyntaxHighlighting = value; }
         }
 
+        public List<ValidationEventArgs> ValidationEventArgs
+        {
+            get
+            {
+                return this.xmlTreeView.ValidationEventArgs;
+            }
+        }
+
+        public string SchemaFileName
+        {
+            get
+            {
+                return this.xmlTreeView.SchemaFileName;
+            }
+
+            set
+            {
+                this.xmlTreeView.SchemaFileName = value;
+            }
+        }
+
         #endregion
 
         #region Methods
-
-        /// <summary>
-        /// Closes the tab, aborting the background thread used for loading if needed.
-        /// </summary>
-        public void Close()
-        {
-            CancelEventArgs e = new CancelEventArgs(false);
-
-            // raise the BeforeClosed event to give the user the chance to cancel, if needed.
-            if (this.BeforeClosed != null)
-                this.BeforeClosed(this, e);
-
-            if (e.Cancel)
-                return;
-
-            // if an xml file is currently being loaded on a background thread
-            if (_loadFileThread != null && _loadFileThread.IsAlive)
-            {
-                try
-                {
-                    // abort the load thread
-                    Debug.WriteLine("Aborting xml document file load thread by user request...");
-                    _loadFileThread.Abort();
-                }
-                catch (ThreadAbortException ex)
-                {
-                    Debug.WriteLine(ex);
-                }
-            }
-
-            // raise the NeedsClosed event, so the tab can be removed from the display
-            if (this.NeedsClosed != null)
-                this.NeedsClosed(this, EventArgs.Empty);
-        }
 
         /// <summary>
         /// Loads XML data from a string.
@@ -187,7 +176,7 @@ namespace XmlExplorer.Controls
 
             // set the tab text and tooltip
             this.Text = Path.GetFileName(filename);
-            this.ToolTipText = filename;
+            //this.ToolTipText = filename;
 
             // begin loading the file on a background thread
             this.BeginLoadFile();
@@ -202,7 +191,7 @@ namespace XmlExplorer.Controls
 
             // set the tab text and tooltip
             this.Text = "<Unknown>";
-            this.ToolTipText = "This file was loaded from a stream (likely due to restricted permissions), and no filename is available.";
+            //this.ToolTipText = "This file was loaded from a stream (likely due to restricted permissions), and no filename is available.";
 
             // begin loading the file on a background thread
             this.BeginLoadFile();
@@ -290,24 +279,34 @@ namespace XmlExplorer.Controls
                     this.LoadingFileStarted(this, EventArgs.Empty);
 
                 Debug.WriteLine(string.Format("Peak RAM Before......{0}", Process.GetCurrentProcess().PeakWorkingSet64.ToString()));
-                Debug.Write("Loading XPathDocument.");
+                Debug.WriteLine("Loading XPathDocument.");
                 DateTime start = DateTime.Now;
 
+                XmlReaderSettings readerSettings = new XmlReaderSettings();
+                
                 // load the document
-                XPathDocument document = null;
+                XmlReader reader = null;
 
                 if (!string.IsNullOrEmpty(_filename))
-                    document = new XPathDocument(_filename);
+                {
+                    reader = XmlReader.Create(_filename, readerSettings);
+                }
                 else if (_stream != null)
-                    document = new XPathDocument(_stream);
+                {
+                    reader = XmlReader.Create(_filename, readerSettings);
+                }
+
+                XPathDocument document = new XPathDocument(reader);
 
                 Debug.WriteLine(string.Format("Done. Elapsed: {0}ms.", DateTime.Now.Subtract(start).TotalMilliseconds));
 
+                reader.Close();
+
                 // the UI has to be updated on the thread that created it, so invoke back to the main UI thread.
                 MethodInvoker del = delegate()
-            {
-                this.LoadDocument(document);
-            };
+                {
+                    this.LoadDocument(document);
+                };
 
                 this.Invoke(del);
 
@@ -495,6 +494,56 @@ namespace XmlExplorer.Controls
                         }
                     }
                 }
+            }
+        }
+
+        public List<ValidationEventArgs> ValidateSchema()
+        {
+            return this.xmlTreeView.Validate();
+        }
+
+        #endregion
+
+        #region Overrides
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            try
+            {
+                CancelEventArgs args = new CancelEventArgs(false);
+
+                // raise the BeforeClosed event to give the user the chance to cancel, if needed.
+                if (this.BeforeClosed != null)
+                    this.BeforeClosed(this, args);
+
+                e.Cancel = args.Cancel;
+
+                if (args.Cancel)
+                    return;
+
+                // if an xml file is currently being loaded on a background thread
+                if (_loadFileThread != null && _loadFileThread.IsAlive)
+                {
+                    try
+                    {
+                        // abort the load thread
+                        Debug.WriteLine("Aborting xml document file load thread by user request...");
+                        _loadFileThread.Abort();
+                    }
+                    catch (ThreadAbortException ex)
+                    {
+                        Debug.WriteLine(ex);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                MessageBox.Show(this, ex.ToString());
+            }
+            finally
+            {
+                base.OnFormClosing(e);
             }
         }
 
