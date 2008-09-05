@@ -22,28 +22,43 @@ namespace XmlExplorer
 		[STAThread]
 		static void Main(string[] args)
 		{
-			Application.EnableVisualStyles();
-			Application.SetCompatibleTextRenderingDefault(false);
+            try
+            {
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
 
-            // initialize the single instance application
-			SingleInstanceApplication application = new SingleInstanceApplication();
-			application.StartupNextInstance += Program.OnStartupNextInstance;
+                // initialize the single instance application
+                SingleInstanceApplication application = new SingleInstanceApplication();
+                application.StartupNextInstance += Program.OnStartupNextInstance;
 
-            // create a new application window
-            _window = new TabbedXmlExplorerWindow();
+                // create a new application window
+                _window = new TabbedXmlExplorerWindow();
 
-            // read any options saved from a previous instance of the application
-            // (window size and position, font, etc)
-            ReadOptions(_window);
+                // read any options saved from a previous instance of the application
+                // (window size and position, font, etc)
+                ReadOptions(_window);
 
-            // open it
-            _window.Open(args);
+                // open it
+                _window.Open(args);
 
-            // start the application
-            application.Run(_window);
+                // start the application
+                application.Run(_window);
 
-            // application window has been closed, save settings
-            Properties.Settings.Default.Save();
+                try
+                {
+                    // application window has been closed, save settings
+                    Properties.Settings.Default.Save();
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                MessageBox.Show(ex.ToString());
+            }
 		}
 
         /// <summary>
