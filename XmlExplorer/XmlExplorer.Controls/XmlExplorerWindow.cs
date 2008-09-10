@@ -422,7 +422,7 @@ namespace XmlExplorer.Controls
         /// <summary>
         /// Overwrites the tab page's file with XML formatting (tabs and crlf's)
         /// </summary>
-        public void SaveWithFormatting()
+        public void Save(bool formatting)
         {
             string filename = _filename;
 
@@ -438,13 +438,13 @@ namespace XmlExplorer.Controls
                 }
             }
 
-            this.SaveAs(filename);
+            this.SaveAs(filename, formatting);
         }
 
         /// <summary>
         /// Prompts the user to save a copy of the tab page's XML file.
         /// </summary>
-        public void SaveAs()
+        public void SaveAs(bool formatting)
         {
             using (SaveFileDialog dialog = new SaveFileDialog())
             {
@@ -456,19 +456,22 @@ namespace XmlExplorer.Controls
                 _filename = dialog.FileName;
             }
 
-            this.SaveAs(_filename);
+            this.SaveAs(_filename, formatting);
         }
 
         /// <summary>
         /// Saves a copy of the tab page's XML file to the specified path.
         /// </summary>
-        public void SaveAs(string filename)
+        public void SaveAs(string filename, bool formatting)
         {
             using (FileStream stream = new FileStream(filename, FileMode.Create, FileAccess.Write, FileShare.None))
             {
                 using (XmlTextWriter writer = new XmlTextWriter(stream, Encoding.Default))
                 {
-                    writer.Formatting = Formatting.Indented;
+                    if (formatting)
+                        writer.Formatting = Formatting.Indented;
+                    else
+                        writer.Formatting = Formatting.None;
 
                     if (_nodes == null)
                     {

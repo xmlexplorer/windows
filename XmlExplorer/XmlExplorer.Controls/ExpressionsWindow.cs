@@ -311,9 +311,9 @@ namespace XmlExplorer.Controls
         {
             try
             {
-                if (e.CancelEdit)
+                if (e.CancelEdit || e.Label == null)
                     return;
-
+                
                 XPathExpressionListViewItem item = this.listViewExpressions.Items[e.Item] as XPathExpressionListViewItem;
 
                 if (item == null)

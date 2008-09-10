@@ -44,7 +44,13 @@ namespace XmlExplorer.Controls
             this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItemSaveWithFormatting = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemSaveAs = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItemSaveWithoutFormatting = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemSaveAsWithoutFormatting = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItemRecentFiles = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemClearRecentFileList = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItemExit = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemEdit = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemCopy = new System.Windows.Forms.ToolStripMenuItem();
@@ -55,6 +61,10 @@ namespace XmlExplorer.Controls
             this.toolStripMenuItemUseHighlighting = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemView = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemRefresh = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemHelp = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemCheckForUpdates = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItemAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripStandardButtons = new System.Windows.Forms.ToolStrip();
             this.toolStripButtonOpen = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonSave = new System.Windows.Forms.ToolStripButton();
@@ -123,7 +133,8 @@ namespace XmlExplorer.Controls
             this.toolStripMenuItemFile,
             this.toolStripMenuItemEdit,
             this.toolStripMenuItemFormat,
-            this.toolStripMenuItemView});
+            this.toolStripMenuItemView,
+            this.toolStripMenuItemHelp});
             this.menuStripMain.Location = new System.Drawing.Point(0, 0);
             this.menuStripMain.Name = "menuStripMain";
             this.menuStripMain.Size = new System.Drawing.Size(792, 24);
@@ -139,7 +150,12 @@ namespace XmlExplorer.Controls
             this.toolStripSeparator,
             this.toolStripMenuItemSaveWithFormatting,
             this.toolStripMenuItemSaveAs,
+            this.toolStripSeparator7,
+            this.toolStripMenuItemSaveWithoutFormatting,
+            this.toolStripMenuItemSaveAsWithoutFormatting,
             this.toolStripSeparator1,
+            this.toolStripMenuItemRecentFiles,
+            this.toolStripSeparator6,
             this.toolStripMenuItemExit});
             this.toolStripMenuItemFile.Name = "toolStripMenuItemFile";
             this.toolStripMenuItemFile.Size = new System.Drawing.Size(35, 20);
@@ -150,51 +166,88 @@ namespace XmlExplorer.Controls
             this.toolStripMenuItemOpen.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItemOpen.Image")));
             this.toolStripMenuItemOpen.Name = "toolStripMenuItemOpen";
             this.toolStripMenuItemOpen.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.toolStripMenuItemOpen.Size = new System.Drawing.Size(220, 22);
+            this.toolStripMenuItemOpen.Size = new System.Drawing.Size(236, 22);
             this.toolStripMenuItemOpen.Text = "&Open...";
             // 
             // toolStripMenuItemOpenInEditor
             // 
             this.toolStripMenuItemOpenInEditor.Name = "toolStripMenuItemOpenInEditor";
             this.toolStripMenuItemOpenInEditor.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
-            this.toolStripMenuItemOpenInEditor.Size = new System.Drawing.Size(220, 22);
+            this.toolStripMenuItemOpenInEditor.Size = new System.Drawing.Size(236, 22);
             this.toolStripMenuItemOpenInEditor.Text = "Open in &Editor";
             // 
             // toolStripMenuItemClose
             // 
             this.toolStripMenuItemClose.Name = "toolStripMenuItemClose";
             this.toolStripMenuItemClose.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F4)));
-            this.toolStripMenuItemClose.Size = new System.Drawing.Size(220, 22);
+            this.toolStripMenuItemClose.Size = new System.Drawing.Size(236, 22);
             this.toolStripMenuItemClose.Text = "&Close";
             // 
             // toolStripSeparator
             // 
             this.toolStripSeparator.Name = "toolStripSeparator";
-            this.toolStripSeparator.Size = new System.Drawing.Size(217, 6);
+            this.toolStripSeparator.Size = new System.Drawing.Size(233, 6);
             // 
             // toolStripMenuItemSaveWithFormatting
             // 
             this.toolStripMenuItemSaveWithFormatting.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItemSaveWithFormatting.Image")));
             this.toolStripMenuItemSaveWithFormatting.Name = "toolStripMenuItemSaveWithFormatting";
             this.toolStripMenuItemSaveWithFormatting.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.toolStripMenuItemSaveWithFormatting.Size = new System.Drawing.Size(220, 22);
+            this.toolStripMenuItemSaveWithFormatting.Size = new System.Drawing.Size(236, 22);
             this.toolStripMenuItemSaveWithFormatting.Text = "&Save (with formatting)";
             // 
             // toolStripMenuItemSaveAs
             // 
             this.toolStripMenuItemSaveAs.Name = "toolStripMenuItemSaveAs";
-            this.toolStripMenuItemSaveAs.Size = new System.Drawing.Size(220, 22);
+            this.toolStripMenuItemSaveAs.Size = new System.Drawing.Size(236, 22);
             this.toolStripMenuItemSaveAs.Text = "Save As... (with formatting)";
+            // 
+            // toolStripSeparator7
+            // 
+            this.toolStripSeparator7.Name = "toolStripSeparator7";
+            this.toolStripSeparator7.Size = new System.Drawing.Size(233, 6);
+            // 
+            // toolStripMenuItemSaveWithoutFormatting
+            // 
+            this.toolStripMenuItemSaveWithoutFormatting.Name = "toolStripMenuItemSaveWithoutFormatting";
+            this.toolStripMenuItemSaveWithoutFormatting.Size = new System.Drawing.Size(236, 22);
+            this.toolStripMenuItemSaveWithoutFormatting.Text = "Save (without formatting)";
+            // 
+            // toolStripMenuItemSaveAsWithoutFormatting
+            // 
+            this.toolStripMenuItemSaveAsWithoutFormatting.Name = "toolStripMenuItemSaveAsWithoutFormatting";
+            this.toolStripMenuItemSaveAsWithoutFormatting.Size = new System.Drawing.Size(236, 22);
+            this.toolStripMenuItemSaveAsWithoutFormatting.Text = "Save As... (without formatting)";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(217, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(233, 6);
+            // 
+            // toolStripMenuItemRecentFiles
+            // 
+            this.toolStripMenuItemRecentFiles.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemClearRecentFileList});
+            this.toolStripMenuItemRecentFiles.Name = "toolStripMenuItemRecentFiles";
+            this.toolStripMenuItemRecentFiles.Size = new System.Drawing.Size(236, 22);
+            this.toolStripMenuItemRecentFiles.Text = "Recent &Files";
+            // 
+            // toolStripMenuItemClearRecentFileList
+            // 
+            this.toolStripMenuItemClearRecentFileList.Image = global::XmlExplorer.Controls.Properties.Resources.DeleteHS;
+            this.toolStripMenuItemClearRecentFileList.Name = "toolStripMenuItemClearRecentFileList";
+            this.toolStripMenuItemClearRecentFileList.Size = new System.Drawing.Size(185, 22);
+            this.toolStripMenuItemClearRecentFileList.Text = "Clear Recent File List";
+            // 
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(233, 6);
             // 
             // toolStripMenuItemExit
             // 
             this.toolStripMenuItemExit.Name = "toolStripMenuItemExit";
-            this.toolStripMenuItemExit.Size = new System.Drawing.Size(220, 22);
+            this.toolStripMenuItemExit.Size = new System.Drawing.Size(236, 22);
             this.toolStripMenuItemExit.Text = "E&xit";
             // 
             // toolStripMenuItemEdit
@@ -212,7 +265,7 @@ namespace XmlExplorer.Controls
             this.toolStripMenuItemCopy.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItemCopy.Image")));
             this.toolStripMenuItemCopy.Name = "toolStripMenuItemCopy";
             this.toolStripMenuItemCopy.ShortcutKeyDisplayString = "Ctrl+C";
-            this.toolStripMenuItemCopy.Size = new System.Drawing.Size(292, 22);
+            this.toolStripMenuItemCopy.Size = new System.Drawing.Size(303, 22);
             this.toolStripMenuItemCopy.Text = "&Copy";
             // 
             // toolStripMenuItemCopyFormattedOuterXml
@@ -222,7 +275,7 @@ namespace XmlExplorer.Controls
             this.toolStripMenuItemCopyFormattedOuterXml.ShortcutKeyDisplayString = "";
             this.toolStripMenuItemCopyFormattedOuterXml.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
                         | System.Windows.Forms.Keys.C)));
-            this.toolStripMenuItemCopyFormattedOuterXml.Size = new System.Drawing.Size(292, 22);
+            this.toolStripMenuItemCopyFormattedOuterXml.Size = new System.Drawing.Size(303, 22);
             this.toolStripMenuItemCopyFormattedOuterXml.Text = "&Copy Formatted Outer XML";
             // 
             // toolStripMenuItemCopyXPath
@@ -231,7 +284,7 @@ namespace XmlExplorer.Controls
             this.toolStripMenuItemCopyXPath.Name = "toolStripMenuItemCopyXPath";
             this.toolStripMenuItemCopyXPath.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt)
                         | System.Windows.Forms.Keys.C)));
-            this.toolStripMenuItemCopyXPath.Size = new System.Drawing.Size(292, 22);
+            this.toolStripMenuItemCopyXPath.Size = new System.Drawing.Size(303, 22);
             this.toolStripMenuItemCopyXPath.Text = "Copy Node &XPath to Address Bar";
             // 
             // toolStripMenuItemFormat
@@ -247,13 +300,13 @@ namespace XmlExplorer.Controls
             // 
             this.toolStripMenuItemFont.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItemFont.Image")));
             this.toolStripMenuItemFont.Name = "toolStripMenuItemFont";
-            this.toolStripMenuItemFont.Size = new System.Drawing.Size(146, 22);
+            this.toolStripMenuItemFont.Size = new System.Drawing.Size(157, 22);
             this.toolStripMenuItemFont.Text = "&Font...";
             // 
             // toolStripMenuItemUseHighlighting
             // 
             this.toolStripMenuItemUseHighlighting.Name = "toolStripMenuItemUseHighlighting";
-            this.toolStripMenuItemUseHighlighting.Size = new System.Drawing.Size(146, 22);
+            this.toolStripMenuItemUseHighlighting.Size = new System.Drawing.Size(157, 22);
             this.toolStripMenuItemUseHighlighting.Text = "&Use Highlighing";
             // 
             // toolStripMenuItemView
@@ -269,8 +322,35 @@ namespace XmlExplorer.Controls
             this.toolStripMenuItemRefresh.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItemRefresh.Image")));
             this.toolStripMenuItemRefresh.Name = "toolStripMenuItemRefresh";
             this.toolStripMenuItemRefresh.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.toolStripMenuItemRefresh.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItemRefresh.Size = new System.Drawing.Size(142, 22);
             this.toolStripMenuItemRefresh.Text = "&Refresh";
+            // 
+            // toolStripMenuItemHelp
+            // 
+            this.toolStripMenuItemHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemCheckForUpdates,
+            this.toolStripSeparator8,
+            this.toolStripMenuItemAbout});
+            this.toolStripMenuItemHelp.Name = "toolStripMenuItemHelp";
+            this.toolStripMenuItemHelp.Size = new System.Drawing.Size(40, 20);
+            this.toolStripMenuItemHelp.Text = "&Help";
+            // 
+            // toolStripMenuItemCheckForUpdates
+            // 
+            this.toolStripMenuItemCheckForUpdates.Name = "toolStripMenuItemCheckForUpdates";
+            this.toolStripMenuItemCheckForUpdates.Size = new System.Drawing.Size(185, 22);
+            this.toolStripMenuItemCheckForUpdates.Text = "Check for updates...";
+            // 
+            // toolStripSeparator8
+            // 
+            this.toolStripSeparator8.Name = "toolStripSeparator8";
+            this.toolStripSeparator8.Size = new System.Drawing.Size(182, 6);
+            // 
+            // toolStripMenuItemAbout
+            // 
+            this.toolStripMenuItemAbout.Name = "toolStripMenuItemAbout";
+            this.toolStripMenuItemAbout.Size = new System.Drawing.Size(185, 22);
+            this.toolStripMenuItemAbout.Text = "&About XML Explorer";
             // 
             // toolStripStandardButtons
             // 
@@ -391,29 +471,29 @@ namespace XmlExplorer.Controls
             this.toolStripMenuItemCopyFullPath,
             this.toolStripMenuItemOpenContainingFolder});
             this.contextMenuStripTabs.Name = "contextMenuStrip";
-            this.contextMenuStripTabs.Size = new System.Drawing.Size(188, 76);
+            this.contextMenuStripTabs.Size = new System.Drawing.Size(199, 76);
             // 
             // contextMenuStripMenuItemClose
             // 
             this.contextMenuStripMenuItemClose.Name = "contextMenuStripMenuItemClose";
-            this.contextMenuStripMenuItemClose.Size = new System.Drawing.Size(187, 22);
+            this.contextMenuStripMenuItemClose.Size = new System.Drawing.Size(198, 22);
             this.contextMenuStripMenuItemClose.Text = "&Close";
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(184, 6);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(195, 6);
             // 
             // toolStripMenuItemCopyFullPath
             // 
             this.toolStripMenuItemCopyFullPath.Name = "toolStripMenuItemCopyFullPath";
-            this.toolStripMenuItemCopyFullPath.Size = new System.Drawing.Size(187, 22);
+            this.toolStripMenuItemCopyFullPath.Size = new System.Drawing.Size(198, 22);
             this.toolStripMenuItemCopyFullPath.Text = "Copy Full Path";
             // 
             // toolStripMenuItemOpenContainingFolder
             // 
             this.toolStripMenuItemOpenContainingFolder.Name = "toolStripMenuItemOpenContainingFolder";
-            this.toolStripMenuItemOpenContainingFolder.Size = new System.Drawing.Size(187, 22);
+            this.toolStripMenuItemOpenContainingFolder.Size = new System.Drawing.Size(198, 22);
             this.toolStripMenuItemOpenContainingFolder.Text = "Open Containing Folder";
             // 
             // contextMenuStripNodes
@@ -423,14 +503,14 @@ namespace XmlExplorer.Controls
             this.contextMenuStripNodesItemCopyFormattedOuterXml,
             this.contextMenuStripNodesItemCopyXPath});
             this.contextMenuStripNodes.Name = "contextMenuStripNodes";
-            this.contextMenuStripNodes.Size = new System.Drawing.Size(233, 70);
+            this.contextMenuStripNodes.Size = new System.Drawing.Size(244, 70);
             // 
             // contextMenuStripNodesItemCopy
             // 
             this.contextMenuStripNodesItemCopy.Image = ((System.Drawing.Image)(resources.GetObject("contextMenuStripNodesItemCopy.Image")));
             this.contextMenuStripNodesItemCopy.Name = "contextMenuStripNodesItemCopy";
             this.contextMenuStripNodesItemCopy.ShortcutKeyDisplayString = "";
-            this.contextMenuStripNodesItemCopy.Size = new System.Drawing.Size(232, 22);
+            this.contextMenuStripNodesItemCopy.Size = new System.Drawing.Size(243, 22);
             this.contextMenuStripNodesItemCopy.Text = "&Copy";
             // 
             // contextMenuStripNodesItemCopyFormattedOuterXml
@@ -438,14 +518,14 @@ namespace XmlExplorer.Controls
             this.contextMenuStripNodesItemCopyFormattedOuterXml.Image = ((System.Drawing.Image)(resources.GetObject("contextMenuStripNodesItemCopyFormattedOuterXml.Image")));
             this.contextMenuStripNodesItemCopyFormattedOuterXml.Name = "contextMenuStripNodesItemCopyFormattedOuterXml";
             this.contextMenuStripNodesItemCopyFormattedOuterXml.ShortcutKeyDisplayString = "";
-            this.contextMenuStripNodesItemCopyFormattedOuterXml.Size = new System.Drawing.Size(232, 22);
+            this.contextMenuStripNodesItemCopyFormattedOuterXml.Size = new System.Drawing.Size(243, 22);
             this.contextMenuStripNodesItemCopyFormattedOuterXml.Text = "&Copy Formatted Outer XML";
             // 
             // contextMenuStripNodesItemCopyXPath
             // 
             this.contextMenuStripNodesItemCopyXPath.Image = global::XmlExplorer.Controls.Properties.Resources.CopyHS;
             this.contextMenuStripNodesItemCopyXPath.Name = "contextMenuStripNodesItemCopyXPath";
-            this.contextMenuStripNodesItemCopyXPath.Size = new System.Drawing.Size(232, 22);
+            this.contextMenuStripNodesItemCopyXPath.Size = new System.Drawing.Size(243, 22);
             this.contextMenuStripNodesItemCopyXPath.Text = "Copy Node &XPath to Address Bar";
             // 
             // dockPanel
@@ -530,5 +610,15 @@ namespace XmlExplorer.Controls
         private ToolStripMenuItem contextMenuStripNodesItemCopyFormattedOuterXml;
         private ToolStripMenuItem contextMenuStripNodesItemCopyXPath;
         private WeifenLuo.WinFormsUI.Docking.DockPanel dockPanel;
+        private ToolStripMenuItem toolStripMenuItemRecentFiles;
+        private ToolStripMenuItem toolStripMenuItemClearRecentFileList;
+        private ToolStripSeparator toolStripSeparator6;
+        private ToolStripMenuItem toolStripMenuItemHelp;
+        private ToolStripMenuItem toolStripMenuItemAbout;
+        private ToolStripSeparator toolStripSeparator7;
+        private ToolStripMenuItem toolStripMenuItemSaveWithoutFormatting;
+        private ToolStripMenuItem toolStripMenuItemSaveAsWithoutFormatting;
+        private ToolStripMenuItem toolStripMenuItemCheckForUpdates;
+        private ToolStripSeparator toolStripSeparator8;
     }
 }

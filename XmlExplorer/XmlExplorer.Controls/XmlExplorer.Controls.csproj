@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{BF406750-6711-4034-A05A-46F8F8026CC4}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -46,6 +46,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AboutBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AboutBox.Designer.cs">
+      <DependentUpon>AboutBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RecentlyUsedFilesStack.cs" />
+    <Compile Include="ReleaseInfo.cs" />
     <Compile Include="ValidationWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -107,8 +115,13 @@
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AboutBox.resx">
+      <DependentUpon>AboutBox.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="ValidationWindow.resx">
       <DependentUpon>ValidationWindow.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ExpressionResultsWindow.resx">
       <DependentUpon>ExpressionResultsWindow.cs</DependentUpon>
@@ -116,6 +129,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ExpressionsWindow.resx">
       <DependentUpon>ExpressionsWindow.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <SubType>Designer</SubType>
@@ -128,6 +142,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="XmlExplorerWindow.resx">
       <DependentUpon>XmlExplorerWindow.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="XPathExpressionDialog.resx">
       <DependentUpon>XPathExpressionDialog.cs</DependentUpon>
@@ -189,6 +204,7 @@
   <ItemGroup>
     <Content Include="Resources\Book_openHS.ico" />
     <None Include="Resources\CheckGrammarHS.png" />
+    <None Include="Resources\DeleteHS.png" />
     <Content Include="Resources\TaskHS.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

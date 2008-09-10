@@ -13,6 +13,10 @@ namespace XmlExplorer.Controls
     using System.IO;
     using System.Security.Permissions;
     using System.Security;
+    using WeifenLuo.WinFormsUI.Docking;
+    using System.Net;
+    using System.Text.RegularExpressions;
+    using System.Reflection;
 
     public partial class TabbedXmlExplorerWindow : Form
     {
@@ -43,6 +47,9 @@ namespace XmlExplorer.Controls
         private ExpressionsWindow _expressionsWindow;
         private ValidationWindow _validationWindow;
 
+        private string _dockSettingsFilename = null;
+        private DeserializeDockContent _deserializeDockContent;
+
         #endregion
 
         #region Constructors
@@ -69,6 +76,7 @@ namespace XmlExplorer.Controls
 
             // wire up all of the toolbar and menu events
             this.toolStripMenuItemFile.DropDownOpening += this.OnToolStripMenuItemFileDropDownOpening;
+            this.toolStripMenuItemRecentFiles.DropDownOpening += this.OnToolStripMenuItemRecentFilesDropDownOpening;
             this.toolStripMenuItemEdit.DropDownOpening += this.OnToolStripMenuItemEditDropDownOpening;
             this.toolStripMenuItemView.DropDownOpening += this.OnToolStripMenuItemViewDropDownOpening;
 
@@ -80,6 +88,7 @@ namespace XmlExplorer.Controls
             this.contextMenuStripMenuItemClose.Click += this.OnToolStripMenuItemCloseClick;
             this.toolStripMenuItemClose.Click += this.OnToolStripMenuItemCloseClick;
 
+            this.toolStripMenuItemClearRecentFileList.Click += this.OnToolStripMenuItemClearRecentFileListClick;
             this.toolStripMenuItemExit.Click += this.OnToolStripMenuItemExitClick;
             this.toolStripMenuItemFont.Click += this.OnToolStripMenuItemFontClick;
 
@@ -108,27 +117,36 @@ namespace XmlExplorer.Controls
             this.toolStripButtonSave.Click += this.OnToolStripButtonSaveClick;
             this.toolStripMenuItemSaveWithFormatting.Click += this.OnToolStripButtonSaveClick;
             this.toolStripMenuItemSaveAs.Click += this.OnToolStripMenuItemSaveAsClick;
+            this.toolStripMenuItemSaveWithoutFormatting.Click += this.OnToolStripMenuItemSaveWithoutFormattingClick;
+            this.toolStripMenuItemSaveAsWithoutFormatting.Click += this.OnToolStripMenuItemSaveAsWithoutFormattingClick;
 
             this.toolStripMenuItemCopyFullPath.Click += this.OnToolStripMenuItemCopyFullPathClick;
             this.toolStripMenuItemOpenContainingFolder.Click += this.OnToolStripMenuItemOpenContainingFolderClick;
 
+            this.toolStripMenuItemCheckForUpdates.Click += this.OnToolStripMenuItemCheckForUpdatesClick;
+            this.toolStripMenuItemAbout.Click += this.OnToolStripMenuItemAboutClick;
+
             this.toolStripStatusLabelChildCount.Text = string.Empty;
 
             this.toolStripButtonXPathExpression.Click += this.OnToolStripButtonXPathExpressionClick;
+
+            this.RecentlyUsedFiles = new RecentlyUsedFilesStack();
 
             // set up the expressions window
             _expressionsWindow = new ExpressionsWindow();
             _expressionsWindow.ShowHint = WeifenLuo.WinFormsUI.Docking.DockState.DockBottom;
             _expressionsWindow.SelectedExpressionChanged += this.OnExpressionsWindow_SelectedExpressionChanged;
             _expressionsWindow.ExpressionsActivated += this.OnExpressionsWindow_ExpressionsActivated;
-            _expressionsWindow.Show(this.dockPanel);
+            //_expressionsWindow.Show(this.dockPanel);
 
             // set up the validation window
             _validationWindow = new ValidationWindow();
             _validationWindow.ValidateSchema += this.OnValidationWindow_Validate;
             _validationWindow.SchemaFileNameChanged += this.OnValidationWindow_SchemaFileNameChanged;
             _validationWindow.ShowHint = WeifenLuo.WinFormsUI.Docking.DockState.DockBottom;
-            _validationWindow.Show(this.dockPanel);
+            //_validationWindow.Show(this.dockPanel);
+
+            _deserializeDockContent = new DeserializeDockContent(this.GetContentFromPersistString);
 
             this.MdiChildActivate += this.OnMdiChildActivate;
 
@@ -185,6 +203,39 @@ namespace XmlExplorer.Controls
                 _expressionsWindow.Expressions = value;
             }
         }
+
+        public DockPanel DockPanel
+        {
+            get
+            {
+                return this.dockPanel;
+            }
+        }
+
+        public DeserializeDockContent DeserializeDockContent
+        {
+            get
+            {
+                return _deserializeDockContent;
+            }
+        }
+
+        public string DockSettingsFilename
+        {
+            get
+            {
+                return _dockSettingsFilename;
+            }
+
+            set
+            {
+                _dockSettingsFilename = value;
+            }
+        }
+
+        public RecentlyUsedFilesStack RecentlyUsedFiles { get; set; }
+
+        public string AutoUpdateUrl { get; set; }
 
         #endregion
 
@@ -284,6 +335,8 @@ namespace XmlExplorer.Controls
 
             // show the window
             window.Show(this.dockPanel);
+
+            this.RecentlyUsedFiles.Add(filename);
 
             this.UpdateTools();
         }
@@ -560,7 +613,7 @@ namespace XmlExplorer.Controls
         /// <summary>
         /// Overwrites the selected window's file with XML formatting (tabs and crlf's)
         /// </summary>
-        private void SaveWithFormatting()
+        private void Save(bool formatting)
         {
             try
             {
@@ -570,7 +623,7 @@ namespace XmlExplorer.Controls
                     return;
 
                 // instruct the window to save with formatting
-                window.SaveWithFormatting();
+                window.Save(formatting);
             }
             catch (Exception ex)
             {
@@ -582,14 +635,14 @@ namespace XmlExplorer.Controls
         /// <summary>
         /// Prompts the user to save a copy of the selected window's XML file.
         /// </summary>
-        private void SaveAs()
+        private void SaveAs(bool formatting)
         {
             try
             {
                 XmlExplorerWindow window = this.ActiveMdiChild as XmlExplorerWindow;
                 if (window == null)
                     return;
-                window.SaveAs();
+                window.SaveAs(formatting);
             }
             catch (Exception ex)
             {
@@ -795,6 +848,59 @@ namespace XmlExplorer.Controls
                 Debug.WriteLine(ex);
                 MessageBox.Show(this, ex.ToString());
             }
+        }
+
+        private IDockContent GetContentFromPersistString(string persistString)
+        {
+            if (persistString == typeof(ExpressionsWindow).ToString())
+                return _expressionsWindow;
+            else if (persistString == typeof(ValidationWindow).ToString())
+                return _validationWindow;
+
+            return null;
+        }
+
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+
+            try
+            {
+                if (_dockSettingsFilename != null && File.Exists(_dockSettingsFilename))
+                    this.dockPanel.LoadFromXml(_dockSettingsFilename, this.DeserializeDockContent);
+
+                if (!_expressionsWindow.Visible)
+                    _expressionsWindow.Show(this.dockPanel);
+                if (!_validationWindow.Visible)
+                    _validationWindow.Show(this.dockPanel);
+            }
+            catch (Exception ex)
+            {
+                Debug.Write(ex);
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            base.OnFormClosing(e);
+
+            try
+            {
+                this.dockPanel.SaveAsXml(_dockSettingsFilename);
+            }
+            catch (Exception ex)
+            {
+                Debug.Write(ex);
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        public void CheckForUpdates(bool userRequested)
+        {
+            WebClient webClient = new WebClient();
+            webClient.DownloadDataCompleted += this.OnDownloadDataCompleted;
+            webClient.DownloadDataAsync(new Uri(this.AutoUpdateUrl), userRequested);
         }
 
         #endregion
@@ -1200,6 +1306,64 @@ namespace XmlExplorer.Controls
             }
         }
 
+        private void OnDownloadDataCompleted(object sender, DownloadDataCompletedEventArgs e)
+        {
+            // TODO: refactor auto update code
+            // this code needs a major refactor, but I really want update notification to be available now! :)
+            try
+            {
+                if (this.InvokeRequired)
+                {
+                    this.Invoke(new DownloadDataCompletedEventHandler(this.OnDownloadDataCompleted), sender, e);
+                    return;
+                }
+
+                bool userRequested = false;
+                if (e.UserState is bool)
+                    userRequested = (bool)e.UserState;
+
+                Version currentVersion = AboutBox.AssemblyVersion;
+
+                ReleaseInfoCollection releases = ReleaseInfoCollection.FromRss(e.Result);
+
+                if (releases == null)
+                {
+                    MessageBox.Show(this, "No updates were found.", AboutBox.AssemblyProduct);
+                    return;
+                }
+
+                ReleaseInfo latest = releases.Latest;
+
+                if (latest == null)
+                {
+                    MessageBox.Show(this, "No updates were found.", AboutBox.AssemblyProduct);
+                    return;
+                }
+
+                if (latest.Version > currentVersion)
+                {
+                    // prompt user
+                    string message = string.Format("{0} version {1} is available.\n\nWould you like to visit the release page?", AboutBox.AssemblyProduct, latest.Version.ToString());
+
+                    DialogResult result = MessageBox.Show(this, message, AboutBox.AssemblyProduct, MessageBoxButtons.YesNo);
+
+                    if (result != DialogResult.Yes)
+                        return;
+
+                    Process.Start(latest.Url);
+                    return;
+                }
+
+                if (userRequested)
+                    MessageBox.Show(this, string.Format("{0} is up to date (v{1})", AboutBox.AssemblyProduct, currentVersion.ToString()), AboutBox.AssemblyProduct);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
         #endregion
 
         #region Tool Event Handlers
@@ -1235,6 +1399,57 @@ namespace XmlExplorer.Controls
             try
             {
                 this.UpdateTools();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                MessageBox.Show(this, ex.ToString());
+            }
+        }
+
+        private void OnToolStripMenuItemRecentFilesDropDownOpening(object sender, EventArgs e)
+        {
+            try
+            {
+                while (this.toolStripMenuItemRecentFiles.DropDownItems.Count > 1)
+                {
+                    this.toolStripMenuItemRecentFiles.DropDownItems[0].Click -= this.OnRecentlyUsedFileItemClick;
+                    this.toolStripMenuItemRecentFiles.DropDownItems.RemoveAt(0);
+                }
+
+                foreach (string filename in this.RecentlyUsedFiles)
+                {
+                    ToolStripItem item = new ToolStripMenuItem(filename);
+                    this.toolStripMenuItemRecentFiles.DropDownItems.Insert(
+                        this.toolStripMenuItemRecentFiles.DropDownItems.IndexOf(this.toolStripMenuItemClearRecentFileList),
+                        item);
+                    item.Click += this.OnRecentlyUsedFileItemClick;
+                    item.Tag = filename;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                MessageBox.Show(this, ex.ToString());
+            }
+        }
+
+        private void OnRecentlyUsedFileItemClick(object sender, EventArgs e)
+        {
+            try
+            {
+                ToolStripItem item = sender as ToolStripItem;
+                if (item == null)
+                    return;
+
+                string filename = item.Tag as string;
+                if (filename == null)
+                    return;
+
+                if (!File.Exists(filename))
+                    return;
+
+                this.Open(filename);
             }
             catch (Exception ex)
             {
@@ -1319,6 +1534,20 @@ namespace XmlExplorer.Controls
             {
                 // close the main application window
                 base.Close();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                MessageBox.Show(this, ex.ToString());
+            }
+        }
+
+
+        private void OnToolStripMenuItemClearRecentFileListClick(object sender, EventArgs e)
+        {
+            try
+            {
+                this.RecentlyUsedFiles.Clear();
             }
             catch (Exception ex)
             {
@@ -1464,7 +1693,7 @@ namespace XmlExplorer.Controls
         {
             try
             {
-                this.SaveAs();
+                this.SaveAs(true);
             }
             catch (Exception ex)
             {
@@ -1477,7 +1706,33 @@ namespace XmlExplorer.Controls
         {
             try
             {
-                this.SaveWithFormatting();
+                this.Save(true);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                MessageBox.Show(this, ex.ToString());
+            }
+        }
+
+        private void OnToolStripMenuItemSaveWithoutFormattingClick(object sender, EventArgs e)
+        {
+            try
+            {
+                this.Save(false);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                MessageBox.Show(this, ex.ToString());
+            }
+        }
+
+        private void OnToolStripMenuItemSaveAsWithoutFormattingClick(object sender, EventArgs e)
+        {
+            try
+            {
+                this.SaveAs(false);
             }
             catch (Exception ex)
             {
@@ -1548,19 +1803,14 @@ namespace XmlExplorer.Controls
             }
         }
 
-        private void OnExpressionsItemActivate(object sender, EventArgs e)
+        private void OnToolStripMenuItemAboutClick(object sender, EventArgs e)
         {
             try
             {
-                //foreach (ListViewItem item in this.listViewExpressions.SelectedItems)
-                //{
-                //    XPathExpressionListViewItem expressionItem = item as XPathExpressionListViewItem;
-
-                //    if (expressionItem == null)
-                //        continue;
-
-                //    this.LaunchXpathResults(this.toolStripTextBoxXpath.Text);
-                //}
+                using (AboutBox aboutBox = new AboutBox())
+                {
+                    aboutBox.ShowDialog(this);
+                }
             }
             catch (Exception ex)
             {
@@ -1569,62 +1819,11 @@ namespace XmlExplorer.Controls
             }
         }
 
-        private void OnListViewExpressionsSelectedIndexChanged(object sender, EventArgs e)
+        private void OnToolStripMenuItemCheckForUpdatesClick(object sender, EventArgs e)
         {
             try
             {
-                //if (this.listViewExpressions.SelectedItems.Count < 1)
-                //    return;
-
-                //XPathExpressionListViewItem item = this.listViewExpressions.SelectedItems[0] as XPathExpressionListViewItem;
-
-                //if (item == null)
-                //    return;
-
-                //string xpath = item.XPathExpression.Expression;
-                //this.toolStripTextBoxXpath.Text = xpath;
-
-                //// evaluate the expression
-                //// if successful, the first node of the result set will be selected
-                //// (selection is performed by the window)
-                //// if there is a problem with the expression, notify the user
-                //// by highlighting the XPath text box
-                //if (!this.FindByXpath(xpath))
-                //    this.toolStripTextBoxXpath.BackColor = Color.LightPink;
-                //this.toolStripTextBoxXpath.SelectionStart = this.toolStripTextBoxXpath.TextLength;
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-                MessageBox.Show(this, ex.ToString());
-            }
-        }
-
-        private void OnListViewExpressionsMouseUp(object sender, MouseEventArgs e)
-        {
-            try
-            {
-                //this.toolStripTextBoxXpath.BackColor = SystemColors.Window;
-
-                //if (this.listViewExpressions.SelectedItems.Count < 1)
-                //    return;
-
-                //XPathExpressionListViewItem item = this.listViewExpressions.SelectedItems[0] as XPathExpressionListViewItem;
-
-                //if (item == null)
-                //    return;
-
-                //string xpath = item.XPathExpression.Expression;
-                //this.toolStripTextBoxXpath.Text = xpath;
-
-                //// evaluate the expression
-                //// if successful, the first node of the result set will be selected
-                //// (selection is performed by the window)
-                //// if there is a problem with the expression, notify the user
-                //// by highlighting the XPath text box
-                //if (!this.FindByXpath(xpath))
-                //    this.toolStripTextBoxXpath.BackColor = Color.LightPink;
-                //this.toolStripTextBoxXpath.SelectionStart = this.toolStripTextBoxXpath.TextLength;
+                this.CheckForUpdates(true);
             }
             catch (Exception ex)
             {

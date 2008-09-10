@@ -26,5 +26,14 @@
     <Setting Name="Expressions" Type="XmlExplorer.Controls.XPathExpressionLibrary" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="UpgradeNeeded" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="RecentlyUsedFiles" Type="XmlExplorer.Controls.RecentlyUsedFilesStack" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="UpdateUrl" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://www.codeplex.com/xmlexplorer/Project/ProjectRss.aspx?ProjectRSSFeed=codeplex://release/xmlexplorer</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

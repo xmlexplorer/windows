@@ -525,8 +525,19 @@ namespace XmlExplorer.Controls
         {
             _validationEventArgs = new List<ValidationEventArgs>();
 
+            // try to dynamically discover the target namespace of the schema
+            XPathDocument schemaDocument = new XPathDocument(_schemaFilename);
+            XPathNavigator schemaNavigator = schemaDocument.CreateNavigator();
+            XmlNamespaceManager xmlNamespaceManager = new XmlNamespaceManager(schemaNavigator.NameTable);
+            schemaNavigator.MoveToFirstChild();
+            xmlNamespaceManager.AddNamespace("", schemaNavigator.NamespaceURI);
+            string targetNamespace = schemaNavigator.Evaluate("string(@targetNamespace)", xmlNamespaceManager) as string;
+
+            // load the schema
             XmlSchemaSet schemas = new XmlSchemaSet();
-            schemas.Add("", _schemaFilename);
+            schemas.Add(targetNamespace, _schemaFilename);
+            
+            // validate the document
             _navigator.CheckValidity(schemas, this.OnValidationEvent);
 
             return _validationEventArgs;
@@ -534,8 +545,6 @@ namespace XmlExplorer.Controls
 
         private void OnValidationEvent(object sender, ValidationEventArgs e)
         {
-            Debug.WriteLine(String.Format("{0} - Line: {1} Position: {2}", e.Message, e.Exception.LineNumber, e.Exception.LinePosition));
-
             _validationEventArgs.Add(e);
 
             XmlSchemaValidationException exception = e.Exception as XmlSchemaValidationException;
@@ -543,6 +552,13 @@ namespace XmlExplorer.Controls
             if (exception == null || exception.SourceObject == null)
                 return;
 
+            /* 
+             * exception.SourceObject is never provided, it's always null.
+             * I've reported this, and am awaiting a response
+             * https://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=366355
+             * Until this is resolved, I cannot provide double-click navigation from a
+             * validation exception to the offending node
+            */
             Debug.WriteLine(exception.SourceObject);
         }
 

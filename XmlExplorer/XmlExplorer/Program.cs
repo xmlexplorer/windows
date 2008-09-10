@@ -9,6 +9,8 @@ using System.Text.RegularExpressions;
 using XmlExplorer.Controls;
 using System.ComponentModel;
 using System.Drawing;
+using System.Configuration;
+using System.IO;
 
 namespace XmlExplorer
 {
@@ -34,12 +36,29 @@ namespace XmlExplorer
                 // create a new application window
                 _window = new TabbedXmlExplorerWindow();
 
+                Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal);
+                Debug.WriteLine("Local user config path: {0}", config.FilePath);
+
+                string dockFilename = Path.GetDirectoryName(config.FilePath);
+                dockFilename = Path.Combine(dockFilename, "user.dock.config");
+                Debug.WriteLine("Local user dock config path: {0}", dockFilename);
+                _window.DockSettingsFilename = dockFilename;
+
+                // upgrade settings from a previous version, if needed
+                if (Properties.Settings.Default.UpgradeNeeded)
+                {
+                    Properties.Settings.Default.Upgrade();
+                    Properties.Settings.Default.UpgradeNeeded = false;
+                }
+
                 // read any options saved from a previous instance of the application
                 // (window size and position, font, etc)
                 ReadOptions(_window);
-
+                
                 // open it
                 _window.Open(args);
+
+                _window.CheckForUpdates(false);
 
                 // start the application
                 application.Run(_window);
@@ -100,6 +119,20 @@ namespace XmlExplorer
                 window.Expressions = Properties.Settings.Default.Expressions;
                 if (window.Expressions == null)
                     window.Expressions = new XPathExpressionLibrary();
+
+                // Recently Used Files
+                window.RecentlyUsedFiles = Properties.Settings.Default.RecentlyUsedFiles;
+                if (window.RecentlyUsedFiles == null)
+                {
+                    window.RecentlyUsedFiles = new RecentlyUsedFilesStack();
+                }
+                else
+                {
+                    // not sure why, but the list gets reversed when persisted
+                    window.RecentlyUsedFiles.Reverse();
+                }
+
+                window.AutoUpdateUrl = Properties.Settings.Default.UpdateUrl;
             }
             catch (Exception ex)
             {
@@ -192,6 +225,7 @@ namespace XmlExplorer
             Properties.Settings.Default.AutoCompleteMode = _window.AutoCompleteMode;
             Properties.Settings.Default.UseSyntaxHighlighting = _window.UseSyntaxHighlighting;
             Properties.Settings.Default.Expressions = _window.Expressions;
+            Properties.Settings.Default.RecentlyUsedFiles = _window.RecentlyUsedFiles;
         }
 
         #endregion
