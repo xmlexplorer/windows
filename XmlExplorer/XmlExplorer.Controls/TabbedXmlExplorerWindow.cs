@@ -160,13 +160,23 @@ namespace XmlExplorer.Controls
         public Font TreeFont
         {
             get { return _treeFont; }
-            set { _treeFont = value; }
+
+            set
+            {
+                _treeFont = value;
+                this.ApplyFont(_treeFont);
+            }
         }
 
         public Color TreeForeColor
         {
             get { return _treeForeColor; }
-            set { _treeForeColor = value; }
+
+            set
+            {
+                _treeForeColor = value;
+                this.ApplyForeColor(_treeForeColor);
+            }
         }
 
         public AutoCompleteMode AutoCompleteMode
@@ -246,13 +256,26 @@ namespace XmlExplorer.Controls
         /// </summary>
         public void ApplyFont()
         {
-            // save the font and forecolor settings
-            _treeFont = _fontDialog.Font;
-            _treeForeColor = _fontDialog.Color;
+            this.ApplyFont(_fontDialog.Font);
+            this.ApplyForeColor(_fontDialog.Color);
+        }
 
-            // apply the font and forecolor to any open windows
-            this.SetXmlExplorerWindowFonts(_fontDialog.Font);
-            this.SetXmlExplorerWindowForeColors(_fontDialog.Color);
+        public void ApplyFont(Font font)
+        {
+            // save the font
+            _treeFont = font;
+
+            // apply the font to any open windows
+            this.SetXmlExplorerWindowFonts(font);
+        }
+
+        public void ApplyForeColor(Color color)
+        {
+            // save the forecolor
+            _treeForeColor = color;
+
+            // apply the forecolor to any open windows
+            this.SetXmlExplorerWindowForeColors(color);
         }
 
         /// <summary>
@@ -866,9 +889,6 @@ namespace XmlExplorer.Controls
 
             try
             {
-                if (_dockSettingsFilename != null && File.Exists(_dockSettingsFilename))
-                    this.dockPanel.LoadFromXml(_dockSettingsFilename, this.DeserializeDockContent);
-
                 if (!_expressionsWindow.Visible)
                     _expressionsWindow.Show(this.dockPanel);
                 if (!_validationWindow.Visible)

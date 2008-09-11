@@ -44,6 +44,9 @@ namespace XmlExplorer
                 Debug.WriteLine("Local user dock config path: {0}", dockFilename);
                 _window.DockSettingsFilename = dockFilename;
 
+                if (dockFilename != null && File.Exists(dockFilename))
+                    _window.DockPanel.LoadFromXml(dockFilename, _window.DeserializeDockContent);
+
                 // upgrade settings from a previous version, if needed
                 if (Properties.Settings.Default.UpgradeNeeded)
                 {
@@ -51,12 +54,12 @@ namespace XmlExplorer
                     Properties.Settings.Default.UpgradeNeeded = false;
                 }
 
+                // open it
+                _window.Open(args);
+
                 // read any options saved from a previous instance of the application
                 // (window size and position, font, etc)
                 ReadOptions(_window);
-                
-                // open it
-                _window.Open(args);
 
                 _window.CheckForUpdates(false);
 
