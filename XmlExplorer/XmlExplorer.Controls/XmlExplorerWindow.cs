@@ -346,7 +346,7 @@ namespace XmlExplorer.Controls
             if (document == null)
                 throw new ArgumentNullException("document");
 
-            Debug.Write("Loading UI.");
+            Debug.WriteLine("Loading UI.");
             DateTime start = DateTime.Now;
             this.xmlTreeView.Navigator = document.CreateNavigator();
             Debug.WriteLine(string.Format("Done. Elapsed: {0}ms.", DateTime.Now.Subtract(start).TotalMilliseconds));

@@ -896,7 +896,7 @@ namespace XmlExplorer.Controls
             }
             catch (Exception ex)
             {
-                Debug.Write(ex);
+                Debug.WriteLine(ex);
                 MessageBox.Show(ex.ToString());
             }
         }
@@ -907,11 +907,16 @@ namespace XmlExplorer.Controls
 
             try
             {
+                string directoryName = Path.GetDirectoryName(_dockSettingsFilename);
+
+                if (!Directory.Exists(directoryName))
+                    Directory.CreateDirectory(directoryName);
+
                 this.dockPanel.SaveAsXml(_dockSettingsFilename);
             }
             catch (Exception ex)
             {
-                Debug.Write(ex);
+                Debug.WriteLine(ex);
                 MessageBox.Show(ex.ToString());
             }
         }

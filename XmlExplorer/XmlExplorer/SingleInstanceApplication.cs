@@ -1,49 +1,57 @@
 namespace XmlExplorer
 {
-    using Microsoft.VisualBasic.ApplicationServices;
-    using System;
-    using System.Collections;
-    using System.Collections.ObjectModel;
+    using System.Diagnostics;
     using System.Windows.Forms;
-	using System.Diagnostics;
-using System.Security.Permissions;
-    using System.Security;
+    using Microsoft.VisualBasic.ApplicationServices;
+    using XmlExplorer.Controls;
 
     public class SingleInstanceApplication : WindowsFormsApplicationBase
     {
-        public SingleInstanceApplication()
+        private static SingleInstanceApplication _instance;
+
+        private TabbedXmlExplorerWindow _mainWindow;
+
+        public TabbedXmlExplorerWindow MainWindow
+        {
+            get
+            {
+                if (_mainWindow == null)
+                    _mainWindow = new TabbedXmlExplorerWindow();
+
+                return _mainWindow;
+            }
+
+            private set
+            {
+                _mainWindow = value;
+            }
+        }
+
+        private SingleInstanceApplication()
         {
             base.IsSingleInstance = true;
-            base.EnableVisualStyles = true;
+            base.MinimumSplashScreenDisplayTime = 0;
         }
 
-        public SingleInstanceApplication(AuthenticationMode mode) : base(mode)
+        public static SingleInstanceApplication Instance
         {
-            base.IsSingleInstance = true;
-            base.EnableVisualStyles = true;
-        }
-
-        private void Run(ReadOnlyCollection<string> commandLineArgs)
-        {
-            ArrayList list = new ArrayList(commandLineArgs);
-            string[] textArray = (string[]) list.ToArray(typeof(string));
-            base.Run(textArray);
-        }
-
-        public virtual void Run(Form mainForm)
-        {
-            base.MainForm = mainForm;
-
-            try
+            get
             {
-                new EnvironmentPermission(EnvironmentPermissionAccess.Read, "PATH").Demand();
-                this.Run(base.CommandLineArgs);
+                if (_instance == null)
+                    _instance = new SingleInstanceApplication();
+
+                return _instance;
             }
-            catch (SecurityException)
-            {
-                MessageBox.Show("Unable to access command-line args due to security restrictions.");
-                this.Run(new string[] { });
-            }
+        }
+
+        protected override void OnCreateMainForm()
+        {
+            this.MainForm = this.MainWindow;
+        }
+
+        protected override void OnCreateSplashScreen()
+        {
+            this.SplashScreen = new SplashScreen();
         }
     }
 }
