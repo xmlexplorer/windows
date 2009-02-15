@@ -212,6 +212,9 @@
     <Content Include="Resources\Book_openHS.ico" />
     <None Include="Resources\CheckGrammarHS.png" />
     <None Include="Resources\DeleteHS.png" />
+    <None Include="Resources\NewDocumentHS.png" />
+    <None Include="Resources\ExpandAll.png" />
+    <None Include="Resources\CollapseAll.png" />
     <Content Include="Resources\TaskHS.ico" />
     <None Include="Resources\XmlExplorer256.png" />
   </ItemGroup>

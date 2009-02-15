@@ -10,6 +10,7 @@ using System.Xml.Schema;
 using System.Xml.XPath;
 using WeifenLuo.WinFormsUI.Docking;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace XmlExplorer.Controls
 {
@@ -72,6 +73,8 @@ namespace XmlExplorer.Controls
             this.xmlTreeView.LabelEdit = true;
             this.xmlTreeView.AfterLabelEdit += new NodeLabelEditEventHandler(xmlTreeView_AfterLabelEdit);
             this.xmlTreeView.ItemDrag += new ItemDragEventHandler(xmlTreeView_ItemDrag);
+
+            this.Text = "Untitled";
         }
 
         public XmlExplorerWindow(string text)
@@ -119,6 +122,15 @@ namespace XmlExplorer.Controls
             {
                 return _filename;
             }
+
+            private set
+            {
+                _filename = value;
+
+                // set the tab text and tooltip
+                this.Text = Path.GetFileName(value);
+                //this.ToolTipText = filename;
+            }
         }
 
         /// <summary>
@@ -153,6 +165,30 @@ namespace XmlExplorer.Controls
             }
         }
 
+        public Font XmlFont
+        {
+            get
+            {
+                return this.xmlTreeView.Font;
+            }
+            set
+            {
+                this.xmlTreeView.Font = value;
+            }
+        }
+
+        public Color XmlForeColor
+        {
+            get
+            {
+                return this.xmlTreeView.ForeColor;
+            }
+            set
+            {
+                this.xmlTreeView.ForeColor = value;
+            }
+        }
+
         #endregion
 
         #region Methods
@@ -172,11 +208,7 @@ namespace XmlExplorer.Controls
         /// <param name="filename"></param>
         public void Open(string filename)
         {
-            _filename = filename;
-
-            // set the tab text and tooltip
-            this.Text = Path.GetFileName(filename);
-            //this.ToolTipText = filename;
+            this.Filename = filename;
 
             // begin loading the file on a background thread
             this.BeginLoadFile();
@@ -283,7 +315,9 @@ namespace XmlExplorer.Controls
                 DateTime start = DateTime.Now;
 
                 XmlReaderSettings readerSettings = new XmlReaderSettings();
-                
+
+                readerSettings.ConformanceLevel = ConformanceLevel.Fragment;
+
                 // load the document
                 XmlReader reader = null;
 
@@ -404,17 +438,26 @@ namespace XmlExplorer.Controls
         /// </summary>
         public string GetXmlTreeNodeFormattedOuterXml(XPathNavigatorTreeNode node)
         {
+            return this.GetXPathNavigatorFormattedOuterXml(node.Navigator);
+        }
+
+        public string GetXPathNavigatorFormattedOuterXml(XPathNavigator navigator)
+        {
             using (MemoryStream stream = new MemoryStream())
             {
-                using (XmlTextWriter writer = new XmlTextWriter(stream, Encoding.Default))
-                {
-                    writer.Formatting = Formatting.Indented;
+                XmlWriterSettings settings = new XmlWriterSettings();
 
-                    node.Navigator.WriteSubtree(writer);
+                settings.Encoding = Encoding.UTF8;
+                settings.Indent = true;
+                settings.OmitXmlDeclaration = false;
+
+                using (XmlWriter writer = XmlTextWriter.Create(stream, settings))
+                {
+                    navigator.WriteSubtree(writer);
 
                     writer.Flush();
 
-                    return Encoding.Default.GetString(stream.ToArray());
+                    return Encoding.UTF8.GetString(stream.ToArray());
                 }
             }
         }
@@ -424,9 +467,7 @@ namespace XmlExplorer.Controls
         /// </summary>
         public void Save(bool formatting)
         {
-            string filename = _filename;
-
-            if (string.IsNullOrEmpty(filename))
+            if (string.IsNullOrEmpty(_filename))
             {
                 using (SaveFileDialog dialog = new SaveFileDialog())
                 {
@@ -434,11 +475,11 @@ namespace XmlExplorer.Controls
                     if (dialog.ShowDialog(this) != DialogResult.OK)
                         return;
 
-                    filename = dialog.FileName;
+                    this.Filename = dialog.FileName;
                 }
             }
 
-            this.SaveAs(filename, formatting);
+            this.SaveAs(_filename, formatting);
         }
 
         /// <summary>
@@ -453,7 +494,7 @@ namespace XmlExplorer.Controls
                 if (dialog.ShowDialog(this) != DialogResult.OK)
                     return;
 
-                _filename = dialog.FileName;
+                this.Filename = dialog.FileName;
             }
 
             this.SaveAs(_filename, formatting);
@@ -466,43 +507,117 @@ namespace XmlExplorer.Controls
         {
             using (FileStream stream = new FileStream(filename, FileMode.Create, FileAccess.Write, FileShare.None))
             {
-                using (XmlTextWriter writer = new XmlTextWriter(stream, Encoding.Default))
+                this.Save(stream, formatting);
+            }
+        }
+
+        private void Save(Stream stream, bool formatting)
+        {
+            XmlWriterSettings settings = new XmlWriterSettings();
+
+            settings.ConformanceLevel = ConformanceLevel.Fragment;
+            settings.Encoding = Encoding.UTF8;
+            settings.OmitXmlDeclaration = false;
+            settings.Indent = formatting;
+
+            using (XmlWriter writer = XmlTextWriter.Create(stream, settings))
+            {
+                if (_nodes == null && this.xmlTreeView.Navigator != null)
                 {
-                    if (formatting)
-                        writer.Formatting = Formatting.Indented;
-                    else
-                        writer.Formatting = Formatting.None;
-
-                    if (_nodes == null)
+                    this.xmlTreeView.Navigator.WriteSubtree(writer);
+                }
+                else if (_nodes != null)
+                {
+                    foreach (XPathNavigator node in _nodes)
                     {
-                        this.xmlTreeView.Navigator.WriteSubtree(writer);
-                    }
-                    else
-                    {
-                        foreach (XPathNavigator node in _nodes)
+                        switch (node.NodeType)
                         {
-                            switch (node.NodeType)
-                            {
-                                case XPathNodeType.Attribute:
-                                    writer.WriteString(node.Value);
-                                    writer.WriteWhitespace(Environment.NewLine);
-                                    break;
+                            case XPathNodeType.Attribute:
+                                writer.WriteString(node.Value);
+                                writer.WriteWhitespace(Environment.NewLine);
+                                break;
 
-                                default:
-                                    node.WriteSubtree(writer);
-                                    if (node.NodeType == XPathNodeType.Text)
-                                        writer.WriteWhitespace(Environment.NewLine);
-                                    break;
-                            }
+                            default:
+                                node.WriteSubtree(writer);
+                                if (node.NodeType == XPathNodeType.Text)
+                                    writer.WriteWhitespace(Environment.NewLine);
+                                break;
                         }
                     }
                 }
+
+                writer.Flush();
             }
         }
 
         public List<ValidationEventArgs> ValidateSchema()
         {
             return this.xmlTreeView.Validate();
+        }
+
+        public void ExpandAll()
+        {
+            TreeNode selected = this.xmlTreeView.SelectedNode;
+
+            if (selected == null)
+            {
+                if (this.xmlTreeView.Nodes.Count > 0)
+                    selected = this.xmlTreeView.Nodes[0];
+                else
+                    return;
+            }
+
+            try
+            {
+                this.xmlTreeView.BeginUpdate();
+
+                selected.ExpandAll();
+            }
+            finally
+            {
+                this.xmlTreeView.EndUpdate();
+            }
+        }
+
+        public void CollapseAll()
+        {
+            TreeNode selected = this.xmlTreeView.SelectedNode as TreeNode;
+
+            if (selected == null)
+            {
+                if (this.xmlTreeView.Nodes.Count > 0)
+                    selected = this.xmlTreeView.Nodes[0];
+                else
+                    return;
+            }
+
+            try
+            {
+                this.xmlTreeView.BeginUpdate();
+
+                this.CollapseAll(selected);
+            }
+            finally
+            {
+                this.xmlTreeView.EndUpdate();
+            }
+        }
+
+        private void CollapseAll(TreeNode treeNode)
+        {
+            if (treeNode == null)
+                return;
+
+            if (treeNode.Nodes != null)
+            {
+                foreach (TreeNode childNode in treeNode.Nodes)
+                {
+                    this.CollapseAll(childNode);
+                }
+            }
+
+            if(treeNode.IsExpanded)
+                treeNode.Collapse();
         }
 
         #endregion
@@ -563,12 +678,12 @@ namespace XmlExplorer.Controls
             }
         }
 
-        void xmlTreeView_AfterLabelEdit(object sender, NodeLabelEditEventArgs e)
+        private void xmlTreeView_AfterLabelEdit(object sender, NodeLabelEditEventArgs e)
         {
             e.CancelEdit = true;
         }
 
-        void xmlTreeView_ItemDrag(object sender, ItemDragEventArgs e)
+        private void xmlTreeView_ItemDrag(object sender, ItemDragEventArgs e)
         {
             string text = string.Empty;
 
@@ -588,6 +703,7 @@ namespace XmlExplorer.Controls
         }
 
         #endregion
+
     }
 }
 

@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("XmlExplorer.Controls")]
-[assembly: AssemblyDescription("Docking functionality in XML Explorer is provided by the DockPanel Suite library available at http://sourceforge.net/projects/dockpanelsuite/.  Many thanks to the contributors of this excellect project.")]
+[assembly: AssemblyDescription("Docking functionality in XML Explorer is provided by the DockPanel Suite library available at http://sourceforge.net/projects/dockpanelsuite/.  Many thanks to the contributors of this excellent project.")]
 [assembly: AssemblyConfiguration("XmlExplorer.Controls")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("XML Explorer")]

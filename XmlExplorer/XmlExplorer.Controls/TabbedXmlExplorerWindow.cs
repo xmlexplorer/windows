@@ -94,6 +94,8 @@ namespace XmlExplorer.Controls
 
             this.toolStripMenuItemUseHighlighting.Click += this.OnToolStripMenuItemUseHighlightingClick;
 
+            this.toolStripMenuItemNewFromClipboard.Click += this.OnToolStripButtonNewFromClipboardClick;
+
             this.toolStripMenuItemOpen.Click += this.OnToolStripButtonOpenClick;
             this.toolStripButtonOpen.Click += this.OnToolStripButtonOpenClick;
 
@@ -111,6 +113,12 @@ namespace XmlExplorer.Controls
 
             this.toolStripMenuItemCopyXPath.Click += this.OnToolStripMenuItemCopyXPathClick;
             this.contextMenuStripNodesItemCopyXPath.Click += this.OnToolStripMenuItemCopyXPathClick;
+
+            this.toolStripMenuItemCollapseAll.Click += this.OnToolStripMenuItemCollapseAllClick;
+            this.contextMenuStripItemNodesCollapeAll.Click += this.OnToolStripMenuItemCollapseAllClick;
+
+            this.toolStripMenuItemExpandAll.Click += this.OnToolStripMenuItemExpandAllClick;
+            this.contextMenuStripItemNodesExpandAll.Click += this.OnToolStripMenuItemExpandAllClick;
 
             this.toolStripButtonLaunchXpath.Click += this.OnToolStripButtonLaunchXpathClick;
 
@@ -295,6 +303,19 @@ namespace XmlExplorer.Controls
             }
         }
 
+        public void NewFromClipboard()
+        {
+            // create a window
+            XmlExplorerWindow window = this.CreateXmlExplorerWindow();
+
+            window.LoadXml(Clipboard.GetText());
+
+            // show the window
+            window.Show(this.dockPanel);
+
+            this.UpdateTools();
+        }
+
         // Shows the open file dialog, and opens the file(s) specified by the user, if any.
         private void Open()
         {
@@ -464,8 +485,8 @@ namespace XmlExplorer.Controls
         /// <param name="window">The XmlExplorerWindow to initialize.</param>
         private void ReadWindowOptions(XmlExplorerWindow window)
         {
-            window.XPathNavigatorTreeView.Font = _treeFont;
-            window.XPathNavigatorTreeView.ForeColor = _treeForeColor;
+            window.XmlFont = _treeFont;
+            window.XmlForeColor = _treeForeColor;
             window.UseSyntaxHighlighting = _useSyntaxHighlighting;
         }
 
@@ -687,7 +708,7 @@ namespace XmlExplorer.Controls
                 if (xmlExplorerWindow == null)
                     continue;
 
-                xmlExplorerWindow.XPathNavigatorTreeView.ForeColor = color;
+                xmlExplorerWindow.XmlForeColor = color;
             }
         }
 
@@ -704,7 +725,7 @@ namespace XmlExplorer.Controls
                 if (xmlExplorerWindow == null)
                     continue;
 
-                xmlExplorerWindow.XPathNavigatorTreeView.Font = font;
+                xmlExplorerWindow.XmlFont = font;
             }
         }
 
@@ -852,6 +873,10 @@ namespace XmlExplorer.Controls
                 // update any tools that depend on one or more windows being open
                 bool hasOpenWindows = this.MdiChildren.Length > 0 && !isLastWindowClosing;
 
+                bool clipboardContainsText = Clipboard.ContainsText();
+
+                this.toolStripMenuItemNewFromClipboard.Enabled = clipboardContainsText;
+
                 this.toolStripMenuItemOpenInEditor.Enabled = hasOpenWindows;
                 this.toolStripMenuItemClose.Enabled = hasOpenWindows;
                 this.toolStripMenuItemSaveAs.Enabled = hasOpenWindows;
@@ -862,6 +887,9 @@ namespace XmlExplorer.Controls
                 this.toolStripButtonCopyFormattedOuterXml.Enabled = hasOpenWindows;
                 this.toolStripMenuItemCopy.Enabled = hasOpenWindows;
                 this.toolStripMenuItemCopyXPath.Enabled = hasOpenWindows;
+
+                this.toolStripMenuItemExpandAll.Enabled = hasOpenWindows;
+                this.toolStripMenuItemCollapseAll.Enabled = hasOpenWindows;
 
                 this.toolStripMenuItemRefresh.Enabled = hasOpenWindows;
                 this.toolStripButtonRefresh.Enabled = hasOpenWindows;
@@ -928,6 +956,28 @@ namespace XmlExplorer.Controls
             webClient.DownloadDataAsync(new Uri(this.AutoUpdateUrl), userRequested);
         }
 
+        public void ExpandAll()
+        {
+            // get the selected window
+            XmlExplorerWindow window = this.ActiveMdiChild as XmlExplorerWindow;
+            if (window == null)
+                return;
+
+            // instruct the window to copy
+            window.ExpandAll();
+        }
+
+        public void CollapseAll()
+        {
+            // get the selected window
+            XmlExplorerWindow window = this.ActiveMdiChild as XmlExplorerWindow;
+            if (window == null)
+                return;
+
+            // instruct the window to copy
+            window.CollapseAll();
+        }
+
         #endregion
 
         #region Event Handlers
@@ -987,7 +1037,7 @@ namespace XmlExplorer.Controls
             }
         }
 
-        void OnMdiChildActivate(object sender, EventArgs e)
+        private void OnMdiChildActivate(object sender, EventArgs e)
         {
             try
             {
@@ -1262,7 +1312,7 @@ namespace XmlExplorer.Controls
             }
         }
 
-        void OnChildWindowFormClosed(object sender, FormClosedEventArgs e)
+        private void OnChildWindowFormClosed(object sender, FormClosedEventArgs e)
         {
             try
             {
@@ -1289,7 +1339,7 @@ namespace XmlExplorer.Controls
             }
         }
 
-        void OnValidationWindow_SchemaFileNameChanged(object sender, EventArgs e)
+        private void OnValidationWindow_SchemaFileNameChanged(object sender, EventArgs e)
         {
             try
             {
@@ -1308,7 +1358,7 @@ namespace XmlExplorer.Controls
             }
         }
 
-        void OnValidationWindow_Validate(object sender, EventArgs e)
+        private void OnValidationWindow_Validate(object sender, EventArgs e)
         {
             try
             {
@@ -1607,6 +1657,19 @@ namespace XmlExplorer.Controls
             }
         }
 
+        void OnToolStripButtonNewFromClipboardClick(object sender, EventArgs e)
+        {
+            try
+            {
+                this.NewFromClipboard();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                MessageBox.Show(this, ex.ToString());
+            }
+        }
+
         private void OnToolStripButtonOpenClick(object sender, EventArgs e)
         {
             try
@@ -1849,6 +1912,32 @@ namespace XmlExplorer.Controls
             try
             {
                 this.CheckForUpdates(true);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                MessageBox.Show(this, ex.ToString());
+            }
+        }
+        
+        private void OnToolStripMenuItemExpandAllClick(object sender, EventArgs e)
+        {
+            try
+            {
+                this.ExpandAll();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                MessageBox.Show(this, ex.ToString());
+            }
+        }
+
+        private void OnToolStripMenuItemCollapseAllClick(object sender, EventArgs e)
+        {
+            try
+            {
+                this.CollapseAll();
             }
             catch (Exception ex)
             {

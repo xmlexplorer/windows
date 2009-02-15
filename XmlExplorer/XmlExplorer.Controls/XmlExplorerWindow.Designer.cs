@@ -41,8 +41,9 @@ namespace XmlExplorer.Controls
             this.xmlTreeView.Location = new System.Drawing.Point(0, 0);
             this.xmlTreeView.Name = "xmlTreeView";
             this.xmlTreeView.Navigator = null;
+            this.xmlTreeView.SchemaFileName = null;
             this.xmlTreeView.Size = new System.Drawing.Size(292, 266);
-            this.xmlTreeView.TabIndex = 0;
+            this.xmlTreeView.TabIndex = 4;
             this.xmlTreeView.UseSyntaxHighlighting = true;
             // 
             // XmlExplorerWindow
@@ -58,5 +59,6 @@ namespace XmlExplorer.Controls
         #endregion
 
         private XPathNavigatorTreeView xmlTreeView;
+
     }
 }

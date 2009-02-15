@@ -55,7 +55,7 @@
             // pictureBoxSearch
             // 
             this.pictureBoxSearch.Image = global::XmlExplorer.Controls.Properties.Resources.ZoomHS;
-            this.pictureBoxSearch.Location = new System.Drawing.Point(172, 7);
+            this.pictureBoxSearch.Location = new System.Drawing.Point(3, 6);
             this.pictureBoxSearch.Name = "pictureBoxSearch";
             this.pictureBoxSearch.Size = new System.Drawing.Size(16, 20);
             this.pictureBoxSearch.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -99,9 +99,9 @@
             // 
             this.textBoxSearchExpressions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxSearchExpressions.Location = new System.Drawing.Point(194, 6);
+            this.textBoxSearchExpressions.Location = new System.Drawing.Point(25, 6);
             this.textBoxSearchExpressions.Name = "textBoxSearchExpressions";
-            this.textBoxSearchExpressions.Size = new System.Drawing.Size(544, 20);
+            this.textBoxSearchExpressions.Size = new System.Drawing.Size(713, 20);
             this.textBoxSearchExpressions.TabIndex = 2;
             // 
             // ExpressionsWindow

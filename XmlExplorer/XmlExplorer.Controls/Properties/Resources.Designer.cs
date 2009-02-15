@@ -81,6 +81,13 @@ namespace XmlExplorer.Controls.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap CollapseAll {
+            get {
+                object obj = ResourceManager.GetObject("CollapseAll", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap CopyHS {
             get {
                 object obj = ResourceManager.GetObject("CopyHS", resourceCulture);
@@ -95,6 +102,13 @@ namespace XmlExplorer.Controls.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap ExpandAll {
+            get {
+                object obj = ResourceManager.GetObject("ExpandAll", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap FontHS {
             get {
                 object obj = ResourceManager.GetObject("FontHS", resourceCulture);
@@ -105,6 +119,13 @@ namespace XmlExplorer.Controls.Properties {
         internal static System.Drawing.Bitmap FullScreenHS {
             get {
                 object obj = ResourceManager.GetObject("FullScreenHS", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap NewDocumentHS {
+            get {
+                object obj = ResourceManager.GetObject("NewDocumentHS", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

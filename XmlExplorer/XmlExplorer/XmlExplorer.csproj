@@ -107,6 +107,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.ico" />
+    <None Include="Resources\ExpandAll.png" />
+    <None Include="Resources\CollapseAll.png" />
     <None Include="Resources\XmlExplorer256.gif" />
     <None Include="app.config" />
   </ItemGroup>
