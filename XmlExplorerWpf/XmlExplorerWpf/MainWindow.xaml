@@ -1,0 +1,230 @@
+﻿<Window x:Class="XmlExplorer.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:sysxml="clr-namespace:System.Xml;assembly=System.Xml"
+    Title="XML Explorer">
+
+    <Window.Resources>
+
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="AppCommands.xaml" />
+                <ResourceDictionary>
+
+                    <Style TargetType="Image">
+                        <Setter Property="Stretch" Value="None" />
+                        <Setter Property="RenderOptions.BitmapScalingMode" Value="NearestNeighbor" />
+                        <Setter Property="IsEnabled" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}, AncestorLevel=1}, Path=IsEnabled}" />
+                        <Style.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.4"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+
+                    <!--<CollectionViewSource
+                        Source="{Binding Source={x:Static Fonts.SystemFontFamilies}}"
+                            x:Key="myFonts"/>-->
+                    
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+
+    </Window.Resources>
+
+    <DockPanel LastChildFill="True">
+        <Menu DockPanel.Dock="Top" IsMainMenu="True">
+            <MenuItem Header="_File">
+                <MenuItem Command="{StaticResource NewCommand}" ToolTip="Create a new document. (Ctrl+N)" InputGestureText="Ctrl+N">
+                    <MenuItem.Icon>
+                        <Image Source="Resources\New16.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Command="{StaticResource OpenCommand}" ToolTip="Open an existing document. (Ctrl+O)" InputGestureText="Ctrl+O">
+                    <MenuItem.Icon>
+                        <Image Source="Resources\Open16.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Command="{StaticResource CloseCommand}" ToolTip="Close the active document. (Ctrl+F4)" InputGestureText="Ctrl+F4">
+                    <MenuItem.Icon>
+                        <Image Source="Resources\Exit10.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator />
+                <MenuItem Command="{StaticResource SaveWithFormattingCommand}" ToolTip="Save the active document with formatting. (Ctrl+S)" InputGestureText="Ctrl+S">
+                    <MenuItem.Icon>
+                        <Image Source="Resources\Save16.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Command="{StaticResource SaveWithoutFormattingCommand}" ToolTip="Save the active document without formatting.">
+                    <MenuItem.Icon>
+                        <Image Source="Resources\Save16.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator />
+                <MenuItem Command="{StaticResource SaveAsWithFormattingCommand}" ToolTip="Save the active document to a new file with formatting.">
+                    <MenuItem.Icon>
+                        <Image Source="Resources\SaveAs16.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Command="{StaticResource SaveAsWithoutFormattingCommand}" ToolTip="Save the active document to a new file without formatting.">
+                    <MenuItem.Icon>
+                        <Image Source="Resources\SaveAs16.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator />
+                <MenuItem Command="{StaticResource ExitCommand}" ToolTip="Exit XML Explorer.">
+                    <MenuItem.Icon>
+                        <Image Source="Resources\Exit16.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="_Edit">
+                <MenuItem Command="{StaticResource CopyXmlCommand}" ToolTip="Copy the formatted XML of the selected node. (Ctrl+C)" InputGestureText="Ctrl+C">
+                    <MenuItem.Icon>
+                        <Image Source="Resources\Copy16.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Command="{StaticResource CopyXPathCommand}" ToolTip="Copy the XPath of the selected node. (Ctrl+Shift+C)" InputGestureText="Ctrl+Shift+C">
+                    <MenuItem.Icon>
+                        <Image Source="Resources\Copy16.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="_View">
+                <MenuItem Command="{StaticResource RefreshCommand}" ToolTip="Reload the current document. (F5)" InputGestureText="F5">
+                    <MenuItem.Icon>
+                        <Image Source="Resources\Refresh16.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator />
+                <MenuItem Command="{StaticResource ExpandAllCommand}" ToolTip="Expands the selected node and all child nodes. (Alt+Right)" InputGestureText="Alt+Right">
+                    <MenuItem.Icon>
+                        <Image Source="Resources\ExpandAll.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Command="{StaticResource CollapseAllCommand}" ToolTip="Collapses the selected node and all child nodes. (Alt+Left)" InputGestureText="Alt+Left">
+                    <MenuItem.Icon>
+                        <Image Source="Resources\CollapseAll.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="_Help">
+                <MenuItem Command="{StaticResource AboutCommand}">
+                    <MenuItem.Icon>
+                        <Image Source="Resources\XmlExplorer16.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+
+        <ToolBarTray DockPanel.Dock="Top" IsLocked="True" HorizontalAlignment="Stretch" >
+            <ToolBar Band="0" BandIndex="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                <ToolBar.Resources>
+                    <Style TargetType="ToolBarPanel">
+                        <Setter Property="HorizontalAlignment" Value="Stretch" />
+                    </Style>
+                </ToolBar.Resources>
+                <Button Command="{StaticResource NewCommand}" ToolTip="Create a new document. (Ctrl+N)">
+                    <Image Source="Resources\New16.png" />
+                </Button>
+                <Button Command="{StaticResource OpenCommand}" ToolTip="Open an existing document. (Ctrl+O)">
+                    <Image Source="Resources\Open16.png" />
+                </Button>
+                <Button Command="{StaticResource SaveWithFormattingCommand}" ToolTip="Save the active document with formatting. (Ctrl+S)">
+                    <Image Source="Resources\Save16.png" />
+                </Button>
+                <Separator />
+                <Button Command="{StaticResource CopyXmlCommand}" ToolTip="Copy formatted XML. (Ctrl+C)">
+                    <Image Source="Resources\Copy16.png" />
+                </Button>
+                <Separator />
+                <Button Command="{StaticResource RefreshCommand}" ToolTip="Reload the current document. (F5)">
+                    <Image Source="Resources\Refresh16.png" />
+                </Button>
+                <Separator />
+                <Button Command="{StaticResource ExpandAllCommand}" ToolTip="Expands the selected node and all child nodes. (Alt+Right)">
+                    <Image Source="Resources\ExpandAll.png" />
+                </Button>
+                <Button Command="{StaticResource CollapseAllCommand}" ToolTip="Collapses the selected node and all child nodes. (Alt+Left)">
+                    <Image Source="Resources\CollapseAll.png" />
+                </Button>
+                <Label Target="{Binding ElementName=textBoxXPath}">_XPath:</Label>
+                <TextBox Name="textBoxXPath" HorizontalAlignment="Stretch" MinWidth="200" Width="auto" IsEnabled="{Binding ElementName=buttonSelectXPath, Path=IsEnabled}"
+                         KeyDown="textBoxXPath_KeyDown" PreviewKeyDown="textBoxXPath_PreviewKeyDown" /> <!--IsEditable="True" TextBoxBase.TextChanged="textBoxXPath_TextChanged"-->
+                <Button Name="buttonSelectXPath" Command="{StaticResource SelectXPathCommand}" CommandParameter="{Binding ElementName=textBoxXPath, Path=Text}" 
+                        ToolTip="Selects the first node that matches the XPath expression.">
+                    <Image Source="Resources\Search16.png" />
+                </Button>
+                <Button Command="{StaticResource LaunchXPathCommand}" CommandParameter="{Binding ElementName=textBoxXPath, Path=Text}"
+                        ToolTip="Launches the complete result of the XPath expression in a new tab.">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="Resources\Launch16.png" />
+                        <TextBlock Margin="3,0,0,0">Launch</TextBlock>
+                    </StackPanel>
+                </Button>
+            </ToolBar>
+        </ToolBarTray>
+
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem HorizontalAlignment="Left">
+                <TextBlock Name="statusBarItemMain" />
+            </StatusBarItem>
+        </StatusBar>
+        
+        <TabControl x:Name="tabControl" />
+
+    </DockPanel>
+
+    <Window.CommandBindings>
+
+        <CommandBinding Command="{StaticResource CopyXmlCommand}" Executed="CopyXmlCommand_Executed" CanExecute="CopyXmlCommand_CanExecute" />
+        <CommandBinding Command="{StaticResource CopyXPathCommand}" Executed="CopyXPathCommand_Executed" CanExecute="CopyXPathCommand_CanExecute" />
+        <CommandBinding Command="{StaticResource OpenCommand}" Executed="OpenCommand_Executed" CanExecute="OpenCommand_CanExecute" />
+
+        <CommandBinding Command="{StaticResource SaveWithFormattingCommand}" Executed="SaveWithFormattingCommand_Executed" CanExecute="SaveWithFormattingCommand_CanExecute" />
+        <CommandBinding Command="{StaticResource SaveWithoutFormattingCommand}" Executed="SaveWithoutFormattingCommand_Executed" CanExecute="SaveWithoutFormattingCommand_CanExecute" />
+
+        <CommandBinding Command="{StaticResource SaveAsWithFormattingCommand}" Executed="SaveAsWithFormattingCommand_Executed" CanExecute="SaveAsWithFormattingCommand_CanExecute" />
+        <CommandBinding Command="{StaticResource SaveAsWithoutFormattingCommand}" Executed="SaveAsWithoutFormattingCommand_Executed" CanExecute="SaveAsWithoutFormattingCommand_CanExecute" />
+
+        <CommandBinding Command="{StaticResource CloseCommand}" Executed="CloseCommand_Executed" CanExecute="CloseCommand_CanExecute" />
+        <CommandBinding Command="{StaticResource ExitCommand}" Executed="ExitCommand_Executed" CanExecute="ExitCommand_CanExecute" />
+        <CommandBinding Command="{StaticResource LaunchXPathCommand}" Executed="LaunchXPathCommand_Executed" CanExecute="LaunchXPathCommand_CanExecute" />
+        <CommandBinding Command="{StaticResource SelectXPathCommand}" Executed="SelectXPathCommand_Executed" CanExecute="SelectXPathCommand_CanExecuted" />
+        <CommandBinding Command="{StaticResource XPathCommand}" Executed="XPathCommand_Executed" CanExecute="XPathCommand_CanExecuted" />
+
+        <CommandBinding Command="{StaticResource ExpandAllCommand}" Executed="ExpandAllCommand_Executed" CanExecute="ExpandAllCommand_CanExecute" />
+        <CommandBinding Command="{StaticResource CollapseAllCommand}" Executed="CollapseAllCommand_Executed" CanExecute="CollapseAllCommand_CanExecute" />
+
+        <CommandBinding Command="{StaticResource RefreshCommand}" Executed="RefreshCommand_Executed" CanExecute="RefreshCommand_CanExecute" />
+        
+        <CommandBinding Command="{StaticResource AboutCommand}" Executed="AboutCommand_Executed" CanExecute="AboutCommand_CanExecute" />
+        
+    </Window.CommandBindings>
+
+    <Window.InputBindings>
+
+        <KeyBinding Key="N" Modifiers="Ctrl" Command="{StaticResource NewCommand}" />
+        <KeyBinding Key="O" Modifiers="Ctrl" Command="{StaticResource OpenCommand}" />
+        <KeyBinding Key="S" Modifiers="Ctrl" Command="{StaticResource SaveWithFormattingCommand}" />
+
+        <KeyBinding Key="X" Modifiers="Alt" Command="{StaticResource XPathCommand}" />
+        <KeyBinding Key="X" Modifiers="Ctrl" Command="{StaticResource XPathCommand}" />
+        <KeyBinding Key="L" Modifiers="Ctrl" Command="{StaticResource XPathCommand}" />
+
+        <KeyBinding Key="F4" Command="{StaticResource XPathCommand}" />
+
+        <KeyBinding Key="C" Modifiers="Ctrl" Command="{StaticResource CopyXmlCommand}" />
+        <KeyBinding Key="C" Modifiers="Ctrl+Shift" Command="{StaticResource CopyXPathCommand}" />
+
+        <KeyBinding Modifiers="Ctrl" Key="F4" Command="{StaticResource CloseCommand}" />
+
+        <KeyBinding Modifiers="Alt" Key="Right" Command="{StaticResource ExpandAllCommand}" />
+        <KeyBinding Modifiers="Alt" Key="Left" Command="{StaticResource CollapseAllCommand}" />
+        
+        <KeyBinding Key="F5" Command="{StaticResource RefreshCommand}" />
+        
+    </Window.InputBindings>
+
+</Window>
