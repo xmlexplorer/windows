@@ -7,6 +7,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Xml;
 using System.Xml.XPath;
+using WpfControls;
 
 namespace XmlExplorer
 {
@@ -22,14 +23,19 @@ namespace XmlExplorer
 
 		private void Open()
 		{
-			System.Windows.Forms.OpenFileDialog dialog = new System.Windows.Forms.OpenFileDialog();
+			string[] dialogFileNames = null;
 
-			dialog.Multiselect = true;
+			using (System.Windows.Forms.OpenFileDialog dialog = new System.Windows.Forms.OpenFileDialog())
+			{
+				dialog.Multiselect = true;
 
-			if (dialog.ShowDialog() != System.Windows.Forms.DialogResult.OK)
-				return;
+				if (dialog.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+					return;
 
-			foreach (string filename in dialog.FileNames)
+				dialogFileNames = dialog.FileNames;
+			}
+
+			foreach (string filename in dialogFileNames)
 				this.Open(new FileInfo(filename));
 		}
 
@@ -78,8 +84,8 @@ namespace XmlExplorer
 		{
 			FileTabItem fileTabItem = new FileTabItem();
 
-			//fileTabItem.TreeView.FontSize = this.GetSelectedFontSize();
-			//fileTabItem.TreeView.FontFamily = this.GetSelectedFont();
+			fileTabItem.TreeView.FontFamily = new FontFamily(Properties.Settings.Default.FontFamilyName);
+			fileTabItem.TreeView.FontSize = Properties.Settings.Default.FontSize;
 
 			return fileTabItem;
 		}
@@ -236,6 +242,46 @@ namespace XmlExplorer
 			this.tabControl.Items.Remove(fileTabItem);
 
 			this.Open(fileTabItem.FileTab.FileInfo);
+		}
+
+		private void ChooseFont()
+		{
+			FileTabItem fileTabItem = this.GetSelectedFileTabItem();
+			if (fileTabItem == null)
+				return;
+
+			FontChooserLite fontChooser = new FontChooserLite();
+			fontChooser.Owner = this;
+			fontChooser.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+
+			TreeView fileTabItemTreeView = fileTabItem.TreeView;
+
+			fontChooser.SetPropertiesFromObject(fileTabItemTreeView);
+
+			if (!fontChooser.ShowDialog().Value)
+				return;
+
+			fontChooser.ApplyPropertiesToObject(fileTabItemTreeView);
+
+			// save the new font settings
+			XmlExplorer.Properties.Settings settings = Properties.Settings.Default;
+
+			settings.FontFamilyName = fileTabItemTreeView.FontFamily.ToString();
+			settings.FontSize = fileTabItemTreeView.FontSize;
+
+			settings.Save();
+
+			foreach (object item in this.tabControl.Items)
+			{
+				FileTabItem otherFileTabItem = item as FileTabItem;
+				if (otherFileTabItem == null)
+					continue;
+
+				if (otherFileTabItem == fileTabItem)
+					continue;
+
+				fontChooser.ApplyPropertiesToObject(otherFileTabItem.TreeView);
+			}
 		}
 
 		private void OpenCommand_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
@@ -760,6 +806,30 @@ namespace XmlExplorer
 				AboutWindow window = new AboutWindow();
 				window.Owner = this;
 				window.ShowDialog();
+			}
+			catch (Exception ex)
+			{
+				App.HandleException(ex);
+			}
+		}
+
+		private void ChooseFontCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+		{
+			try
+			{
+				e.CanExecute = (this.tabControl.SelectedItem as FileTabItem) != null;
+			}
+			catch (Exception ex)
+			{
+				App.HandleException(ex);
+			}
+		}
+
+		private void ChooseFontCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			try
+			{
+				this.ChooseFont();
 			}
 			catch (Exception ex)
 			{

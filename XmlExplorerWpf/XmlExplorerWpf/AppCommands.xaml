@@ -28,10 +28,6 @@
 
     <RoutedUICommand x:Key="XPathCommand" Text="XPath" />
 
-    <RoutedUICommand x:Key="FontSizeCommand" Text="Font Size" />
-    
-    <RoutedUICommand x:Key="FontCommand" Text="Font" />
-
     <RoutedUICommand x:Key="SelectXPathCommand" Text="Select XPath" />
 
     <RoutedUICommand x:Key="LaunchXPathCommand" Text="Launch XPath"/>
@@ -48,6 +44,8 @@
 
     <RoutedUICommand x:Key="ExpandAllCommand" Text="_Expand All" />
 
-    <RoutedUICommand x:Key="CollapseAllCommand" Text="_CollapseAll" />
+    <RoutedUICommand x:Key="CollapseAllCommand" Text="_Collapse All" />
     
+    <RoutedUICommand x:Key="ChooseFontCommand" Text="Choose _Font" />
+        
 </ResourceDictionary>
