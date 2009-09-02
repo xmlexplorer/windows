@@ -47,5 +47,7 @@
     <RoutedUICommand x:Key="CollapseAllCommand" Text="_Collapse All" />
     
     <RoutedUICommand x:Key="ChooseFontCommand" Text="Choose _Font" />
+    
+    <RoutedUICommand x:Key="ValidateCommand" Text="_Validate" />
         
 </ResourceDictionary>

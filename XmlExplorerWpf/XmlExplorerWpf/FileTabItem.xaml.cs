@@ -10,11 +10,13 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Xml;
 using System.Xml.XPath;
+using System.Xml.Schema;
 
 namespace XmlExplorer
 {
     public partial class FileTabItem : TabItem
     {
+		private List<ValidationEventArgs> _validationEventArgs;
         private TabControl _parentTabControl;
 
         public FileTabItem()
@@ -167,160 +169,6 @@ namespace XmlExplorer
             string folderPath = fileTab.FileInfo.DirectoryName;
 
             Process.Start(folderPath);
-        }
-
-        private void CloseCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            try
-            {
-                e.CanExecute = true;
-            }
-            catch (Exception ex)
-            {
-                App.HandleException(ex);
-            }
-        }
-
-        private void CloseCommand_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            try
-            {
-                this.Close();
-            }
-            catch (Exception ex)
-            {
-                App.HandleException(ex);
-            }
-        }
-
-        private void CloseAllCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            try
-            {
-                e.CanExecute = true;
-            }
-            catch (Exception ex)
-            {
-                App.HandleException(ex);
-            }
-        }
-
-        private void CloseAllCommand_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            try
-            {
-                this.CloseAll();
-            }
-            catch (Exception ex)
-            {
-                App.HandleException(ex);
-            }
-        }
-
-        private void CloseAllButThisCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            try
-            {
-                TabControl tabControl = this.GetParentTabControl();
-                if (tabControl == null)
-                    return;
-
-                e.CanExecute = tabControl.Items.Count > 1;
-            }
-            catch (Exception ex)
-            {
-                App.HandleException(ex);
-            }
-        }
-
-        private void CloseAllButThisCommand_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            try
-            {
-                this.CloseAllButThis();
-            }
-            catch (Exception ex)
-            {
-                App.HandleException(ex);
-            }
-        }
-
-        private void CopyFullPathCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            try
-            {
-                e.CanExecute = true;
-            }
-            catch (Exception ex)
-            {
-                App.HandleException(ex);
-            }
-        }
-
-        private void CopyFullPathCommand_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            try
-            {
-                this.CopyFullPath();
-            }
-            catch (Exception ex)
-            {
-                App.HandleException(ex);
-            }
-        }
-
-        private void OpenContainingFolderCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            try
-            {
-                e.CanExecute = true;
-            }
-            catch (Exception ex)
-            {
-                App.HandleException(ex);
-            }
-        }
-
-        private void OpenContainingFolderCommand_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            try
-            {
-                this.OpenContainingFolder();
-            }
-            catch (Exception ex)
-            {
-                App.HandleException(ex);
-            }
-        }
-
-        private void TabItem_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            try
-            {
-                if (e.ChangedButton == MouseButton.Left)
-                    return;
-
-                this.IsSelected = true;
-                if (this.Focusable)
-                    this.Focus();
-            }
-            catch (Exception ex)
-            {
-                App.HandleException(ex);
-            }
-        }
-
-        private void TabItem_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-            try
-            {
-                if (e.ChangedButton == MouseButton.Middle)
-                    this.Close();
-            }
-            catch (Exception ex)
-            {
-                App.HandleException(ex);
-            }
         }
 
 		public XPathNavigatorView GetSelectedNavigatorView()
@@ -525,6 +373,176 @@ namespace XmlExplorer
 			return navigatorView.XPathNavigator.Evaluate(xpath, this.FileTab.XmlNamespaceManager);
 		}
 
+		public List<ValidationEventArgs> Validate(string schemaFileName)
+		{
+			XPathNavigator navigator = this.FileTab.Document as XPathNavigator;
+
+			if (navigator == null)
+				return null;
+
+			_validationEventArgs = new List<ValidationEventArgs>();
+
+			// try to dynamically discover the target namespace of the schema
+			XPathDocument schemaDocument = new XPathDocument(schemaFileName);
+			XPathNavigator schemaNavigator = schemaDocument.CreateNavigator();
+			XmlNamespaceManager xmlNamespaceManager = new XmlNamespaceManager(schemaNavigator.NameTable);
+			schemaNavigator.MoveToFirstChild();
+			xmlNamespaceManager.AddNamespace("", schemaNavigator.NamespaceURI);
+			string targetNamespace = schemaNavigator.Evaluate("string(@targetNamespace)", xmlNamespaceManager) as string;
+
+			// load the schema
+			XmlSchemaSet schemas = new XmlSchemaSet();
+			schemas.Add(targetNamespace, schemaFileName);
+
+			// validate the document
+			navigator.CheckValidity(schemas, this.OnValidationEvent);
+
+			return _validationEventArgs;
+		}
+
+		private void OnValidationEvent(object sender, ValidationEventArgs e)
+		{
+			_validationEventArgs.Add(e);
+
+			XmlSchemaValidationException exception = e.Exception as XmlSchemaValidationException;
+
+			if (exception == null || exception.SourceObject == null)
+				return;
+
+			/* 
+			 * exception.SourceObject is never provided, it's always null.
+			 * I've reported this, and am awaiting a response
+			 * https://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=366355
+			 * Until this is resolved, I cannot provide double-click navigation from a
+			 * validation exception to the offending node
+			*/
+			Debug.WriteLine(exception.SourceObject);
+		}
+
+		private void CloseCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+		{
+			try
+			{
+				e.CanExecute = true;
+			}
+			catch (Exception ex)
+			{
+				App.HandleException(ex);
+			}
+		}
+
+		private void CloseCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			try
+			{
+				this.Close();
+			}
+			catch (Exception ex)
+			{
+				App.HandleException(ex);
+			}
+		}
+
+		private void CloseAllCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+		{
+			try
+			{
+				e.CanExecute = true;
+			}
+			catch (Exception ex)
+			{
+				App.HandleException(ex);
+			}
+		}
+
+		private void CloseAllCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			try
+			{
+				this.CloseAll();
+			}
+			catch (Exception ex)
+			{
+				App.HandleException(ex);
+			}
+		}
+
+		private void CloseAllButThisCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+		{
+			try
+			{
+				TabControl tabControl = this.GetParentTabControl();
+				if (tabControl == null)
+					return;
+
+				e.CanExecute = tabControl.Items.Count > 1;
+			}
+			catch (Exception ex)
+			{
+				App.HandleException(ex);
+			}
+		}
+
+		private void CloseAllButThisCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			try
+			{
+				this.CloseAllButThis();
+			}
+			catch (Exception ex)
+			{
+				App.HandleException(ex);
+			}
+		}
+
+		private void CopyFullPathCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+		{
+			try
+			{
+				e.CanExecute = true;
+			}
+			catch (Exception ex)
+			{
+				App.HandleException(ex);
+			}
+		}
+
+		private void CopyFullPathCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			try
+			{
+				this.CopyFullPath();
+			}
+			catch (Exception ex)
+			{
+				App.HandleException(ex);
+			}
+		}
+
+		private void OpenContainingFolderCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+		{
+			try
+			{
+				e.CanExecute = true;
+			}
+			catch (Exception ex)
+			{
+				App.HandleException(ex);
+			}
+		}
+
+		private void OpenContainingFolderCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			try
+			{
+				this.OpenContainingFolder();
+			}
+			catch (Exception ex)
+			{
+				App.HandleException(ex);
+			}
+		}
+
 		private void CollapseAllCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
 			try
@@ -614,6 +632,36 @@ namespace XmlExplorer
 			try
 			{
 				this.CopyXml();
+			}
+			catch (Exception ex)
+			{
+				App.HandleException(ex);
+			}
+		}
+
+		private void TabItem_MouseDown(object sender, MouseButtonEventArgs e)
+		{
+			try
+			{
+				if (e.ChangedButton == MouseButton.Left)
+					return;
+
+				this.IsSelected = true;
+				if (this.Focusable)
+					this.Focus();
+			}
+			catch (Exception ex)
+			{
+				App.HandleException(ex);
+			}
+		}
+
+		private void TabItem_MouseUp(object sender, MouseButtonEventArgs e)
+		{
+			try
+			{
+				if (e.ChangedButton == MouseButton.Middle)
+					this.Close();
 			}
 			catch (Exception ex)
 			{

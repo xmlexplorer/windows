@@ -9,6 +9,16 @@ Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "XmlExplorerSetup", "XmlExpl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfControls", "WpfControls\WpfControls.csproj", "{FEAB899A-1F60-4D10-8848-FAE5CB5F4429}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{83CD0270-348F-4744-95F7-65393483400A}"
+	ProjectSection(SolutionItems) = preProject
+		XmlExplorerWpf\Dependencies\Microsoft.WindowsAPICodePack.dll = XmlExplorerWpf\Dependencies\Microsoft.WindowsAPICodePack.dll
+		XmlExplorerWpf\Dependencies\Microsoft.WindowsAPICodePack.pdb = XmlExplorerWpf\Dependencies\Microsoft.WindowsAPICodePack.pdb
+		XmlExplorerWpf\Dependencies\Microsoft.WindowsAPICodePack.Shell.dll = XmlExplorerWpf\Dependencies\Microsoft.WindowsAPICodePack.Shell.dll
+		XmlExplorerWpf\Dependencies\Microsoft.WindowsAPICodePack.Shell.pdb = XmlExplorerWpf\Dependencies\Microsoft.WindowsAPICodePack.Shell.pdb
+		XmlExplorerWpf\Dependencies\Microsoft.WindowsAPICodePack.Shell.XML = XmlExplorerWpf\Dependencies\Microsoft.WindowsAPICodePack.Shell.XML
+		XmlExplorerWpf\Dependencies\Microsoft.WindowsAPICodePack.xml = XmlExplorerWpf\Dependencies\Microsoft.WindowsAPICodePack.xml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 5

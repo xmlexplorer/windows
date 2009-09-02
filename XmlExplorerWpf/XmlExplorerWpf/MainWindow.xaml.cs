@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Xml;
 using System.Xml.XPath;
 using WpfControls;
+using Microsoft.WindowsAPICodePack.Taskbar;
 
 namespace XmlExplorer
 {
@@ -55,6 +56,13 @@ namespace XmlExplorer
 			var navigator = document.CreateNavigator();
 			XmlNamespaceManager namespaceManager = new XmlNamespaceManager(navigator.NameTable);
 
+			// add any namespaces within the scope of the navigator to the namespace manager
+			foreach (KeyValuePair<string, string> pair in navigator.GetNamespacesInScope(XmlNamespaceScope.All))
+			{
+				if (!namespaceManager.HasNamespace(pair.Key))
+					namespaceManager.AddNamespace(pair.Key, pair.Value);
+			}
+
 			this.Open(fileInfo, navigator, namespaceManager);
 		}
 
@@ -66,7 +74,10 @@ namespace XmlExplorer
 
 			this.tabControl.Items.Add(fileTabItem);
 
+			// select the tab
 			this.tabControl.SelectedItem = fileTabItem;
+			
+			this.CreatedTabbedThumbnail(fileTabItem);
 		}
 
 		private void Open(string name, object document, XmlNamespaceManager namespaceManager)
@@ -78,6 +89,8 @@ namespace XmlExplorer
 			this.tabControl.Items.Add(fileTabItem);
 
 			this.tabControl.SelectedItem = fileTabItem;
+
+			this.CreatedTabbedThumbnail(fileTabItem);
 		}
 
 		private FileTabItem CreateNewFileTabItem()
@@ -88,6 +101,35 @@ namespace XmlExplorer
 			fileTabItem.TreeView.FontSize = Properties.Settings.Default.FontSize;
 
 			return fileTabItem;
+		}
+
+		private void CreatedTabbedThumbnail(FileTabItem fileTabItem)
+		{
+			try
+			{
+				// are taskbar enhancements available on this platform?
+				if (TaskbarManager.IsPlatformSupported)
+				{
+					// add a new thumbnail preview
+					Point point = fileTabItem.TreeView.TranslatePoint(new Point(0, 0), fileTabItem.TreeView);
+					TabbedThumbnail preview = new TabbedThumbnail(this, fileTabItem.TreeView, new Vector(point.X, point.Y));
+						
+					// wire up event handlers for this preview
+					preview.TabbedThumbnailActivated += new EventHandler<TabbedThumbnailEventArgs>(preview_TabbedThumbnailActivated);
+					preview.TabbedThumbnailClosed += new EventHandler<TabbedThumbnailEventArgs>(preview_TabbedThumbnailClosed);
+					preview.TabbedThumbnailMaximized += new EventHandler<TabbedThumbnailEventArgs>(preview_TabbedThumbnailMaximized);
+					preview.TabbedThumbnailMinimized += new EventHandler<TabbedThumbnailEventArgs>(preview_TabbedThumbnailMinimized);
+
+					TaskbarManager.Instance.TabbedThumbnail.AddThumbnailPreview(preview);
+
+					// select the taskbar tabbed thumbnail
+					TaskbarManager.Instance.TabbedThumbnail.SetActiveTab(fileTabItem.TreeView);
+				}
+			}
+			catch (Exception ex)
+			{
+				App.HandleException(ex);
+			}
 		}
 
 		private void CopyXPath()
@@ -830,6 +872,154 @@ namespace XmlExplorer
 			try
 			{
 				this.ChooseFont();
+			}
+			catch (Exception ex)
+			{
+				App.HandleException(ex);
+			}
+		}
+
+		private void ValidateCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+		{
+			try
+			{
+				e.CanExecute = (this.tabControl.SelectedItem as FileTabItem) != null;
+			}
+			catch (Exception ex)
+			{
+				App.HandleException(ex);
+			}
+		}
+
+		private void ValidateCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			try
+			{
+				FileTabItem fileTabItem = this.tabControl.SelectedItem as FileTabItem;
+				if (fileTabItem == null)
+					return;
+
+				fileTabItem.Validate(@"C:\Users\jcoon\Projects\Note.xsd");
+			}
+			catch (Exception ex)
+			{
+				App.HandleException(ex);
+			}
+		}
+
+		void preview_TabbedThumbnailMinimized(object sender, TabbedThumbnailEventArgs e)
+		{
+			try
+			{
+				// User clicked on the minimize button on the thumbnail's context menu
+				// Minimize the app
+				this.WindowState = WindowState.Minimized;
+			}
+			catch (Exception ex)
+			{
+				App.HandleException(ex);
+			}
+		}
+
+		void preview_TabbedThumbnailMaximized(object sender, TabbedThumbnailEventArgs e)
+		{
+			try
+			{
+				// User clicked on the maximize button on the thumbnail's context menu
+				// Maximize the app
+				this.WindowState = WindowState.Maximized;
+
+				//// If there is a selected tab, take it's screenshot
+				//// invalidate the tab's thumbnail
+				//// update the "preview" object with the new thumbnail
+				//if (tabControl1.Size != Size.Empty && tabControl1.TabPages.Count > 0 && tabControl1.SelectedTab != null)
+				//    UpdatePreviewBitmap(tabControl1.SelectedTab);
+			}
+			catch (Exception ex)
+			{
+				App.HandleException(ex);
+			}
+		}
+
+		///// <summary>
+		///// Helper method to update the thumbnail preview for a given tab page.
+		///// </summary>
+		///// <param name="tabPage"></param>
+		//private void UpdatePreviewBitmap(FileTabItem fileTabItem)
+		//{
+		//    if (fileTabItem == null)
+		//        return;
+
+		//    TabbedThumbnail preview = TaskbarManager.Instance.TabbedThumbnail.GetThumbnailPreview(fileTabItem.TreeView);
+
+		//    if (preview == null)
+		//        return;
+
+		//    System.Drawing.Bitmap bitmap = TabbedThumbnailScreenCapture.GrabWindowBitmap(fileTabItem.TreeView,  );
+		//    preview.SetImage(bitmap);
+		//}
+
+		void preview_TabbedThumbnailClosed(object sender, TabbedThumbnailEventArgs e)
+		{
+			try
+			{
+				// Remove the event handlers from the tab preview
+				e.TabbedThumbnail.TabbedThumbnailActivated -= new EventHandler<TabbedThumbnailEventArgs>(preview_TabbedThumbnailActivated);
+				e.TabbedThumbnail.TabbedThumbnailClosed -= new EventHandler<TabbedThumbnailEventArgs>(preview_TabbedThumbnailClosed);
+				e.TabbedThumbnail.TabbedThumbnailMaximized -= new EventHandler<TabbedThumbnailEventArgs>(preview_TabbedThumbnailMaximized);
+				e.TabbedThumbnail.TabbedThumbnailMinimized -= new EventHandler<TabbedThumbnailEventArgs>(preview_TabbedThumbnailMinimized);
+
+				FileTabItem fileTabItem = null;
+
+				foreach (object item in this.tabControl.Items)
+				{
+					fileTabItem = item as FileTabItem;
+					if (fileTabItem == null)
+						continue;
+
+					if (fileTabItem.TreeView != e.WindowsControl)
+						continue;
+
+					// Select the tab in the application UI as well as taskbar tabbed thumbnail list
+					fileTabItem.IsSelected = true;
+					TaskbarManager.Instance.TabbedThumbnail.SetActiveTab(fileTabItem.TreeView);
+				}
+
+				if (fileTabItem == null)
+					return;
+
+				// Finally, remove the tab from our UI
+				this.tabControl.Items.Remove(fileTabItem);
+			}
+			catch (Exception ex)
+			{
+				App.HandleException(ex);
+			}
+		}
+
+		void preview_TabbedThumbnailActivated(object sender, TabbedThumbnailEventArgs e)
+		{
+			try
+			{
+				// User selected a tab via the thumbnail preview
+				// Select the corresponding control in our app
+				foreach (object item in this.tabControl.Items)
+				{
+					FileTabItem fileTabItem = item as FileTabItem;
+					if (fileTabItem == null)
+						continue;
+
+					if (fileTabItem.TreeView != e.WindowsControl)
+						continue;
+
+					// Select the tab in the application UI as well as taskbar tabbed thumbnail list
+					fileTabItem.IsSelected = true;
+					TaskbarManager.Instance.TabbedThumbnail.SetActiveTab(fileTabItem.TreeView);
+				}
+
+				// Also activate our parent form (incase we are minimized, this will restore it)
+				if (this.WindowState == WindowState.Minimized)
+					this.WindowState = WindowState.Normal;
 			}
 			catch (Exception ex)
 			{

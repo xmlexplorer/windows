@@ -114,6 +114,7 @@
                         <Image Source="Resources\Font16.png" />
                     </MenuItem.Icon>
                 </MenuItem>
+                <MenuItem Command="{StaticResource ValidateCommand}" />
             </MenuItem>
             <MenuItem Header="_Help">
                 <MenuItem Command="{StaticResource AboutCommand}">
@@ -233,6 +234,8 @@
 
         <CommandBinding Command="{StaticResource ChooseFontCommand}" Executed="ChooseFontCommand_Executed" CanExecute="ChooseFontCommand_CanExecute" />
 
+        <CommandBinding Command="{StaticResource ValidateCommand}" Executed="ValidateCommand_Executed" CanExecute="ValidateCommand_CanExecute" />
+        
     </Window.CommandBindings>
 
     <Window.InputBindings>
