@@ -9,6 +9,8 @@ using System.Xml;
 using System.Xml.XPath;
 using WpfControls;
 using Microsoft.WindowsAPICodePack.Taskbar;
+using System.Diagnostics;
+using System.Collections.ObjectModel;
 
 namespace XmlExplorer
 {
@@ -40,6 +42,16 @@ namespace XmlExplorer
 				this.Open(new FileInfo(filename));
 		}
 
+		internal void Open(IEnumerable<string> commandLine)
+		{
+			foreach (string arg in commandLine)
+			{
+				FileInfo fileInfo = new FileInfo(arg);
+
+				this.Open(fileInfo);
+			}
+		}
+
 		public void Open(FileInfo fileInfo)
 		{
 			XmlReaderSettings readerSettings = new XmlReaderSettings();
@@ -56,13 +68,6 @@ namespace XmlExplorer
 			var navigator = document.CreateNavigator();
 			XmlNamespaceManager namespaceManager = new XmlNamespaceManager(navigator.NameTable);
 
-			// add any namespaces within the scope of the navigator to the namespace manager
-			foreach (KeyValuePair<string, string> pair in navigator.GetNamespacesInScope(XmlNamespaceScope.All))
-			{
-				if (!namespaceManager.HasNamespace(pair.Key))
-					namespaceManager.AddNamespace(pair.Key, pair.Value);
-			}
-
 			this.Open(fileInfo, navigator, namespaceManager);
 		}
 
@@ -70,14 +75,35 @@ namespace XmlExplorer
 		{
 			FileTabItem fileTabItem = this.CreateNewFileTabItem();
 
-			fileTabItem.DataContext = new FileTab(fileInfo, document, namespaceManager);
+			FileTab fileTab = new FileTab(fileInfo, document, namespaceManager);
+
+			fileTabItem.DataContext = fileTab;
 
 			this.tabControl.Items.Add(fileTabItem);
 
 			// select the tab
 			this.tabControl.SelectedItem = fileTabItem;
-			
+
 			this.CreatedTabbedThumbnail(fileTabItem);
+
+			if (fileTab.DefaultNamespaceCount > 0)
+				this.ShowNamespacePrefixWindow(fileTab);
+		}
+
+		private void ShowNamespacePrefixWindow(FileTab fileTab)
+		{
+			NamespacePrefixWindow window = new NamespacePrefixWindow();
+			window.Owner = this;
+
+			window.NamespaceDefinitions = fileTab.NamespaceDefinitions;
+			window.ShowDialog();
+
+			foreach (NamespaceDefinition definition in fileTab.NamespaceDefinitions)
+			{
+				fileTab.XmlNamespaceManager.RemoveNamespace(definition.OldPrefix, definition.Namespace);
+
+				fileTab.XmlNamespaceManager.AddNamespace(definition.NewPrefix, definition.Namespace);
+			}
 		}
 
 		private void Open(string name, object document, XmlNamespaceManager namespaceManager)
@@ -113,7 +139,9 @@ namespace XmlExplorer
 					// add a new thumbnail preview
 					Point point = fileTabItem.TreeView.TranslatePoint(new Point(0, 0), fileTabItem.TreeView);
 					TabbedThumbnail preview = new TabbedThumbnail(this, fileTabItem.TreeView, new Vector(point.X, point.Y));
-						
+
+					preview.Title = fileTabItem.FileTab.Name;
+
 					// wire up event handlers for this preview
 					preview.TabbedThumbnailActivated += new EventHandler<TabbedThumbnailEventArgs>(preview_TabbedThumbnailActivated);
 					preview.TabbedThumbnailClosed += new EventHandler<TabbedThumbnailEventArgs>(preview_TabbedThumbnailClosed);
@@ -907,6 +935,34 @@ namespace XmlExplorer
 			}
 		}
 
+		private void NamespacesCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+		{
+			try
+			{
+				e.CanExecute = (this.tabControl.SelectedItem as FileTabItem) != null;
+			}
+			catch (Exception ex)
+			{
+				App.HandleException(ex);
+			}
+		}
+
+		private void NamespacesCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			try
+			{
+				FileTabItem fileTabItem = this.tabControl.SelectedItem as FileTabItem;
+				if (fileTabItem == null)
+					return;
+
+				this.ShowNamespacePrefixWindow(fileTabItem.FileTab);
+			}
+			catch (Exception ex)
+			{
+				App.HandleException(ex);
+			}
+		}
+
 		void preview_TabbedThumbnailMinimized(object sender, TabbedThumbnailEventArgs e)
 		{
 			try
@@ -928,6 +984,8 @@ namespace XmlExplorer
 				// User clicked on the maximize button on the thumbnail's context menu
 				// Maximize the app
 				this.WindowState = WindowState.Maximized;
+
+				this.Activate();
 
 				//// If there is a selected tab, take it's screenshot
 				//// invalidate the tab's thumbnail
@@ -1020,6 +1078,30 @@ namespace XmlExplorer
 				// Also activate our parent form (incase we are minimized, this will restore it)
 				if (this.WindowState == WindowState.Minimized)
 					this.WindowState = WindowState.Normal;
+
+				this.Activate();
+			}
+			catch (Exception ex)
+			{
+				App.HandleException(ex);
+			}
+		}
+
+		private void Window_Drop(object sender, DragEventArgs e)
+		{
+			try
+			{
+				if (!e.Data.GetDataPresent(DataFormats.FileDrop))
+					return;
+
+				object data = e.Data.GetData(DataFormats.FileDrop);
+
+				if (!(data is string[]))
+					return;
+
+				string[] fileNames = (string[])data;
+
+				this.Open(fileNames);
 			}
 			catch (Exception ex)
 			{

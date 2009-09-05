@@ -49,5 +49,7 @@
     <RoutedUICommand x:Key="ChooseFontCommand" Text="Choose _Font" />
     
     <RoutedUICommand x:Key="ValidateCommand" Text="_Validate" />
+    
+    <RoutedUICommand x:Key="NamespacesCommand" Text="_Namespaces" />
         
 </ResourceDictionary>

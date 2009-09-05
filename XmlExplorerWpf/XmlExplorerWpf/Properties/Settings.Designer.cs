@@ -37,13 +37,25 @@ namespace XmlExplorer.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        [global::System.Configuration.DefaultSettingValueAttribute("13.333333333333332")]
         public double FontSize {
             get {
                 return ((double)(this["FontSize"]));
             }
             set {
                 this["FontSize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool UpgradeNeeded {
+            get {
+                return ((bool)(this["UpgradeNeeded"]));
+            }
+            set {
+                this["UpgradeNeeded"] = value;
             }
         }
     }

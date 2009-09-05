@@ -7,6 +7,9 @@
 
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+
+                <ResourceDictionary Source="XPathNavigatorTemplates.xaml" />
+                
                 <ResourceDictionary Source="AppCommands.xaml" />
                 <ResourceDictionary>
 
@@ -51,7 +54,7 @@
     </TabItem.Resources>
 
     <TabItem.Header>
-        <StackPanel Orientation="Horizontal" Tag="{Binding ElementName=treeView}"
+        <StackPanel Orientation="Horizontal"
                     ContextMenu="{StaticResource tabsContextMenu}" ToolTip="{Binding FileInfo.FullName}">
             <TextBlock Text="{Binding Name}" />
             <TextBlock Text="  " />
