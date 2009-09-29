@@ -36,7 +36,7 @@
     <DockPanel LastChildFill="True">
         <Menu DockPanel.Dock="Top" IsMainMenu="True">
             <MenuItem Header="_File">
-                <MenuItem Command="{StaticResource NewCommand}" ToolTip="Create a new document. (Ctrl+N)" InputGestureText="Ctrl+N">
+                <MenuItem Command="{StaticResource NewCommand}" ToolTip="Create a new document from XML data on the clipboard. (Ctrl+N)" InputGestureText="Ctrl+N">
                     <MenuItem.Icon>
                         <Image Source="Resources\New16.png" />
                     </MenuItem.Icon>
@@ -48,7 +48,7 @@
                 </MenuItem>
                 <MenuItem Command="{StaticResource CloseCommand}" ToolTip="Close the active document. (Ctrl+F4)" InputGestureText="Ctrl+F4">
                     <MenuItem.Icon>
-                        <Image Source="Resources\Exit10.png" />
+                        <Image Source="Resources\Close.png" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator />
@@ -74,19 +74,20 @@
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator />
-                <MenuItem Command="{StaticResource ExitCommand}" ToolTip="Exit XML Explorer.">
-                    <MenuItem.Icon>
-                        <Image Source="Resources\Exit16.png" />
-                    </MenuItem.Icon>
-                </MenuItem>
+                <MenuItem Command="{StaticResource ExitCommand}" ToolTip="Exit XML Explorer." />
             </MenuItem>
             <MenuItem Header="_Edit">
-                <MenuItem Command="{StaticResource CopyXmlCommand}" ToolTip="Copy the formatted XML of the selected node. (Ctrl+C)" InputGestureText="Ctrl+C">
+                <MenuItem Command="{StaticResource CopyOuterXmlCommand}" ToolTip="Copy the markup representing the selected node and all its child nodes. (Ctrl+C)" InputGestureText="Ctrl+C">
                     <MenuItem.Icon>
                         <Image Source="Resources\Copy16.png" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Command="{StaticResource CopyXPathCommand}" ToolTip="Copy the XPath of the selected node. (Ctrl+Shift+C)" InputGestureText="Ctrl+Shift+C">
+                <MenuItem Command="{StaticResource CopyXmlCommand}" ToolTip="Copy the markup representing the selected node. (Ctrl+Alt+C)" InputGestureText="Ctrl+Alt+C">
+                    <MenuItem.Icon>
+                        <Image Source="Resources\Copy16.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Command="{StaticResource CopyXPathCommand}" ToolTip="Copy the XPath of the selected node to the clipboard and the XPath bar. (Ctrl+Shift+C)" InputGestureText="Ctrl+Shift+C">
                     <MenuItem.Icon>
                         <Image Source="Resources\Copy16.png" />
                     </MenuItem.Icon>
@@ -143,7 +144,7 @@
                         <Setter Property="HorizontalAlignment" Value="Stretch" />
                     </Style>
                 </ToolBar.Resources>
-                <Button Command="{StaticResource NewCommand}" ToolTip="Create a new document. (Ctrl+N)">
+                <Button Command="{StaticResource NewCommand}" ToolTip="Create a new document from XML data on the clipboard. (Ctrl+N)">
                     <Image Source="Resources\New16.png" />
                 </Button>
                 <Button Command="{StaticResource OpenCommand}" ToolTip="Open an existing document. (Ctrl+O)">
@@ -153,7 +154,7 @@
                     <Image Source="Resources\Save16.png" />
                 </Button>
                 <Separator />
-                <Button Command="{StaticResource CopyXmlCommand}" ToolTip="Copy formatted XML. (Ctrl+C)">
+                <Button Command="{StaticResource CopyXmlCommand}" ToolTip="Copy the markup representing the selected node and all its child nodes. (Ctrl+C)">
                     <Image Source="Resources\Copy16.png" />
                 </Button>
                 <Separator />
@@ -212,8 +213,12 @@
 
     <Window.CommandBindings>
 
+        <CommandBinding Command="{StaticResource CopyOuterXmlCommand}" Executed="CopyOuterXmlCommand_Executed" CanExecute="CopyOuterXmlCommand_CanExecute" />
         <CommandBinding Command="{StaticResource CopyXmlCommand}" Executed="CopyXmlCommand_Executed" CanExecute="CopyXmlCommand_CanExecute" />
         <CommandBinding Command="{StaticResource CopyXPathCommand}" Executed="CopyXPathCommand_Executed" CanExecute="CopyXPathCommand_CanExecute" />
+        
+        <CommandBinding Command="{StaticResource NewCommand}" Executed="NewCommand_Executed" CanExecute="NewCommand_CanExecute" />
+        
         <CommandBinding Command="{StaticResource OpenCommand}" Executed="OpenCommand_Executed" CanExecute="OpenCommand_CanExecute" />
 
         <CommandBinding Command="{StaticResource SaveWithFormattingCommand}" Executed="SaveWithFormattingCommand_Executed" CanExecute="SaveWithFormattingCommand_CanExecute" />
@@ -255,7 +260,8 @@
 
         <KeyBinding Key="F4" Command="{StaticResource XPathCommand}" />
 
-        <KeyBinding Key="C" Modifiers="Ctrl" Command="{StaticResource CopyXmlCommand}" />
+        <KeyBinding Key="C" Modifiers="Ctrl" Command="{StaticResource CopyOuterXmlCommand}" />
+        <KeyBinding Key="C" Modifiers="Ctrl+Alt" Command="{StaticResource CopyXmlCommand}" />
         <KeyBinding Key="C" Modifiers="Ctrl+Shift" Command="{StaticResource CopyXPathCommand}" />
 
         <KeyBinding Modifiers="Ctrl" Key="F4" Command="{StaticResource CloseCommand}" />

@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Documents;
+using WpfControls;
 
 namespace XmlExplorer
 {
@@ -14,7 +15,7 @@ namespace XmlExplorer
 		{
 			InitializeComponent();
 
-			this.textBlockProductAndVersion.Text = "XML Explorer v" + App.Version.ToString();
+			this.textBlockProductAndVersion.Text = "XML Explorer v" + AssemblyInfo.Default.Version.ToString();
 		}
 
 		private void Hyperlink_Click(object sender, RoutedEventArgs e)

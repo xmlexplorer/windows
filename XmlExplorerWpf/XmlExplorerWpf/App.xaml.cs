@@ -24,8 +24,6 @@ namespace XmlExplorer
 	/// </summary>
 	public partial class App : Application
 	{
-		static Version _version;
-
 		protected override void OnStartup(System.Windows.StartupEventArgs e)
 		{
 			try
@@ -82,19 +80,6 @@ namespace XmlExplorer
 		{
 			Debug.WriteLine(ex);
 			MessageBox.Show(ex.ToString());
-		}
-
-		public static Version Version
-		{
-			get
-			{
-				if (_version == null)
-				{
-					_version = Assembly.GetEntryAssembly().GetName().Version;
-				}
-
-				return _version;
-			}
 		}
 	}
 

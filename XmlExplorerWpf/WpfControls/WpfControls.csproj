@@ -55,6 +55,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
     <Compile Include="FontChooserLite.xaml.cs">
       <DependentUpon>FontChooserLite.xaml</DependentUpon>
     </Compile>

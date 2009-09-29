@@ -9,18 +9,30 @@
             <ResourceDictionary.MergedDictionaries>
 
                 <ResourceDictionary Source="XPathNavigatorTemplates.xaml" />
-                
+
                 <ResourceDictionary Source="AppCommands.xaml" />
                 <ResourceDictionary>
 
                     <ContextMenu x:Key="tabsContextMenu">
-                        <MenuItem Header="Close" Command="{StaticResource CloseCommand}" />
+                        <MenuItem Header="Close" Command="{StaticResource CloseCommand}">
+                            <MenuItem.Icon>
+                                <Image Source="Resources\Close.png" />
+                            </MenuItem.Icon>
+                        </MenuItem>
                         <MenuItem Header="Close All But This" Command="{StaticResource CloseAllButThisCommand}" />
                         <Separator />
                         <MenuItem Header="Close All" Command="{StaticResource CloseAllCommand}" />
                         <Separator />
-                        <MenuItem Header="Copy Full Path" Command="{StaticResource CopyFullPathCommand}" />
-                        <MenuItem Header="Open Containing Folder" Command="{StaticResource OpenContainingFolderCommand}" />
+                        <MenuItem Header="Copy Full Path" Command="{StaticResource CopyFullPathCommand}">
+                            <MenuItem.Icon>
+                                <Image Source="Resources\Copy16.png" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="Open Containing Folder" Command="{StaticResource OpenContainingFolderCommand}">
+                            <MenuItem.Icon>
+                                <Image Source="Resources\Open16.png" />
+                            </MenuItem.Icon>
+                        </MenuItem>
                     </ContextMenu>
 
                     <ContextMenu x:Key="treeContextMenu">
@@ -47,6 +59,20 @@
                         </MenuItem>
                     </ContextMenu>
 
+                    <ControlTemplate x:Key="closeButtonTemplate" TargetType="Button">
+
+                        <Image Name="image" Source="Resources/Close.png" Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" />
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Source" TargetName="image" Value="Resources/CloseHover.png"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Source" TargetName="image" Value="Resources/ClosePress.png"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -58,12 +84,10 @@
                     ContextMenu="{StaticResource tabsContextMenu}" ToolTip="{Binding FileInfo.FullName}">
             <TextBlock Text="{Binding Name}" />
             <TextBlock Text="  " />
-            <Button ToolTip="Close" Command="{StaticResource CloseCommand}" CommandParameter="{Binding}">
-                <Image Source="Resources/Exit10.png" RenderOptions.BitmapScalingMode="NearestNeighbor" />
-            </Button>
+            <Button ToolTip="Close" Command="{StaticResource CloseCommand}" CommandParameter="{Binding}" Template="{StaticResource closeButtonTemplate}" />
         </StackPanel>
     </TabItem.Header>
-    
+
     <TabItem.Content>
         <TreeView
             x:Name="TreeView" x:FieldModifier="public"
@@ -84,10 +108,10 @@
 
         <CommandBinding Command="{StaticResource CollapseAllCommand}" CanExecute="CollapseAllCommand_CanExecute" Executed="CollapseAllCommand_Executed" />
         <CommandBinding Command="{StaticResource ExpandAllCommand}" CanExecute="ExpandAllCommand_CanExecute" Executed="ExpandAllCommand_Executed" />
-        
+
         <CommandBinding Command="{StaticResource CopyXPathCommand}" CanExecute="CopyXPathCommand_CanExecute" Executed="CopyXPathCommand_Executed" />
         <CommandBinding Command="{StaticResource CopyXmlCommand}" CanExecute="CopyXmlCommand_CanExecute" Executed="CopyXmlCommand_Executed" />
-        
+
     </TabItem.CommandBindings>
 
     <TabItem.InputBindings>

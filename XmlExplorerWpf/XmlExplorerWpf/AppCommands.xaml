@@ -6,11 +6,13 @@
 
     <RoutedUICommand x:Key="CopyXmlCommand" Text="Copy XML" />
 
+    <RoutedUICommand x:Key="CopyOuterXmlCommand" Text="Copy Outer XML" />
+
     <RoutedUICommand x:Key="CopyXPathCommand" Text="Copy XPath" />
     
     <RoutedUICommand x:Key="OpenCommand" Text="_Open" />
 
-    <RoutedUICommand x:Key="NewCommand" Text="_New" />
+    <RoutedUICommand x:Key="NewCommand" Text="_New From Clipboard)" />
 
     <RoutedUICommand x:Key="SaveWithoutFormattingCommand" Text="Save without formatting" />
 

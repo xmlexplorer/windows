@@ -14,162 +14,162 @@ using System.Xml.Schema;
 
 namespace XmlExplorer
 {
-    public partial class FileTabItem : TabItem
-    {
+	public partial class FileTabItem : TabItem
+	{
 		private List<ValidationEventArgs> _validationEventArgs;
-        private TabControl _parentTabControl;
+		private TabControl _parentTabControl;
 
-        public FileTabItem()
-            : base()
-        {
-            InitializeComponent();
-        }
+		public FileTabItem()
+			: base()
+		{
+			InitializeComponent();
+		}
 
-        public FileTab FileTab
-        {
-            get
-            {
-                return this.DataContext as FileTab;
-            }
+		public FileTab FileTab
+		{
+			get
+			{
+				return this.DataContext as FileTab;
+			}
 
-            set
-            {
-                this.DataContext = value;
-            }
-        }
+			set
+			{
+				this.DataContext = value;
+			}
+		}
 
-        private TabControl GetParentTabControl()
-        {
-            if (_parentTabControl != null)
-                return _parentTabControl;
+		private TabControl GetParentTabControl()
+		{
+			if (_parentTabControl != null)
+				return _parentTabControl;
 
-            DependencyObject obj = this;
+			DependencyObject obj = this;
 
-            while ((obj = VisualTreeHelper.GetParent(obj)) != null)
-            {
-                if (obj is TabControl)
-                    break;
-            }
+			while ((obj = VisualTreeHelper.GetParent(obj)) != null)
+			{
+				if (obj is TabControl)
+					break;
+			}
 
-            _parentTabControl = obj as TabControl;
+			_parentTabControl = obj as TabControl;
 
-            return _parentTabControl;
-        }
+			return _parentTabControl;
+		}
 
-        /// <summary>
-        /// Overwrites the tab page's file with XML formatting (tabs and crlf's)
-        /// </summary>
-        public void Save(bool formatting)
-        {
-            FileTab fileTab = this.FileTab;
-            if (fileTab == null)
-                return;
+		/// <summary>
+		/// Overwrites the tab page's file with XML formatting (tabs and crlf's)
+		/// </summary>
+		public void Save(bool formatting)
+		{
+			FileTab fileTab = this.FileTab;
+			if (fileTab == null)
+				return;
 
-            if (fileTab.FileInfo == null)
-            {
+			if (fileTab.FileInfo == null)
+			{
 				System.Windows.Forms.SaveFileDialog dialog = new System.Windows.Forms.SaveFileDialog();
 
-                dialog.Filter = "XML Files (*.xml)|*.xml|All Files (*.*)|*.*";
-                if (dialog.ShowDialog() != System.Windows.Forms.DialogResult.OK)
-                    return;
+				dialog.Filter = "XML Files (*.xml)|*.xml|All Files (*.*)|*.*";
+				if (dialog.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+					return;
 
-                fileTab.FileInfo = new FileInfo(dialog.FileName);
-            }
+				fileTab.FileInfo = new FileInfo(dialog.FileName);
+			}
 
-            fileTab.Save(formatting);
-        }
+			fileTab.Save(formatting);
+		}
 
-        /// <summary>
-        /// Prompts the user to save a copy of the tab page's XML file.
-        /// </summary>
-        public void SaveAs(bool formatting)
-        {
-            FileTab fileTab = this.FileTab;
-            if (fileTab == null)
-                return;
+		/// <summary>
+		/// Prompts the user to save a copy of the tab page's XML file.
+		/// </summary>
+		public void SaveAs(bool formatting)
+		{
+			FileTab fileTab = this.FileTab;
+			if (fileTab == null)
+				return;
 
 			System.Windows.Forms.SaveFileDialog dialog = new System.Windows.Forms.SaveFileDialog();
 
-            dialog.Filter = "XML Files (*.xml)|*.xml|All Files (*.*)|*.*";
+			dialog.Filter = "XML Files (*.xml)|*.xml|All Files (*.*)|*.*";
 
-            if (fileTab.FileInfo != null)
-                dialog.FileName = System.IO.Path.GetFileName(fileTab.FileInfo.FullName);
+			if (fileTab.FileInfo != null)
+				dialog.FileName = System.IO.Path.GetFileName(fileTab.FileInfo.FullName);
 
-            if (dialog.ShowDialog() != System.Windows.Forms.DialogResult.OK)
-                return;
+			if (dialog.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+				return;
 
-            fileTab.FileInfo = new FileInfo(dialog.FileName);
+			fileTab.FileInfo = new FileInfo(dialog.FileName);
 
-            this.Save(formatting);
-        }
+			this.Save(formatting);
+		}
 
 		public void Refresh()
 		{
-			
+
 		}
 
-        private void Close()
-        {
-            TabControl tabControl = this.GetParentTabControl();
-            if (tabControl == null)
-                return;
+		private void Close()
+		{
+			TabControl tabControl = this.GetParentTabControl();
+			if (tabControl == null)
+				return;
 
-            tabControl.Items.Remove(this);
-        }
+			tabControl.Items.Remove(this);
+		}
 
-        private void CloseAll()
-        {
-            TabControl tabControl = this.GetParentTabControl();
-            if (tabControl == null)
-                return;
+		private void CloseAll()
+		{
+			TabControl tabControl = this.GetParentTabControl();
+			if (tabControl == null)
+				return;
 
-            tabControl.Items.Clear();
-        }
+			tabControl.Items.Clear();
+		}
 
-        private void CloseAllButThis()
-        {
-            TabControl tabControl = this.GetParentTabControl();
-            if (tabControl == null)
-                return;
+		private void CloseAllButThis()
+		{
+			TabControl tabControl = this.GetParentTabControl();
+			if (tabControl == null)
+				return;
 
-            while (tabControl.Items.Count > 1)
-            {
-                object itemToRemove = null;
+			while (tabControl.Items.Count > 1)
+			{
+				object itemToRemove = null;
 
-                foreach (object item in tabControl.Items)
-                {
-                    if (item == this)
-                        continue;
+				foreach (object item in tabControl.Items)
+				{
+					if (item == this)
+						continue;
 
-                    itemToRemove = item;
-                    break;
-                }
+					itemToRemove = item;
+					break;
+				}
 
-                tabControl.Items.Remove(itemToRemove);
-            }
-        }
+				tabControl.Items.Remove(itemToRemove);
+			}
+		}
 
-        private void CopyFullPath()
-        {
-            FileTab fileTab = this.FileTab;
+		private void CopyFullPath()
+		{
+			FileTab fileTab = this.FileTab;
 
-            if (fileTab == null || fileTab.FileInfo == null || string.IsNullOrEmpty(fileTab.FileInfo.FullName))
-                return;
+			if (fileTab == null || fileTab.FileInfo == null || string.IsNullOrEmpty(fileTab.FileInfo.FullName))
+				return;
 
-            Clipboard.SetText(fileTab.FileInfo.FullName);
-        }
+			Clipboard.SetText(fileTab.FileInfo.FullName);
+		}
 
-        private void OpenContainingFolder()
-        {
-            FileTab fileTab = this.FileTab;
+		private void OpenContainingFolder()
+		{
+			FileTab fileTab = this.FileTab;
 
-            if (fileTab == null || fileTab.FileInfo == null || string.IsNullOrEmpty(fileTab.FileInfo.FullName))
-                return;
+			if (fileTab == null || fileTab.FileInfo == null || string.IsNullOrEmpty(fileTab.FileInfo.FullName))
+				return;
 
-            string folderPath = fileTab.FileInfo.DirectoryName;
+			string args = string.Format("/select,\"{0}\"", fileTab.FileInfo.FullName);
 
-            Process.Start(folderPath);
-        }
+			Process.Start("explorer", args);
+		}
 
 		public XPathNavigatorView GetSelectedNavigatorView()
 		{
@@ -183,7 +183,7 @@ namespace XmlExplorer
 			return navigator;
 		}
 
-		public void CopyXml()
+		public void CopyOuterXml()
 		{
 			XPathNavigatorView navigatorView = this.GetSelectedNavigatorView();
 			if (navigatorView == null)
@@ -192,6 +192,31 @@ namespace XmlExplorer
 			string text = this.GetXPathNavigatorFormattedOuterXml(navigatorView.XPathNavigator);
 
 			Clipboard.SetText(text);
+		}
+
+		public void CopyXml()
+		{
+			XPathNavigatorView navigatorView = this.GetSelectedNavigatorView();
+			if (navigatorView == null)
+				return;
+
+			string text = this.GetXPathNavigatorFormattedXml(navigatorView.XPathNavigator);
+
+			Clipboard.SetText(text);
+		}
+
+		private string GetXPathNavigatorFormattedXml(XPathNavigator navigator)
+		{
+			string outer = this.GetXPathNavigatorFormattedOuterXml(navigator);
+
+			int index = outer.IndexOf(">") + 1;
+
+			string xml = outer;
+			
+			if(index < xml.Length && index > 0)
+				xml = xml.Remove(index);
+
+			return xml;
 		}
 
 		private string GetXPathNavigatorFormattedOuterXml(XPathNavigator navigator)
@@ -203,6 +228,7 @@ namespace XmlExplorer
 				settings.Encoding = Encoding.UTF8;
 				settings.Indent = true;
 				settings.OmitXmlDeclaration = true;
+				settings.ConformanceLevel = ConformanceLevel.Fragment;
 
 				using (XmlWriter writer = XmlTextWriter.Create(stream, settings))
 				{
@@ -631,7 +657,7 @@ namespace XmlExplorer
 		{
 			try
 			{
-				this.CopyXml();
+				this.CopyOuterXml();
 			}
 			catch (Exception ex)
 			{
@@ -679,7 +705,7 @@ namespace XmlExplorer
 				DependencyObject obj = this.TreeView.InputHitTest(e.GetPosition(this.TreeView)) as DependencyObject;
 				if (obj == null)
 					return;
-				
+
 				// cycle up the tree until you hit a TreeViewItem   
 				while (obj != null && !(obj is TreeViewItem))
 				{
