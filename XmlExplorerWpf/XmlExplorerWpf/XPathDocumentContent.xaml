@@ -1,0 +1,70 @@
+﻿<ad:DocumentContent
+    x:Class="XmlExplorer.XPathDocumentContent"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:ad="clr-namespace:AvalonDock;assembly=AvalonDock"
+    xmlns:local="clr-namespace:XmlExplorer"
+    mc:Ignorable="d" 
+    d:DesignHeight="300" d:DesignWidth="300"
+    Title="{Binding FileName}"
+    ToolTip="{Binding FileInfo.FullName}">
+    <ad:DocumentContent.Resources>
+
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+
+                <ResourceDictionary Source="XPathNavigatorTemplates.xaml" />
+
+                <ResourceDictionary Source="AppCommands.xaml" />
+                
+                <ResourceDictionary>
+
+                    <ContextMenu x:Key="treeContextMenu">
+                        <MenuItem Command="{StaticResource CopyXmlCommand}" ToolTip="Copy the formatted XML of the selected node. (Ctrl+C)" InputGestureText="Ctrl+C">
+                            <MenuItem.Icon>
+                                <Image Source="Resources\Copy16.png" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Command="{StaticResource CopyXPathCommand}" ToolTip="Copy the XPath of the selected node. (Ctrl+Shift+C)" InputGestureText="Ctrl+Shift+C">
+                            <MenuItem.Icon>
+                                <Image Source="Resources\Copy16.png" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <Separator />
+                        <MenuItem Command="{StaticResource ExpandAllCommand}" ToolTip="Expands the selected node and all child nodes. (Alt+Right)" InputGestureText="Alt+Right">
+                            <MenuItem.Icon>
+                                <Image Source="Resources\ExpandAll.png" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Command="{StaticResource CollapseAllCommand}" ToolTip="Collapses the selected node and all child nodes. (Alt+Left)" InputGestureText="Alt+Left">
+                            <MenuItem.Icon>
+                                <Image Source="Resources\CollapseAll.png" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </ContextMenu>
+
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+
+    </ad:DocumentContent.Resources>
+    
+    <local:XPathNavigatorTreeView 
+        x:Name="TreeView"
+        VirtualizingStackPanel.IsVirtualizing="True"
+        VirtualizingStackPanel.VirtualizationMode="Recycling"
+        ItemsSource="{Binding Converter={StaticResource xPathNavigatorItemsConverter}}"
+        ItemTemplateSelector="{StaticResource xPathNodeTypeDataTemplateSelector}"
+        MouseUp="TreeView_MouseUp"  />
+    
+    <ad:DocumentContent.CommandBindings>
+        <CommandBinding Command="{StaticResource CollapseAllCommand}" CanExecute="CollapseAllCommand_CanExecute" Executed="CollapseAllCommand_Executed" />
+        <CommandBinding Command="{StaticResource ExpandAllCommand}" CanExecute="ExpandAllCommand_CanExecute" Executed="ExpandAllCommand_Executed" />
+
+        <CommandBinding Command="{StaticResource CopyXPathCommand}" CanExecute="CopyXPathCommand_CanExecute" Executed="CopyXPathCommand_Executed" />
+        <CommandBinding Command="{StaticResource CopyXmlCommand}" CanExecute="CopyXmlCommand_CanExecute" Executed="CopyXmlCommand_Executed" />
+    </ad:DocumentContent.CommandBindings>
+    
+</ad:DocumentContent>

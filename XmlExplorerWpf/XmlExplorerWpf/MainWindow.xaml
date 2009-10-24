@@ -1,7 +1,14 @@
-﻿<Window x:Class="XmlExplorer.MainWindow"
+﻿<Window 
+    x:Class="XmlExplorer.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:sysxml="clr-namespace:System.Xml;assembly=System.Xml"
+    xmlns:ad="clr-namespace:AvalonDock;assembly=AvalonDock"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:local="clr-namespace:XmlExplorer"
+    mc:Ignorable="d" 
+    d:DesignHeight="480" d:DesignWidth="640"
     AllowDrop="True" Drop="Window_Drop"
     Title="XML Explorer">
 
@@ -28,6 +35,9 @@
                             x:Key="myFonts"/>-->
 
                 </ResourceDictionary>
+
+                <ResourceDictionary Source="DocumentPaneStyles.xaml" />
+
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
 
@@ -117,7 +127,7 @@
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator />
-                <MenuItem Command="{StaticResource ValidateCommand}" Visibility="Collapsed" />
+                <MenuItem Command="{StaticResource ValidateCommand}" />
                 <MenuItem Command="{StaticResource NamespacesCommand}" />
             </MenuItem>
             <MenuItem Header="_Help">
@@ -207,7 +217,23 @@
             </StatusBarItem>
         </StatusBar>
 
-        <TabControl x:Name="tabControl" />
+        <ad:DockingManager x:Name="dockingManager">
+            <ad:ResizingPanel Orientation="Vertical">
+                <ad:ResizingPanel Orientation="Horizontal">
+                    <ad:DocumentPane />
+                </ad:ResizingPanel>
+                <ad:DockablePane Name="ErrorListDockablePane" ad:ResizingPanel.ResizeHeight="120">
+                    <local:ErrorListDockableContent x:Name="ErrorListDockableContent" Title="Error List">
+                        <local:ErrorListDockableContent.Icon>
+                            <Image Source="Resources\DocumentError16.png" />
+                        </local:ErrorListDockableContent.Icon>
+                    </local:ErrorListDockableContent>
+                    <ad:DockableContent x:Name="NamespaceListDockableContent" Title="Namespace List">
+                        <local:NamespacePrefixList x:Name="NamespaceList" />
+                    </ad:DockableContent>
+                </ad:DockablePane>
+            </ad:ResizingPanel>
+        </ad:DockingManager>
 
     </DockPanel>
 
@@ -216,9 +242,9 @@
         <CommandBinding Command="{StaticResource CopyOuterXmlCommand}" Executed="CopyOuterXmlCommand_Executed" CanExecute="CopyOuterXmlCommand_CanExecute" />
         <CommandBinding Command="{StaticResource CopyXmlCommand}" Executed="CopyXmlCommand_Executed" CanExecute="CopyXmlCommand_CanExecute" />
         <CommandBinding Command="{StaticResource CopyXPathCommand}" Executed="CopyXPathCommand_Executed" CanExecute="CopyXPathCommand_CanExecute" />
-        
+
         <CommandBinding Command="{StaticResource NewCommand}" Executed="NewCommand_Executed" CanExecute="NewCommand_CanExecute" />
-        
+
         <CommandBinding Command="{StaticResource OpenCommand}" Executed="OpenCommand_Executed" CanExecute="OpenCommand_CanExecute" />
 
         <CommandBinding Command="{StaticResource SaveWithFormattingCommand}" Executed="SaveWithFormattingCommand_Executed" CanExecute="SaveWithFormattingCommand_CanExecute" />
@@ -245,6 +271,9 @@
         <CommandBinding Command="{StaticResource ValidateCommand}" Executed="ValidateCommand_Executed" CanExecute="ValidateCommand_CanExecute" />
 
         <CommandBinding Command="{StaticResource NamespacesCommand}" Executed="NamespacesCommand_Executed" CanExecute="NamespacesCommand_CanExecute" />
+
+        <CommandBinding Command="{StaticResource OpenContainingFolderCommand}" CanExecute="OpenContainingFolderCommand_CanExecute" Executed="OpenContainingFolderCommand_Executed" />
+        <CommandBinding Command="{StaticResource CopyFullPathCommand}" CanExecute="CopyFullPathCommand_CanExecute" Executed="CopyFullPathCommand_Executed" />
 
     </Window.CommandBindings>
 

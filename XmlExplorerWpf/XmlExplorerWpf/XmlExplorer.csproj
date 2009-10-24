@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -10,13 +10,12 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>XmlExplorer</RootNamespace>
     <AssemblyName>XmlExplorer</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <ApplicationIcon>Resources\App.ico</ApplicationIcon>
     <ApplicationManifest>app.manifest</ApplicationManifest>
-    <TargetFrameworkSubset>Client</TargetFrameworkSubset>
     <IsWebBootstrapper>true</IsWebBootstrapper>
     <ManifestCertificateThumbprint>CDABB9CFA872E773429F12820B5E53171907579C</ManifestCertificateThumbprint>
     <ManifestKeyFile>XmlExplorer_TemporaryKey.pfx</ManifestKeyFile>
@@ -28,6 +27,11 @@
     <SccProvider>SAK</SccProvider>
     <StartupObject>XmlExplorer.EntryPoint</StartupObject>
     <TargetZone>LocalIntranet</TargetZone>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
     <PublishUrl>http://localhost/xmlexplorer/</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Web</InstallFrom>
@@ -77,6 +81,7 @@
     </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -103,28 +108,48 @@
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="AboutWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="AppCommands.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DocumentPaneStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ErrorListDockableContent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
-    <Page Include="FileTabItem.xaml">
+    <Page Include="NamespacePrefixList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
-    <Page Include="NamespacePrefixWindow.xaml">
+    <Page Include="XPathDocumentContent.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="XPathNavigatorTemplates.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -137,20 +162,26 @@
     <Compile Include="AboutWindow.xaml.cs">
       <DependentUpon>AboutWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Error.cs" />
+    <Compile Include="ErrorCategoryToImageSourceConverter.cs" />
+    <Compile Include="ErrorListDockableContent.xaml.cs">
+      <DependentUpon>ErrorListDockableContent.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="EventArgs.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FileTab.cs" />
-    <Compile Include="FileTabItem.xaml.cs">
-      <DependentUpon>FileTabItem.xaml</DependentUpon>
-    </Compile>
     <Compile Include="NamespaceDefinition.cs" />
-    <Compile Include="NamespacePrefixWindow.xaml.cs">
-      <DependentUpon>NamespacePrefixWindow.xaml</DependentUpon>
+    <Compile Include="NamespacePrefixList.xaml.cs">
+      <DependentUpon>NamespacePrefixList.xaml</DependentUpon>
     </Compile>
     <Compile Include="NotifyPropertyChangedBase.cs" />
     <Compile Include="TreeViewItemBehavior.cs" />
+    <Compile Include="XPathDocumentContent.xaml.cs">
+      <DependentUpon>XPathDocumentContent.xaml</DependentUpon>
+    </Compile>
     <Compile Include="XPathNavigatorAttributesConverter.cs" />
+    <Compile Include="XPathNavigatorTreeView.cs" />
     <Compile Include="XPathNavigatorView.cs" />
     <Compile Include="XPathNodeTypeDataTemplateSelector.cs" />
     <Compile Include="InvertedBooleanToVisibilityConverter.cs" />
@@ -236,7 +267,7 @@
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
-      <ProductName>.NET Framework Client Profile</ProductName>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
@@ -259,6 +290,11 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.VisualBasic.PowerPacks.10.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft Visual Basic PowerPacks 10.0</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
       <Visible>False</Visible>
       <ProductName>Windows Installer 3.1</ProductName>
@@ -272,6 +308,9 @@
     <Resource Include="Resources\Close.png" />
     <Resource Include="Resources\CloseHover.png" />
     <Resource Include="Resources\ClosePress.png" />
+    <Resource Include="Resources\Warning16.png" />
+    <Resource Include="Resources\Error16.png" />
+    <Resource Include="Resources\DocumentError16.png" />
     <Content Include="XmlFile.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -285,6 +324,10 @@
     </FileAssociation>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AvalonDock\AvalonDock.csproj">
+      <Project>{2FF700C2-A38A-48BD-A637-8CAFD4FE6237}</Project>
+      <Name>AvalonDock</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WpfControls\WpfControls.csproj">
       <Project>{FEAB899A-1F60-4D10-8848-FAE5CB5F4429}</Project>
       <Name>WpfControls</Name>

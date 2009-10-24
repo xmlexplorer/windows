@@ -34,10 +34,6 @@
 
     <RoutedUICommand x:Key="LaunchXPathCommand" Text="Launch XPath"/>
 
-    <RoutedUICommand x:Key="CloseAllButThisCommand" Text="Close All But This" />
-    
-    <RoutedUICommand x:Key="CloseAllCommand" Text="Close All" />
-    
     <RoutedUICommand x:Key="CopyFullPathCommand" Text="Copy Full Path" />
     
     <RoutedUICommand x:Key="OpenContainingFolderCommand" Text="Open Containing Folder" />
@@ -50,7 +46,7 @@
     
     <RoutedUICommand x:Key="ChooseFontCommand" Text="Choose _Font" />
     
-    <RoutedUICommand x:Key="ValidateCommand" Text="_Validate" />
+    <RoutedUICommand x:Key="ValidateCommand" Text="Error _List" />
     
     <RoutedUICommand x:Key="NamespacesCommand" Text="_Namespaces" />
         

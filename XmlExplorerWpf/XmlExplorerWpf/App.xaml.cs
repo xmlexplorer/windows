@@ -14,6 +14,9 @@ namespace XmlExplorer
 		[STAThread]
 		public static void Main(string[] args)
 		{
+            SplashScreen splashScreen = new SplashScreen("Resources/XmlExplorer Banner.png");
+            splashScreen.Show(true);
+
 			SingleInstanceManager manager = new SingleInstanceManager();
 			manager.Run(args);
 		}
@@ -67,8 +70,12 @@ namespace XmlExplorer
 
 		public void Activate(IEnumerable<string> commandLine)
 		{
+            if (this.MainWindow.WindowState == WindowState.Minimized)
+                this.MainWindow.WindowState = WindowState.Normal;
+
 			// Reactivate application's main window
 			this.MainWindow.Activate();
+
 			MainWindow mainWindow = this.MainWindow as MainWindow;
 			if (mainWindow == null)
 				return;
