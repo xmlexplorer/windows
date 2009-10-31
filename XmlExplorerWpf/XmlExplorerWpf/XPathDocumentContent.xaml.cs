@@ -31,7 +31,6 @@ namespace XmlExplorer
             : this()
         {
             this.FileInfo = fileInfo;
-            this.TreeView.Open(fileInfo);
         }
 
         public XPathDocumentContent(FileInfo fileInfo, object document)

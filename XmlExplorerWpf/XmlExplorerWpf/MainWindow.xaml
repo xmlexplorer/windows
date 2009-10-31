@@ -215,6 +215,9 @@
             <StatusBarItem HorizontalAlignment="Left">
                 <TextBlock Name="statusBarItemMain" />
             </StatusBarItem>
+            <StatusBarItem HorizontalAlignment="Right">
+                <TextBlock Name="statusBarItemLoadTime" />
+            </StatusBarItem>
         </StatusBar>
 
         <ad:DockingManager x:Name="dockingManager">

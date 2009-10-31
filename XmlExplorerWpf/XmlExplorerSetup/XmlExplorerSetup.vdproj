@@ -46,12 +46,6 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_4D9AF47105BAE743F6CBA2C947430985"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_133133F98C7A49A29C9485C54C534C49"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -65,6 +59,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_43DC2C4AA43858087ABD94A760113297"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_4D9AF47105BAE743F6CBA2C947430985"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -207,7 +207,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:AvalonDock, Version=1.2.2643.0, Culture=neutral, PublicKeyToken=85a1e0ada7ec13e4, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:AvalonDock, Version=1.2.2681.0, Culture=neutral, PublicKeyToken=85a1e0ada7ec13e4, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_43DC2C4AA43858087ABD94A760113297"
@@ -341,15 +341,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:XML Explorer"
-        "ProductCode" = "8:{FC4AC518-7FC2-4718-BAC5-CEE5B254F00D}"
-        "PackageCode" = "8:{5EE79360-5567-4ED2-A229-BCD90D1A97FF}"
+        "ProductCode" = "8:{6C4E896E-0E83-4DE2-BD4B-B9FB465E249B}"
+        "PackageCode" = "8:{E8A6349E-46F3-4966-9DC2-99779D8E332C}"
         "UpgradeCode" = "8:{5B6ACA7B-E75F-4D3A-99B4-41577451EC03}"
         "AspNetVersion" = "8:4.0.21006.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:3.0.0"
+        "ProductVersion" = "8:3.0.1"
         "Manufacturer" = "8:XML Explorer"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:http://xmlexplorer.codeplex.com"
@@ -359,7 +359,7 @@
         "Keywords" = "8:"
         "ARPCOMMENTS" = "8:An extremely fast, lightweight XML file viewer."
         "ARPURLINFOABOUT" = "8:http://xmlexplorer.codeplex.com"
-        "ARPPRODUCTICON" = "8:"
+        "ARPPRODUCTICON" = "8:_133133F98C7A49A29C9485C54C534C49"
         "ARPIconIndex" = "3:32512"
         "SearchPath" = "8:"
         "UseSystemSearchPath" = "11:TRUE"
@@ -473,7 +473,7 @@
             "Target" = "8:_133133F98C7A49A29C9485C54C534C49"
             "Folder" = "8:_D5DD5CB145594310973DB96ECF66A1CF"
             "WorkingFolder" = "8:_1034B623F3DD4EBD8628AE0E9F2BBFCD"
-            "Icon" = "8:"
+            "Icon" = "8:_133133F98C7A49A29C9485C54C534C49"
             "Feature" = "8:"
             }
         }

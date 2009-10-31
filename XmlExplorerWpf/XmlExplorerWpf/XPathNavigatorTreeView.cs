@@ -13,11 +13,15 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Threading;
+using System.Windows.Threading;
 
 namespace XmlExplorer
 {
     public class XPathNavigatorTreeView : TreeView
     {
+        private DateTime LoadingStarted;
+
         public FileInfo FileInfo { get; set; }
         public XmlNamespaceManager XmlNamespaceManager { get; set; }
 
@@ -41,12 +45,73 @@ namespace XmlExplorer
             set
             {
                 this.DataContext = value;
-                this.LoadNamespaceDefinitions();
-                this.Validate();
+                this.IsLoading = false;
+                this.LoadTime = DateTime.Now - this.LoadingStarted;
             }
         }
 
-        public void Open(FileInfo fileInfo)
+        public bool IsLoading
+        {
+            get { return (bool)GetValue(IsLoadingProperty); }
+            set { SetValue(IsLoadingProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for IsLoading.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsLoadingProperty =
+            DependencyProperty.Register("IsLoading", typeof(bool), typeof(XPathNavigatorTreeView), new UIPropertyMetadata(false));
+
+        public TimeSpan LoadTime { get; set; }
+
+        public void BeginOpen(FileInfo fileInfo, EventHandler OnFinished, EventHandler<EventArgs<Exception>> OnException)
+        {
+            this.LoadingStarted = DateTime.Now;
+
+            this.IsLoading = true;
+
+            ThreadStart start = delegate()
+            {
+                XPathNavigator navigator = null;
+                try
+                {
+                    navigator = OpenXPathNavigator(fileInfo);
+
+                    this.LoadNamespaceDefinitions(navigator);
+                    this.Validate(navigator);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex);
+
+                    this.AddError(ex.Message);
+
+                    if (OnException != null)
+                        OnException(this, new EventArgs<Exception>(ex));
+                }
+                finally
+                {
+                    Dispatcher.Invoke(new Action<XPathNavigator>(SetDocument), DispatcherPriority.Normal, navigator);
+
+                    if (OnFinished != null)
+                        OnFinished(this, EventArgs.Empty);
+                }
+            };
+            new Thread(start).Start();
+        }
+
+        public void SetDocument(XPathNavigator navigator)
+        {
+            try
+            {
+                this.Document = navigator;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                throw;
+            }
+        }
+
+        private static XPathNavigator OpenXPathNavigator(FileInfo fileInfo)
         {
             XmlReaderSettings readerSettings = new XmlReaderSettings();
             readerSettings.ConformanceLevel = ConformanceLevel.Fragment;
@@ -58,7 +123,7 @@ namespace XmlExplorer
                 document = new XPathDocument(reader);
             }
 
-            this.Document = document.CreateNavigator();
+            return document.CreateNavigator();
         }
 
         /// <summary>
@@ -133,9 +198,8 @@ namespace XmlExplorer
             }
         }
 
-        private void LoadNamespaceDefinitions()
+        private void LoadNamespaceDefinitions(XPathNavigator navigator)
         {
-            XPathNavigator navigator = this.DataContext as XPathNavigator;
             if (navigator == null)
             {
                 this.XmlNamespaceManager = null;
@@ -423,23 +487,24 @@ namespace XmlExplorer
         /// </summary>
         /// <returns></returns>
         /// <exception cref="InvalidOperationException" />
-        public List<Error> Validate()
+        public List<Error> Validate(XPathNavigator navigator)
         {
             try
             {
                 this.CanValidate = false;
 
-                XPathNavigator navigator = this.DataContext as XPathNavigator;
+                this.Errors = new List<Error>();
 
                 if (navigator == null)
                     return null;
 
-                this.Errors = new List<Error>();
-
                 string xsiPrefix = this.XmlNamespaceManager.LookupPrefix("http://www.w3.org/2001/XMLSchema-instance");
 
                 if (string.IsNullOrEmpty(xsiPrefix))
-                    throw new InvalidOperationException("The document does not have a schema specified.");
+                {
+                    this.AddError("The document does not have a schema specified.", XmlSeverityType.Warning);
+                    return this.Errors;
+                }
 
                 XmlSchemaSet schemas = new XmlSchemaSet();
 
@@ -497,7 +562,7 @@ namespace XmlExplorer
             }
             catch (Exception ex)
             {
-                this.AddError(ex.ToString());
+                this.AddError(ex.Message);
             }
 
             return this.Errors;
@@ -563,9 +628,14 @@ namespace XmlExplorer
 
         private void AddError(string description)
         {
+            this.AddError(description, XmlSeverityType.Error);
+        }
+
+        private void AddError(string description, XmlSeverityType category)
+        {
             Error error = new Error();
             error.Description = description;
-            error.Category = XmlSeverityType.Error;
+            error.Category = category;
 
             this.AddError(error);
         }

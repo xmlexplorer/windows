@@ -126,15 +126,40 @@ namespace XmlExplorer
         {
             XPathDocumentContent xpathDocumentContent = new XPathDocumentContent(fileInfo);
 
-            this.InitializeXPathDocumentContent(xpathDocumentContent);
+            xpathDocumentContent.TreeView.BeginOpen(fileInfo, this.OnDocumentLoaded, null);
 
-            this.dockingManager.Show(xpathDocumentContent);
+            this.InitializeXPathDocumentContent(xpathDocumentContent);
 
             if (xpathDocumentContent.TreeView.DefaultNamespaceCount > 0)
                 this.dockingManager.Show(this.NamespaceListDockableContent);
 
-            if (xpathDocumentContent.TreeView.Errors.Count > 0 && this.IsLoaded)
+            if (xpathDocumentContent.TreeView.Errors != null && xpathDocumentContent.TreeView.Errors.Count > 0)
                 this.dockingManager.Show(this.ErrorListDockableContent);
+        }
+
+        void OnDocumentLoaded(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!this.Dispatcher.CheckAccess())
+                {
+                    this.Dispatcher.Invoke(new EventHandler(this.OnDocumentLoaded), sender, e);
+                    return;
+                }
+
+                var selectedItem = this.GetSelectedXPathDocumentContent();
+                if (selectedItem == null)
+                    return;
+
+                if (selectedItem.TreeView != sender)
+                    return;
+
+                this.LoadCurrentDocumentInformation();
+            }
+            catch (Exception ex)
+            {
+                App.HandleException(ex);
+            }
         }
 
         private void Open(string name, object document)
@@ -142,16 +167,16 @@ namespace XmlExplorer
             XPathDocumentContent xpathDocumentContent = new XPathDocumentContent(name, document);
 
             this.InitializeXPathDocumentContent(xpathDocumentContent);
-
-            this.dockingManager.MainDocumentPane.Items.Add(xpathDocumentContent);
-
-            this.dockingManager.ActiveDocument = xpathDocumentContent;
         }
 
         private void InitializeXPathDocumentContent(XPathDocumentContent xpathDocumentContent)
         {
             xpathDocumentContent.TreeView.FontFamily = new FontFamily(Properties.Settings.Default.FontFamilyName);
             xpathDocumentContent.TreeView.FontSize = Properties.Settings.Default.FontSize;
+
+            this.dockingManager.MainDocumentPane.Items.Add(xpathDocumentContent);
+
+            this.dockingManager.ActiveDocument = xpathDocumentContent;
         }
 
         private void CopyXPath()
@@ -256,7 +281,7 @@ namespace XmlExplorer
 
                 if (iterator != null)
                 {
-                    if(iterator.Count < 1)
+                    if (iterator.Count < 1)
                         throw new XPathException("No matches found.  Please check the XPath expression, and make sure you're using namespace prefixes, if required.");
 
                     // the expression evaluated to a node set
@@ -282,7 +307,7 @@ namespace XmlExplorer
             //dialog.Result = result.ToString();
             //dialog.ShowDialog(this.FindForm());
             //return true;
-            MessageBox.Show( result.ToString(), "XML Explorer - XPath expression result");
+            MessageBox.Show(result.ToString(), "XML Explorer - XPath expression result");
         }
 
         private XPathDocumentContent GetSelectedXPathDocumentContent()
@@ -307,7 +332,7 @@ namespace XmlExplorer
             if (xpathDocumentContent == null)
                 return;
 
-            this.SaveAs(formatting);
+            xpathDocumentContent.TreeView.SaveAs(formatting);
         }
 
         private void Refresh()
@@ -359,6 +384,19 @@ namespace XmlExplorer
 
                 fontChooser.ApplyPropertiesToObject(otherXPathDocumentContent.TreeView);
             }
+        }
+
+        private void LoadCurrentDocumentInformation()
+        {
+            this.LoadErrorList();
+            this.LoadNamespaceList();
+
+            string loadedTime = null;
+            var selectedItem = this.GetSelectedXPathDocumentContent();
+            if (selectedItem != null && !selectedItem.TreeView.IsLoading)
+                loadedTime = string.Format("Loaded in {0:N3} seconds", selectedItem.TreeView.LoadTime.TotalMilliseconds / 1000D);
+
+            this.statusBarItemLoadTime.Text = loadedTime;
         }
 
         private void LoadErrorList()
@@ -1142,8 +1180,7 @@ namespace XmlExplorer
             {
                 if (e.PropertyName == "ActiveDocument")
                 {
-                    this.LoadErrorList();
-                    this.LoadNamespaceList();
+                    this.LoadCurrentDocumentInformation();
                 }
             }
             catch (Exception ex)

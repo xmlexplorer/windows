@@ -18,7 +18,7 @@
                 <ResourceDictionary Source="XPathNavigatorTemplates.xaml" />
 
                 <ResourceDictionary Source="AppCommands.xaml" />
-                
+
                 <ResourceDictionary>
 
                     <ContextMenu x:Key="treeContextMenu">
@@ -45,20 +45,37 @@
                         </MenuItem>
                     </ContextMenu>
 
+                    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+                    <local:InvertedBooleanToVisibilityConverter x:Key="InvertedBooleanToVisibilityConverter" />
+                    
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
 
     </ad:DocumentContent.Resources>
-    
-    <local:XPathNavigatorTreeView 
-        x:Name="TreeView"
-        VirtualizingStackPanel.IsVirtualizing="True"
-        VirtualizingStackPanel.VirtualizationMode="Recycling"
-        ItemsSource="{Binding Converter={StaticResource xPathNavigatorItemsConverter}}"
-        ItemTemplateSelector="{StaticResource xPathNodeTypeDataTemplateSelector}"
-        MouseUp="TreeView_MouseUp"  />
-    
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <local:XPathNavigatorTreeView 
+            x:Name="TreeView"
+            VirtualizingStackPanel.IsVirtualizing="True"
+            VirtualizingStackPanel.VirtualizationMode="Recycling"
+            ItemsSource="{Binding Converter={StaticResource xPathNavigatorItemsConverter}}"
+            ItemTemplateSelector="{StaticResource xPathNodeTypeDataTemplateSelector}"
+            Visibility="{Binding ElementName=TreeView, Path=IsLoading, Converter={StaticResource InvertedBooleanToVisibilityConverter}}"
+            MouseUp="TreeView_MouseUp"  />
+
+        <ProgressBar
+            Grid.Row="1"
+            Height="24"
+            IsIndeterminate="{Binding ElementName=TreeView, Path=IsLoading}"
+            Visibility="{Binding ElementName=TreeView, Path=IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="12,12,12,12" />
+    </Grid>
+
     <ad:DocumentContent.CommandBindings>
         <CommandBinding Command="{StaticResource CollapseAllCommand}" CanExecute="CollapseAllCommand_CanExecute" Executed="CollapseAllCommand_Executed" />
         <CommandBinding Command="{StaticResource ExpandAllCommand}" CanExecute="ExpandAllCommand_CanExecute" Executed="ExpandAllCommand_Executed" />
@@ -66,5 +83,5 @@
         <CommandBinding Command="{StaticResource CopyXPathCommand}" CanExecute="CopyXPathCommand_CanExecute" Executed="CopyXPathCommand_Executed" />
         <CommandBinding Command="{StaticResource CopyXmlCommand}" CanExecute="CopyXmlCommand_CanExecute" Executed="CopyXmlCommand_Executed" />
     </ad:DocumentContent.CommandBindings>
-    
+
 </ad:DocumentContent>
