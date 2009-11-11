@@ -111,6 +111,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Error.cs" />
+    <Compile Include="EventArgs.cs" />
+    <Compile Include="IListExtensions.cs" />
+    <Compile Include="InvertedBooleanToVisibilityConverter.cs" />
+    <Compile Include="NamespaceDefinition.cs" />
+    <Compile Include="NotifyPropertyChangedBase.cs" />
+    <Compile Include="TreeViewItemBehavior.cs" />
+    <Compile Include="XPathNavigatorAttributesConverter.cs" />
+    <Compile Include="XPathNavigatorItemsConverter.cs" />
+    <Compile Include="XPathNavigatorTreeView.cs" />
+    <Compile Include="XPathNavigatorView.cs" />
+    <Compile Include="XPathNodeTypeDataTemplateSelector.cs" />
     <Page Include="AboutWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -131,6 +143,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ExpressionsDockableContent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -147,44 +163,37 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="XPathNavigatorTemplates.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="XPathNavigatorTemplates.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AboutWindow.xaml.cs">
       <DependentUpon>AboutWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Error.cs" />
+    <Compile Include="Release.cs" />
     <Compile Include="ErrorCategoryToImageSourceConverter.cs" />
     <Compile Include="ErrorListDockableContent.xaml.cs">
       <DependentUpon>ErrorListDockableContent.xaml</DependentUpon>
     </Compile>
-    <Compile Include="EventArgs.cs" />
+    <Compile Include="ExpressionsDockableContent.xaml.cs">
+      <DependentUpon>ExpressionsDockableContent.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="NamespaceDefinition.cs" />
     <Compile Include="NamespacePrefixList.xaml.cs">
       <DependentUpon>NamespacePrefixList.xaml</DependentUpon>
     </Compile>
-    <Compile Include="NotifyPropertyChangedBase.cs" />
-    <Compile Include="TreeViewItemBehavior.cs" />
     <Compile Include="XPathDocumentContent.xaml.cs">
       <DependentUpon>XPathDocumentContent.xaml</DependentUpon>
     </Compile>
-    <Compile Include="XPathNavigatorAttributesConverter.cs" />
-    <Compile Include="XPathNavigatorTreeView.cs" />
-    <Compile Include="XPathNavigatorView.cs" />
-    <Compile Include="XPathNodeTypeDataTemplateSelector.cs" />
-    <Compile Include="InvertedBooleanToVisibilityConverter.cs" />
+    <Compile Include="XPathExpression.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -198,7 +207,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="XPathNavigatorItemsConverter.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -208,6 +216,7 @@
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </None>
     <None Include="XmlExplorer_TemporaryKey.pfx" />
     <AppDesigner Include="Properties\" />
@@ -311,6 +320,10 @@
     <Resource Include="Resources\Warning16.png" />
     <Resource Include="Resources\Error16.png" />
     <Resource Include="Resources\DocumentError16.png" />
+    <Resource Include="Resources\Book16.png" />
+    <Resource Include="Resources\star.png" />
+    <Resource Include="Resources\unstarred.png" />
+    <Resource Include="Resources\Check8.png" />
     <Content Include="XmlFile.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

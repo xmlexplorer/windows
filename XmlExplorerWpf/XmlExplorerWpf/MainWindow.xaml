@@ -127,8 +127,17 @@
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator />
-                <MenuItem Command="{StaticResource ValidateCommand}" />
+                <MenuItem Command="{StaticResource ValidateCommand}">
+                    <MenuItem.Icon>
+                        <Image Source="Resources\DocumentError16.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
                 <MenuItem Command="{StaticResource NamespacesCommand}" />
+                <MenuItem Command="{StaticResource ExpressionsCommand}">
+                    <MenuItem.Icon>
+                        <Image Source="Resources\Book16.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
             <MenuItem Header="_Help">
                 <MenuItem Command="{StaticResource AboutCommand}">
@@ -172,10 +181,10 @@
                     <Image Source="Resources\Refresh16.png" />
                 </Button>
                 <Separator />
-                <Button Command="{StaticResource ExpandAllCommand}" ToolTip="Expands the selected node and all child nodes. (Alt+Right)">
+                <Button Command="{StaticResource ExpandAllCommand}" ToolTip="Expand the selected node and all child nodes. (Alt+Right)">
                     <Image Source="Resources\ExpandAll.png" />
                 </Button>
-                <Button Command="{StaticResource CollapseAllCommand}" ToolTip="Collapses the selected node and all child nodes. (Alt+Left)">
+                <Button Command="{StaticResource CollapseAllCommand}" ToolTip="Collapse the selected node and all child nodes. (Alt+Left)">
                     <Image Source="Resources\CollapseAll.png" />
                 </Button>
                 <Separator />
@@ -197,6 +206,10 @@
             </Grid>
             <!--IsEditable="True" TextBoxBase.TextChanged="textBoxXPath_TextChanged"-->
             <ToolBar Grid.Row="0" Grid.Column="2" ToolBarTray.IsLocked="True">
+                <Button Name="buttonExpression" Command="{StaticResource ExpressionCommand}" CommandParameter="{Binding ElementName=textBoxXPath, Path=Text}" 
+                        ToolTip="Add the XPath expression to the Expressions list.">
+                    <Image Name="imageExpression" Source="Resources\unstarred.png" />
+                </Button>
                 <Button Name="buttonSelectXPath" Command="{StaticResource SelectXPathCommand}" CommandParameter="{Binding ElementName=textBoxXPath, Path=Text}" 
                         ToolTip="Selects the first node that matches the XPath expression.">
                     <Image Source="Resources\Search16.png" />
@@ -234,6 +247,11 @@
                     <ad:DockableContent x:Name="NamespaceListDockableContent" Title="Namespace List">
                         <local:NamespacePrefixList x:Name="NamespaceList" />
                     </ad:DockableContent>
+                    <local:ExpressionsDockableContent x:Name="ExpressionsDockableContent" Title="Expressions" ExpressionActivated="ExpressionsDockableContent_ExpressionActivated">
+                        <local:ExpressionsDockableContent.Icon>
+                            <Image Source="Resources\Book16.png" />
+                        </local:ExpressionsDockableContent.Icon>
+                    </local:ExpressionsDockableContent>
                 </ad:DockablePane>
             </ad:ResizingPanel>
         </ad:DockingManager>
@@ -274,6 +292,10 @@
         <CommandBinding Command="{StaticResource ValidateCommand}" Executed="ValidateCommand_Executed" CanExecute="ValidateCommand_CanExecute" />
 
         <CommandBinding Command="{StaticResource NamespacesCommand}" Executed="NamespacesCommand_Executed" CanExecute="NamespacesCommand_CanExecute" />
+        
+        <CommandBinding Command="{StaticResource ExpressionsCommand}" Executed="ExpressionsCommand_Executed" CanExecute="ExpressionsCommand_CanExecute" />
+
+        <CommandBinding Command="{StaticResource ExpressionCommand}" Executed="ExpressionCommand_Executed" CanExecute="ExpressionCommand_CanExecute" />
 
         <CommandBinding Command="{StaticResource OpenContainingFolderCommand}" CanExecute="OpenContainingFolderCommand_CanExecute" Executed="OpenContainingFolderCommand_Executed" />
         <CommandBinding Command="{StaticResource CopyFullPathCommand}" CanExecute="CopyFullPathCommand_CanExecute" Executed="CopyFullPathCommand_Executed" />

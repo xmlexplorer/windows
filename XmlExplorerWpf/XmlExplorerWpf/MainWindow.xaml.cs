@@ -1,17 +1,17 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Xml;
 using System.Xml.XPath;
-using WpfControls;
-using System.Diagnostics;
-using System.Collections.ObjectModel;
 using AvalonDock;
-using System.Collections;
+using WpfControls;
 
 namespace XmlExplorer
 {
@@ -33,66 +33,7 @@ namespace XmlExplorer
             ColorFactory.ChangeColors(Colors.Black);
         }
 
-        void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            if (this.ErrorListDockableContent != null)
-                this.ErrorListDockableContent.ErrorActivated -= this.ErrorListDockableContent_ErrorActivated;
-
-            if (this.dockingManager != null)
-            {
-                this.dockingManager.PropertyChanged -= this.dockingManager_PropertyChanged;
-
-                using (StringWriter writer = new StringWriter())
-                {
-                    this.dockingManager.SaveLayout(writer);
-                    writer.Flush();
-                    Properties.Settings.Default.DockLayout = writer.ToString();
-                    Properties.Settings.Default.Save();
-                }
-            }
-        }
-
-        void MainWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-            }
-            catch (Exception ex)
-            {
-                App.HandleException(ex);
-            }
-        }
-
-        void dockingManager_Loaded(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                string layout = Properties.Settings.Default.DockLayout;
-                if (string.IsNullOrEmpty(layout))
-                {
-                    // set default layout options
-                    this.dockingManager.ToggleAutoHide(this.ErrorListDockablePane);
-                }
-                else
-                {
-                    try
-                    {
-                        using (StringReader reader = new StringReader(layout))
-                        {
-                            this.dockingManager.RestoreLayout(reader);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        App.HandleException(ex);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                App.HandleException(ex);
-            }
-        }
+        public bool IsCheckForUpdatesUserInitiated { get; set; }
 
         private void Open()
         {
@@ -135,31 +76,6 @@ namespace XmlExplorer
 
             if (xpathDocumentContent.TreeView.Errors != null && xpathDocumentContent.TreeView.Errors.Count > 0)
                 this.dockingManager.Show(this.ErrorListDockableContent);
-        }
-
-        void OnDocumentLoaded(object sender, EventArgs e)
-        {
-            try
-            {
-                if (!this.Dispatcher.CheckAccess())
-                {
-                    this.Dispatcher.Invoke(new EventHandler(this.OnDocumentLoaded), sender, e);
-                    return;
-                }
-
-                var selectedItem = this.GetSelectedXPathDocumentContent();
-                if (selectedItem == null)
-                    return;
-
-                if (selectedItem.TreeView != sender)
-                    return;
-
-                this.LoadCurrentDocumentInformation();
-            }
-            catch (Exception ex)
-            {
-                App.HandleException(ex);
-            }
         }
 
         private void Open(string name, object document)
@@ -426,6 +342,150 @@ namespace XmlExplorer
 
             //    treeView.XmlNamespaceManager.AddNamespace(definition.NewPrefix, definition.Namespace);
             //}
+        }
+
+        public void CheckForUpdates()
+        {
+            try
+            {
+                Release.BeginCheckForNewerRelease(this.OnCheckForUpdateFinished);
+            }
+            catch (Exception ex)
+            {
+                App.HandleException(ex);
+            }
+        }
+
+        private void OnCheckForUpdateFinished(object sender, CheckForNewerReleaseCompletedEventArgs e)
+        {
+            try
+            {
+                if (e.Cancelled)
+                {
+                    return;
+                }
+
+                if (e.Error != null)
+                {
+                    if (this.IsCheckForUpdatesUserInitiated)
+                        App.HandleException(e.Error);
+                    return;
+                }
+
+                Version currentVersion = AssemblyInfo.Default.Version;
+                if (e.Result == null || e.Result.Version <= currentVersion)
+                {
+                    if(this.IsCheckForUpdatesUserInitiated)
+                        MessageBox.Show(string.Format("XML Explorer is up to date ({0})", currentVersion));
+                    return;
+                }
+
+                AboutWindow aboutWindow = new AboutWindow();
+                aboutWindow.Owner = this;
+                aboutWindow.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                App.HandleException(ex);
+            }
+        }
+
+        void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (this.ErrorListDockableContent != null)
+                this.ErrorListDockableContent.ErrorActivated -= this.ErrorListDockableContent_ErrorActivated;
+
+            if (this.dockingManager != null)
+            {
+                this.dockingManager.PropertyChanged -= this.dockingManager_PropertyChanged;
+
+                using (StringWriter writer = new StringWriter())
+                {
+                    this.dockingManager.SaveLayout(writer);
+                    writer.Flush();
+                    Properties.Settings.Default.DockLayout = writer.ToString();
+                    Properties.Settings.Default.Save();
+                }
+            }
+        }
+
+        void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (Properties.Settings.Default.Expressions == null)
+                {
+                    Properties.Settings.Default.Expressions = new XPathExpressionList()
+                    {
+                        new XPathExpression()
+                        {
+                            Name = "Child Element Count",
+                            Expression = "count(*)",
+                        },
+                    };
+                }
+                this.ExpressionsDockableContent.Expressions = Properties.Settings.Default.Expressions;
+            }
+            catch (Exception ex)
+            {
+                App.HandleException(ex);
+            }
+        }
+
+        void dockingManager_Loaded(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string layout = Properties.Settings.Default.DockLayout;
+                if (string.IsNullOrEmpty(layout))
+                {
+                    // set default layout options
+                    this.dockingManager.ToggleAutoHide(this.ErrorListDockablePane);
+                }
+                else
+                {
+                    try
+                    {
+                        using (StringReader reader = new StringReader(layout))
+                        {
+                            this.dockingManager.RestoreLayout(reader);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        App.HandleException(ex);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                App.HandleException(ex);
+            }
+        }
+
+        void OnDocumentLoaded(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!this.Dispatcher.CheckAccess())
+                {
+                    this.Dispatcher.Invoke(new EventHandler(this.OnDocumentLoaded), sender, e);
+                    return;
+                }
+
+                var selectedItem = this.GetSelectedXPathDocumentContent();
+                if (selectedItem == null)
+                    return;
+
+                if (selectedItem.TreeView != sender)
+                    return;
+
+                this.LoadCurrentDocumentInformation();
+            }
+            catch (Exception ex)
+            {
+                App.HandleException(ex);
+            }
         }
 
         private void NewCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -1152,6 +1212,61 @@ namespace XmlExplorer
             }
         }
 
+        private void ExpressionsCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            try
+            {
+                e.CanExecute = true;
+            }
+            catch (Exception ex)
+            {
+                App.HandleException(ex);
+            }
+        }
+
+        private void ExpressionsCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            try
+            {
+                this.dockingManager.Show(this.ExpressionsDockableContent);
+            }
+            catch (Exception ex)
+            {
+                App.HandleException(ex);
+            }
+        }
+
+        private void ExpressionCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            try
+            {
+                e.CanExecute = (this.GetSelectedXPathDocumentContent()) != null && !string.IsNullOrEmpty(this.textBoxXPath.Text);
+
+                bool existsInExpressions = this.ExpressionsDockableContent.Expressions.Any(x => x.Expression == this.textBoxXPath.Text);
+
+                if (existsInExpressions)
+                    this.imageExpression.Source = new ImageSourceConverter().ConvertFrom(@"pack://application:,,/Resources/star.png") as ImageSource;
+                else
+                    this.imageExpression.Source = new ImageSourceConverter().ConvertFrom(@"pack://application:,,/Resources/unstarred.png") as ImageSource;
+            }
+            catch (Exception ex)
+            {
+                App.HandleException(ex);
+            }
+        }
+
+        private void ExpressionCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            try
+            {
+                this.ExpressionsDockableContent.AddOrRemoveExpression(this.textBoxXPath.Text);
+            }
+            catch (Exception ex)
+            {
+                App.HandleException(ex);
+            }
+        }
+
         private void Window_Drop(object sender, DragEventArgs e)
         {
             try
@@ -1205,6 +1320,18 @@ namespace XmlExplorer
                     return;
 
                 document.TreeView.SelectXPathNavigator(navigator);
+            }
+            catch (Exception ex)
+            {
+                App.HandleException(ex);
+            }
+        }
+
+        private void ExpressionsDockableContent_ExpressionActivated(object sender, EventArgs<XPathExpression> e)
+        {
+            try
+            {
+                this.textBoxXPath.Text = e.Item.Expression;
             }
             catch (Exception ex)
             {

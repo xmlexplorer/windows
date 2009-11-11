@@ -46,10 +46,10 @@ namespace XmlExplorer
 					settings.Save();
 				}
 
-				Application.Current.Resources.MergedDictionaries.Add(
-							Application.LoadComponent(
-								new Uri("XmlExplorer;component/XPathNavigatorTemplates.xaml",
-								UriKind.Relative)) as ResourceDictionary);
+                Application.Current.Resources.MergedDictionaries.Add(
+                            Application.LoadComponent(
+                                new Uri("XmlExplorer;component/XPathNavigatorTemplates.xaml",
+                                UriKind.Relative)) as ResourceDictionary);
 
 				MainWindow window = new MainWindow();
 
@@ -59,6 +59,8 @@ namespace XmlExplorer
 				{
 					window.Open(new FileInfo(arg));
 				}
+
+                window.CheckForUpdates();
 			}
 			catch (Exception ex)
 			{

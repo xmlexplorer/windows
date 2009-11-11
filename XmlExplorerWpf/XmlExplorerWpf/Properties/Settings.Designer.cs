@@ -70,5 +70,44 @@ namespace XmlExplorer.Properties {
                 this["DockLayout"] = value;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://xmlexplorer.codeplex.com/Project/ProjectRss.aspx?ProjectRSSFeed=codeplex:/" +
+            "/release/xmlexplorer")]
+        public string ReleasesUrl {
+            get {
+                return ((string)(this["ReleasesUrl"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Alpha")]
+        public global::XmlExplorer.DevelopmentStatus DevelopmentStatus {
+            get {
+                return ((global::XmlExplorer.DevelopmentStatus)(this["DevelopmentStatus"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool CheckForUpdates {
+            get {
+                return ((bool)(this["CheckForUpdates"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::XmlExplorer.XPathExpressionList Expressions {
+            get {
+                return ((global::XmlExplorer.XPathExpressionList)(this["Expressions"]));
+            }
+            set {
+                this["Expressions"] = value;
+            }
+        }
     }
 }

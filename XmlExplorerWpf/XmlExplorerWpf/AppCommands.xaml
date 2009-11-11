@@ -50,4 +50,8 @@
     
     <RoutedUICommand x:Key="NamespacesCommand" Text="_Namespaces" />
         
+    <RoutedUICommand x:Key="ExpressionsCommand" Text="_Expressions" />
+    
+    <RoutedUICommand x:Key="ExpressionCommand" Text="_Expression" />
+    
 </ResourceDictionary>
