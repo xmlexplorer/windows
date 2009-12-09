@@ -43,7 +43,7 @@ namespace XmlExplorer
 				}
 			}
 		}
-		
+
 		public XPathNavigator XPathNavigator { get; set; }
 
 		public string Name

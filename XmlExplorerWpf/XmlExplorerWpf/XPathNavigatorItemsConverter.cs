@@ -5,12 +5,12 @@ using System.Xml.XPath;
 
 namespace XmlExplorer
 {
-    public class XPathNavigatorItemsConverter : IValueConverter
-    {
-        #region IValueConverter Members
+	public class XPathNavigatorItemsConverter : IValueConverter
+	{
+		#region IValueConverter Members
 
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
+		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+		{
 			List<XPathNavigatorView> childNavigatorViews;
 
 			XPathNodeIterator iterator = value as XPathNodeIterator;
@@ -29,30 +29,30 @@ namespace XmlExplorer
 			XPathNavigator navigator;
 
 			XPathNavigatorView view = value as XPathNavigatorView;
-			
+
 			if (view != null)
 				navigator = view.XPathNavigator;
 			else
 				navigator = value as XPathNavigator;
 
-            if (navigator == null)
-                return null;
+			if (navigator == null)
+				return null;
 
 			childNavigatorViews = new List<XPathNavigatorView>();
 
-            foreach(XPathNavigator childNavigator in navigator.SelectChildren(XPathNodeType.All))
+			foreach (XPathNavigator childNavigator in navigator.SelectChildren(XPathNodeType.All))
 			{
 				childNavigatorViews.Add(new XPathNavigatorView(childNavigator));
 			}
 
 			return childNavigatorViews;
-        }
+		}
 
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
+		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+		{
+			throw new NotImplementedException();
+		}
 
-        #endregion
-    }
+		#endregion
+	}
 }

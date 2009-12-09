@@ -1,11 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
-using System.Reflection;
 using Microsoft.VisualBasic.ApplicationServices;
-using System.Collections.ObjectModel;
-using System.Collections.Generic;
 
 namespace XmlExplorer
 {
@@ -14,8 +12,8 @@ namespace XmlExplorer
 		[STAThread]
 		public static void Main(string[] args)
 		{
-            SplashScreen splashScreen = new SplashScreen("Resources/XmlExplorer Banner.png");
-            splashScreen.Show(true);
+			SplashScreen splashScreen = new SplashScreen("Resources/XmlExplorer Banner.png");
+			splashScreen.Show(true);
 
 			SingleInstanceManager manager = new SingleInstanceManager();
 			manager.Run(args);
@@ -46,10 +44,10 @@ namespace XmlExplorer
 					settings.Save();
 				}
 
-                Application.Current.Resources.MergedDictionaries.Add(
-                            Application.LoadComponent(
-                                new Uri("XmlExplorer;component/XPathNavigatorTemplates.xaml",
-                                UriKind.Relative)) as ResourceDictionary);
+				Application.Current.Resources.MergedDictionaries.Add(
+							Application.LoadComponent(
+								new Uri("XmlExplorer;component/XPathNavigatorTemplates.xaml",
+								UriKind.Relative)) as ResourceDictionary);
 
 				MainWindow window = new MainWindow();
 
@@ -60,7 +58,7 @@ namespace XmlExplorer
 					window.Open(new FileInfo(arg));
 				}
 
-                window.CheckForUpdates();
+				window.CheckForUpdates();
 			}
 			catch (Exception ex)
 			{
@@ -72,8 +70,8 @@ namespace XmlExplorer
 
 		public void Activate(IEnumerable<string> commandLine)
 		{
-            if (this.MainWindow.WindowState == WindowState.Minimized)
-                this.MainWindow.WindowState = WindowState.Normal;
+			if (this.MainWindow.WindowState == WindowState.Minimized)
+				this.MainWindow.WindowState = WindowState.Normal;
 
 			// Reactivate application's main window
 			this.MainWindow.Activate();

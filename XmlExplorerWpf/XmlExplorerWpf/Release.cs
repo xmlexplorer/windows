@@ -8,130 +8,130 @@ using WpfControls;
 
 namespace XmlExplorer
 {
-    public class Release
-    {
-        public string Url { get; set; }
-        public Version Version { get; set; }
-        public DevelopmentStatus DevelopmentStatus { get; set; }
+	public class Release
+	{
+		public string Url { get; set; }
+		public Version Version { get; set; }
+		public DevelopmentStatus DevelopmentStatus { get; set; }
 
-        public static void BeginCheckForNewerRelease(EventHandler<CheckForNewerReleaseCompletedEventArgs> onFinished)
-        {
-            if (onFinished == null)
-                throw new ArgumentNullException("onFinished");
+		public static void BeginCheckForNewerRelease(EventHandler<CheckForNewerReleaseCompletedEventArgs> onFinished)
+		{
+			if (onFinished == null)
+				throw new ArgumentNullException("onFinished");
 
-            WebClient client = new WebClient();
+			WebClient client = new WebClient();
 
-            client.DownloadStringCompleted += new DownloadStringCompletedEventHandler(OnDownloadStringCompleted);
+			client.DownloadStringCompleted += new DownloadStringCompletedEventHandler(OnDownloadStringCompleted);
 
-            string address = Properties.Settings.Default.ReleasesUrl;
+			string address = Properties.Settings.Default.ReleasesUrl;
 
-            client.DownloadStringAsync(new Uri(address), onFinished);
-        }
+			client.DownloadStringAsync(new Uri(address), onFinished);
+		}
 
-        static void OnDownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
-        {
-            EventHandler<CheckForNewerReleaseCompletedEventArgs> onFinished = e.UserState as EventHandler<CheckForNewerReleaseCompletedEventArgs>;
-            if (onFinished == null)
-                return;
+		static void OnDownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
+		{
+			EventHandler<CheckForNewerReleaseCompletedEventArgs> onFinished = e.UserState as EventHandler<CheckForNewerReleaseCompletedEventArgs>;
+			if (onFinished == null)
+				return;
 
-            Exception error = null;
-            bool cancelled = e.Cancelled;
-            Release result = null;
+			Exception error = null;
+			bool cancelled = e.Cancelled;
+			Release result = null;
 
-            if (!cancelled)
-            {
-                error = e.Error;
+			if (!cancelled)
+			{
+				error = e.Error;
 
-                if (error == null)
-                {
-                    string rss = e.Result;
+				if (error == null)
+				{
+					string rss = e.Result;
 
-                    XDocument document = XDocument.Parse(rss);
+					XDocument document = XDocument.Parse(rss);
 
-                    var releases = ParseReleases(document);
+					var releases = ParseReleases(document);
 
-                    Version currentVersion = AssemblyInfo.Default.Version;
+					Version currentVersion = AssemblyInfo.Default.Version;
 
-                    DevelopmentStatus desiredDevelopmentStatus = Properties.Settings.Default.DevelopmentStatus;
+					DevelopmentStatus desiredDevelopmentStatus = Properties.Settings.Default.DevelopmentStatus;
 
-                    Release latestRelease = null;
+					Release latestRelease = null;
 
-                    foreach(var release in releases)
-                    {
-                        if (release.DevelopmentStatus >= desiredDevelopmentStatus)
-                        {
-                            if (latestRelease == null || release.Version > latestRelease.Version)
-                            {
-                                latestRelease = release;
-                            }
-                        }
-                    }
-                    
-                    if(latestRelease.Version > currentVersion)
-                        result = latestRelease;
-                }
-            }
+					foreach (var release in releases)
+					{
+						if (release.DevelopmentStatus >= desiredDevelopmentStatus)
+						{
+							if (latestRelease == null || release.Version > latestRelease.Version)
+							{
+								latestRelease = release;
+							}
+						}
+					}
 
-            CheckForNewerReleaseCompletedEventArgs args = new CheckForNewerReleaseCompletedEventArgs(error, cancelled, result);
+					if (latestRelease.Version > currentVersion)
+						result = latestRelease;
+				}
+			}
 
-            onFinished(null, args);
-        }
+			CheckForNewerReleaseCompletedEventArgs args = new CheckForNewerReleaseCompletedEventArgs(error, cancelled, result);
 
-        static List<Release> ParseReleases(XDocument document)
-        {
-            List<Release> releases = new List<Release>();
+			onFinished(null, args);
+		}
 
-            // regex to match a valid release version
-            Regex regex = new Regex(@"\d+.\d+.\d+");
+		static List<Release> ParseReleases(XDocument document)
+		{
+			List<Release> releases = new List<Release>();
 
-            foreach (var item in document.Element("rss").Element("channel").Descendants("item"))
-            {
-                string title = item.Element("title").Value;
-                Match match = regex.Match(title);
-                if (!match.Success)
-                    continue;
+			// regex to match a valid release version
+			Regex regex = new Regex(@"\d+.\d+.\d+");
 
-                DevelopmentStatus developmentStatus = XmlExplorer.DevelopmentStatus.Stable;
+			foreach (var item in document.Element("rss").Element("channel").Descendants("item"))
+			{
+				string title = item.Element("title").Value;
+				Match match = regex.Match(title);
+				if (!match.Success)
+					continue;
 
-                string titleLower = title.ToLower();
-                if (titleLower.Contains("alpha"))
-                    developmentStatus = XmlExplorer.DevelopmentStatus.Alpha;
-                else if (titleLower.Contains("beta"))
-                    developmentStatus = XmlExplorer.DevelopmentStatus.Beta;
+				DevelopmentStatus developmentStatus = XmlExplorer.DevelopmentStatus.Stable;
 
-                Version version = new Version(match.Groups[0].Value);
+				string titleLower = title.ToLower();
+				if (titleLower.Contains("alpha"))
+					developmentStatus = XmlExplorer.DevelopmentStatus.Alpha;
+				else if (titleLower.Contains("beta"))
+					developmentStatus = XmlExplorer.DevelopmentStatus.Beta;
 
-                string link = item.Element("link").Value;
+				Version version = new Version(match.Groups[0].Value);
 
-                Release release = new Release()
-                {
-                    DevelopmentStatus = developmentStatus,
-                    Url = link,
-                    Version = version,
-                };
+				string link = item.Element("link").Value;
 
-                releases.Add(release);
-            }
+				Release release = new Release()
+				{
+					DevelopmentStatus = developmentStatus,
+					Url = link,
+					Version = version,
+				};
 
-            return releases;
-        }
-    }
+				releases.Add(release);
+			}
 
-    public enum DevelopmentStatus
-    {
-        Alpha = 0,
-        Beta = 1,
-        Stable = 2,
-    }
+			return releases;
+		}
+	}
 
-    public class CheckForNewerReleaseCompletedEventArgs : AsyncCompletedEventArgs
-    {
-        public CheckForNewerReleaseCompletedEventArgs(Exception error, bool cancelled, Release result)
-            : base(error, cancelled, null)
-        {
-            this.Result = result;
-        }
+	public enum DevelopmentStatus
+	{
+		Alpha = 0,
+		Beta = 1,
+		Stable = 2,
+	}
 
-        public Release Result { get; private set; }
-    }
+	public class CheckForNewerReleaseCompletedEventArgs : AsyncCompletedEventArgs
+	{
+		public CheckForNewerReleaseCompletedEventArgs(Exception error, bool cancelled, Release result)
+			: base(error, cancelled, null)
+		{
+			this.Result = result;
+		}
+
+		public Release Result { get; private set; }
+	}
 }

@@ -7,9 +7,7 @@
     xmlns:ad="clr-namespace:AvalonDock;assembly=AvalonDock"
     xmlns:local="clr-namespace:XmlExplorer"
     mc:Ignorable="d" 
-    d:DesignHeight="300" d:DesignWidth="300"
-    Title="{Binding FileName}"
-    ToolTip="{Binding FileInfo.FullName}">
+    d:DesignHeight="300" d:DesignWidth="300">
     <ad:DocumentContent.Resources>
 
         <ResourceDictionary>
@@ -67,7 +65,7 @@
             ItemsSource="{Binding Converter={StaticResource xPathNavigatorItemsConverter}}"
             ItemTemplateSelector="{StaticResource xPathNodeTypeDataTemplateSelector}"
             Visibility="{Binding ElementName=TreeView, Path=IsLoading, Converter={StaticResource InvertedBooleanToVisibilityConverter}}"
-            MouseUp="TreeView_MouseUp"  />
+            MouseUp="TreeView_MouseUp" PropertyChanged="TreeView_PropertyChanged" />
 
         <ProgressBar
             Grid.Row="1"

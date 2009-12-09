@@ -5,11 +5,11 @@ using System.Xml.XPath;
 
 namespace XmlExplorer
 {
-    public class XPathNavigatorAttributesConverter : IValueConverter
-    {
-        #region IValueConverter Members
+	public class XPathNavigatorAttributesConverter : IValueConverter
+	{
+		#region IValueConverter Members
 
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
 			XPathNavigator navigator;
 
@@ -23,30 +23,30 @@ namespace XmlExplorer
 			if (navigator == null)
 				return null;
 
-            if (!navigator.HasAttributes)
-                return null;
+			if (!navigator.HasAttributes)
+				return null;
 
-            List<XPathNavigator> attributes = new List<XPathNavigator>();
+			List<XPathNavigator> attributes = new List<XPathNavigator>();
 
-            // clone the node's navigator (cursor), so it doesn't lose it's position
-            XPathNavigator attributeNavigator = navigator.Clone();
-            if (attributeNavigator.MoveToFirstAttribute())
-            {
-                do
-                {
-                    attributes.Add(attributeNavigator.Clone());
-                }
-                while (attributeNavigator.MoveToNextAttribute());
-            }
+			// clone the node's navigator (cursor), so it doesn't lose it's position
+			XPathNavigator attributeNavigator = navigator.Clone();
+			if (attributeNavigator.MoveToFirstAttribute())
+			{
+				do
+				{
+					attributes.Add(attributeNavigator.Clone());
+				}
+				while (attributeNavigator.MoveToNextAttribute());
+			}
 
-            return attributes;
-        }
+			return attributes;
+		}
 
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
+		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+		{
+			throw new NotImplementedException();
+		}
 
-        #endregion
-    }
+		#endregion
+	}
 }

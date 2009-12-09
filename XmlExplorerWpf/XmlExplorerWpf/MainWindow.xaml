@@ -10,6 +10,8 @@
     mc:Ignorable="d" 
     d:DesignHeight="480" d:DesignWidth="640"
     AllowDrop="True" Drop="Window_Drop"
+    Loaded="MainWindow_Loaded"
+    Closing="MainWindow_Closing"
     Title="XML Explorer">
 
     <Window.Resources>
@@ -211,11 +213,11 @@
                     <Image Name="imageExpression" Source="Resources\unstarred.png" />
                 </Button>
                 <Button Name="buttonSelectXPath" Command="{StaticResource SelectXPathCommand}" CommandParameter="{Binding ElementName=textBoxXPath, Path=Text}" 
-                        ToolTip="Selects the first node that matches the XPath expression.">
+                        ToolTip="Select the first node that matches the XPath expression.">
                     <Image Source="Resources\Search16.png" />
                 </Button>
                 <Button Command="{StaticResource LaunchXPathCommand}" CommandParameter="{Binding ElementName=textBoxXPath, Path=Text}"
-                        ToolTip="Launches the complete result of the XPath expression in a new tab.">
+                        ToolTip="Launch the complete result of the XPath expression in a new tab.">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="Resources\Launch16.png" />
                         <TextBlock Margin="3,0,0,0">Launch</TextBlock>
@@ -233,13 +235,16 @@
             </StatusBarItem>
         </StatusBar>
 
-        <ad:DockingManager x:Name="dockingManager">
+        <ad:DockingManager x:Name="dockingManager" 
+                           PropertyChanged="dockingManager_PropertyChanged"
+                           Loaded="dockingManager_Loaded">
             <ad:ResizingPanel Orientation="Vertical">
                 <ad:ResizingPanel Orientation="Horizontal">
                     <ad:DocumentPane />
                 </ad:ResizingPanel>
                 <ad:DockablePane Name="ErrorListDockablePane" ad:ResizingPanel.ResizeHeight="120">
-                    <local:ErrorListDockableContent x:Name="ErrorListDockableContent" Title="Error List">
+                    <local:ErrorListDockableContent x:Name="ErrorListDockableContent" Title="Error List"
+                                                    ErrorActivated="ErrorListDockableContent_ErrorActivated">
                         <local:ErrorListDockableContent.Icon>
                             <Image Source="Resources\DocumentError16.png" />
                         </local:ErrorListDockableContent.Icon>
@@ -247,7 +252,9 @@
                     <ad:DockableContent x:Name="NamespaceListDockableContent" Title="Namespace List">
                         <local:NamespacePrefixList x:Name="NamespaceList" />
                     </ad:DockableContent>
-                    <local:ExpressionsDockableContent x:Name="ExpressionsDockableContent" Title="Expressions" ExpressionActivated="ExpressionsDockableContent_ExpressionActivated">
+                    <local:ExpressionsDockableContent x:Name="ExpressionsDockableContent" Title="Expressions" 
+                                                      ExpressionActivated="ExpressionsDockableContent_ExpressionActivated"
+                                                      ExpressionLaunched="ExpressionsDockableContent_ExpressionLaunched">
                         <local:ExpressionsDockableContent.Icon>
                             <Image Source="Resources\Book16.png" />
                         </local:ExpressionsDockableContent.Icon>

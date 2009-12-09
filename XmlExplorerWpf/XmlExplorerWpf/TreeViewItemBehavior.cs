@@ -23,6 +23,7 @@ namespace XmlExplorer
 			treeViewItem.SetValue(IsBroughtIntoViewWhenSelectedProperty, value);
 		}
 
+
 		public static readonly DependencyProperty IsBroughtIntoViewWhenSelectedProperty =
 			DependencyProperty.RegisterAttached(
 			"IsBroughtIntoViewWhenSelected",
@@ -56,7 +57,9 @@ namespace XmlExplorer
 
 			TreeViewItem item = e.OriginalSource as TreeViewItem;
 			if (item != null)
+			{
 				item.BringIntoView();
+			}
 		}
 
 		#endregion // IsBroughtIntoViewWhenSelected

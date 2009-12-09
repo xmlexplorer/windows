@@ -8,6 +8,42 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <DataGrid ItemsSource="{Binding}" MouseDoubleClick="DataGrid_MouseDoubleClick" />
+        <DataGrid ItemsSource="{Binding}" MouseDoubleClick="DataGrid_MouseDoubleClick"
+                  AutoGenerateColumns="False" HeadersVisibility="Column" GridLinesVisibility="None">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Expression" Binding="{Binding Expression}" Width="auto" />
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="auto" />
+                <DataGridTemplateColumn Width="auto" CanUserResize="False" CanUserSort="False">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="/XmlExplorer;component/Resources/Search16.png" 
+                                   ToolTip="Select the first node that matches this XPath expression."
+                                   Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" 
+                                   Cursor="Hand" MouseUp="OnSelectImageMouseUp" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="auto" CanUserResize="False" CanUserSort="False">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="/XmlExplorer;component/Resources/Launch16.png" 
+                                   ToolTip="Launch the complete result of this XPath expression in a new tab."
+                                   Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" 
+                                   Cursor="Hand" MouseUp="OnLaunchImageMouseUp" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="auto" CanUserResize="False" CanUserSort="False">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="/XmlExplorer;component/Resources/Exit10.png" 
+                                   ToolTip="Delete this XPath expression."
+                                   Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" 
+                                   Cursor="Hand" MouseUp="OnDeleteImageMouseUp" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </ad:DockableContent>
