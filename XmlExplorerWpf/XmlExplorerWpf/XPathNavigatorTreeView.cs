@@ -315,7 +315,7 @@ namespace XmlExplorer
 			{
 				XmlWriterSettings settings = new XmlWriterSettings();
 
-				settings.Encoding = Encoding.UTF8;
+				settings.Encoding = Encoding.ASCII;
 				settings.Indent = true;
 				settings.OmitXmlDeclaration = true;
 				settings.ConformanceLevel = ConformanceLevel.Fragment;
@@ -326,7 +326,7 @@ namespace XmlExplorer
 
 					writer.Flush();
 
-					return Encoding.UTF8.GetString(stream.ToArray());
+					return Encoding.ASCII.GetString(stream.ToArray());
 				}
 			}
 		}
