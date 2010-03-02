@@ -51,6 +51,10 @@
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="WeifenLuo.WinFormsUI.Docking, Version=2.3.1.24483, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AboutBox.cs">
@@ -192,12 +196,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ZoomHS.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\DockPanelSuite\WeifenLuo.WinFormsUI.Docking.csproj">
-      <Project>{C75532C4-765B-418E-B09B-46D36B2ABDB1}</Project>
-      <Name>WeifenLuo.WinFormsUI.Docking</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\XMLFileHS.png" />

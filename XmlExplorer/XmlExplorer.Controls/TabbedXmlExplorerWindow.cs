@@ -1420,7 +1420,7 @@ namespace XmlExplorer.Controls
                     // prompt user
                     string message = string.Format("{0} version {1} is available.\n\nWould you like to visit the release page?", AboutBox.AssemblyProduct, latest.Version.ToString());
 
-                    DialogResult result = MessageBox.Show(this, message, AboutBox.AssemblyProduct, MessageBoxButtons.YesNo);
+                    DialogResult result = MessageBox.Show(this, message, AboutBox.AssemblyProduct, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
 
                     if (result != DialogResult.Yes)
                         return;
