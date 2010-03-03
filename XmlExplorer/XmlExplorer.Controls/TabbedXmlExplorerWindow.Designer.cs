@@ -51,6 +51,7 @@ namespace XmlExplorer.Controls
             this.toolStripStatusLabelMain = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabelChildCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
+            this.toolStripStatusLabelLoadTime = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStripMain = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItemFile = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemNewFromClipboard = new System.Windows.Forms.ToolStripMenuItem();
@@ -89,6 +90,9 @@ namespace XmlExplorer.Controls
             this.toolStripButtonSave = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButtonCopyFormattedOuterXml = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButtonExpandAll = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonCollapseAll = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButtonRefresh = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
@@ -122,7 +126,8 @@ namespace XmlExplorer.Controls
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabelMain,
             this.toolStripStatusLabelChildCount,
-            this.toolStripProgressBar});
+            this.toolStripProgressBar,
+            this.toolStripStatusLabelLoadTime});
             this.statusStrip.Location = new System.Drawing.Point(0, 544);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Size = new System.Drawing.Size(792, 22);
@@ -131,7 +136,7 @@ namespace XmlExplorer.Controls
             // toolStripStatusLabelMain
             // 
             this.toolStripStatusLabelMain.Name = "toolStripStatusLabelMain";
-            this.toolStripStatusLabelMain.Size = new System.Drawing.Size(694, 17);
+            this.toolStripStatusLabelMain.Size = new System.Drawing.Size(631, 17);
             this.toolStripStatusLabelMain.Spring = true;
             this.toolStripStatusLabelMain.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -144,10 +149,17 @@ namespace XmlExplorer.Controls
             // toolStripProgressBar
             // 
             this.toolStripProgressBar.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripProgressBar.Enabled = false;
             this.toolStripProgressBar.Name = "toolStripProgressBar";
             this.toolStripProgressBar.Size = new System.Drawing.Size(100, 16);
             this.toolStripProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
             this.toolStripProgressBar.Visible = false;
+            // 
+            // toolStripStatusLabelLoadTime
+            // 
+            this.toolStripStatusLabelLoadTime.Name = "toolStripStatusLabelLoadTime";
+            this.toolStripStatusLabelLoadTime.Size = new System.Drawing.Size(63, 17);
+            this.toolStripStatusLabelLoadTime.Text = "Load Time";
             // 
             // menuStripMain
             // 
@@ -412,6 +424,9 @@ namespace XmlExplorer.Controls
             this.toolStripButtonSave,
             this.toolStripSeparator2,
             this.toolStripButtonCopyFormattedOuterXml,
+            this.toolStripSeparator11,
+            this.toolStripButtonExpandAll,
+            this.toolStripButtonCollapseAll,
             this.toolStripSeparator3,
             this.toolStripButtonRefresh,
             this.toolStripSeparator4,
@@ -459,6 +474,27 @@ namespace XmlExplorer.Controls
             this.toolStripButtonCopyFormattedOuterXml.Text = "Copy Formatted Outer XML";
             this.toolStripButtonCopyFormattedOuterXml.ToolTipText = "Copy Formatted Outer XML (Ctrl+Shift+C)";
             // 
+            // toolStripSeparator11
+            // 
+            this.toolStripSeparator11.Name = "toolStripSeparator11";
+            this.toolStripSeparator11.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripButtonExpandAll
+            // 
+            this.toolStripButtonExpandAll.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonExpandAll.Image = global::XmlExplorer.Controls.Properties.Resources.ExpandAll;
+            this.toolStripButtonExpandAll.Name = "toolStripButtonExpandAll";
+            this.toolStripButtonExpandAll.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonExpandAll.Text = "&Expand All";
+            // 
+            // toolStripButtonCollapseAll
+            // 
+            this.toolStripButtonCollapseAll.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonCollapseAll.Image = global::XmlExplorer.Controls.Properties.Resources.CollapseAll;
+            this.toolStripButtonCollapseAll.Name = "toolStripButtonCollapseAll";
+            this.toolStripButtonCollapseAll.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonCollapseAll.Text = "Colla&pse All";
+            // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
@@ -492,7 +528,7 @@ namespace XmlExplorer.Controls
             this.toolStripTextBoxXpath.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.toolStripTextBoxXpath.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.toolStripTextBoxXpath.Name = "toolStripTextBoxXpath";
-            this.toolStripTextBoxXpath.Size = new System.Drawing.Size(500, 25);
+            this.toolStripTextBoxXpath.Size = new System.Drawing.Size(448, 25);
             this.toolStripTextBoxXpath.ToolTipText = "Enter an XPath expression.\r\n\r\nPress Enter to select the first match.\r\nPress Shift" +
                 "+Enter (or Launch button) to open the expression results in a new window.";
             // 
@@ -747,5 +783,9 @@ namespace XmlExplorer.Controls
         private ToolStripSeparator toolStripSeparator10;
         private ToolStripMenuItem toolStripMenuItemExpandAll;
         private ToolStripMenuItem toolStripMenuItemCollapseAll;
+        private ToolStripStatusLabel toolStripStatusLabelLoadTime;
+        private ToolStripSeparator toolStripSeparator11;
+        private ToolStripButton toolStripButtonExpandAll;
+        private ToolStripButton toolStripButtonCollapseAll;
     }
 }

@@ -1,10 +1,8 @@
-using System;
 using System.Text;
 using System.Windows.Forms;
-using System.Xml;
 using System.Xml.XPath;
 
-namespace XmlExplorer.Controls
+namespace XmlExplorer.TreeView
 {
 	public class XPathNavigatorTreeNode : TreeNode
     {

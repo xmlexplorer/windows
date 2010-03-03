@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("XmlExplorer.Controls")]
-[assembly: AssemblyDescription("Docking functionality in XML Explorer is provided by the DockPanel Suite library available at http://sourceforge.net/projects/dockpanelsuite/.  Many thanks to the contributors of this excellent project.")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("XmlExplorer.Controls")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("XML Explorer")]
 [assembly: AssemblyProduct("XML Explorer")]
-[assembly: AssemblyCopyright("Copyright © Jason Coon 2007")]
+[assembly: AssemblyCopyright("Copyright © Jason Coon 2007-2010")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -31,5 +31,5 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
-[assembly: AssemblyVersion("2.0.2.0")]
-[assembly: AssemblyFileVersion("2.0.2.0")]
+[assembly: AssemblyVersion("4.0.0.0")]
+[assembly: AssemblyFileVersion("4.0.0.0")]

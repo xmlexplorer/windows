@@ -1,4 +1,5 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -9,16 +10,32 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>XmlExplorer.Controls</RootNamespace>
     <AssemblyName>XmlExplorer.Controls</AssemblyName>
-    <SccProjectName>SAK</SccProjectName>
-    <SccLocalPath>SAK</SccLocalPath>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccProvider>SAK</SccProvider>
+    <SccProjectName>Svn</SccProjectName>
+    <SccLocalPath>Svn</SccLocalPath>
+    <SccAuxPath>Svn</SccAuxPath>
+    <SccProvider>SubversionScc</SccProvider>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
-    <OldToolsVersion>2.0</OldToolsVersion>
+    <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -51,7 +68,7 @@
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="WeifenLuo.WinFormsUI.Docking, Version=2.3.1.24483, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="WeifenLuo.WinFormsUI.Docking, Version=2.3.3712.27984, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
     </Reference>
@@ -63,25 +80,26 @@
     <Compile Include="AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="RecentlyUsedFilesStack.cs" />
-    <Compile Include="ReleaseInfo.cs" />
-    <Compile Include="ValidationWindow.cs">
+    <Compile Include="NamespacesWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ValidationWindow.Designer.cs">
-      <DependentUpon>ValidationWindow.cs</DependentUpon>
+    <Compile Include="NamespacesWindow.Designer.cs">
+      <DependentUpon>NamespacesWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ListViewExtensions.cs" />
+    <Compile Include="RecentlyUsedFilesStack.cs" />
+    <Compile Include="ReleaseInfo.cs" />
+    <Compile Include="ErrorWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ErrorWindow.Designer.cs">
+      <DependentUpon>ErrorWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="XmlExplorerWindow.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="XmlExplorerWindow.Designer.cs">
       <DependentUpon>XmlExplorerWindow.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ExpressionResultsWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ExpressionResultsWindow.Designer.cs">
-      <DependentUpon>ExpressionResultsWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="ExpressionsWindow.cs">
       <SubType>Form</SubType>
@@ -100,7 +118,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="RegularExpressions.cs" />
     <Compile Include="TabbedXmlExplorerWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -119,10 +136,6 @@
     </Compile>
     <Compile Include="XPathExpressionLibrary.cs" />
     <Compile Include="XPathExpressionListViewItem.cs" />
-    <Compile Include="XPathNavigatorTreeNode.cs" />
-    <Compile Include="XPathNavigatorTreeView.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
@@ -130,12 +143,12 @@
       <DependentUpon>AboutBox.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="ValidationWindow.resx">
-      <DependentUpon>ValidationWindow.cs</DependentUpon>
+    <EmbeddedResource Include="NamespacesWindow.resx">
+      <DependentUpon>NamespacesWindow.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="ExpressionResultsWindow.resx">
-      <DependentUpon>ExpressionResultsWindow.cs</DependentUpon>
+    <EmbeddedResource Include="ErrorWindow.resx">
+      <DependentUpon>ErrorWindow.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ExpressionsWindow.resx">
@@ -208,13 +221,38 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\Book_openHS.ico" />
+    <None Include="Resources\Warning16.png" />
     <None Include="Resources\CheckGrammarHS.png" />
     <None Include="Resources\DeleteHS.png" />
     <None Include="Resources\NewDocumentHS.png" />
     <None Include="Resources\ExpandAll.png" />
     <None Include="Resources\CollapseAll.png" />
+    <None Include="Resources\Error16.png" />
     <Content Include="Resources\TaskHS.ico" />
     <None Include="Resources\XmlExplorer256.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\XmlExplorer.TreeView\XmlExplorer.TreeView.csproj">
+      <Project>{918E2E88-0904-4FB2-9C8C-41AAD77DC665}</Project>
+      <Name>XmlExplorer.TreeView</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -110,7 +110,7 @@ namespace XmlExplorer.Controls
             XPathExpressionListViewItem item = new XPathExpressionListViewItem(xpathExpression);
             this.listViewExpressions.Items.Add(item);
             this.UpdateXPathExpressionTool(expression);
-            this.AutoSizeListViewColumns(this.listViewExpressions);
+            this.listViewExpressions.AutoResizeColumns();
             //this.toolStripButtonXPathExpression.ToolTipText = "Edit expression";
         }
 
@@ -136,7 +136,7 @@ namespace XmlExplorer.Controls
                 }
             }
 
-            this.AutoSizeListViewColumns(this.listViewExpressions);
+            this.listViewExpressions.AutoResizeColumns();
         }
 
         private void UpdateXPathExpressionTool(string text)
@@ -182,7 +182,7 @@ namespace XmlExplorer.Controls
                     }
                 }
 
-                this.AutoSizeListViewColumns(this.listViewExpressions);
+                this.listViewExpressions.AutoResizeColumns();
             }
             finally
             {
@@ -250,18 +250,6 @@ namespace XmlExplorer.Controls
             //this.UpdateXPathExpressionTool(text);
         }
 
-        private void AutoSizeListViewColumns(ListView listView)
-        {
-            foreach (ColumnHeader header in listView.Columns)
-            {
-                header.Width = -1;
-                int width = header.Width;
-                header.Width = -2;
-                if (width > header.Width)
-                    header.Width = width;
-            }
-        }
-
         #endregion
 
         #region Event Handlers
@@ -321,7 +309,9 @@ namespace XmlExplorer.Controls
 
                 item.XPathExpression.Name = e.Label;
 
-                this.AutoSizeListViewColumns(this.listViewExpressions);
+                item.Text = e.Label;
+
+                this.listViewExpressions.AutoResizeColumns();
             }
             catch (Exception ex)
             {

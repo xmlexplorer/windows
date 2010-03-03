@@ -1,4 +1,4 @@
-namespace XmlExplorer.Controls
+namespace XmlExplorer.TreeView
 {
 	partial class ExpressionResultsWindow
 	{

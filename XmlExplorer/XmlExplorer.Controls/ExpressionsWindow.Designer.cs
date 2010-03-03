@@ -32,9 +32,9 @@
             this.panelExpressions = new System.Windows.Forms.Panel();
             this.pictureBoxSearch = new System.Windows.Forms.PictureBox();
             this.listViewExpressions = new System.Windows.Forms.ListView();
-            this.columnHeaderName = new System.Windows.Forms.ColumnHeader();
-            this.columnHeaderExpression = new System.Windows.Forms.ColumnHeader();
-            this.columnHeaderComments = new System.Windows.Forms.ColumnHeader();
+            this.columnHeaderName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderExpression = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderComments = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.textBoxSearchExpressions = new System.Windows.Forms.TextBox();
             this.panelExpressions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSearch)).BeginInit();
@@ -110,7 +110,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(741, 448);
             this.CloseButton = false;
+            this.CloseButtonVisible = false;
             this.Controls.Add(this.panelExpressions);
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ExpressionsWindow";
             this.TabText = "Expressions";

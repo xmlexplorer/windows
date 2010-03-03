@@ -1,54 +1,163 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XmlExplorer", "XmlExplorer\XmlExplorer.csproj", "{E6133FF0-7DC4-42A3-8F73-48630274CAF8}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XmlExplorer.Controls", "XmlExplorer.Controls\XmlExplorer.Controls.csproj", "{BF406750-6711-4034-A05A-46F8F8026CC4}"
-EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "XmlExplorer.Setup", "XmlExplorer.Setup\XmlExplorer.Setup.vdproj", "{35E49BE0-B895-4C80-BE37-D6E851390B1C}"
-EndProject
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{45D92023-16C5-4789-B235-ECA3A16A66F0}"
 	ProjectSection(SolutionItems) = preProject
 		XmlExplorer Banner.pdn = XmlExplorer Banner.pdn
 		XmlExplorer Banner.png = XmlExplorer Banner.png
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XmlExplorer", "XmlExplorer\XmlExplorer.csproj", "{E6133FF0-7DC4-42A3-8F73-48630274CAF8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XmlExplorer.Controls", "XmlExplorer.Controls\XmlExplorer.Controls.csproj", "{BF406750-6711-4034-A05A-46F8F8026CC4}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "XmlExplorer.Setup", "XmlExplorer.Setup\XmlExplorer.Setup.vdproj", "{35E49BE0-B895-4C80-BE37-D6E851390B1C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XmlExplorer.TreeView", "XmlExplorer.TreeView\XmlExplorer.TreeView.csproj", "{918E2E88-0904-4FB2-9C8C-41AAD77DC665}"
+EndProject
 Global
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		CD_ROM|Any CPU = CD_ROM|Any CPU
+		CD_ROM|AnyOS = CD_ROM|AnyOS
+		CD_ROM|Win32 = CD_ROM|Win32
+		CD_ROM|Win64 = CD_ROM|Win64
 		Debug|Any CPU = Debug|Any CPU
+		Debug|AnyOS = Debug|AnyOS
+		Debug|Win32 = Debug|Win32
+		Debug|Win64 = Debug|Win64
+		DVD-5|Any CPU = DVD-5|Any CPU
+		DVD-5|AnyOS = DVD-5|AnyOS
+		DVD-5|Win32 = DVD-5|Win32
+		DVD-5|Win64 = DVD-5|Win64
 		Release|Any CPU = Release|Any CPU
+		Release|AnyOS = Release|AnyOS
+		Release|Win32 = Release|Win32
+		Release|Win64 = Release|Win64
+		SingleImage|Any CPU = SingleImage|Any CPU
+		SingleImage|AnyOS = SingleImage|AnyOS
+		SingleImage|Win32 = SingleImage|Win32
+		SingleImage|Win64 = SingleImage|Win64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E6133FF0-7DC4-42A3-8F73-48630274CAF8}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
+		{E6133FF0-7DC4-42A3-8F73-48630274CAF8}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
+		{E6133FF0-7DC4-42A3-8F73-48630274CAF8}.CD_ROM|AnyOS.ActiveCfg = Release|Any CPU
+		{E6133FF0-7DC4-42A3-8F73-48630274CAF8}.CD_ROM|Win32.ActiveCfg = Release|Any CPU
+		{E6133FF0-7DC4-42A3-8F73-48630274CAF8}.CD_ROM|Win64.ActiveCfg = Release|Any CPU
 		{E6133FF0-7DC4-42A3-8F73-48630274CAF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E6133FF0-7DC4-42A3-8F73-48630274CAF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6133FF0-7DC4-42A3-8F73-48630274CAF8}.Debug|AnyOS.ActiveCfg = Debug|Any CPU
+		{E6133FF0-7DC4-42A3-8F73-48630274CAF8}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{E6133FF0-7DC4-42A3-8F73-48630274CAF8}.Debug|Win64.ActiveCfg = Debug|Any CPU
+		{E6133FF0-7DC4-42A3-8F73-48630274CAF8}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6133FF0-7DC4-42A3-8F73-48630274CAF8}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
+		{E6133FF0-7DC4-42A3-8F73-48630274CAF8}.DVD-5|AnyOS.ActiveCfg = Debug|Any CPU
+		{E6133FF0-7DC4-42A3-8F73-48630274CAF8}.DVD-5|Win32.ActiveCfg = Debug|Any CPU
+		{E6133FF0-7DC4-42A3-8F73-48630274CAF8}.DVD-5|Win64.ActiveCfg = Debug|Any CPU
 		{E6133FF0-7DC4-42A3-8F73-48630274CAF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E6133FF0-7DC4-42A3-8F73-48630274CAF8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6133FF0-7DC4-42A3-8F73-48630274CAF8}.Release|AnyOS.ActiveCfg = Release|Any CPU
+		{E6133FF0-7DC4-42A3-8F73-48630274CAF8}.Release|Win32.ActiveCfg = Release|Any CPU
+		{E6133FF0-7DC4-42A3-8F73-48630274CAF8}.Release|Win64.ActiveCfg = Release|Any CPU
+		{E6133FF0-7DC4-42A3-8F73-48630274CAF8}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
+		{E6133FF0-7DC4-42A3-8F73-48630274CAF8}.SingleImage|Any CPU.Build.0 = Release|Any CPU
+		{E6133FF0-7DC4-42A3-8F73-48630274CAF8}.SingleImage|AnyOS.ActiveCfg = Release|Any CPU
+		{E6133FF0-7DC4-42A3-8F73-48630274CAF8}.SingleImage|Win32.ActiveCfg = Release|Any CPU
+		{E6133FF0-7DC4-42A3-8F73-48630274CAF8}.SingleImage|Win64.ActiveCfg = Release|Any CPU
+		{BF406750-6711-4034-A05A-46F8F8026CC4}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
+		{BF406750-6711-4034-A05A-46F8F8026CC4}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
+		{BF406750-6711-4034-A05A-46F8F8026CC4}.CD_ROM|AnyOS.ActiveCfg = Release|Any CPU
+		{BF406750-6711-4034-A05A-46F8F8026CC4}.CD_ROM|Win32.ActiveCfg = Release|Any CPU
+		{BF406750-6711-4034-A05A-46F8F8026CC4}.CD_ROM|Win64.ActiveCfg = Release|Any CPU
 		{BF406750-6711-4034-A05A-46F8F8026CC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BF406750-6711-4034-A05A-46F8F8026CC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF406750-6711-4034-A05A-46F8F8026CC4}.Debug|AnyOS.ActiveCfg = Debug|Any CPU
+		{BF406750-6711-4034-A05A-46F8F8026CC4}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{BF406750-6711-4034-A05A-46F8F8026CC4}.Debug|Win64.ActiveCfg = Debug|Any CPU
+		{BF406750-6711-4034-A05A-46F8F8026CC4}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF406750-6711-4034-A05A-46F8F8026CC4}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
+		{BF406750-6711-4034-A05A-46F8F8026CC4}.DVD-5|AnyOS.ActiveCfg = Debug|Any CPU
+		{BF406750-6711-4034-A05A-46F8F8026CC4}.DVD-5|Win32.ActiveCfg = Debug|Any CPU
+		{BF406750-6711-4034-A05A-46F8F8026CC4}.DVD-5|Win64.ActiveCfg = Debug|Any CPU
 		{BF406750-6711-4034-A05A-46F8F8026CC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF406750-6711-4034-A05A-46F8F8026CC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF406750-6711-4034-A05A-46F8F8026CC4}.Release|AnyOS.ActiveCfg = Release|Any CPU
+		{BF406750-6711-4034-A05A-46F8F8026CC4}.Release|Win32.ActiveCfg = Release|Any CPU
+		{BF406750-6711-4034-A05A-46F8F8026CC4}.Release|Win64.ActiveCfg = Release|Any CPU
+		{BF406750-6711-4034-A05A-46F8F8026CC4}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
+		{BF406750-6711-4034-A05A-46F8F8026CC4}.SingleImage|Any CPU.Build.0 = Release|Any CPU
+		{BF406750-6711-4034-A05A-46F8F8026CC4}.SingleImage|AnyOS.ActiveCfg = Release|Any CPU
+		{BF406750-6711-4034-A05A-46F8F8026CC4}.SingleImage|Win32.ActiveCfg = Release|Any CPU
+		{BF406750-6711-4034-A05A-46F8F8026CC4}.SingleImage|Win64.ActiveCfg = Release|Any CPU
+		{35E49BE0-B895-4C80-BE37-D6E851390B1C}.CD_ROM|Any CPU.ActiveCfg = Release
+		{35E49BE0-B895-4C80-BE37-D6E851390B1C}.CD_ROM|Any CPU.Build.0 = Release
+		{35E49BE0-B895-4C80-BE37-D6E851390B1C}.CD_ROM|AnyOS.ActiveCfg = Release
+		{35E49BE0-B895-4C80-BE37-D6E851390B1C}.CD_ROM|AnyOS.Build.0 = Release
+		{35E49BE0-B895-4C80-BE37-D6E851390B1C}.CD_ROM|Win32.ActiveCfg = Release
+		{35E49BE0-B895-4C80-BE37-D6E851390B1C}.CD_ROM|Win32.Build.0 = Release
+		{35E49BE0-B895-4C80-BE37-D6E851390B1C}.CD_ROM|Win64.ActiveCfg = Release
+		{35E49BE0-B895-4C80-BE37-D6E851390B1C}.CD_ROM|Win64.Build.0 = Release
 		{35E49BE0-B895-4C80-BE37-D6E851390B1C}.Debug|Any CPU.ActiveCfg = Debug
+		{35E49BE0-B895-4C80-BE37-D6E851390B1C}.Debug|AnyOS.ActiveCfg = Debug
+		{35E49BE0-B895-4C80-BE37-D6E851390B1C}.Debug|AnyOS.Build.0 = Debug
+		{35E49BE0-B895-4C80-BE37-D6E851390B1C}.Debug|Win32.ActiveCfg = Debug
+		{35E49BE0-B895-4C80-BE37-D6E851390B1C}.Debug|Win32.Build.0 = Debug
+		{35E49BE0-B895-4C80-BE37-D6E851390B1C}.Debug|Win64.ActiveCfg = Debug
+		{35E49BE0-B895-4C80-BE37-D6E851390B1C}.Debug|Win64.Build.0 = Debug
+		{35E49BE0-B895-4C80-BE37-D6E851390B1C}.DVD-5|Any CPU.ActiveCfg = Debug
+		{35E49BE0-B895-4C80-BE37-D6E851390B1C}.DVD-5|Any CPU.Build.0 = Debug
+		{35E49BE0-B895-4C80-BE37-D6E851390B1C}.DVD-5|AnyOS.ActiveCfg = Debug
+		{35E49BE0-B895-4C80-BE37-D6E851390B1C}.DVD-5|AnyOS.Build.0 = Debug
+		{35E49BE0-B895-4C80-BE37-D6E851390B1C}.DVD-5|Win32.ActiveCfg = Debug
+		{35E49BE0-B895-4C80-BE37-D6E851390B1C}.DVD-5|Win32.Build.0 = Debug
+		{35E49BE0-B895-4C80-BE37-D6E851390B1C}.DVD-5|Win64.ActiveCfg = Debug
+		{35E49BE0-B895-4C80-BE37-D6E851390B1C}.DVD-5|Win64.Build.0 = Debug
 		{35E49BE0-B895-4C80-BE37-D6E851390B1C}.Release|Any CPU.ActiveCfg = Release
+		{35E49BE0-B895-4C80-BE37-D6E851390B1C}.Release|AnyOS.ActiveCfg = Release
+		{35E49BE0-B895-4C80-BE37-D6E851390B1C}.Release|AnyOS.Build.0 = Release
+		{35E49BE0-B895-4C80-BE37-D6E851390B1C}.Release|Win32.ActiveCfg = Release
+		{35E49BE0-B895-4C80-BE37-D6E851390B1C}.Release|Win32.Build.0 = Release
+		{35E49BE0-B895-4C80-BE37-D6E851390B1C}.Release|Win64.ActiveCfg = Release
+		{35E49BE0-B895-4C80-BE37-D6E851390B1C}.Release|Win64.Build.0 = Release
+		{35E49BE0-B895-4C80-BE37-D6E851390B1C}.SingleImage|Any CPU.ActiveCfg = Release
+		{35E49BE0-B895-4C80-BE37-D6E851390B1C}.SingleImage|Any CPU.Build.0 = Release
+		{35E49BE0-B895-4C80-BE37-D6E851390B1C}.SingleImage|AnyOS.ActiveCfg = Release
+		{35E49BE0-B895-4C80-BE37-D6E851390B1C}.SingleImage|AnyOS.Build.0 = Release
+		{35E49BE0-B895-4C80-BE37-D6E851390B1C}.SingleImage|Win32.ActiveCfg = Release
+		{35E49BE0-B895-4C80-BE37-D6E851390B1C}.SingleImage|Win32.Build.0 = Release
+		{35E49BE0-B895-4C80-BE37-D6E851390B1C}.SingleImage|Win64.ActiveCfg = Release
+		{35E49BE0-B895-4C80-BE37-D6E851390B1C}.SingleImage|Win64.Build.0 = Release
+		{918E2E88-0904-4FB2-9C8C-41AAD77DC665}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
+		{918E2E88-0904-4FB2-9C8C-41AAD77DC665}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
+		{918E2E88-0904-4FB2-9C8C-41AAD77DC665}.CD_ROM|AnyOS.ActiveCfg = Release|Any CPU
+		{918E2E88-0904-4FB2-9C8C-41AAD77DC665}.CD_ROM|Win32.ActiveCfg = Release|Any CPU
+		{918E2E88-0904-4FB2-9C8C-41AAD77DC665}.CD_ROM|Win64.ActiveCfg = Release|Any CPU
+		{918E2E88-0904-4FB2-9C8C-41AAD77DC665}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{918E2E88-0904-4FB2-9C8C-41AAD77DC665}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{918E2E88-0904-4FB2-9C8C-41AAD77DC665}.Debug|AnyOS.ActiveCfg = Debug|Any CPU
+		{918E2E88-0904-4FB2-9C8C-41AAD77DC665}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{918E2E88-0904-4FB2-9C8C-41AAD77DC665}.Debug|Win64.ActiveCfg = Debug|Any CPU
+		{918E2E88-0904-4FB2-9C8C-41AAD77DC665}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
+		{918E2E88-0904-4FB2-9C8C-41AAD77DC665}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
+		{918E2E88-0904-4FB2-9C8C-41AAD77DC665}.DVD-5|AnyOS.ActiveCfg = Debug|Any CPU
+		{918E2E88-0904-4FB2-9C8C-41AAD77DC665}.DVD-5|Win32.ActiveCfg = Debug|Any CPU
+		{918E2E88-0904-4FB2-9C8C-41AAD77DC665}.DVD-5|Win64.ActiveCfg = Debug|Any CPU
+		{918E2E88-0904-4FB2-9C8C-41AAD77DC665}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{918E2E88-0904-4FB2-9C8C-41AAD77DC665}.Release|Any CPU.Build.0 = Release|Any CPU
+		{918E2E88-0904-4FB2-9C8C-41AAD77DC665}.Release|AnyOS.ActiveCfg = Release|Any CPU
+		{918E2E88-0904-4FB2-9C8C-41AAD77DC665}.Release|Win32.ActiveCfg = Release|Any CPU
+		{918E2E88-0904-4FB2-9C8C-41AAD77DC665}.Release|Win64.ActiveCfg = Release|Any CPU
+		{918E2E88-0904-4FB2-9C8C-41AAD77DC665}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
+		{918E2E88-0904-4FB2-9C8C-41AAD77DC665}.SingleImage|Any CPU.Build.0 = Release|Any CPU
+		{918E2E88-0904-4FB2-9C8C-41AAD77DC665}.SingleImage|AnyOS.ActiveCfg = Release|Any CPU
+		{918E2E88-0904-4FB2-9C8C-41AAD77DC665}.SingleImage|Win32.ActiveCfg = Release|Any CPU
+		{918E2E88-0904-4FB2-9C8C-41AAD77DC665}.SingleImage|Win64.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 5
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://tfs04.codeplex.com/
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = XmlExplorer.Controls\\XmlExplorer.Controls.csproj
-		SccProjectName1 = XmlExplorer.Controls
-		SccLocalPath1 = XmlExplorer.Controls
-		SccProjectUniqueName2 = XmlExplorer\\XmlExplorer.csproj
-		SccProjectName2 = XmlExplorer
-		SccLocalPath2 = XmlExplorer
-		SccProjectUniqueName3 = XmlExplorer.Setup\\XmlExplorer.Setup.vdproj
-		SccProjectName3 = XmlExplorer.Setup
-		SccLocalPath3 = XmlExplorer.Setup
-		SccProjectUniqueName4 = DockPanelSuite\\WeifenLuo.WinFormsUI.Docking.csproj
-		SccProjectName4 = DockPanelSuite
-		SccLocalPath4 = DockPanelSuite
 	EndGlobalSection
 EndGlobal

@@ -30,7 +30,7 @@ namespace XmlExplorer.Controls
         /// </summary>
         private void InitializeComponent()
         {
-            this.xmlTreeView = new XmlExplorer.Controls.XPathNavigatorTreeView();
+            this.xmlTreeView = new XmlExplorer.TreeView.XPathNavigatorTreeView();
             this.SuspendLayout();
             // 
             // xmlTreeView
@@ -40,8 +40,6 @@ namespace XmlExplorer.Controls
             this.xmlTreeView.HideSelection = false;
             this.xmlTreeView.Location = new System.Drawing.Point(0, 0);
             this.xmlTreeView.Name = "xmlTreeView";
-            this.xmlTreeView.Navigator = null;
-            this.xmlTreeView.SchemaFileName = null;
             this.xmlTreeView.Size = new System.Drawing.Size(292, 266);
             this.xmlTreeView.TabIndex = 4;
             this.xmlTreeView.UseSyntaxHighlighting = true;
@@ -58,7 +56,7 @@ namespace XmlExplorer.Controls
 
         #endregion
 
-        private XPathNavigatorTreeView xmlTreeView;
+        private XmlExplorer.TreeView.XPathNavigatorTreeView xmlTreeView;
 
     }
 }

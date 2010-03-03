@@ -1,22 +1,18 @@
 namespace XmlExplorer.Controls
 {
     using System;
-    using System.Collections.ObjectModel;
-    using System.ComponentModel;
-    using System.Drawing;
-    using System.Windows.Forms;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Diagnostics;
-    using System.Text;
-    using System.Xml;
-    using System.Xml.XPath;
+    using System.Drawing;
     using System.IO;
-    using System.Security.Permissions;
-    using System.Security;
-    using WeifenLuo.WinFormsUI.Docking;
     using System.Net;
-    using System.Text.RegularExpressions;
-    using System.Reflection;
+    using System.Security;
+    using System.Security.Permissions;
+    using System.Windows.Forms;
+    using System.Xml.XPath;
+    using WeifenLuo.WinFormsUI.Docking;
+    using XmlExplorer.TreeView;
 
     public partial class TabbedXmlExplorerWindow : Form
     {
@@ -26,14 +22,6 @@ namespace XmlExplorer.Controls
         /// Dialog used to change the font and forecolor for the window tree views.
         /// </summary>
         private FontDialog _fontDialog;
-
-        /// <summary>
-        /// A list of the XmlExplorerWindows that are currently loading an XML file.
-        /// Used to display progress in the status bar.
-        /// </summary>
-        private List<object> _windowsCurrentlyLoading = new List<object>();
-
-        private DateTime _startedLoading;
 
         private Font _treeFont;
         private Color _treeForeColor;
@@ -45,7 +33,8 @@ namespace XmlExplorer.Controls
         private bool _useSyntaxHighlighting = true;
 
         private ExpressionsWindow _expressionsWindow;
-        private ValidationWindow _validationWindow;
+        private ErrorWindow _errorWindow;
+        private NamespacesWindow _namespacesWindow;
 
         private string _dockSettingsFilename = null;
         private DeserializeDockContent _deserializeDockContent;
@@ -116,9 +105,11 @@ namespace XmlExplorer.Controls
 
             this.toolStripMenuItemCollapseAll.Click += this.OnToolStripMenuItemCollapseAllClick;
             this.contextMenuStripItemNodesCollapeAll.Click += this.OnToolStripMenuItemCollapseAllClick;
+            this.toolStripButtonCollapseAll.Click += this.OnToolStripMenuItemCollapseAllClick;
 
             this.toolStripMenuItemExpandAll.Click += this.OnToolStripMenuItemExpandAllClick;
             this.contextMenuStripItemNodesExpandAll.Click += this.OnToolStripMenuItemExpandAllClick;
+            this.toolStripButtonExpandAll.Click += this.OnToolStripMenuItemExpandAllClick;
 
             this.toolStripButtonLaunchXpath.Click += this.OnToolStripButtonLaunchXpathClick;
 
@@ -145,14 +136,15 @@ namespace XmlExplorer.Controls
             _expressionsWindow.ShowHint = WeifenLuo.WinFormsUI.Docking.DockState.DockBottom;
             _expressionsWindow.SelectedExpressionChanged += this.OnExpressionsWindow_SelectedExpressionChanged;
             _expressionsWindow.ExpressionsActivated += this.OnExpressionsWindow_ExpressionsActivated;
-            //_expressionsWindow.Show(this.dockPanel);
 
-            // set up the validation window
-            _validationWindow = new ValidationWindow();
-            _validationWindow.ValidateSchema += this.OnValidationWindow_Validate;
-            _validationWindow.SchemaFileNameChanged += this.OnValidationWindow_SchemaFileNameChanged;
-            _validationWindow.ShowHint = WeifenLuo.WinFormsUI.Docking.DockState.DockBottom;
-            //_validationWindow.Show(this.dockPanel);
+            // set up the errors window
+            _errorWindow = new ErrorWindow();
+            _errorWindow.ShowHint = WeifenLuo.WinFormsUI.Docking.DockState.DockBottom;
+            _errorWindow.ErrorActivated += this.OnErrorWindow_ErrorActivated;
+
+            // set up the namespaces window
+            _namespacesWindow = new NamespacesWindow();
+            _namespacesWindow.ShowHint = WeifenLuo.WinFormsUI.Docking.DockState.DockBottom;
 
             _deserializeDockContent = new DeserializeDockContent(this.GetContentFromPersistString);
 
@@ -308,10 +300,10 @@ namespace XmlExplorer.Controls
             // create a window
             XmlExplorerWindow window = this.CreateXmlExplorerWindow();
 
-            window.LoadXml(Clipboard.GetText());
-
             // show the window
             window.Show(this.dockPanel);
+
+            window.TreeView.BeginOpen(Clipboard.GetText(TextDataFormat.UnicodeText));
 
             this.UpdateTools();
         }
@@ -325,18 +317,7 @@ namespace XmlExplorer.Controls
                 dialog.Multiselect = true;
                 if (dialog.ShowDialog(this) == DialogResult.OK)
                 {
-                    try
-                    {
-                        this.Open(dialog.FileNames);
-                    }
-                    catch (SecurityException)
-                    {
-                        dialog.Multiselect = false;
-                        using (Stream stream = dialog.OpenFile())
-                        {
-                            this.Open(stream);
-                        }
-                    }
+                    this.Open(dialog.FileNames);
                 }
             }
         }
@@ -359,9 +340,9 @@ namespace XmlExplorer.Controls
         /// <param name="filenames">The full paths of the files to open.</param>
         public void Open(string[] filenames)
         {
-            foreach (string text in filenames)
+            foreach (string filename in filenames)
             {
-                this.Open(text);
+                this.Open(filename);
             }
         }
 
@@ -374,30 +355,19 @@ namespace XmlExplorer.Controls
             // create a window
             XmlExplorerWindow window = this.CreateXmlExplorerWindow();
 
-            //// instruct the window to open the specified file.
-            window.Open(filename);
-
             // show the window
             window.Show(this.dockPanel);
+
+            // instruct the window to open the specified file.
+            window.TreeView.BeginOpen(new FileInfo(filename));
 
             this.RecentlyUsedFiles.Add(filename);
 
-            this.UpdateTools();
-        }
+            //if (window.XPathNavigatorTreeView.DefaultNamespaceCount > 0)
+            //    this.dockPanel.activ(this.NamespaceListDockableContent);
 
-        /// <summary>
-        /// Opens a window for the specified stream.
-        /// </summary>
-        public void Open(Stream stream)
-        {
-            // create a window
-            XmlExplorerWindow window = this.CreateXmlExplorerWindow();
-
-            //// instruct the window to open the specified file.
-            window.Open(stream);
-
-            // show the window
-            window.Show(this.dockPanel);
+            //if (xpathDocumentContent.TreeView.Errors != null && xpathDocumentContent.TreeView.Errors.Count > 0)
+            //    this.dockingManager.Show(this.ErrorListDockableContent);
 
             this.UpdateTools();
         }
@@ -413,12 +383,22 @@ namespace XmlExplorer.Controls
             XmlExplorerWindow window = this.CreateXmlExplorerWindow();
 
             //// instruct the window to open the specified file.
-            window.Open(iterator);
+            window.TreeView.LoadNodes(iterator);
 
             // show the window
             window.Show(this.dockPanel);
 
             this.UpdateTools();
+        }
+
+        private void Reload()
+        {
+            // get the selected window
+            XmlExplorerWindow window = this.ActiveMdiChild as XmlExplorerWindow;
+            if (window == null)
+                return;
+
+            window.TreeView.Reload();
         }
 
         /// <summary>
@@ -433,10 +413,12 @@ namespace XmlExplorer.Controls
                 if (window == null)
                     return;
 
-                if (string.IsNullOrEmpty(window.Filename))
+                FileInfo fileInfo = window.TreeView.FileInfo;
+
+                if (fileInfo == null)
                     return;
 
-                ProcessStartInfo info = new ProcessStartInfo(window.Filename);
+                ProcessStartInfo info = new ProcessStartInfo(fileInfo.FullName);
                 info.Verb = "edit";
 
                 Process.Start(info);
@@ -467,11 +449,9 @@ namespace XmlExplorer.Controls
 
             // wire to the window's events
             window.FormClosed += this.OnChildWindowFormClosed;
-            window.LoadingFileCompleted += this.OnWindowLoadingFileCompleted;
-            window.LoadingFileFailed += this.OnWindowLoadingFileFailed;
-            window.LoadingFileStarted += this.OnWindowLoadingFileStarted;
-            window.XPathNavigatorTreeView.AfterSelect += this.OnWindow_XmlTreeView_AfterSelect;
-            window.XPathNavigatorTreeView.MouseUp += this.OnWindow_XmlTreeView_MouseUp;
+            window.TreeView.AfterSelect += this.OnWindow_XmlTreeView_AfterSelect;
+            window.TreeView.MouseUp += this.OnWindow_XmlTreeView_MouseUp;
+            window.TreeView.LoadingFinished += this.OnDocumentLoaded;
             window.TabPageContextMenuStrip = this.contextMenuStripTabs;
 
             window.MdiParent = this;
@@ -515,57 +495,6 @@ namespace XmlExplorer.Controls
         }
 
         /// <summary>
-        /// Displays progress for windows that are loading xml files.
-        /// </summary>
-        private void UpdateLoadingStatus()
-        {
-            // get the number of windows that are currently loading xml files
-            int count = _windowsCurrentlyLoading.Count;
-
-            string loadingStatus = string.Empty;
-
-            // build the status text
-            if (count > 0)
-            {
-                string suffix = count == 1 ? string.Empty : "s";
-                loadingStatus = string.Format("Loading {0} file{1}", count.ToString(), suffix);
-            }
-            else
-            {
-                TimeSpan elapsed = DateTime.Now - _startedLoading;
-                loadingStatus = string.Format("Loaded in {0}", elapsed.ToString());
-            }
-
-            // update the progress bar, we want it to scroll if any windows are still loading,
-            // but be hidden if there are none loading
-            this.toolStripProgressBar.Style = ProgressBarStyle.Marquee;
-            this.toolStripProgressBar.Enabled = count > 0;
-            this.toolStripProgressBar.Visible = count > 0;
-
-            // update the status text
-            this.toolStripStatusLabelMain.Text = loadingStatus;
-        }
-
-        /// <summary>
-        /// Removes a window from our list of windows currently loading xml files.
-        /// </summary>
-        /// <param name="window">The window that has finished loading, and needs removed from
-        /// the list of currently loading windows.</param>
-        private void RemoveLoadingWindow(object window)
-        {
-            // lock the list for thread safety
-            lock (_windowsCurrentlyLoading)
-            {
-                // remove the window if it's in the list
-                if (_windowsCurrentlyLoading.Contains(window))
-                    _windowsCurrentlyLoading.Remove(window);
-
-                // update the loading status
-                this.UpdateLoadingStatus();
-            }
-        }
-
-        /// <summary>
         /// Evaluates the specified XPath expression against the xml content of the currently selected window.
         /// </summary>
         /// <param name="xpath">An XPath expression to evaluate against the currently selected window.</param>
@@ -582,7 +511,7 @@ namespace XmlExplorer.Controls
                     return false;
 
                 // instruct the window to perform the expression evaluation
-                result = window.FindByXpath(xpath);
+                result = window.TreeView.FindByXpath(xpath);
 
                 if (result)
                     this.toolStripStatusLabelMain.Text = "";
@@ -621,7 +550,7 @@ namespace XmlExplorer.Controls
                     return false;
 
                 // evaluate the expression
-                XPathNodeIterator iterator = window.SelectXmlNodes(xpath);
+                XPathNodeIterator iterator = window.TreeView.SelectXmlNodes(xpath) as XPathNodeIterator;
 
                 // check for empty results
                 if (iterator == null || iterator.Count < 1)
@@ -667,7 +596,7 @@ namespace XmlExplorer.Controls
                     return;
 
                 // instruct the window to save with formatting
-                window.Save(formatting);
+                window.TreeView.Save(formatting);
             }
             catch (Exception ex)
             {
@@ -686,7 +615,7 @@ namespace XmlExplorer.Controls
                 XmlExplorerWindow window = this.ActiveMdiChild as XmlExplorerWindow;
                 if (window == null)
                     return;
-                window.SaveAs(formatting);
+                window.TreeView.SaveAs(formatting);
             }
             catch (Exception ex)
             {
@@ -758,7 +687,7 @@ namespace XmlExplorer.Controls
                 return;
 
             // instruct the window to copy
-            window.CopyFormattedOuterXml();
+            window.TreeView.CopyFormattedOuterXml();
         }
 
         /// <summary>
@@ -773,7 +702,7 @@ namespace XmlExplorer.Controls
                 return;
 
             // instruct the window to copy
-            window.CopyNodeText();
+            window.TreeView.CopyNodeText();
         }
 
         private void UpdateXPathExpressionTool(string text)
@@ -807,7 +736,7 @@ namespace XmlExplorer.Controls
                     return;
 
                 // evaluate the expression
-                XPathNodeIterator nodes = window.SelectXmlNodes(xpath);
+                XPathNodeIterator nodes = window.TreeView.SelectXmlNodes(xpath) as XPathNodeIterator;
 
                 // return if an empty result set is returned
                 if (nodes == null || nodes.Count < 1)
@@ -881,7 +810,10 @@ namespace XmlExplorer.Controls
                 this.toolStripMenuItemClose.Enabled = hasOpenWindows;
                 this.toolStripMenuItemSaveAs.Enabled = hasOpenWindows;
                 this.toolStripButtonSave.Enabled = hasOpenWindows;
+                this.toolStripMenuItemSaveAs.Enabled = hasOpenWindows;
+                this.toolStripMenuItemSaveAsWithoutFormatting.Enabled = hasOpenWindows;
                 this.toolStripMenuItemSaveWithFormatting.Enabled = hasOpenWindows;
+                this.toolStripMenuItemSaveWithoutFormatting.Enabled = hasOpenWindows;
 
                 this.toolStripMenuItemCopyFormattedOuterXml.Enabled = hasOpenWindows;
                 this.toolStripButtonCopyFormattedOuterXml.Enabled = hasOpenWindows;
@@ -889,7 +821,10 @@ namespace XmlExplorer.Controls
                 this.toolStripMenuItemCopyXPath.Enabled = hasOpenWindows;
 
                 this.toolStripMenuItemExpandAll.Enabled = hasOpenWindows;
+                this.toolStripButtonExpandAll.Enabled = hasOpenWindows;
+
                 this.toolStripMenuItemCollapseAll.Enabled = hasOpenWindows;
+                this.toolStripButtonCollapseAll.Enabled = hasOpenWindows;
 
                 this.toolStripMenuItemRefresh.Enabled = hasOpenWindows;
                 this.toolStripButtonRefresh.Enabled = hasOpenWindows;
@@ -905,8 +840,10 @@ namespace XmlExplorer.Controls
         {
             if (persistString == typeof(ExpressionsWindow).ToString())
                 return _expressionsWindow;
-            else if (persistString == typeof(ValidationWindow).ToString())
-                return _validationWindow;
+            else if (persistString == typeof(ErrorWindow).ToString())
+                return _errorWindow;
+            else if (persistString == typeof(NamespacesWindow).ToString())
+                return _namespacesWindow;
 
             return null;
         }
@@ -919,8 +856,10 @@ namespace XmlExplorer.Controls
             {
                 if (!_expressionsWindow.Visible)
                     _expressionsWindow.Show(this.dockPanel);
-                if (!_validationWindow.Visible)
-                    _validationWindow.Show(this.dockPanel);
+                if (!_errorWindow.Visible)
+                    _errorWindow.Show(this.dockPanel);
+                if (!_namespacesWindow.Visible)
+                    _namespacesWindow.Show(this.dockPanel);
             }
             catch (Exception ex)
             {
@@ -964,7 +903,7 @@ namespace XmlExplorer.Controls
                 return;
 
             // instruct the window to copy
-            window.ExpandAll();
+            window.TreeView.ExpandAll();
         }
 
         public void CollapseAll()
@@ -975,7 +914,98 @@ namespace XmlExplorer.Controls
                 return;
 
             // instruct the window to copy
-            window.CollapseAll();
+            window.TreeView.CollapseAll();
+        }
+
+        private void UpdateCurrentDocumentInformation()
+        {
+            this.UpdateErrorList();
+            this.UpdateNamespaceList();
+
+            string loadedTime = null;
+            string windowText = "XML Explorer";
+            XPathNavigatorTreeView treeView = null;
+            bool isLoading = false;
+
+            // get the selected window
+            XmlExplorerWindow window = this.ActiveMdiChild as XmlExplorerWindow;
+            if (window != null)
+            {
+                windowText = string.Format("XML Explorer - [{0}]", window.Text);
+
+                isLoading = window.TreeView.IsLoading;
+
+                if (!isLoading)
+                    loadedTime = string.Format("Loaded in {0:N3} seconds", window.TreeView.LoadTime.TotalMilliseconds / 1000D);
+
+                treeView = window.TreeView;
+            }
+
+            // update the main window text
+            this.Text = windowText;
+
+            this.toolStripStatusLabelLoadTime.Text = loadedTime;
+
+            this.toolStripProgressBar.Visible = isLoading;
+
+            this.UpdateSelectedNodeInformation(treeView);
+        }
+
+        private void UpdateErrorList()
+        {
+            List<Error> items = null;
+
+            // get the selectd window
+            XmlExplorerWindow window = this.ActiveMdiChild as XmlExplorerWindow;
+            if (window != null)
+                items = window.TreeView.Errors;
+
+            _errorWindow.Errors = items;
+        }
+
+        private void UpdateNamespaceList()
+        {
+            List<NamespaceDefinition> items = null;
+
+            // get the selectd window
+            XmlExplorerWindow window = this.ActiveMdiChild as XmlExplorerWindow;
+            if (window != null)
+                items = window.TreeView.NamespaceDefinitions;
+
+            _namespacesWindow.NamespaceDefinitions = items;
+        }
+
+        private void UpdateSelectedNodeInformation(XPathNavigatorTreeView treeView)
+        {
+            XPathNavigatorTreeNode node = null;
+            if (treeView != null)
+                node = treeView.SelectedNode as XPathNavigatorTreeNode;
+
+            this.UpdateSelectedNodeInformation(node, treeView);
+        }
+
+        private void UpdateSelectedNodeInformation(XPathNavigatorTreeNode node, XPathNavigatorTreeView treeView)
+        {
+            string countText = "";
+            string pathText = "";
+
+            if (node != null)
+            {
+                // get the xml node's child count
+                int count = node.Navigator.SelectChildren(XPathNodeType.Element).Count;
+
+                countText = string.Format("{0} child node{1}", count, count == 1 ? string.Empty : "s");
+
+                // get the xml node's path
+                if(treeView != null)
+                    pathText = treeView.GetXmlNodeFullPath(node.Navigator);
+            }
+
+            // update the status bar with the child count
+            this.toolStripStatusLabelChildCount.Text = countText;
+
+            // update the status bar with the full path of the selected xml node
+            this.toolStripStatusLabelMain.Text = pathText;
         }
 
         #endregion
@@ -1044,15 +1074,6 @@ namespace XmlExplorer.Controls
                 // get the window
                 XmlExplorerWindow window = this.ActiveMdiChild as XmlExplorerWindow;
 
-                if (window == null)
-                {
-                    this.Text = "XML Explorer";
-                    return;
-                }
-
-                _validationWindow.ValidationEventArgs = window.ValidationEventArgs;
-                _validationWindow.SchemaFileName = window.SchemaFileName;
-
                 // unwire from child mdi window events
                 foreach (Form form in this.MdiChildren)
                 {
@@ -1060,14 +1081,14 @@ namespace XmlExplorer.Controls
                     if (otherWindow == null)
                         continue;
 
-                    otherWindow.XPathNavigatorTreeView.KeyDown -= this.OnWindow_XmlTreeView_KeyDown;
+                    otherWindow.TreeView.KeyDown -= this.OnWindow_XmlTreeView_KeyDown;
                 }
 
-                // update the main window text
-                this.Text = string.Format("XML Explorer - [{0}]", window.Text);
-
                 // wire to the newly active child mdi window events
-                window.XPathNavigatorTreeView.KeyDown += this.OnWindow_XmlTreeView_KeyDown;
+                if (window != null)
+                    window.TreeView.KeyDown += this.OnWindow_XmlTreeView_KeyDown;
+
+                this.UpdateCurrentDocumentInformation();
             }
             catch (Exception ex)
             {
@@ -1097,97 +1118,6 @@ namespace XmlExplorer.Controls
         }
 
         /// <summary>
-        /// Occurs when a window has begun asynchronously loading an XML file.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void OnWindowLoadingFileStarted(object sender, EventArgs e)
-        {
-            try
-            {
-                // this event will likely occur on a background thread,
-                // marshal the event back to the window's thread
-                if (this.InvokeRequired)
-                {
-                    this.Invoke(new EventHandler<EventArgs>(this.OnWindowLoadingFileStarted), sender, e);
-                    return;
-                }
-
-                // lock the list for thread safety
-                lock (_windowsCurrentlyLoading)
-                {
-                    if (_windowsCurrentlyLoading.Count < 1)
-                        _startedLoading = DateTime.Now;
-
-                    // add the window
-                    _windowsCurrentlyLoading.Add(sender);
-
-                    // update the status and progress
-                    this.UpdateLoadingStatus();
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-                MessageBox.Show(this, ex.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Occurs when an exception occurs while loading an XML file.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void OnWindowLoadingFileFailed(object sender, EventArgs e)
-        {
-            try
-            {
-                // this event will likely occur on a background thread,
-                // marshal the event back to the window's thread
-                if (this.InvokeRequired)
-                {
-                    this.Invoke(new EventHandler<EventArgs>(this.OnWindowLoadingFileFailed), sender, e);
-                    return;
-                }
-
-                // remove the window
-                this.RemoveLoadingWindow(sender);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-                MessageBox.Show(this, ex.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Occurs when a window has completed asynchronously loading an XML file.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void OnWindowLoadingFileCompleted(object sender, EventArgs e)
-        {
-            try
-            {
-                // this event will likely occur on a background thread,
-                // marshal the event back to the window's thread
-                if (this.InvokeRequired)
-                {
-                    this.Invoke(new EventHandler<EventArgs>(this.OnWindowLoadingFileCompleted), sender, e);
-                    return;
-                }
-
-                // remove the window
-                this.RemoveLoadingWindow(sender);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-                MessageBox.Show(this, ex.ToString());
-            }
-        }
-
-        /// <summary>
         /// Occurs when the selected xml node of a window has changed.
         /// </summary>
         private void OnWindow_XmlTreeView_AfterSelect(object sender, TreeViewEventArgs e)
@@ -1206,14 +1136,7 @@ namespace XmlExplorer.Controls
                 if (treeView == null)
                     return;
 
-                // get the xml node's child count
-                int count = node.Navigator.SelectChildren(XPathNodeType.Element).Count;
-
-                // update the status bar with the child count
-                this.toolStripStatusLabelChildCount.Text = string.Format("{0} child node{1}", count, count == 1 ? string.Empty : "s");
-
-                // update the status bar with the full path of the selected xml node
-                this.toolStripStatusLabelMain.Text = treeView.GetXmlNodeFullPath(node.Navigator);
+                this.UpdateSelectedNodeInformation(node, treeView);
             }
             catch (Exception ex)
             {
@@ -1235,7 +1158,7 @@ namespace XmlExplorer.Controls
                     return;
 
                 // get the node that was clicked
-                TreeViewHitTestInfo info = window.XPathNavigatorTreeView.HitTest(e.Location);
+                TreeViewHitTestInfo info = window.TreeView.HitTest(e.Location);
 
                 if (info.Node == null)
                     return;
@@ -1312,6 +1235,31 @@ namespace XmlExplorer.Controls
             }
         }
 
+        void OnErrorWindow_ErrorActivated(object sender, EventArgs<Error> e)
+        {
+            try
+            {
+                if (e.Item == null || e.Item.SourceObject == null)
+                    return;
+
+                XPathNavigator navigator = e.Item.SourceObject as XPathNavigator;
+                if (navigator == null)
+                    return;
+
+                // get the selectd window
+                XmlExplorerWindow window = this.ActiveMdiChild as XmlExplorerWindow;
+                if (window == null)
+                    return;
+
+                window.TreeView.SelectXmlTreeNode(navigator);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                MessageBox.Show(this, ex.ToString());
+            }
+        }
+
         private void OnChildWindowFormClosed(object sender, FormClosedEventArgs e)
         {
             try
@@ -1323,56 +1271,11 @@ namespace XmlExplorer.Controls
 
                 // unwire from the window's events
                 window.FormClosed -= this.OnChildWindowFormClosed;
-                window.LoadingFileCompleted -= this.OnWindowLoadingFileCompleted;
-                window.LoadingFileFailed -= this.OnWindowLoadingFileFailed;
-                window.LoadingFileStarted -= this.OnWindowLoadingFileStarted;
-                window.XPathNavigatorTreeView.AfterSelect -= this.OnWindow_XmlTreeView_AfterSelect;
-                window.XPathNavigatorTreeView.MouseUp -= this.OnWindow_XmlTreeView_MouseUp;
+                window.TreeView.AfterSelect -= this.OnWindow_XmlTreeView_AfterSelect;
+                window.TreeView.MouseUp -= this.OnWindow_XmlTreeView_MouseUp;
                 window.TabPageContextMenuStrip = null;
 
                 this.UpdateTools(this.MdiChildren.Length == 1);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-                MessageBox.Show(this, ex.ToString());
-            }
-        }
-
-        private void OnValidationWindow_SchemaFileNameChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                // get the active window
-                XmlExplorerWindow window = this.ActiveMdiChild as XmlExplorerWindow;
-
-                if (window == null)
-                    return;
-
-                window.SchemaFileName = _validationWindow.SchemaFileName;
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-                MessageBox.Show(this, ex.ToString());
-            }
-        }
-
-        private void OnValidationWindow_Validate(object sender, EventArgs e)
-        {
-            try
-            {
-                // get the active window
-                XmlExplorerWindow window = this.ActiveMdiChild as XmlExplorerWindow;
-
-                if (window == null)
-                    return;
-
-                window.SchemaFileName = _validationWindow.SchemaFileName;
-
-                window.ValidateSchema();
-
-                _validationWindow.ValidationEventArgs = window.ValidationEventArgs;
             }
             catch (Exception ex)
             {
@@ -1431,6 +1334,33 @@ namespace XmlExplorer.Controls
 
                 if (userRequested)
                     MessageBox.Show(this, string.Format("{0} is up to date (v{1})", AboutBox.AssemblyProduct, currentVersion.ToString()), AboutBox.AssemblyProduct);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        void OnDocumentLoaded(object sender, EventArgs e)
+        {
+            try
+            {
+                if (this.InvokeRequired)
+                {
+                    this.Invoke(new EventHandler(this.OnDocumentLoaded), sender, e);
+                    return;
+                }
+
+                // get the selected window
+                XmlExplorerWindow window = this.ActiveMdiChild as XmlExplorerWindow;
+                if (window == null)
+                    return;
+
+                if (window.TreeView != sender)
+                    return;
+
+                this.UpdateCurrentDocumentInformation();
             }
             catch (Exception ex)
             {
@@ -1703,7 +1633,7 @@ namespace XmlExplorer.Controls
                 XmlExplorerWindow page = this.ActiveMdiChild as XmlExplorerWindow;
                 if (page != null)
                 {
-                    page.Reload();
+                    this.Reload();
                 }
             }
             catch (Exception ex)
@@ -1747,14 +1677,14 @@ namespace XmlExplorer.Controls
                 if (window == null)
                     return;
 
-                XPathNavigatorTreeNode node = window.XPathNavigatorTreeView.SelectedNode as XPathNavigatorTreeNode;
+                XPathNavigatorTreeNode node = window.TreeView.SelectedNode as XPathNavigatorTreeNode;
                 if (node == null)
                     return;
 
                 if (node.Navigator == null)
                     return;
 
-                this.toolStripTextBoxXpath.Text = window.XPathNavigatorTreeView.GetXmlNodeFullPath(node.Navigator);
+                this.toolStripTextBoxXpath.Text = window.TreeView.GetXmlNodeFullPath(node.Navigator);
             }
             catch (Exception ex)
             {
@@ -1838,17 +1768,22 @@ namespace XmlExplorer.Controls
                 if (page == null)
                     page = this.ActiveMdiChild as XmlExplorerWindow;
 
-                if (page != null)
-                {
-                    Clipboard.SetText(page.Filename);
-                }
+                if (page == null)
+                    return;
 
-                this.contextMenuStripTabs.Tag = null;
+                if (page.TreeView.FileInfo != null)
+                {
+                    Clipboard.SetText(page.TreeView.FileInfo.FullName);
+                }
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
                 MessageBox.Show(this, ex.ToString());
+            }
+            finally
+            {
+                this.contextMenuStripTabs.Tag = null;
             }
         }
 
@@ -1861,11 +1796,14 @@ namespace XmlExplorer.Controls
                 if (page == null)
                     page = this.ActiveMdiChild as XmlExplorerWindow;
 
+                if (page == null)
+                    return;
+
                 // open an explorer window to the folder containing the selected window's file
-                if (page != null && !string.IsNullOrEmpty(page.Filename))
+                if (page.TreeView.FileInfo != null)
                 {
                     // open explorer to the file's parent folder, with the file selected
-                    string args = string.Format("/select,\"{0}\"", page.Filename);
+                    string args = string.Format("/select,\"{0}\"", page.TreeView.FileInfo.FullName);
                     Process.Start("explorer", args);
                 }
 
@@ -1919,7 +1857,7 @@ namespace XmlExplorer.Controls
                 MessageBox.Show(this, ex.ToString());
             }
         }
-        
+
         private void OnToolStripMenuItemExpandAllClick(object sender, EventArgs e)
         {
             try

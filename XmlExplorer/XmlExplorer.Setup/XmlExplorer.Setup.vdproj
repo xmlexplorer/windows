@@ -7,34 +7,34 @@
 "LanguageId" = "3:1033"
 "CodePage" = "3:1252"
 "UILanguageId" = "3:1033"
-"SccProjectName" = "8:SAK"
-"SccLocalPath" = "8:SAK"
-"SccAuxPath" = "8:SAK"
-"SccProvider" = "8:SAK"
+"SccProjectName" = "8:Svn"
+"SccLocalPath" = "8:Svn"
+"SccAuxPath" = "8:Svn"
+"SccProvider" = "8:SubversionScc"
     "Hierarchy"
     {
         "Entry"
         {
-        "MsmKey" = "8:_292532D22C0F8D74289F2CD35EB8330E"
-        "OwnerKey" = "8:_3F5F639A5C5F4BFAA0A05A6CF0E260F3"
+        "MsmKey" = "8:_160AF1F60FF2494A3E26B4755A7BC0AB"
+        "OwnerKey" = "8:_6E36A3B6C78A4DDE94DB1731D5A1800E"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_292532D22C0F8D74289F2CD35EB8330E"
-        "OwnerKey" = "8:_B248E8BD5C9D5CC660FCAF75EAD4A302"
+        "MsmKey" = "8:_160AF1F60FF2494A3E26B4755A7BC0AB"
+        "OwnerKey" = "8:_C0FBDE97AAA4F2B0CE876ED20A68EC40"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_3F5F639A5C5F4BFAA0A05A6CF0E260F3"
+        "MsmKey" = "8:_6E36A3B6C78A4DDE94DB1731D5A1800E"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_B248E8BD5C9D5CC660FCAF75EAD4A302"
-        "OwnerKey" = "8:_3F5F639A5C5F4BFAA0A05A6CF0E260F3"
+        "MsmKey" = "8:_C0FBDE97AAA4F2B0CE876ED20A68EC40"
+        "OwnerKey" = "8:_6E36A3B6C78A4DDE94DB1731D5A1800E"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -46,19 +46,19 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_3F5F639A5C5F4BFAA0A05A6CF0E260F3"
+        "OwnerKey" = "8:_6E36A3B6C78A4DDE94DB1731D5A1800E"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_292532D22C0F8D74289F2CD35EB8330E"
+        "OwnerKey" = "8:_C0FBDE97AAA4F2B0CE876ED20A68EC40"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_B248E8BD5C9D5CC660FCAF75EAD4A302"
+        "OwnerKey" = "8:_160AF1F60FF2494A3E26B4755A7BC0AB"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -88,16 +88,6 @@
             "ComponentsUrl" = "8:"
                 "Items"
                 {
-                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Net.Framework.3.5.SP1"
-                    {
-                    "Name" = "8:.NET Framework 3.5 SP1"
-                    "ProductCode" = "8:Microsoft.Net.Framework.3.5.SP1"
-                    }
-                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Windows.Installer.3.1"
-                    {
-                    "Name" = "8:Windows Installer 3.1"
-                    "ProductCode" = "8:Microsoft.Windows.Installer.3.1"
-                    }
                 }
             }
         }
@@ -153,22 +143,22 @@
                 {
                 "Name" = "8:.NET Framework"
                 "Message" = "8:[VSDNETMSG]"
-                "Version" = "8:2.0.50727"
+                "FrameworkVersion" = "8:.NETFramework,Version=v4.0,Profile=Client"
                 "AllowLaterVersions" = "11:FALSE"
-                "InstallUrl" = "8:http://go.microsoft.com/fwlink/?LinkId=9832"
+                "InstallUrl" = "8:http://go.microsoft.com/fwlink/?LinkId=183187"
                 }
             }
         }
         "File"
         {
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_292532D22C0F8D74289F2CD35EB8330E"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_160AF1F60FF2494A3E26B4755A7BC0AB"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
             "AssemblyAsmDisplayName" = "8:WeifenLuo.WinFormsUI.Docking, Version=2.3.3712.27984, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_292532D22C0F8D74289F2CD35EB8330E"
+                    "_160AF1F60FF2494A3E26B4755A7BC0AB"
                     {
                     "Name" = "8:WeifenLuo.WinFormsUI.Docking.dll"
                     "Attributes" = "3:512"
@@ -192,14 +182,14 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_B248E8BD5C9D5CC660FCAF75EAD4A302"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_C0FBDE97AAA4F2B0CE876ED20A68EC40"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:XmlExplorer.Controls, Version=2.0.2.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:XmlExplorer.Controls, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_B248E8BD5C9D5CC660FCAF75EAD4A302"
+                    "_C0FBDE97AAA4F2B0CE876ED20A68EC40"
                     {
                     "Name" = "8:XmlExplorer.Controls.dll"
                     "Attributes" = "3:512"
@@ -300,8 +290,9 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:XML Explorer"
         "ProductCode" = "8:{96A7C590-0F47-437F-AAFC-6612960B744A}"
-        "PackageCode" = "8:{0F0474CF-AEA6-432C-A0EB-62B21C4F95D7}"
+        "PackageCode" = "8:{335F3777-3E4D-42EC-AC5E-9AA308321931}"
         "UpgradeCode" = "8:{DCF30FC8-6E77-47AB-97A5-36C54754E243}"
+        "AspNetVersion" = "8:4.0.30128.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
@@ -316,7 +307,7 @@
         "Keywords" = "8:XML Explorer viewer XPath expression"
         "ARPCOMMENTS" = "8:An extremely fast, lightweight XML file viewer."
         "ARPURLINFOABOUT" = "8:http://www.codeplex.com/xmlexplorer"
-        "ARPPRODUCTICON" = "8:_3F5F639A5C5F4BFAA0A05A6CF0E260F3"
+        "ARPPRODUCTICON" = "8:"
         "ARPIconIndex" = "3:32512"
         "SearchPath" = "8:"
         "UseSystemSearchPath" = "11:TRUE"
@@ -687,28 +678,28 @@
             {
             "Name" = "8:XML Explorer"
             "Arguments" = "8:"
-            "Description" = "8:"
+            "Description" = "8:XML Explorer is an extremely fast, lightweight XML file viewer."
             "ShowCmd" = "3:1"
             "IconIndex" = "3:32512"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_3F5F639A5C5F4BFAA0A05A6CF0E260F3"
+            "Target" = "8:_6E36A3B6C78A4DDE94DB1731D5A1800E"
             "Folder" = "8:_7F18FD03985C44688E5A05C7227C933A"
             "WorkingFolder" = "8:_75F333A7B9854A468C1E1BC9B434595C"
-            "Icon" = "8:_3F5F639A5C5F4BFAA0A05A6CF0E260F3"
+            "Icon" = "8:_6E36A3B6C78A4DDE94DB1731D5A1800E"
             "Feature" = "8:"
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_BD7BD17547B14742B5888956FF1D4DD4"
             {
             "Name" = "8:XML Explorer"
             "Arguments" = "8:"
-            "Description" = "8:"
+            "Description" = "8:XML Explorer is an extremely fast, lightweight XML file viewer."
             "ShowCmd" = "3:1"
             "IconIndex" = "3:32512"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_3F5F639A5C5F4BFAA0A05A6CF0E260F3"
+            "Target" = "8:_6E36A3B6C78A4DDE94DB1731D5A1800E"
             "Folder" = "8:_3ADCBB71D03E4841B376FAF73F76F798"
             "WorkingFolder" = "8:_75F333A7B9854A468C1E1BC9B434595C"
-            "Icon" = "8:_3F5F639A5C5F4BFAA0A05A6CF0E260F3"
+            "Icon" = "8:_6E36A3B6C78A4DDE94DB1731D5A1800E"
             "Feature" = "8:"
             }
         }
@@ -1120,7 +1111,7 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_3F5F639A5C5F4BFAA0A05A6CF0E260F3"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_6E36A3B6C78A4DDE94DB1731D5A1800E"
             {
             "SourcePath" = "8:..\\XmlExplorer\\obj\\Debug\\XmlExplorer.exe"
             "TargetName" = "8:"
