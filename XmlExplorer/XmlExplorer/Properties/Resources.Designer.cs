@@ -66,5 +66,12 @@ namespace XmlExplorer.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        internal static System.Drawing.Bitmap XmlExplorer48 {
+            get {
+                object obj = ResourceManager.GetObject("XmlExplorer48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

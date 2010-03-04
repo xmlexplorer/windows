@@ -30,7 +30,7 @@ namespace XmlExplorer
                 application.StartupNextInstance += Program.OnStartupNextInstance;
                 application.Shutdown += Program.OnShutdown;
                 application.UnhandledException += Program.OnUnhandledException;
-                
+
                 application.Run(args);
             }
             catch (Exception ex)
@@ -93,6 +93,8 @@ namespace XmlExplorer
                 }
 
                 window.AutoUpdateUrl = Properties.Settings.Default.UpdateUrl;
+
+                window.Shown += new EventHandler(OnWindowShown);
             }
             catch (Exception ex)
             {
@@ -143,6 +145,7 @@ namespace XmlExplorer
                 {
                     Properties.Settings.Default.Upgrade();
                     Properties.Settings.Default.UpgradeNeeded = false;
+                    Properties.Settings.Default.Save();
                 }
 
                 // open it
@@ -151,8 +154,6 @@ namespace XmlExplorer
                 // read any options saved from a previous instance of the application
                 // (window size and position, font, etc)
                 ReadOptions(window);
-
-                window.CheckForUpdates(false);
             }
             catch (Exception ex)
             {
@@ -221,6 +222,42 @@ namespace XmlExplorer
             // the window has been moved, update the setting
             if (form.WindowState == FormWindowState.Normal)
                 Properties.Settings.Default.Location = form.Location;
+        }
+
+        private static void OnWindowShown(object sender, EventArgs e)
+        {
+            try
+            {
+                TabbedXmlExplorerWindow window = sender as TabbedXmlExplorerWindow;
+                if (window == null)
+                    return;
+
+                window.CheckForUpdates(false);
+
+                if (Properties.Settings.Default.CheckDefaultProgram)
+                {
+                    Properties.Settings.Default.CheckDefaultProgram = false;
+                    Properties.Settings.Default.Save();
+
+                    if (System.Windows.DefaultApplications.IsAssociationsWindowSupported)
+                    {
+                        using (DefaultProgramPrompt prompt = new DefaultProgramPrompt())
+                        {
+                            DialogResult result = prompt.ShowDialog(window);
+
+                            if (result == DialogResult.Yes)
+                            {
+                                System.Windows.DefaultApplications.ShowAssociationsWindow("XML Explorer");
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                MessageBox.Show(ex.ToString());
+            }
         }
 
         private static void OnClosing(object sender, CancelEventArgs e)

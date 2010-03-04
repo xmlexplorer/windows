@@ -150,5 +150,17 @@ namespace XmlExplorer.Properties {
                 return ((string)(this["UpdateUrl"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool CheckDefaultProgram {
+            get {
+                return ((bool)(this["CheckDefaultProgram"]));
+            }
+            set {
+                this["CheckDefaultProgram"] = value;
+            }
+        }
     }
 }

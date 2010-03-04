@@ -50,8 +50,6 @@ namespace XmlExplorer.Controls
 
         #region Events
 
-        public event EventHandler<EventArgs<Error>> ErrorActivated;
-
         #endregion
 
         #region Methods

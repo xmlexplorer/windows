@@ -126,6 +126,7 @@ namespace XmlExplorer.Controls
             this.toolStripMenuItemAbout.Click += this.OnToolStripMenuItemAboutClick;
 
             this.toolStripStatusLabelChildCount.Text = string.Empty;
+            this.toolStripStatusLabelLoadTime.Text = string.Empty;
 
             this.toolStripButtonXPathExpression.Click += this.OnToolStripButtonXPathExpressionClick;
 
