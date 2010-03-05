@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("XML Explorer")]
 [assembly: AssemblyDescription("XML Explorer is an extremely fast, lightweight XML file viewer.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("XML Explorer")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("XML Explorer")]
 [assembly: AssemblyCopyright("Copyright © Jason Coon 2007-2010")]
 [assembly: AssemblyTrademark("")]

@@ -93,6 +93,7 @@ namespace XmlExplorer
                 }
 
                 window.AutoUpdateUrl = Properties.Settings.Default.UpdateUrl;
+                window.MinimumReleaseStatus = Properties.Settings.Default.UpdateReleaseStatus;
 
                 window.Shown += new EventHandler(OnWindowShown);
             }
@@ -232,12 +233,15 @@ namespace XmlExplorer
                 if (window == null)
                     return;
 
-                window.CheckForUpdates(false);
+                var settings = Properties.Settings.Default;
 
-                if (Properties.Settings.Default.CheckDefaultProgram)
+                if(settings.CheckForUpdates)
+                    window.CheckForUpdates(false);
+
+                if (settings.CheckDefaultProgram)
                 {
-                    Properties.Settings.Default.CheckDefaultProgram = false;
-                    Properties.Settings.Default.Save();
+                    settings.CheckDefaultProgram = false;
+                    settings.Save();
 
                     if (System.Windows.DefaultApplications.IsAssociationsWindowSupported)
                     {

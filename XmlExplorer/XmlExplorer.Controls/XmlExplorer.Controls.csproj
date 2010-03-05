@@ -95,6 +95,7 @@
     <Compile Include="ErrorWindow.Designer.cs">
       <DependentUpon>ErrorWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="ReleaseStatus.cs" />
     <Compile Include="XmlExplorerWindow.cs">
       <SubType>Form</SubType>
     </Compile>

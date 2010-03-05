@@ -131,6 +131,7 @@ namespace XmlExplorer.Controls
             this.toolStripButtonXPathExpression.Click += this.OnToolStripButtonXPathExpressionClick;
 
             this.RecentlyUsedFiles = new RecentlyUsedFilesStack();
+            this.MinimumReleaseStatus = ReleaseStatus.Stable;
 
             // set up the expressions window
             _expressionsWindow = new ExpressionsWindow();
@@ -138,14 +139,14 @@ namespace XmlExplorer.Controls
             _expressionsWindow.SelectedExpressionChanged += this.OnExpressionsWindow_SelectedExpressionChanged;
             _expressionsWindow.ExpressionsActivated += this.OnExpressionsWindow_ExpressionsActivated;
 
+            // set up the namespaces window
+            _namespacesWindow = new NamespacesWindow();
+            _namespacesWindow.ShowHint = WeifenLuo.WinFormsUI.Docking.DockState.DockBottom;
+
             // set up the errors window
             _errorWindow = new ErrorWindow();
             _errorWindow.ShowHint = WeifenLuo.WinFormsUI.Docking.DockState.DockBottom;
             _errorWindow.ErrorActivated += this.OnErrorWindow_ErrorActivated;
-
-            // set up the namespaces window
-            _namespacesWindow = new NamespacesWindow();
-            _namespacesWindow.ShowHint = WeifenLuo.WinFormsUI.Docking.DockState.DockBottom;
 
             _deserializeDockContent = new DeserializeDockContent(this.GetContentFromPersistString);
 
@@ -247,6 +248,8 @@ namespace XmlExplorer.Controls
         public RecentlyUsedFilesStack RecentlyUsedFiles { get; set; }
 
         public string AutoUpdateUrl { get; set; }
+
+        public ReleaseStatus MinimumReleaseStatus { get; set; }
 
         #endregion
 
@@ -420,9 +423,22 @@ namespace XmlExplorer.Controls
                     return;
 
                 ProcessStartInfo info = new ProcessStartInfo(fileInfo.FullName);
-                info.Verb = "edit";
+                info.Verb = "Edit";
 
                 Process.Start(info);
+            }
+            catch (System.ComponentModel.Win32Exception ex)
+            {
+                Debug.WriteLine(ex);
+
+                if (ex.NativeErrorCode == 1155)
+                {
+                    MessageBox.Show("No application is associated with the specified file for the verb 'Edit'.");
+                }
+                else
+                {
+                    MessageBox.Show(this, ex.ToString());
+                }
             }
             catch (Exception ex)
             {
@@ -857,10 +873,10 @@ namespace XmlExplorer.Controls
             {
                 if (!_expressionsWindow.Visible)
                     _expressionsWindow.Show(this.dockPanel);
-                if (!_errorWindow.Visible)
-                    _errorWindow.Show(this.dockPanel);
                 if (!_namespacesWindow.Visible)
                     _namespacesWindow.Show(this.dockPanel);
+                if (!_errorWindow.Visible)
+                    _errorWindow.Show(this.dockPanel);
             }
             catch (Exception ex)
             {
@@ -1305,15 +1321,15 @@ namespace XmlExplorer.Controls
 
                 ReleaseInfoCollection releases = ReleaseInfoCollection.FromRss(e.Result);
 
-                if (releases == null)
+                if (releases == null && userRequested)
                 {
                     MessageBox.Show(this, "No updates were found.", AboutBox.AssemblyProduct);
                     return;
                 }
 
-                ReleaseInfo latest = releases.Latest;
+                ReleaseInfo latest = releases.GetLatest(this.MinimumReleaseStatus);
 
-                if (latest == null)
+                if (latest == null && userRequested)
                 {
                     MessageBox.Show(this, "No updates were found.", AboutBox.AssemblyProduct);
                     return;

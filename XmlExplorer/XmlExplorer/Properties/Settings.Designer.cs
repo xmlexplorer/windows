@@ -97,7 +97,7 @@ namespace XmlExplorer.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool UseSyntaxHighlighting {
             get {
                 return ((bool)(this["UseSyntaxHighlighting"]));
@@ -160,6 +160,24 @@ namespace XmlExplorer.Properties {
             }
             set {
                 this["CheckDefaultProgram"] = value;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Stable")]
+        public global::XmlExplorer.Controls.ReleaseStatus UpdateReleaseStatus {
+            get {
+                return ((global::XmlExplorer.Controls.ReleaseStatus)(this["UpdateReleaseStatus"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool CheckForUpdates {
+            get {
+                return ((bool)(this["CheckForUpdates"]));
             }
         }
     }

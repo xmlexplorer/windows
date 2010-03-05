@@ -15,6 +15,7 @@ namespace XmlExplorer.Controls
     {
         public Version Version { get; set; }
         public string Url { get; set; }
+        public ReleaseStatus Status { get; set; }
     }
 
     public class ReleaseInfoCollection : List<ReleaseInfo>, IComparer<ReleaseInfo>
@@ -39,29 +40,50 @@ namespace XmlExplorer.Controls
 
         public static ReleaseInfoCollection FromRss(MemoryStream stream)
         {
-            // load the rss feed xml from a stream to an XDocument
-            XDocument feedXml = XDocument.Load(XmlReader.Create(stream));
+            ReleaseInfoCollection releases = new ReleaseInfoCollection();
 
             // regex to match a valid release version
             Regex regex = new Regex(@"\d+.\d+.\d+");
-            Match match = null;
-            Version version = null;
 
-            /* query for /rss/channel/item elements that:
-             * have a title that matches the regex above
-             * and have a non null link
-             * */
-            var items = from item in feedXml.Element("rss").Element("channel").Descendants("item")
-                        where (match = regex.Match(item.Element("title").Value)).Success
-                         && (version = new Version(match.Groups[0].Value)) != null
-                         && !string.IsNullOrEmpty(item.Element("link").Value)
-                        select new ReleaseInfo
-                        {
-                            Url = item.Element("link").Value,
-                            Version = version
-                        };
+            XDocument document = XDocument.Load(stream);
 
-            return new ReleaseInfoCollection(items.ToList());
+            foreach (var item in document.Element("rss").Element("channel").Descendants("item"))
+            {
+                string title = item.Element("title").Value;
+                Match match = regex.Match(title);
+                if (!match.Success)
+                    continue;
+
+                string titleLower = title.ToLower();
+
+                if (titleLower.Contains("deleted") || titleLower.Contains("removed"))
+                    continue;
+
+                ReleaseStatus status = ReleaseStatus.Stable;
+
+                if (titleLower.Contains("alpha"))
+                    status = ReleaseStatus.Alpha;
+                else if (titleLower.Contains("beta"))
+                    status = ReleaseStatus.Beta;
+
+                Version version = new Version(match.Groups[0].Value);
+
+                if (releases.Exists(r => r.Version == version))
+                    continue;
+
+                string link = item.Element("link").Value;
+
+                ReleaseInfo release = new ReleaseInfo()
+                {
+                    Status = status,
+                    Url = link,
+                    Version = version,
+                };
+
+                releases.Add(release);
+            }
+
+            return releases;
         }
 
         #region Replaced XPathNavigator code with LINQ to XML code :)
@@ -112,22 +134,19 @@ namespace XmlExplorer.Controls
 
         #endregion
 
-        public ReleaseInfo Latest
+        public ReleaseInfo GetLatest(ReleaseStatus minimumStatus)
         {
-            get
-            {
-                if (this.Count < 1)
-                    return null;
+            if (this.Count < 1)
+                return null;
 
-                this.Sort();
+            var filteredReleases = this.Where(r => ((int)r.Status) >= ((int)minimumStatus)).ToList();
 
-                return this[this.Count - 1];
-            }
-        }
+            if (filteredReleases.Count < 1)
+                return null;
 
-        public new void Sort()
-        {
-            base.Sort(this);
+            filteredReleases.Sort(this);
+
+            return filteredReleases[filteredReleases.Count - 1];
         }
 
         #region IComparer<ReleaseInfo> Members
