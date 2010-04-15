@@ -221,6 +221,8 @@
     <None Include="Resources\Book_openHS.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\Up.png" />
+    <Content Include="Resources\Down.png" />
     <Content Include="Resources\Book_openHS.ico" />
     <None Include="Resources\Warning16.png" />
     <None Include="Resources\CheckGrammarHS.png" />

@@ -102,6 +102,13 @@ namespace XmlExplorer.Controls.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap Down {
+            get {
+                object obj = ResourceManager.GetObject("Down", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap Error16 {
             get {
                 object obj = ResourceManager.GetObject("Error16", resourceCulture);
@@ -182,6 +189,13 @@ namespace XmlExplorer.Controls.Properties {
         internal static System.Drawing.Bitmap unstarred {
             get {
                 object obj = ResourceManager.GetObject("unstarred", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Up {
+            get {
+                object obj = ResourceManager.GetObject("Up", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
