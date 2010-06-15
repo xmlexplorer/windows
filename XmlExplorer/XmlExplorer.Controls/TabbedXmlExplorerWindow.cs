@@ -540,14 +540,14 @@ namespace XmlExplorer.Controls
 				if (result)
 				{
 					this.toolStripStatusLabelMain.Text = "";
-
-					this.UpdateXPathTools(window.TreeView);
 				}
 				else
 				{
 					this.toolStripStatusLabelMain.Text = "No matches were found";
 					this.toolStripLabelResults.Visible = false;
 				}
+
+				this.UpdateXPathTools(window.TreeView);
 			}
 			catch (System.Xml.XPath.XPathException ex)
 			{
@@ -582,6 +582,8 @@ namespace XmlExplorer.Controls
 				this.toolStripButtonNext.Enabled = false;
 				this.toolStripButtonPrevious.Enabled = false;
 			}
+
+			this.toolStripStandardButtons.PerformLayout();
 		}
 
 		/// <summary>
