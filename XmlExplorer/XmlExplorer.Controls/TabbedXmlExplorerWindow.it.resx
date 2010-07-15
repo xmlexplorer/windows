@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,71 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="statusStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>319, 17</value>
-  </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="toolStripStatusLabelMain.Size" type="System.Drawing.Size, System.Drawing">
-    <value>631, 17</value>
-  </data>
-  <data name="toolStripStatusLabelMain.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
-  </data>
-  <data name="toolStripStatusLabelChildCount.Size" type="System.Drawing.Size, System.Drawing">
-    <value>83, 17</value>
-  </data>
-  <data name="toolStripStatusLabelChildCount.Text" xml:space="preserve">
-    <value>10 child nodes</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="toolStripProgressBar.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="toolStripProgressBar.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 16</value>
-  </data>
-  <data name="toolStripProgressBar.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="toolStripStatusLabelLoadTime.Size" type="System.Drawing.Size, System.Drawing">
-    <value>63, 17</value>
-  </data>
-  <data name="toolStripStatusLabelLoadTime.Text" xml:space="preserve">
-    <value>Load Time</value>
-  </data>
-  <data name="statusStrip.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 544</value>
-  </data>
-  <data name="statusStrip.Size" type="System.Drawing.Size, System.Drawing">
-    <value>792, 22</value>
-  </data>
-  <data name="statusStrip.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;statusStrip.Name" xml:space="preserve">
-    <value>statusStrip</value>
-  </data>
-  <data name="&gt;&gt;statusStrip.Type" xml:space="preserve">
-    <value>System.Windows.Forms.StatusStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;statusStrip.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;statusStrip.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <metadata name="menuStripMain.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="toolStripMenuItemNewFromClipboard.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>Ctrl+N</value>
-  </data>
   <data name="toolStripMenuItemNewFromClipboard.Size" type="System.Drawing.Size, System.Drawing">
-    <value>235, 22</value>
+    <value>270, 22</value>
   </data>
   <data name="toolStripMenuItemNewFromClipboard.Text" xml:space="preserve">
-    <value>&amp;New from Clipboard</value>
+    <value>&amp;New from Clipboard Italian</value>
   </data>
   <data name="toolStripMenuItemOpen.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -200,35 +141,26 @@
         sKMdDra72WO9g53bLdhlabH2IW3oV61T/AveiOUD9n93hQAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="toolStripMenuItemOpen.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>Ctrl+O</value>
-  </data>
   <data name="toolStripMenuItemOpen.Size" type="System.Drawing.Size, System.Drawing">
-    <value>235, 22</value>
+    <value>270, 22</value>
   </data>
   <data name="toolStripMenuItemOpen.Text" xml:space="preserve">
-    <value>&amp;Open...</value>
-  </data>
-  <data name="toolStripMenuItemOpenInEditor.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>Ctrl+E</value>
+    <value>&amp;Open... Italian</value>
   </data>
   <data name="toolStripMenuItemOpenInEditor.Size" type="System.Drawing.Size, System.Drawing">
-    <value>235, 22</value>
+    <value>270, 22</value>
   </data>
   <data name="toolStripMenuItemOpenInEditor.Text" xml:space="preserve">
-    <value>Open in &amp;Editor</value>
-  </data>
-  <data name="toolStripMenuItemClose.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>Ctrl+F4</value>
+    <value>Open in &amp;Editor Italian</value>
   </data>
   <data name="toolStripMenuItemClose.Size" type="System.Drawing.Size, System.Drawing">
-    <value>235, 22</value>
+    <value>270, 22</value>
   </data>
   <data name="toolStripMenuItemClose.Text" xml:space="preserve">
-    <value>&amp;Close</value>
+    <value>&amp;Close Italian</value>
   </data>
   <data name="toolStripSeparator.Size" type="System.Drawing.Size, System.Drawing">
-    <value>232, 6</value>
+    <value>267, 6</value>
   </data>
   <data name="toolStripMenuItemSaveWithFormatting.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -246,65 +178,62 @@
         M1NXKoL3R2cLwf/80T8AQlY6vtwrpecAAAAASUVORK5CYII=
 </value>
   </data>
-  <data name="toolStripMenuItemSaveWithFormatting.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>Ctrl+S</value>
-  </data>
   <data name="toolStripMenuItemSaveWithFormatting.Size" type="System.Drawing.Size, System.Drawing">
-    <value>235, 22</value>
+    <value>270, 22</value>
   </data>
   <data name="toolStripMenuItemSaveWithFormatting.Text" xml:space="preserve">
-    <value>&amp;Save (with formatting)</value>
+    <value>&amp;Save (with formatting) Italian</value>
   </data>
   <data name="toolStripMenuItemSaveAs.Size" type="System.Drawing.Size, System.Drawing">
-    <value>235, 22</value>
+    <value>270, 22</value>
   </data>
   <data name="toolStripMenuItemSaveAs.Text" xml:space="preserve">
-    <value>Save As... (with formatting)</value>
+    <value>Save As... (with formatting) Italian</value>
   </data>
   <data name="toolStripSeparator7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>232, 6</value>
+    <value>267, 6</value>
   </data>
   <data name="toolStripMenuItemSaveWithoutFormatting.Size" type="System.Drawing.Size, System.Drawing">
-    <value>235, 22</value>
+    <value>270, 22</value>
   </data>
   <data name="toolStripMenuItemSaveWithoutFormatting.Text" xml:space="preserve">
-    <value>Save (without formatting)</value>
+    <value>Save (without formatting) Italian</value>
   </data>
   <data name="toolStripMenuItemSaveAsWithoutFormatting.Size" type="System.Drawing.Size, System.Drawing">
-    <value>235, 22</value>
+    <value>270, 22</value>
   </data>
   <data name="toolStripMenuItemSaveAsWithoutFormatting.Text" xml:space="preserve">
-    <value>Save As... (without formatting)</value>
+    <value>Save As... (without formatting) Italian</value>
   </data>
   <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>232, 6</value>
+    <value>267, 6</value>
   </data>
   <data name="toolStripMenuItemClearRecentFileList.Size" type="System.Drawing.Size, System.Drawing">
-    <value>182, 22</value>
+    <value>217, 22</value>
   </data>
   <data name="toolStripMenuItemClearRecentFileList.Text" xml:space="preserve">
-    <value>Clear Recent File List</value>
+    <value>Clear Recent File List Italian</value>
   </data>
   <data name="toolStripMenuItemRecentFiles.Size" type="System.Drawing.Size, System.Drawing">
-    <value>235, 22</value>
+    <value>270, 22</value>
   </data>
   <data name="toolStripMenuItemRecentFiles.Text" xml:space="preserve">
-    <value>Recent &amp;Files</value>
+    <value>Recent &amp;Files Italian</value>
   </data>
   <data name="toolStripSeparator6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>232, 6</value>
+    <value>267, 6</value>
   </data>
   <data name="toolStripMenuItemExit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>235, 22</value>
+    <value>270, 22</value>
   </data>
   <data name="toolStripMenuItemExit.Text" xml:space="preserve">
-    <value>E&amp;xit</value>
+    <value>E&amp;xit Italian</value>
   </data>
   <data name="toolStripMenuItemFile.Size" type="System.Drawing.Size, System.Drawing">
-    <value>37, 20</value>
+    <value>72, 20</value>
   </data>
   <data name="toolStripMenuItemFile.Text" xml:space="preserve">
-    <value>&amp;File</value>
+    <value>&amp;File Italian</value>
   </data>
   <data name="toolStripMenuItemCopy.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -321,14 +250,11 @@
         /4H/deAH8dnaq3fTyGwAAAAASUVORK5CYII=
 </value>
   </data>
-  <data name="toolStripMenuItemCopy.ShortcutKeyDisplayString" xml:space="preserve">
-    <value>Ctrl+C</value>
-  </data>
   <data name="toolStripMenuItemCopy.Size" type="System.Drawing.Size, System.Drawing">
-    <value>312, 22</value>
+    <value>347, 22</value>
   </data>
   <data name="toolStripMenuItemCopy.Text" xml:space="preserve">
-    <value>&amp;Copy</value>
+    <value>&amp;Copy Italian</value>
   </data>
   <data name="toolStripMenuItemCopyFormattedOuterXml.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -345,47 +271,38 @@
         /4H/deAH8dnaq3fTyGwAAAAASUVORK5CYII=
 </value>
   </data>
-  <data name="toolStripMenuItemCopyFormattedOuterXml.ShortcutKeyDisplayString" xml:space="preserve">
-    <value />
-  </data>
-  <data name="toolStripMenuItemCopyFormattedOuterXml.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>Ctrl+Shift+C</value>
-  </data>
   <data name="toolStripMenuItemCopyFormattedOuterXml.Size" type="System.Drawing.Size, System.Drawing">
-    <value>312, 22</value>
+    <value>347, 22</value>
   </data>
   <data name="toolStripMenuItemCopyFormattedOuterXml.Text" xml:space="preserve">
-    <value>&amp;Copy Formatted Outer XML</value>
-  </data>
-  <data name="toolStripMenuItemCopyXPath.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>Ctrl+Alt+C</value>
+    <value>&amp;Copy Formatted Outer XML Italian</value>
   </data>
   <data name="toolStripMenuItemCopyXPath.Size" type="System.Drawing.Size, System.Drawing">
-    <value>312, 22</value>
+    <value>347, 22</value>
   </data>
   <data name="toolStripMenuItemCopyXPath.Text" xml:space="preserve">
-    <value>Copy Node &amp;XPath to Address Bar</value>
+    <value>Copy Node &amp;XPath to Address Bar Italian</value>
   </data>
   <data name="toolStripSeparator10.Size" type="System.Drawing.Size, System.Drawing">
-    <value>309, 6</value>
+    <value>344, 6</value>
   </data>
   <data name="toolStripMenuItemExpandAll.Size" type="System.Drawing.Size, System.Drawing">
-    <value>312, 22</value>
+    <value>347, 22</value>
   </data>
   <data name="toolStripMenuItemExpandAll.Text" xml:space="preserve">
-    <value>&amp;Expand All</value>
+    <value>&amp;Expand All Italian</value>
   </data>
   <data name="toolStripMenuItemCollapseAll.Size" type="System.Drawing.Size, System.Drawing">
-    <value>312, 22</value>
+    <value>347, 22</value>
   </data>
   <data name="toolStripMenuItemCollapseAll.Text" xml:space="preserve">
-    <value>Colla&amp;pse All</value>
+    <value>Colla&amp;pse All Italian</value>
   </data>
   <data name="toolStripMenuItemEdit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>39, 20</value>
+    <value>74, 20</value>
   </data>
   <data name="toolStripMenuItemEdit.Text" xml:space="preserve">
-    <value>&amp;Edit</value>
+    <value>&amp;Edit Italian</value>
   </data>
   <data name="toolStripMenuItemFont.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -401,22 +318,22 @@
 </value>
   </data>
   <data name="toolStripMenuItemFont.Size" type="System.Drawing.Size, System.Drawing">
-    <value>159, 22</value>
+    <value>194, 22</value>
   </data>
   <data name="toolStripMenuItemFont.Text" xml:space="preserve">
-    <value>&amp;Font...</value>
+    <value>&amp;Font Italian...</value>
   </data>
   <data name="toolStripMenuItemUseHighlighting.Size" type="System.Drawing.Size, System.Drawing">
-    <value>159, 22</value>
+    <value>194, 22</value>
   </data>
   <data name="toolStripMenuItemUseHighlighting.Text" xml:space="preserve">
-    <value>&amp;Use Highlighing</value>
+    <value>&amp;Use Highlighing Italian</value>
   </data>
   <data name="toolStripMenuItemFormat.Size" type="System.Drawing.Size, System.Drawing">
-    <value>57, 20</value>
+    <value>92, 20</value>
   </data>
   <data name="toolStripMenuItemFormat.Text" xml:space="preserve">
-    <value>F&amp;ormat</value>
+    <value>F&amp;ormat Italian</value>
   </data>
   <data name="toolStripMenuItemRefresh.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -430,69 +347,39 @@
         RlgcgxQQwlhTIrlZGgCC0BA7GOO+ZQAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="toolStripMenuItemRefresh.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>F5</value>
-  </data>
   <data name="toolStripMenuItemRefresh.Size" type="System.Drawing.Size, System.Drawing">
-    <value>132, 22</value>
+    <value>167, 22</value>
   </data>
   <data name="toolStripMenuItemRefresh.Text" xml:space="preserve">
-    <value>&amp;Refresh</value>
+    <value>&amp;Refresh Italian</value>
   </data>
   <data name="toolStripMenuItemView.Size" type="System.Drawing.Size, System.Drawing">
-    <value>44, 20</value>
+    <value>79, 20</value>
   </data>
   <data name="toolStripMenuItemView.Text" xml:space="preserve">
-    <value>&amp;View</value>
+    <value>&amp;View Italian</value>
   </data>
   <data name="toolStripMenuItemCheckForUpdates.Size" type="System.Drawing.Size, System.Drawing">
-    <value>179, 22</value>
+    <value>214, 22</value>
   </data>
   <data name="toolStripMenuItemCheckForUpdates.Text" xml:space="preserve">
-    <value>Check for updates...</value>
+    <value>Check for updates Italian...</value>
   </data>
   <data name="toolStripSeparator8.Size" type="System.Drawing.Size, System.Drawing">
-    <value>176, 6</value>
+    <value>211, 6</value>
   </data>
   <data name="toolStripMenuItemAbout.Size" type="System.Drawing.Size, System.Drawing">
-    <value>179, 22</value>
+    <value>214, 22</value>
   </data>
   <data name="toolStripMenuItemAbout.Text" xml:space="preserve">
-    <value>&amp;About XML Explorer</value>
+    <value>&amp;About XML Explorer Italian</value>
   </data>
   <data name="toolStripMenuItemHelp.Size" type="System.Drawing.Size, System.Drawing">
-    <value>44, 20</value>
+    <value>79, 20</value>
   </data>
   <data name="toolStripMenuItemHelp.Text" xml:space="preserve">
-    <value>&amp;Help</value>
+    <value>&amp;Help Italian</value>
   </data>
-  <data name="menuStripMain.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="menuStripMain.Size" type="System.Drawing.Size, System.Drawing">
-    <value>792, 24</value>
-  </data>
-  <data name="menuStripMain.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="menuStripMain.Text" xml:space="preserve">
-    <value>menuStrip1</value>
-  </data>
-  <data name="&gt;&gt;menuStripMain.Name" xml:space="preserve">
-    <value>menuStripMain</value>
-  </data>
-  <data name="&gt;&gt;menuStripMain.Type" xml:space="preserve">
-    <value>System.Windows.Forms.MenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;menuStripMain.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;menuStripMain.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <metadata name="toolStripStandardButtons.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>143, 17</value>
-  </metadata>
   <data name="toolStripButtonOpen.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -510,18 +397,6 @@
         IaIAAAAASUVORK5CYII=
 </value>
   </data>
-  <data name="toolStripButtonOpen.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
-    <value>Magenta</value>
-  </data>
-  <data name="toolStripButtonOpen.Size" type="System.Drawing.Size, System.Drawing">
-    <value>23, 22</value>
-  </data>
-  <data name="toolStripButtonOpen.Text" xml:space="preserve">
-    <value>&amp;Open</value>
-  </data>
-  <data name="toolStripButtonOpen.ToolTipText" xml:space="preserve">
-    <value>Open (Ctrl+O)</value>
-  </data>
   <data name="toolStripButtonSave.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -538,18 +413,6 @@
         rkJggg==
 </value>
   </data>
-  <data name="toolStripButtonSave.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
-    <value>Magenta</value>
-  </data>
-  <data name="toolStripButtonSave.Size" type="System.Drawing.Size, System.Drawing">
-    <value>23, 22</value>
-  </data>
-  <data name="toolStripButtonSave.Text" xml:space="preserve">
-    <value>Save with formatting (Ctrl+S)</value>
-  </data>
-  <data name="toolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>6, 25</value>
-  </data>
   <data name="toolStripButtonCopyFormattedOuterXml.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -564,74 +427,8 @@
         pc6Zfm2bSHmNBc2ZHspOd1J6qiPd3MaB47cKA0X/gf914Afx2dqrd9PIbAAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="toolStripButtonCopyFormattedOuterXml.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
-    <value>Magenta</value>
-  </data>
-  <data name="toolStripButtonCopyFormattedOuterXml.Size" type="System.Drawing.Size, System.Drawing">
-    <value>23, 22</value>
-  </data>
-  <data name="toolStripButtonCopyFormattedOuterXml.Text" xml:space="preserve">
-    <value>Copy Formatted Outer XML</value>
-  </data>
-  <data name="toolStripButtonCopyFormattedOuterXml.ToolTipText" xml:space="preserve">
-    <value>Copy Formatted Outer XML (Ctrl+Shift+C)</value>
-  </data>
-  <data name="toolStripSeparator11.Size" type="System.Drawing.Size, System.Drawing">
-    <value>6, 25</value>
-  </data>
-  <data name="toolStripButtonExpandAll.Size" type="System.Drawing.Size, System.Drawing">
-    <value>23, 22</value>
-  </data>
-  <data name="toolStripButtonExpandAll.Text" xml:space="preserve">
-    <value>&amp;Expand All</value>
-  </data>
-  <data name="toolStripButtonCollapseAll.Size" type="System.Drawing.Size, System.Drawing">
-    <value>23, 22</value>
-  </data>
-  <data name="toolStripButtonCollapseAll.Text" xml:space="preserve">
-    <value>Colla&amp;pse All</value>
-  </data>
-  <data name="toolStripSeparator3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>6, 25</value>
-  </data>
-  <data name="toolStripButtonRefresh.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
-    <value>Magenta</value>
-  </data>
-  <data name="toolStripButtonRefresh.Size" type="System.Drawing.Size, System.Drawing">
-    <value>23, 22</value>
-  </data>
-  <data name="toolStripButtonRefresh.Text" xml:space="preserve">
-    <value>Refresh</value>
-  </data>
-  <data name="toolStripButtonRefresh.ToolTipText" xml:space="preserve">
-    <value>Refresh (F5)</value>
-  </data>
-  <data name="toolStripSeparator4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>6, 25</value>
-  </data>
-  <data name="toolStripLabel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>41, 22</value>
-  </data>
-  <data name="toolStripLabel1.Text" xml:space="preserve">
-    <value>XPath:</value>
-  </data>
   <data name="toolStripTextBoxXpath.Size" type="System.Drawing.Size, System.Drawing">
-    <value>360, 25</value>
-  </data>
-  <data name="toolStripTextBoxXpath.ToolTipText" xml:space="preserve">
-    <value>Enter an XPath expression.
-
-Press Enter to select the first match.
-Press Shift+Enter (or Launch button) to open the expression results in a new window.</value>
-  </data>
-  <data name="toolStripButtonXPathExpression.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
-    <value>Magenta</value>
-  </data>
-  <data name="toolStripButtonXPathExpression.Size" type="System.Drawing.Size, System.Drawing">
-    <value>23, 22</value>
-  </data>
-  <data name="toolStripButtonXPathExpression.ToolTipText" xml:space="preserve">
-    <value>Add expression to library</value>
+    <value>325, 25</value>
   </data>
   <data name="toolStripButtonLaunchXpath.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -648,114 +445,12 @@ Press Shift+Enter (or Launch button) to open the expression results in a new win
         JkciPUtVsm0ZR2aW2OIs4vk1A0CuUWj/+x7FP3g0jD+qHVIhqzbEYgAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="toolStripButtonLaunchXpath.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
-  </data>
-  <data name="toolStripButtonLaunchXpath.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
-    <value>Magenta</value>
-  </data>
   <data name="toolStripButtonLaunchXpath.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 22</value>
+    <value>110, 22</value>
   </data>
   <data name="toolStripButtonLaunchXpath.Text" xml:space="preserve">
-    <value>Launch...</value>
+    <value>Launch Italian...</value>
   </data>
-  <data name="toolStripButtonLaunchXpath.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleRight</value>
-  </data>
-  <data name="toolStripButtonLaunchXpath.ToolTipText" xml:space="preserve">
-    <value>Launch XPath expression in a new tab (Shift+Enter)</value>
-  </data>
-  <data name="toolStripButtonPrevious.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="toolStripButtonPrevious.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
-    <value>Magenta</value>
-  </data>
-  <data name="toolStripButtonPrevious.Size" type="System.Drawing.Size, System.Drawing">
-    <value>23, 22</value>
-  </data>
-  <data name="toolStripButtonPrevious.Text" xml:space="preserve">
-    <value>Previous</value>
-  </data>
-  <data name="toolStripButtonNext.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
-    <value>Magenta</value>
-  </data>
-  <data name="toolStripButtonNext.Size" type="System.Drawing.Size, System.Drawing">
-    <value>23, 22</value>
-  </data>
-  <data name="toolStripButtonNext.Text" xml:space="preserve">
-    <value>Next</value>
-  </data>
-  <data name="toolStripLabelResults.Size" type="System.Drawing.Size, System.Drawing">
-    <value>42, 22</value>
-  </data>
-  <data name="toolStripLabelResults.Text" xml:space="preserve">
-    <value>1 of 10</value>
-  </data>
-  <data name="toolStripLabelResults.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="toolStripStandardButtons.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 24</value>
-  </data>
-  <data name="toolStripStandardButtons.Size" type="System.Drawing.Size, System.Drawing">
-    <value>792, 25</value>
-  </data>
-  <data name="toolStripStandardButtons.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;toolStripStandardButtons.Name" xml:space="preserve">
-    <value>toolStripStandardButtons</value>
-  </data>
-  <data name="&gt;&gt;toolStripStandardButtons.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripStandardButtons.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;toolStripStandardButtons.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <metadata name="contextMenuStripTabs.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>423, 17</value>
-  </metadata>
-  <data name="contextMenuStripMenuItemClose.Size" type="System.Drawing.Size, System.Drawing">
-    <value>201, 22</value>
-  </data>
-  <data name="contextMenuStripMenuItemClose.Text" xml:space="preserve">
-    <value>&amp;Close</value>
-  </data>
-  <data name="toolStripSeparator5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>198, 6</value>
-  </data>
-  <data name="toolStripMenuItemCopyFullPath.Size" type="System.Drawing.Size, System.Drawing">
-    <value>201, 22</value>
-  </data>
-  <data name="toolStripMenuItemCopyFullPath.Text" xml:space="preserve">
-    <value>Copy Full Path</value>
-  </data>
-  <data name="toolStripMenuItemOpenContainingFolder.Size" type="System.Drawing.Size, System.Drawing">
-    <value>201, 22</value>
-  </data>
-  <data name="toolStripMenuItemOpenContainingFolder.Text" xml:space="preserve">
-    <value>Open Containing Folder</value>
-  </data>
-  <data name="contextMenuStripTabs.Size" type="System.Drawing.Size, System.Drawing">
-    <value>202, 76</value>
-  </data>
-  <data name="&gt;&gt;contextMenuStripTabs.Name" xml:space="preserve">
-    <value>contextMenuStripTabs</value>
-  </data>
-  <data name="&gt;&gt;contextMenuStripTabs.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>580, 16</value>
-  </metadata>
-  <metadata name="contextMenuStripNodes.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 53</value>
-  </metadata>
   <data name="contextMenuStripNodesItemCopy.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
@@ -770,15 +465,6 @@ Press Shift+Enter (or Launch button) to open the expression results in a new win
         Ul8YqL3mIr6zh3nIS49jFtOTGXGz2my0TnHwxO3CQKXOmX5tm0h5jQXNmR7KTndSeqoj3dzGgeO3CgNF
         /4H/deAH8dnaq3fTyGwAAAAASUVORK5CYII=
 </value>
-  </data>
-  <data name="contextMenuStripNodesItemCopy.ShortcutKeyDisplayString" xml:space="preserve">
-    <value />
-  </data>
-  <data name="contextMenuStripNodesItemCopy.Size" type="System.Drawing.Size, System.Drawing">
-    <value>247, 22</value>
-  </data>
-  <data name="contextMenuStripNodesItemCopy.Text" xml:space="preserve">
-    <value>&amp;Copy</value>
   </data>
   <data name="contextMenuStripNodesItemCopyFormattedOuterXml.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -795,74 +481,11 @@ Press Shift+Enter (or Launch button) to open the expression results in a new win
         /4H/deAH8dnaq3fTyGwAAAAASUVORK5CYII=
 </value>
   </data>
-  <data name="contextMenuStripNodesItemCopyFormattedOuterXml.ShortcutKeyDisplayString" xml:space="preserve">
-    <value />
-  </data>
-  <data name="contextMenuStripNodesItemCopyFormattedOuterXml.Size" type="System.Drawing.Size, System.Drawing">
-    <value>247, 22</value>
-  </data>
-  <data name="contextMenuStripNodesItemCopyFormattedOuterXml.Text" xml:space="preserve">
-    <value>&amp;Copy Formatted Outer XML</value>
-  </data>
-  <data name="contextMenuStripNodesItemCopyXPath.Size" type="System.Drawing.Size, System.Drawing">
-    <value>247, 22</value>
-  </data>
-  <data name="contextMenuStripNodesItemCopyXPath.Text" xml:space="preserve">
-    <value>Copy Node &amp;XPath to Address Bar</value>
-  </data>
   <data name="toolStripSeparator9.Size" type="System.Drawing.Size, System.Drawing">
-    <value>244, 6</value>
-  </data>
-  <data name="contextMenuStripItemNodesExpandAll.Size" type="System.Drawing.Size, System.Drawing">
-    <value>247, 22</value>
-  </data>
-  <data name="contextMenuStripItemNodesExpandAll.Text" xml:space="preserve">
-    <value>&amp;Expand All</value>
-  </data>
-  <data name="contextMenuStripItemNodesCollapeAll.Size" type="System.Drawing.Size, System.Drawing">
-    <value>247, 22</value>
-  </data>
-  <data name="contextMenuStripItemNodesCollapeAll.Text" xml:space="preserve">
-    <value>Colla&amp;pse All</value>
+    <value>57, 6</value>
   </data>
   <data name="contextMenuStripNodes.Size" type="System.Drawing.Size, System.Drawing">
-    <value>248, 120</value>
-  </data>
-  <data name="&gt;&gt;contextMenuStripNodes.Name" xml:space="preserve">
-    <value>contextMenuStripNodes</value>
-  </data>
-  <data name="&gt;&gt;contextMenuStripNodes.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="dockPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="dockPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 49</value>
-  </data>
-  <data name="dockPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>792, 495</value>
-  </data>
-  <data name="dockPanel.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;dockPanel.Name" xml:space="preserve">
-    <value>dockPanel</value>
-  </data>
-  <data name="&gt;&gt;dockPanel.Type" xml:space="preserve">
-    <value>WeifenLuo.WinFormsUI.Docking.DockPanel, WeifenLuo.WinFormsUI.Docking, Version=2.4.3713.24741, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;dockPanel.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;dockPanel.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>792, 566</value>
+    <value>61, 10</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -2133,398 +1756,5 @@ Press Shift+Enter (or Launch button) to open the expression results in a new win
         /9bW14oAAAAAAAAAAAAAAACAAaxBgAGsQYABrEGAAaxBgAGsQYABrEGAAaxBgAGsQYABrEGAAaxBgAGs
         QYABrEGAAaxBgAGsQYADrEGAB6xB
 </value>
-  </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>XML Explorer</value>
-  </data>
-  <data name="&gt;&gt;toolStripStatusLabelMain.Name" xml:space="preserve">
-    <value>toolStripStatusLabelMain</value>
-  </data>
-  <data name="&gt;&gt;toolStripStatusLabelMain.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripStatusLabelChildCount.Name" xml:space="preserve">
-    <value>toolStripStatusLabelChildCount</value>
-  </data>
-  <data name="&gt;&gt;toolStripStatusLabelChildCount.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripProgressBar.Name" xml:space="preserve">
-    <value>toolStripProgressBar</value>
-  </data>
-  <data name="&gt;&gt;toolStripProgressBar.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripProgressBar, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripStatusLabelLoadTime.Name" xml:space="preserve">
-    <value>toolStripStatusLabelLoadTime</value>
-  </data>
-  <data name="&gt;&gt;toolStripStatusLabelLoadTime.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemFile.Name" xml:space="preserve">
-    <value>toolStripMenuItemFile</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemFile.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemNewFromClipboard.Name" xml:space="preserve">
-    <value>toolStripMenuItemNewFromClipboard</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemNewFromClipboard.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemOpen.Name" xml:space="preserve">
-    <value>toolStripMenuItemOpen</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemOpen.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemOpenInEditor.Name" xml:space="preserve">
-    <value>toolStripMenuItemOpenInEditor</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemOpenInEditor.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemClose.Name" xml:space="preserve">
-    <value>toolStripMenuItemClose</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemClose.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator.Name" xml:space="preserve">
-    <value>toolStripSeparator</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemSaveWithFormatting.Name" xml:space="preserve">
-    <value>toolStripMenuItemSaveWithFormatting</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemSaveWithFormatting.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemSaveAs.Name" xml:space="preserve">
-    <value>toolStripMenuItemSaveAs</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemSaveAs.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator7.Name" xml:space="preserve">
-    <value>toolStripSeparator7</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator7.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemSaveWithoutFormatting.Name" xml:space="preserve">
-    <value>toolStripMenuItemSaveWithoutFormatting</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemSaveWithoutFormatting.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemSaveAsWithoutFormatting.Name" xml:space="preserve">
-    <value>toolStripMenuItemSaveAsWithoutFormatting</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemSaveAsWithoutFormatting.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator1.Name" xml:space="preserve">
-    <value>toolStripSeparator1</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemRecentFiles.Name" xml:space="preserve">
-    <value>toolStripMenuItemRecentFiles</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemRecentFiles.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemClearRecentFileList.Name" xml:space="preserve">
-    <value>toolStripMenuItemClearRecentFileList</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemClearRecentFileList.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator6.Name" xml:space="preserve">
-    <value>toolStripSeparator6</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator6.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemExit.Name" xml:space="preserve">
-    <value>toolStripMenuItemExit</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemExit.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemEdit.Name" xml:space="preserve">
-    <value>toolStripMenuItemEdit</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemEdit.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemCopy.Name" xml:space="preserve">
-    <value>toolStripMenuItemCopy</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemCopy.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemCopyFormattedOuterXml.Name" xml:space="preserve">
-    <value>toolStripMenuItemCopyFormattedOuterXml</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemCopyFormattedOuterXml.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemCopyXPath.Name" xml:space="preserve">
-    <value>toolStripMenuItemCopyXPath</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemCopyXPath.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator10.Name" xml:space="preserve">
-    <value>toolStripSeparator10</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator10.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemExpandAll.Name" xml:space="preserve">
-    <value>toolStripMenuItemExpandAll</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemExpandAll.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemCollapseAll.Name" xml:space="preserve">
-    <value>toolStripMenuItemCollapseAll</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemCollapseAll.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemFormat.Name" xml:space="preserve">
-    <value>toolStripMenuItemFormat</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemFormat.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemFont.Name" xml:space="preserve">
-    <value>toolStripMenuItemFont</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemFont.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemUseHighlighting.Name" xml:space="preserve">
-    <value>toolStripMenuItemUseHighlighting</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemUseHighlighting.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemView.Name" xml:space="preserve">
-    <value>toolStripMenuItemView</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemView.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemRefresh.Name" xml:space="preserve">
-    <value>toolStripMenuItemRefresh</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemRefresh.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemHelp.Name" xml:space="preserve">
-    <value>toolStripMenuItemHelp</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemHelp.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemCheckForUpdates.Name" xml:space="preserve">
-    <value>toolStripMenuItemCheckForUpdates</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemCheckForUpdates.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator8.Name" xml:space="preserve">
-    <value>toolStripSeparator8</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator8.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemAbout.Name" xml:space="preserve">
-    <value>toolStripMenuItemAbout</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemAbout.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripButtonOpen.Name" xml:space="preserve">
-    <value>toolStripButtonOpen</value>
-  </data>
-  <data name="&gt;&gt;toolStripButtonOpen.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripButtonSave.Name" xml:space="preserve">
-    <value>toolStripButtonSave</value>
-  </data>
-  <data name="&gt;&gt;toolStripButtonSave.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator2.Name" xml:space="preserve">
-    <value>toolStripSeparator2</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripButtonCopyFormattedOuterXml.Name" xml:space="preserve">
-    <value>toolStripButtonCopyFormattedOuterXml</value>
-  </data>
-  <data name="&gt;&gt;toolStripButtonCopyFormattedOuterXml.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator11.Name" xml:space="preserve">
-    <value>toolStripSeparator11</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator11.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripButtonExpandAll.Name" xml:space="preserve">
-    <value>toolStripButtonExpandAll</value>
-  </data>
-  <data name="&gt;&gt;toolStripButtonExpandAll.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripButtonCollapseAll.Name" xml:space="preserve">
-    <value>toolStripButtonCollapseAll</value>
-  </data>
-  <data name="&gt;&gt;toolStripButtonCollapseAll.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator3.Name" xml:space="preserve">
-    <value>toolStripSeparator3</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripButtonRefresh.Name" xml:space="preserve">
-    <value>toolStripButtonRefresh</value>
-  </data>
-  <data name="&gt;&gt;toolStripButtonRefresh.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator4.Name" xml:space="preserve">
-    <value>toolStripSeparator4</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator4.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripLabel1.Name" xml:space="preserve">
-    <value>toolStripLabel1</value>
-  </data>
-  <data name="&gt;&gt;toolStripLabel1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripTextBoxXpath.Name" xml:space="preserve">
-    <value>toolStripTextBoxXpath</value>
-  </data>
-  <data name="&gt;&gt;toolStripTextBoxXpath.Type" xml:space="preserve">
-    <value>XmlExplorer.Controls.ToolStripSpringTextBox, XmlExplorer.Controls, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;toolStripButtonXPathExpression.Name" xml:space="preserve">
-    <value>toolStripButtonXPathExpression</value>
-  </data>
-  <data name="&gt;&gt;toolStripButtonXPathExpression.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripButtonLaunchXpath.Name" xml:space="preserve">
-    <value>toolStripButtonLaunchXpath</value>
-  </data>
-  <data name="&gt;&gt;toolStripButtonLaunchXpath.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripButtonPrevious.Name" xml:space="preserve">
-    <value>toolStripButtonPrevious</value>
-  </data>
-  <data name="&gt;&gt;toolStripButtonPrevious.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripButtonNext.Name" xml:space="preserve">
-    <value>toolStripButtonNext</value>
-  </data>
-  <data name="&gt;&gt;toolStripButtonNext.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripLabelResults.Name" xml:space="preserve">
-    <value>toolStripLabelResults</value>
-  </data>
-  <data name="&gt;&gt;toolStripLabelResults.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;contextMenuStripMenuItemClose.Name" xml:space="preserve">
-    <value>contextMenuStripMenuItemClose</value>
-  </data>
-  <data name="&gt;&gt;contextMenuStripMenuItemClose.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator5.Name" xml:space="preserve">
-    <value>toolStripSeparator5</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator5.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemCopyFullPath.Name" xml:space="preserve">
-    <value>toolStripMenuItemCopyFullPath</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemCopyFullPath.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemOpenContainingFolder.Name" xml:space="preserve">
-    <value>toolStripMenuItemOpenContainingFolder</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemOpenContainingFolder.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolTip.Name" xml:space="preserve">
-    <value>toolTip</value>
-  </data>
-  <data name="&gt;&gt;toolTip.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;contextMenuStripNodesItemCopy.Name" xml:space="preserve">
-    <value>contextMenuStripNodesItemCopy</value>
-  </data>
-  <data name="&gt;&gt;contextMenuStripNodesItemCopy.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;contextMenuStripNodesItemCopyFormattedOuterXml.Name" xml:space="preserve">
-    <value>contextMenuStripNodesItemCopyFormattedOuterXml</value>
-  </data>
-  <data name="&gt;&gt;contextMenuStripNodesItemCopyFormattedOuterXml.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;contextMenuStripNodesItemCopyXPath.Name" xml:space="preserve">
-    <value>contextMenuStripNodesItemCopyXPath</value>
-  </data>
-  <data name="&gt;&gt;contextMenuStripNodesItemCopyXPath.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator9.Name" xml:space="preserve">
-    <value>toolStripSeparator9</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator9.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;contextMenuStripItemNodesExpandAll.Name" xml:space="preserve">
-    <value>contextMenuStripItemNodesExpandAll</value>
-  </data>
-  <data name="&gt;&gt;contextMenuStripItemNodesExpandAll.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;contextMenuStripItemNodesCollapeAll.Name" xml:space="preserve">
-    <value>contextMenuStripItemNodesCollapeAll</value>
-  </data>
-  <data name="&gt;&gt;contextMenuStripItemNodesCollapeAll.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>TabbedXmlExplorerWindow</value>
-  </data>
-  <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

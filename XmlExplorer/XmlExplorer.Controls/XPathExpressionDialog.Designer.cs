@@ -28,115 +28,78 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(XPathExpressionDialog));
-            this.buttonOK = new System.Windows.Forms.Button();
-            this.buttonCancel = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.textBoxName = new System.Windows.Forms.TextBox();
-            this.textBoxExpression = new System.Windows.Forms.TextBox();
-            this.textBoxComments = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.SuspendLayout();
-            // 
-            // buttonOK
-            // 
-            this.buttonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.buttonOK.Location = new System.Drawing.Point(175, 90);
-            this.buttonOK.Name = "buttonOK";
-            this.buttonOK.Size = new System.Drawing.Size(75, 23);
-            this.buttonOK.TabIndex = 6;
-            this.buttonOK.Text = "&OK";
-            this.buttonOK.UseVisualStyleBackColor = true;
-            // 
-            // buttonCancel
-            // 
-            this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(256, 90);
-            this.buttonCancel.Name = "buttonCancel";
-            this.buttonCancel.Size = new System.Drawing.Size(75, 23);
-            this.buttonCancel.TabIndex = 7;
-            this.buttonCancel.Text = "&Cancel";
-            this.buttonCancel.UseVisualStyleBackColor = true;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(35, 15);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(38, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Name:";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(14, 41);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(61, 13);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Expression:";
-            // 
-            // textBoxName
-            // 
-            this.textBoxName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxName.Location = new System.Drawing.Point(79, 12);
-            this.textBoxName.Name = "textBoxName";
-            this.textBoxName.Size = new System.Drawing.Size(252, 20);
-            this.textBoxName.TabIndex = 1;
-            // 
-            // textBoxExpression
-            // 
-            this.textBoxExpression.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxExpression.Location = new System.Drawing.Point(79, 38);
-            this.textBoxExpression.Name = "textBoxExpression";
-            this.textBoxExpression.Size = new System.Drawing.Size(252, 20);
-            this.textBoxExpression.TabIndex = 3;
-            // 
-            // textBoxComments
-            // 
-            this.textBoxComments.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxComments.Location = new System.Drawing.Point(79, 64);
-            this.textBoxComments.Name = "textBoxComments";
-            this.textBoxComments.Size = new System.Drawing.Size(252, 20);
-            this.textBoxComments.TabIndex = 5;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(14, 67);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(59, 13);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "Comments:";
-            // 
-            // XPathExpressionDialog
-            // 
-            this.AcceptButton = this.buttonOK;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(343, 125);
-            this.Controls.Add(this.textBoxComments);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.textBoxExpression);
-            this.Controls.Add(this.textBoxName);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.buttonCancel);
-            this.Controls.Add(this.buttonOK);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximumSize = new System.Drawing.Size(9000, 159);
-            this.MinimumSize = new System.Drawing.Size(263, 159);
-            this.Name = "XPathExpressionDialog";
-            this.Text = "XPath Expression";
-            this.ResumeLayout(false);
-            this.PerformLayout();
+			  System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(XPathExpressionDialog));
+			  this.buttonOK = new System.Windows.Forms.Button();
+			  this.buttonCancel = new System.Windows.Forms.Button();
+			  this.label1 = new System.Windows.Forms.Label();
+			  this.label2 = new System.Windows.Forms.Label();
+			  this.textBoxName = new System.Windows.Forms.TextBox();
+			  this.textBoxExpression = new System.Windows.Forms.TextBox();
+			  this.textBoxComments = new System.Windows.Forms.TextBox();
+			  this.label3 = new System.Windows.Forms.Label();
+			  this.SuspendLayout();
+			  // 
+			  // buttonOK
+			  // 
+			  resources.ApplyResources(this.buttonOK, "buttonOK");
+			  this.buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
+			  this.buttonOK.Name = "buttonOK";
+			  this.buttonOK.UseVisualStyleBackColor = true;
+			  // 
+			  // buttonCancel
+			  // 
+			  resources.ApplyResources(this.buttonCancel, "buttonCancel");
+			  this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			  this.buttonCancel.Name = "buttonCancel";
+			  this.buttonCancel.UseVisualStyleBackColor = true;
+			  // 
+			  // label1
+			  // 
+			  resources.ApplyResources(this.label1, "label1");
+			  this.label1.Name = "label1";
+			  // 
+			  // label2
+			  // 
+			  resources.ApplyResources(this.label2, "label2");
+			  this.label2.Name = "label2";
+			  // 
+			  // textBoxName
+			  // 
+			  resources.ApplyResources(this.textBoxName, "textBoxName");
+			  this.textBoxName.Name = "textBoxName";
+			  // 
+			  // textBoxExpression
+			  // 
+			  resources.ApplyResources(this.textBoxExpression, "textBoxExpression");
+			  this.textBoxExpression.Name = "textBoxExpression";
+			  // 
+			  // textBoxComments
+			  // 
+			  resources.ApplyResources(this.textBoxComments, "textBoxComments");
+			  this.textBoxComments.Name = "textBoxComments";
+			  // 
+			  // label3
+			  // 
+			  resources.ApplyResources(this.label3, "label3");
+			  this.label3.Name = "label3";
+			  // 
+			  // XPathExpressionDialog
+			  // 
+			  this.AcceptButton = this.buttonOK;
+			  resources.ApplyResources(this, "$this");
+			  this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			  this.CancelButton = this.buttonCancel;
+			  this.Controls.Add(this.textBoxComments);
+			  this.Controls.Add(this.label3);
+			  this.Controls.Add(this.textBoxExpression);
+			  this.Controls.Add(this.textBoxName);
+			  this.Controls.Add(this.label2);
+			  this.Controls.Add(this.label1);
+			  this.Controls.Add(this.buttonCancel);
+			  this.Controls.Add(this.buttonOK);
+			  this.Name = "XPathExpressionDialog";
+			  this.ResumeLayout(false);
+			  this.PerformLayout();
 
         }
 

@@ -91,6 +91,14 @@ namespace XmlExplorer.TreeView
 
 		#region Properties
 
+		public static String NoSchemaWarning
+		{
+			get
+			{
+				return Properties.Resources.NoSchemaWarning;
+			}
+		}
+
 		/// <summary>
 		/// Gets the file, if any, this treeview is currently displaying.
 		/// </summary>
@@ -560,7 +568,7 @@ namespace XmlExplorer.TreeView
 		/// </summary>
 		/// <returns></returns>
 		/// <exception cref="InvalidOperationException" />
-		public List<Error> Validate(XPathNavigator navigator)
+		public List<Error> Validate(XPathNavigator navigator, string[] schemaFilenames = null)
 		{
 			try
 			{
@@ -569,57 +577,72 @@ namespace XmlExplorer.TreeView
 				this.Errors = new List<Error>();
 
 				if (navigator == null)
+					navigator = this.Navigator;
+
+				if (navigator == null)
 					return null;
 
 				string xsiPrefix = this.XmlNamespaceManager.LookupPrefix("http://www.w3.org/2001/XMLSchema-instance");
 
-				if (string.IsNullOrEmpty(xsiPrefix))
-				{
-					this.AddError("The document does not have a schema specified.", XmlSeverityType.Warning);
-					return this.Errors;
-				}
-
 				XmlSchemaSet schemas = new XmlSchemaSet();
 
-				/*
-				 * I can't believe I have to do this manually, but, here we go...
-				 * 
-				 * When loading a document with an XmlReader and performing validation, it will automatically
-				 * detect schemas specified in the document with @xsi:schemaLocation and @xsi:noNamespaceSchemaLocation attributes.
-				 * We get line number and column, but not a reference to the actual offending xml node or xpath navigator.
-				 * 
-				 * When validating an xpath navigator, it ignores these attributes, doesn't give us line number or column,
-				 * but does give us the offending xpath navigator.
-				 * 
-				 * */
-				foreach (var schemaAttribute in navigator.Select(
-					 string.Format("//@{0}:noNamespaceSchemaLocation", xsiPrefix),
-					 this.XmlNamespaceManager))
+				if (!string.IsNullOrEmpty(xsiPrefix))
 				{
-					XPathNavigator attributeNavigator = schemaAttribute as XPathNavigator;
-					if (attributeNavigator == null)
-						continue;
+					/*
+					 * I can't believe I have to do this manually, but, here we go...
+					 * 
+					 * When loading a document with an XmlReader and performing validation, it will automatically
+					 * detect schemas specified in the document with @xsi:schemaLocation and @xsi:noNamespaceSchemaLocation attributes.
+					 * We get line number and column, but not a reference to the actual offending xml node or xpath navigator.
+					 * 
+					 * When validating an xpath navigator, it ignores these attributes, doesn't give us line number or column,
+					 * but does give us the offending xpath navigator.
+					 * 
+					 * */
+					foreach (var schemaAttribute in navigator.Select(
+						 string.Format("//@{0}:noNamespaceSchemaLocation", xsiPrefix),
+						 this.XmlNamespaceManager))
+					{
+						XPathNavigator attributeNavigator = schemaAttribute as XPathNavigator;
+						if (attributeNavigator == null)
+							continue;
 
-					string value = attributeNavigator.Value;
-					value = this.ResolveSchemaFileName(value);
+						string value = attributeNavigator.Value;
+						value = this.ResolveSchemaFileName(value);
 
-					// add the schema
-					schemas.Add(null, value);
+						// add the schema
+						schemas.Add(null, value);
+					}
+					foreach (var schemaAttribute in navigator.Select(
+						 string.Format("//@{0}:schemaLocation", xsiPrefix),
+						 this.XmlNamespaceManager))
+					{
+						XPathNavigator attributeNavigator = schemaAttribute as XPathNavigator;
+						if (attributeNavigator == null)
+							continue;
+
+						string value = attributeNavigator.Value;
+
+						List<KeyValuePair<string, string>> namespaceDefs = this.ParseNamespaceDefinitions(value);
+
+						foreach (var pair in namespaceDefs)
+							schemas.Add(pair.Key, pair.Value);
+					}
 				}
-				foreach (var schemaAttribute in navigator.Select(
-					 string.Format("//@{0}:schemaLocation", xsiPrefix),
-					 this.XmlNamespaceManager))
+
+				if (schemaFilenames != null && schemaFilenames.Length > 0)
 				{
-					XPathNavigator attributeNavigator = schemaAttribute as XPathNavigator;
-					if (attributeNavigator == null)
-						continue;
+					// add any manually specified schema files
+					foreach (string schemaFilename in schemaFilenames)
+					{
+						schemas.Add(null, this.ResolveSchemaFileName(schemaFilename));
+					}
+				}
 
-					string value = attributeNavigator.Value;
-
-					List<KeyValuePair<string, string>> namespaceDefs = this.ParseNamespaceDefinitions(value);
-
-					foreach (var pair in namespaceDefs)
-						schemas.Add(pair.Key, pair.Value);
+				if (schemas.Count < 1)
+				{
+					this.AddError(Properties.Resources.NoSchemaWarning, XmlSeverityType.Warning);
+					return this.Errors;
 				}
 
 				// validate the document
@@ -849,7 +872,7 @@ namespace XmlExplorer.TreeView
 		public bool FindByXpath(string xpath, Direction direction)
 		{
 			if (this.CurrentResultPosition < 2 && direction == Direction.Up)
-				throw new InvalidOperationException("Cannot move up past the first result.");
+				throw new InvalidOperationException(Properties.Resources.CannotMoveUpError);
 
 			object result = null;
 
@@ -978,7 +1001,7 @@ namespace XmlExplorer.TreeView
 		private void AddError(Error error)
 		{
 			if (this.FileInfo == null)
-				error.File = "Untitled";
+				error.File = Properties.Resources.Untitled;
 			else
 				error.File = this.FileInfo.FullName;
 
@@ -1393,7 +1416,7 @@ namespace XmlExplorer.TreeView
 					{
 						// create a character range for the capture
 						CharacterRange[] characterRanges = new CharacterRange[] {
-                                new CharacterRange(capture.Index, capture.Length)};
+										  new CharacterRange(capture.Index, capture.Length)};
 
 						// create a new string format, using the default one as a prototype
 						StringFormat stringFormat = new StringFormat(_stringFormat);

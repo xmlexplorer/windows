@@ -1077,6 +1077,21 @@ namespace XmlExplorer.Controls
 			this.toolStripStatusLabelMain.Text = pathText;
 		}
 
+		private void BrowseForSchemaFiles(XmlExplorerWindow window)
+		{
+			using (OpenFileDialog dialog = new OpenFileDialog())
+			{
+				dialog.Multiselect = true;
+				dialog.Filter = "XML Schema Files (*.xsd)|*.xsd|All Files (*.*)|*.*";
+				if (dialog.ShowDialog(window) != System.Windows.Forms.DialogResult.OK)
+					return;
+
+				window.TreeView.Validate(null, dialog.FileNames);
+
+				this.UpdateErrorList();
+			}
+		}
+
 		#endregion
 
 		#region Event Handlers
@@ -1308,8 +1323,18 @@ namespace XmlExplorer.Controls
 		{
 			try
 			{
-				if (e.Item == null || e.Item.SourceObject == null)
+				if (e.Item == null)
 					return;
+
+				if (e.Item.SourceObject == null)
+				{
+					// is it a no schemas warning?
+					if (e.Item.Description == XmlExplorer.TreeView.XPathNavigatorTreeView.NoSchemaWarning)
+					{
+						this.BrowseForSchemaFiles(this.ActiveMdiChild as XmlExplorerWindow);
+						return;
+					}
+				}
 
 				XPathNavigator navigator = e.Item.SourceObject as XPathNavigator;
 				if (navigator == null)
@@ -1319,7 +1344,7 @@ namespace XmlExplorer.Controls
 				XmlExplorerWindow window = this.ActiveMdiChild as XmlExplorerWindow;
 				if (window == null)
 					return;
-
+				
 				window.TreeView.SelectXmlTreeNode(navigator);
 			}
 			catch (Exception ex)
