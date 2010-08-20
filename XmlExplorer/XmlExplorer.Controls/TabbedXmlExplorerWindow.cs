@@ -13,6 +13,7 @@ namespace XmlExplorer.Controls
 	using System.Xml.XPath;
 	using WeifenLuo.WinFormsUI.Docking;
 	using XmlExplorer.TreeView;
+	using System.Threading;
 
 	public partial class TabbedXmlExplorerWindow : Form
 	{
@@ -149,6 +150,7 @@ namespace XmlExplorer.Controls
 			_errorWindow = new ErrorWindow();
 			_errorWindow.ShowHint = WeifenLuo.WinFormsUI.Docking.DockState.DockBottom;
 			_errorWindow.ErrorActivated += this.OnErrorWindow_ErrorActivated;
+			_errorWindow.BrowseClicked += this.OnErrorWindow_BrowseClicked;
 
 			_deserializeDockContent = new DeserializeDockContent(this.GetContentFromPersistString);
 
@@ -957,9 +959,15 @@ namespace XmlExplorer.Controls
 
 		public void CheckForUpdates(bool userRequested)
 		{
-			WebClient webClient = new WebClient();
-			webClient.DownloadDataCompleted += this.OnDownloadDataCompleted;
-			webClient.DownloadDataAsync(new Uri(this.AutoUpdateUrl), userRequested);
+			Thread thread = new Thread(delegate()
+			{
+				WebClient webClient = new WebClient();
+				webClient.DownloadDataCompleted += this.OnDownloadDataCompleted;
+				webClient.DownloadDataAsync(new Uri(this.AutoUpdateUrl), userRequested);
+			});
+
+			thread.IsBackground = true;
+			thread.Start();
 		}
 
 		public void ExpandAll()
@@ -1344,8 +1352,21 @@ namespace XmlExplorer.Controls
 				XmlExplorerWindow window = this.ActiveMdiChild as XmlExplorerWindow;
 				if (window == null)
 					return;
-				
+
 				window.TreeView.SelectXmlTreeNode(navigator);
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine(ex);
+				MessageBox.Show(this, ex.ToString());
+			}
+		}
+
+		void OnErrorWindow_BrowseClicked(object sender, EventArgs e)
+		{
+			try
+			{
+				this.BrowseForSchemaFiles(this.ActiveMdiChild as XmlExplorerWindow);
 			}
 			catch (Exception ex)
 			{
@@ -1380,8 +1401,6 @@ namespace XmlExplorer.Controls
 
 		private void OnDownloadDataCompleted(object sender, DownloadDataCompletedEventArgs e)
 		{
-			// TODO: refactor auto update code
-			// this code needs a major refactor, but I really want update notification to be available now! :)
 			try
 			{
 				if (this.InvokeRequired)
@@ -1398,17 +1417,20 @@ namespace XmlExplorer.Controls
 
 				ReleaseInfoCollection releases = ReleaseInfoCollection.FromRss(e.Result);
 
-				if (releases == null && userRequested)
+				if (releases == null)
 				{
-					MessageBox.Show(this, "No updates were found.", AboutBox.AssemblyProduct);
+					if (userRequested)
+						MessageBox.Show(this, "No updates were found.", AboutBox.AssemblyProduct);
 					return;
 				}
 
 				ReleaseInfo latest = releases.GetLatest(this.MinimumReleaseStatus);
 
-				if (latest == null && userRequested)
+				if (latest == null)
 				{
-					MessageBox.Show(this, "No updates were found.", AboutBox.AssemblyProduct);
+					if (userRequested)
+						MessageBox.Show(this, "No updates were found.", AboutBox.AssemblyProduct);
+
 					return;
 				}
 

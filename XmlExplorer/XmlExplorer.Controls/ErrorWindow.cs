@@ -13,117 +13,139 @@ using XmlExplorer.TreeView;
 
 namespace XmlExplorer.Controls
 {
-    public partial class ErrorWindow : DockContent
-    {
-        #region Variables
+	public partial class ErrorWindow : DockContent
+	{
+		#region Variables
 
-        private List<Error> _errors;
+		private List<Error> _errors;
 
-        #endregion
+		#endregion
 
-        #region Constructors
+		#region Constructors
 
-        public ErrorWindow()
-        {
-            InitializeComponent();
+		public ErrorWindow()
+		{
+			InitializeComponent();
 
-            this.listView.ItemActivate += new EventHandler(listViewExpressions_ItemActivate);
-        }
+			this.listView.ItemActivate += new EventHandler(listViewExpressions_ItemActivate);
 
-        #endregion
+			ErrorsHeader header = new ErrorsHeader();
 
-        #region Properties
+			header.BrowseClicked += new EventHandler(header_BrowseClicked);
 
-        public List<Error> Errors
-        {
-            get
-            {
-                return _errors;
-            }
+			this.elementHost.Child = header;
+		}
 
-            set
-            {
-                _errors = value;
-                this.LoadErrors(_errors);
-            }
-        }
+		#endregion
 
-        #endregion
+		#region Properties
 
-        #region Events
+		public List<Error> Errors
+		{
+			get
+			{
+				return _errors;
+			}
 
-        public event EventHandler<EventArgs<Error>> ErrorActivated;
+			set
+			{
+				_errors = value;
+				this.LoadErrors(_errors);
+			}
+		}
 
-        #endregion
+		#endregion
 
-        #region Methods
+		#region Events
 
-        private void AutoSizeListViewColumns(ListView listView)
-        {
-            foreach (ColumnHeader header in listView.Columns)
-            {
-                header.Width = -1;
-                int width = header.Width;
-                header.Width = -2;
-                if (width > header.Width)
-                    header.Width = width;
-            }
-        }
+		public event EventHandler<EventArgs<Error>> ErrorActivated;
 
-        public void LoadErrors(List<Error> errors)
-        {
-            try
-            {
-                this.listView.BeginUpdate();
+		public event EventHandler BrowseClicked;
 
-                this.listView.Items.Clear();
+		#endregion
 
-                if (errors != null)
-                {
-                    foreach (Error error in errors)
-                    {
-                        ListViewItem item = new ListViewItem(error.DefaultOrder.ToString());
-                        item.SubItems.Add(error.Description);
-                        item.SubItems.Add(error.File);
-                        item.Tag = error;
-                        item.ImageKey = error.Category.ToString();
-                        this.listView.Items.Add(item);
-                    }
-                }
-            }
-            finally
-            {
-                this.listView.AutoResizeColumns();
-                this.listView.EndUpdate();
-            }
-        }
+		#region Methods
 
-        #endregion
+		private void AutoSizeListViewColumns(ListView listView)
+		{
+			foreach (ColumnHeader header in listView.Columns)
+			{
+				header.Width = -1;
+				int width = header.Width;
+				header.Width = -2;
+				if (width > header.Width)
+					header.Width = width;
+			}
+		}
 
-        #region Event Handlers
+		public void LoadErrors(List<Error> errors)
+		{
+			try
+			{
+				this.listView.BeginUpdate();
 
-        void listViewExpressions_ItemActivate(object sender, EventArgs e)
-        {
-            try
-            {
-                if(this.listView.SelectedItems.Count < 1)
-                    return;
+				this.listView.Items.Clear();
 
-                ListViewItem item = this.listView.SelectedItems[0];
+				if (errors != null)
+				{
+					foreach (Error error in errors)
+					{
+						ListViewItem item = new ListViewItem(error.DefaultOrder.ToString());
+						item.SubItems.Add(error.Description);
+						item.SubItems.Add(error.File);
+						item.Tag = error;
+						item.ImageKey = error.Category.ToString();
+						this.listView.Items.Add(item);
+					}
+				}
+			}
+			finally
+			{
+				this.listView.AutoResizeColumns();
+				this.listView.EndUpdate();
+			}
+		}
 
-                Error error = item.Tag as Error;
-                if (error == null)
-                    return;
+		#endregion
 
-                this.ErrorActivated(this, new EventArgs<Error>(error));
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-                MessageBox.Show(this, ex.ToString());
-            }
-        }
+		#region Event Handlers
 
-        #endregion
-    }
+		void listViewExpressions_ItemActivate(object sender, EventArgs e)
+		{
+			try
+			{
+				if (this.listView.SelectedItems.Count < 1)
+					return;
+
+				ListViewItem item = this.listView.SelectedItems[0];
+
+				Error error = item.Tag as Error;
+				if (error == null)
+					return;
+
+				this.ErrorActivated(this, new EventArgs<Error>(error));
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine(ex);
+				MessageBox.Show(this, ex.ToString());
+			}
+		}
+
+		void header_BrowseClicked(object sender, EventArgs e)
+		{
+			try
+			{
+				if (this.BrowseClicked != null)
+					this.BrowseClicked(this, EventArgs.Empty);
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine(ex);
+				MessageBox.Show(this, ex.ToString());
+			}
+		}
+
+		#endregion
+	}
 }

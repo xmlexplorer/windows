@@ -35,6 +35,7 @@
 			  this.columnHeaderDescription = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			  this.columnHeaderFile = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			  this.imageList = new System.Windows.Forms.ImageList(this.components);
+			  this.elementHost = new System.Windows.Forms.Integration.ElementHost();
 			  this.SuspendLayout();
 			  // 
 			  // listView
@@ -71,6 +72,12 @@
 			  this.imageList.Images.SetKeyName(0, "Error");
 			  this.imageList.Images.SetKeyName(1, "Warning");
 			  // 
+			  // elementHost
+			  // 
+			  resources.ApplyResources(this.elementHost, "elementHost");
+			  this.elementHost.Name = "elementHost";
+			  this.elementHost.Child = null;
+			  // 
 			  // ErrorWindow
 			  // 
 			  resources.ApplyResources(this, "$this");
@@ -78,9 +85,11 @@
 			  this.CloseButton = false;
 			  this.CloseButtonVisible = false;
 			  this.Controls.Add(this.listView);
+			  this.Controls.Add(this.elementHost);
 			  this.Name = "ErrorWindow";
 			  this.TabText = "Errors";
 			  this.ResumeLayout(false);
+			  this.PerformLayout();
 
         }
 
@@ -90,6 +99,7 @@
         private System.Windows.Forms.ColumnHeader columnHeaderDescription;
         private System.Windows.Forms.ColumnHeader columnHeaderDefaultOrder;
         private System.Windows.Forms.ColumnHeader columnHeaderFile;
-        private System.Windows.Forms.ImageList imageList;
+		  private System.Windows.Forms.ImageList imageList;
+		  private System.Windows.Forms.Integration.ElementHost elementHost;
     }
 }
