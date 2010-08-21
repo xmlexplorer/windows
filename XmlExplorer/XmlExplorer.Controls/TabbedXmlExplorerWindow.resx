@@ -387,6 +387,33 @@
   <data name="toolStripMenuItemEdit.Text" xml:space="preserve">
     <value>&amp;Edit</value>
   </data>
+  <data name="toolStripMenuItemRefresh.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
+        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAAr2AAAK9gHCr3ADAAABPElE
+        QVQ4T2P4//8/AyUYrnnToRv/0fG6fVf+r9x5/v+SzSdBuBubRSgGABVgBXNWH/hv5pWC1RC4Aev3X8Wl
+        ///anSf/7zp6BWZID7JL4Aas3n0RqwEFM5X/n7t25n99/5L/Vn7pYEOwGrB82xm4AQ9fnvsP0gjD4dUC
+        /9ftPPV/8qLtuA1YvOkE3ACQxmNXV4H5QWWC/28/uvD/5duvYANMPZOxu2DeusMoBsA4P3/9+f/u4/f/
+        D59/xG/ArJX7MMLgz99//z99/Qn2yq2H7/AbMG3pLrgBbz7eA2v6/uP3/6sPj4DZl2+/xm8AyH8wgByA
+        IPae03v+n776nHgDnr69/t8/SwAccHcev/9/8ear/0fOPyHeAOSAu3r3zf+Tl5/933vqIXEGgLyCD+OM
+        RlgcgxQQwlhTIrlZGgCC0BA7GOO+ZQAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="toolStripMenuItemRefresh.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>F5</value>
+  </data>
+  <data name="toolStripMenuItemRefresh.Size" type="System.Drawing.Size, System.Drawing">
+    <value>132, 22</value>
+  </data>
+  <data name="toolStripMenuItemRefresh.Text" xml:space="preserve">
+    <value>&amp;Refresh</value>
+  </data>
+  <data name="toolStripMenuItemView.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 20</value>
+  </data>
+  <data name="toolStripMenuItemView.Text" xml:space="preserve">
+    <value>&amp;View</value>
+  </data>
   <data name="toolStripMenuItemFont.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
@@ -418,32 +445,17 @@
   <data name="toolStripMenuItemFormat.Text" xml:space="preserve">
     <value>F&amp;ormat</value>
   </data>
-  <data name="toolStripMenuItemRefresh.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
-        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAAr2AAAK9gHCr3ADAAABPElE
-        QVQ4T2P4//8/AyUYrnnToRv/0fG6fVf+r9x5/v+SzSdBuBubRSgGABVgBXNWH/hv5pWC1RC4Aev3X8Wl
-        ///anSf/7zp6BWZID7JL4Aas3n0RqwEFM5X/n7t25n99/5L/Vn7pYEOwGrB82xm4AQ9fnvsP0gjD4dUC
-        /9ftPPV/8qLtuA1YvOkE3ACQxmNXV4H5QWWC/28/uvD/5duvYANMPZOxu2DeusMoBsA4P3/9+f/u4/f/
-        D59/xG/ArJX7MMLgz99//z99/Qn2yq2H7/AbMG3pLrgBbz7eA2v6/uP3/6sPj4DZl2+/xm8AyH8wgByA
-        IPae03v+n776nHgDnr69/t8/SwAccHcev/9/8ear/0fOPyHeAOSAu3r3zf+Tl5/933vqIXEGgLyCD+OM
-        RlgcgxQQwlhTIrlZGgCC0BA7GOO+ZQAAAABJRU5ErkJggg==
-</value>
+  <data name="toolStripMenuItemOptions.Size" type="System.Drawing.Size, System.Drawing">
+    <value>125, 22</value>
   </data>
-  <data name="toolStripMenuItemRefresh.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>F5</value>
+  <data name="toolStripMenuItemOptions.Text" xml:space="preserve">
+    <value>&amp;Options...</value>
   </data>
-  <data name="toolStripMenuItemRefresh.Size" type="System.Drawing.Size, System.Drawing">
-    <value>132, 22</value>
+  <data name="toolsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>48, 20</value>
   </data>
-  <data name="toolStripMenuItemRefresh.Text" xml:space="preserve">
-    <value>&amp;Refresh</value>
-  </data>
-  <data name="toolStripMenuItemView.Size" type="System.Drawing.Size, System.Drawing">
-    <value>44, 20</value>
-  </data>
-  <data name="toolStripMenuItemView.Text" xml:space="preserve">
-    <value>&amp;View</value>
+  <data name="toolsToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Tools</value>
   </data>
   <data name="toolStripMenuItemCheckForUpdates.Size" type="System.Drawing.Size, System.Drawing">
     <value>179, 22</value>
@@ -2299,6 +2311,18 @@ Press Shift+Enter (or Launch button) to open the expression results in a new win
   <data name="&gt;&gt;toolStripMenuItemCollapseAll.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;toolStripMenuItemView.Name" xml:space="preserve">
+    <value>toolStripMenuItemView</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItemView.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItemRefresh.Name" xml:space="preserve">
+    <value>toolStripMenuItemRefresh</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItemRefresh.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;toolStripMenuItemFormat.Name" xml:space="preserve">
     <value>toolStripMenuItemFormat</value>
   </data>
@@ -2317,16 +2341,16 @@ Press Shift+Enter (or Launch button) to open the expression results in a new win
   <data name="&gt;&gt;toolStripMenuItemUseHighlighting.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;toolStripMenuItemView.Name" xml:space="preserve">
-    <value>toolStripMenuItemView</value>
+  <data name="&gt;&gt;toolsToolStripMenuItem.Name" xml:space="preserve">
+    <value>toolsToolStripMenuItem</value>
   </data>
-  <data name="&gt;&gt;toolStripMenuItemView.Type" xml:space="preserve">
+  <data name="&gt;&gt;toolsToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;toolStripMenuItemRefresh.Name" xml:space="preserve">
-    <value>toolStripMenuItemRefresh</value>
+  <data name="&gt;&gt;toolStripMenuItemOptions.Name" xml:space="preserve">
+    <value>toolStripMenuItemOptions</value>
   </data>
-  <data name="&gt;&gt;toolStripMenuItemRefresh.Type" xml:space="preserve">
+  <data name="&gt;&gt;toolStripMenuItemOptions.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;toolStripMenuItemHelp.Name" xml:space="preserve">

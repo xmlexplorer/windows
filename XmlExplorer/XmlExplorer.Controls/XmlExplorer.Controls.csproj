@@ -105,6 +105,15 @@
       <DependentUpon>ErrorWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="ReleaseStatus.cs" />
+    <Compile Include="SettingsHeader.xaml.cs">
+      <DependentUpon>SettingsHeader.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingsWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SettingsWindow.Designer.cs">
+      <DependentUpon>SettingsWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="XmlExplorerWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -182,6 +191,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="SettingsWindow.resx">
+      <DependentUpon>SettingsWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TabbedXmlExplorerWindow.it.resx">
       <DependentUpon>TabbedXmlExplorerWindow.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -250,6 +262,7 @@
     <None Include="Resources\Book_openHS.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\settings_16.png" />
     <Content Include="Resources\Up.png" />
     <Content Include="Resources\Down.png" />
     <Content Include="Resources\Book_openHS.ico" />
@@ -288,6 +301,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="ErrorsHeader.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingsHeader.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

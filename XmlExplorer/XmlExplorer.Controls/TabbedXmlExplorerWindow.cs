@@ -3,17 +3,18 @@ namespace XmlExplorer.Controls
 	using System;
 	using System.Collections.Generic;
 	using System.Collections.ObjectModel;
+	using System.Configuration;
 	using System.Diagnostics;
 	using System.Drawing;
 	using System.IO;
 	using System.Net;
 	using System.Security;
 	using System.Security.Permissions;
+	using System.Threading;
 	using System.Windows.Forms;
 	using System.Xml.XPath;
 	using WeifenLuo.WinFormsUI.Docking;
 	using XmlExplorer.TreeView;
-	using System.Threading;
 
 	public partial class TabbedXmlExplorerWindow : Form
 	{
@@ -36,6 +37,7 @@ namespace XmlExplorer.Controls
 		private ExpressionsWindow _expressionsWindow;
 		private ErrorWindow _errorWindow;
 		private NamespacesWindow _namespacesWindow;
+		private SettingsWindow _settingsWindow;
 
 		private string _dockSettingsFilename = null;
 		private DeserializeDockContent _deserializeDockContent;
@@ -133,6 +135,8 @@ namespace XmlExplorer.Controls
 
 			this.toolStripButtonXPathExpression.Click += this.OnToolStripButtonXPathExpressionClick;
 
+			this.toolStripMenuItemOptions.Click += this.OnToolStripMenuItemOptionsClick;
+
 			this.RecentlyUsedFiles = new RecentlyUsedFilesStack();
 			this.MinimumReleaseStatus = ReleaseStatus.Stable;
 
@@ -151,6 +155,10 @@ namespace XmlExplorer.Controls
 			_errorWindow.ShowHint = WeifenLuo.WinFormsUI.Docking.DockState.DockBottom;
 			_errorWindow.ErrorActivated += this.OnErrorWindow_ErrorActivated;
 			_errorWindow.BrowseClicked += this.OnErrorWindow_BrowseClicked;
+
+			// set up the settings window
+			_settingsWindow = new SettingsWindow();
+			_settingsWindow.ShowHint = DockState.DockRight;
 
 			_deserializeDockContent = new DeserializeDockContent(this.GetContentFromPersistString);
 
@@ -254,6 +262,25 @@ namespace XmlExplorer.Controls
 		public string AutoUpdateUrl { get; set; }
 
 		public ReleaseStatus MinimumReleaseStatus { get; set; }
+
+		public ApplicationSettingsBase Settings
+		{
+			get
+			{
+				return _settingsWindow.Settings;
+			}
+
+			set
+			{
+				if (_settingsWindow.Settings != null)
+					_settingsWindow.Settings.SettingChanging -= this.OnSettingChanging;
+
+				_settingsWindow.Settings = value;
+
+				if (_settingsWindow.Settings != null)
+					_settingsWindow.Settings.SettingChanging += this.OnSettingChanging;
+			}
+		}
 
 		#endregion
 
@@ -510,7 +537,13 @@ namespace XmlExplorer.Controls
 		/// </summary>
 		public void TogggleSyntaxHighlighting()
 		{
-			_useSyntaxHighlighting = !_useSyntaxHighlighting;
+			this.ApplySyntaxHighlighting(!_useSyntaxHighlighting);
+		}
+
+		private void ApplySyntaxHighlighting(bool value)
+		{
+			_useSyntaxHighlighting = value;
+
 			this.toolStripMenuItemUseHighlighting.Checked = _useSyntaxHighlighting;
 			this.SetXmlExplorerWindowHighlighting(_useSyntaxHighlighting);
 		}
@@ -913,6 +946,8 @@ namespace XmlExplorer.Controls
 				return _errorWindow;
 			else if (persistString == typeof(NamespacesWindow).ToString())
 				return _namespacesWindow;
+			else if (persistString == typeof(SettingsWindow).ToString())
+				return _settingsWindow;
 
 			return null;
 		}
@@ -1098,6 +1133,12 @@ namespace XmlExplorer.Controls
 
 				this.UpdateErrorList();
 			}
+		}
+
+		private void ShowOptions()
+		{
+			if (!_settingsWindow.Visible)
+				_settingsWindow.Show(this.dockPanel);
 		}
 
 		#endregion
@@ -1477,6 +1518,32 @@ namespace XmlExplorer.Controls
 					return;
 
 				this.UpdateCurrentDocumentInformation();
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine(ex);
+				MessageBox.Show(ex.ToString());
+			}
+		}
+
+		void OnSettingChanging(object sender, SettingChangingEventArgs e)
+		{
+			try
+			{
+				switch (e.SettingName)
+				{
+					case "UseSyntaxHighlighting":
+						this.ApplySyntaxHighlighting((bool)e.NewValue);
+						break;
+
+					case "ForeColor":
+						this.ApplyForeColor((Color)e.NewValue);
+						break;
+
+					case "Font":
+						this.ApplyFont((Font)e.NewValue);
+						break;
+				}
 			}
 			catch (Exception ex)
 			{
@@ -2018,6 +2085,19 @@ namespace XmlExplorer.Controls
 			try
 			{
 				this.CollapseAll();
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine(ex);
+				MessageBox.Show(this, ex.ToString());
+			}
+		}
+
+		private void OnToolStripMenuItemOptionsClick(object sender, EventArgs e)
+		{
+			try
+			{
+				this.ShowOptions();
 			}
 			catch (Exception ex)
 			{

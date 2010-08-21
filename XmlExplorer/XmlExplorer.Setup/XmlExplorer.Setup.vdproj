@@ -15,26 +15,32 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_1A1A3F9E7A6038B4BBEDDE4ADB8C2241"
-        "OwnerKey" = "8:_881A3A5EE62E08BE83278C94E14863C6"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_1A1A3F9E7A6038B4BBEDDE4ADB8C2241"
+        "MsmKey" = "8:_160AF1F60FF2494A3E26B4755A7BC0AB"
         "OwnerKey" = "8:_8549E910C36144A9AD67E56456FAC14E"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_7ACAEF802D2F651B688B2B177EFD7AF1"
+        "MsmKey" = "8:_160AF1F60FF2494A3E26B4755A7BC0AB"
+        "OwnerKey" = "8:_C0FBDE97AAA4F2B0CE876ED20A68EC40"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_425F091333525885263648B5DCF667BC"
         "OwnerKey" = "8:_8549E910C36144A9AD67E56456FAC14E"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_7ACAEF802D2F651B688B2B177EFD7AF1"
-        "OwnerKey" = "8:_881A3A5EE62E08BE83278C94E14863C6"
+        "MsmKey" = "8:_6676162BAB95B8B6DCCC733DAA8C1606"
+        "OwnerKey" = "8:_C0FBDE97AAA4F2B0CE876ED20A68EC40"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_6676162BAB95B8B6DCCC733DAA8C1606"
+        "OwnerKey" = "8:_8549E910C36144A9AD67E56456FAC14E"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -45,7 +51,7 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_881A3A5EE62E08BE83278C94E14863C6"
+        "MsmKey" = "8:_C0FBDE97AAA4F2B0CE876ED20A68EC40"
         "OwnerKey" = "8:_8549E910C36144A9AD67E56456FAC14E"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -57,12 +63,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_F5CCBFE3418E62288C83110EE035E7A9"
-        "OwnerKey" = "8:_8549E910C36144A9AD67E56456FAC14E"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_8549E910C36144A9AD67E56456FAC14E"
         "MsmSig" = "8:_UNDEFINED"
@@ -70,25 +70,25 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_881A3A5EE62E08BE83278C94E14863C6"
+        "OwnerKey" = "8:_C0FBDE97AAA4F2B0CE876ED20A68EC40"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_1A1A3F9E7A6038B4BBEDDE4ADB8C2241"
+        "OwnerKey" = "8:_6676162BAB95B8B6DCCC733DAA8C1606"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_7ACAEF802D2F651B688B2B177EFD7AF1"
+        "OwnerKey" = "8:_160AF1F60FF2494A3E26B4755A7BC0AB"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_F5CCBFE3418E62288C83110EE035E7A9"
+        "OwnerKey" = "8:_425F091333525885263648B5DCF667BC"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -191,45 +191,14 @@
         }
         "File"
         {
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_1A1A3F9E7A6038B4BBEDDE4ADB8C2241"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:XmlExplorer.TreeView, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_1A1A3F9E7A6038B4BBEDDE4ADB8C2241"
-                    {
-                    "Name" = "8:XmlExplorer.TreeView.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:XmlExplorer.TreeView.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_75F333A7B9854A468C1E1BC9B434595C"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_7ACAEF802D2F651B688B2B177EFD7AF1"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_160AF1F60FF2494A3E26B4755A7BC0AB"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
             "AssemblyAsmDisplayName" = "8:WeifenLuo.WinFormsUI.Docking, Version=2.4.3713.24741, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_7ACAEF802D2F651B688B2B177EFD7AF1"
+                    "_160AF1F60FF2494A3E26B4755A7BC0AB"
                     {
                     "Name" = "8:WeifenLuo.WinFormsUI.Docking.dll"
                     "Attributes" = "3:512"
@@ -253,14 +222,76 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_881A3A5EE62E08BE83278C94E14863C6"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_425F091333525885263648B5DCF667BC"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:System.Windows.DefaultApplications, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6e84c3ddc9ca6df6, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_425F091333525885263648B5DCF667BC"
+                    {
+                    "Name" = "8:System.Windows.DefaultApplications.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:System.Windows.DefaultApplications.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_75F333A7B9854A468C1E1BC9B434595C"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_6676162BAB95B8B6DCCC733DAA8C1606"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:XmlExplorer.TreeView, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_6676162BAB95B8B6DCCC733DAA8C1606"
+                    {
+                    "Name" = "8:XmlExplorer.TreeView.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:XmlExplorer.TreeView.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_75F333A7B9854A468C1E1BC9B434595C"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_C0FBDE97AAA4F2B0CE876ED20A68EC40"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
             "AssemblyAsmDisplayName" = "8:XmlExplorer.Controls, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_881A3A5EE62E08BE83278C94E14863C6"
+                    "_C0FBDE97AAA4F2B0CE876ED20A68EC40"
                     {
                     "Name" = "8:XmlExplorer.Controls.dll"
                     "Attributes" = "3:512"
@@ -302,37 +333,6 @@
             "Register" = "3:1"
             "Exclude" = "11:TRUE"
             "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_F5CCBFE3418E62288C83110EE035E7A9"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:System.Windows.DefaultApplications, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6e84c3ddc9ca6df6, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_F5CCBFE3418E62288C83110EE035E7A9"
-                    {
-                    "Name" = "8:System.Windows.DefaultApplications.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:System.Windows.DefaultApplications.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_75F333A7B9854A468C1E1BC9B434595C"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
         }
@@ -391,15 +391,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:XML Explorer"
-        "ProductCode" = "8:{E8DA4319-9F4F-4DD6-BACE-70528F0788A1}"
-        "PackageCode" = "8:{5D2753C9-5B0D-455E-81AD-9BF2D0406AD2}"
+        "ProductCode" = "8:{D3FB2D3A-C928-4DF9-B632-24DE8A0D3D6B}"
+        "PackageCode" = "8:{57A9D1D1-2B45-4388-B1E0-37D4CBE7D4D4}"
         "UpgradeCode" = "8:{DCF30FC8-6E77-47AB-97A5-36C54754E243}"
         "AspNetVersion" = "8:4.0.30128.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:4.0"
+        "ProductVersion" = "8:4.0.1"
         "Manufacturer" = "8:XML Explorer"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:http://www.codeplex.com/xmlexplorer"

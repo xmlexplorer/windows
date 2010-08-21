@@ -172,6 +172,13 @@ namespace XmlExplorer.Controls.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap settings_16 {
+            get {
+                object obj = ResourceManager.GetObject("settings_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap star {
             get {
                 object obj = ResourceManager.GetObject("star", resourceCulture);
