@@ -91,6 +91,9 @@ namespace XmlExplorer.Controls
 			this.toolStripMenuItemOpen.Click += this.OnToolStripButtonOpenClick;
 			this.toolStripButtonOpen.Click += this.OnToolStripButtonOpenClick;
 
+			this.toolStripMenuItemOpenUrl.Click += this.OnToolStripMenuItemOpenUrlClick;
+			this.toolStripButtonOpenUrl.Click += this.OnToolStripMenuItemOpenUrlClick;
+
 			this.toolStripMenuItemOpenInEditor.Click += this.OnToolStripButtonOpenInEditorClick;
 
 			this.toolStripButtonRefresh.Click += this.OnToolStripButtonRefreshClick;
@@ -433,7 +436,42 @@ namespace XmlExplorer.Controls
 			if (window == null)
 				return;
 
-			window.TreeView.Reload();
+			if (window.TreeView.FileInfo != null)
+				window.TreeView.Reload();
+			else if (window.TreeView.Uri != null)
+				window.BeginOpenUri(window.TreeView.Uri.ToString());
+		}
+
+		public void OpenUri()
+		{
+			using (UrlOpenDialog dialog = new UrlOpenDialog())
+			{
+				if (dialog.ShowDialog(this) != DialogResult.OK)
+					return;
+
+				this.OpenUri(dialog.Url);
+			}
+		}
+
+		public void OpenUri(string inputUri)
+		{
+			this.OpenUri(inputUri, false);
+		}
+
+		public void OpenUri(string inputUri, bool ignoreSslPolicyErrors)
+		{
+			// create a window
+			XmlExplorerWindow window = this.CreateXmlExplorerWindow();
+
+			// show the window
+			window.Show(this.dockPanel);
+
+			// instruct the window to open the specified file.
+			window.BeginOpenUri(inputUri);
+
+			this.RecentlyUsedFiles.Add(inputUri);
+
+			this.UpdateTools();
 		}
 
 		/// <summary>
@@ -997,6 +1035,7 @@ namespace XmlExplorer.Controls
 			Thread thread = new Thread(delegate()
 			{
 				WebClient webClient = new WebClient();
+				webClient.Proxy.Credentials = CredentialCache.DefaultCredentials;
 				webClient.DownloadDataCompleted += this.OnDownloadDataCompleted;
 				webClient.DownloadDataAsync(new Uri(this.AutoUpdateUrl), userRequested);
 			});
@@ -1635,7 +1674,15 @@ namespace XmlExplorer.Controls
 					return;
 
 				if (!File.Exists(filename))
-					return;
+				{
+					Uri result = null;
+
+					if (Uri.TryCreate(filename, UriKind.RelativeOrAbsolute, out result))
+					{
+						this.OpenUri(result.ToString());
+						return;
+					}
+				}
 
 				this.Open(filename);
 			}
@@ -1801,6 +1848,19 @@ namespace XmlExplorer.Controls
 			try
 			{
 				this.OpenInEditor();
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine(ex);
+				MessageBox.Show(this, ex.ToString());
+			}
+		}
+
+		private void OnToolStripMenuItemOpenUrlClick(object sender, EventArgs e)
+		{
+			try
+			{
+				this.OpenUri();
 			}
 			catch (Exception ex)
 			{

@@ -19,6 +19,7 @@ namespace XmlExplorer.TreeView
 		#region Variables
 
 		private FileInfo _fileInfo;
+		private Uri _uri;
 		private XPathNodeIterator _nodeIterator;
 		private XmlNamespaceManager _xmlNamespaceManager;
 		private List<NamespaceDefinition> _namespaceDefinitions;
@@ -109,6 +110,17 @@ namespace XmlExplorer.TreeView
 			{
 				_fileInfo = value;
 				this.RaisePropertyChanged("FileInfo");
+			}
+		}
+
+		public Uri Uri
+		{
+			get { return _uri; }
+
+			set
+			{
+				_uri = value;
+				this.RaisePropertyChanged("Uri");
 			}
 		}
 
@@ -350,8 +362,7 @@ namespace XmlExplorer.TreeView
 				{
 					this.Invoke(new MethodInvoker(this.LoadNavigator));
 
-					if (LoadingFinished != null)
-						LoadingFinished(this, EventArgs.Empty);
+					this.OnLoadingFinished(EventArgs.Empty);
 				}
 			};
 			new Thread(start).Start();
@@ -388,8 +399,7 @@ namespace XmlExplorer.TreeView
 				{
 					this.Invoke(new MethodInvoker(this.LoadNavigator));
 
-					if (LoadingFinished != null)
-						LoadingFinished(this, EventArgs.Empty);
+					this.OnLoadingFinished(EventArgs.Empty);
 				}
 			};
 			new Thread(start).Start();
@@ -487,9 +497,29 @@ namespace XmlExplorer.TreeView
 		/// <param name="iterator"></param>
 		public void LoadNodes(XPathNodeIterator iterator)
 		{
-			this.NodeIterator = iterator;
+			this._loadingStarted = DateTime.Now;
 
-			this.LoadNodes(iterator, this.Nodes);
+			this.UseWaitCursor = true;
+
+			// suspend drawing of the tree while loading nodes to improve performance
+			// as adding each node would normally require an entire redraw of the tree
+			base.BeginUpdate();
+			try
+			{
+				this.NodeIterator = iterator;
+
+				this.LoadNodes(iterator, this.Nodes);
+			}
+			finally
+			{
+				// resume drawing of the tree
+				base.EndUpdate();
+
+				this.UseWaitCursor = false;
+
+				this.IsLoading = false;
+				this.LoadTime = DateTime.Now - this._loadingStarted;
+			}
 		}
 
 		/// <summary>
@@ -984,7 +1014,7 @@ namespace XmlExplorer.TreeView
 			this.AddError(error);
 		}
 
-		private void AddError(string description)
+		public void AddError(string description)
 		{
 			this.AddError(description, XmlSeverityType.Error);
 		}
@@ -1227,6 +1257,14 @@ namespace XmlExplorer.TreeView
 
 				writer.Flush();
 			}
+		}
+
+		public virtual void OnLoadingFinished(EventArgs e)
+		{
+			this.IsLoading = false;
+
+			if (this.LoadingFinished != null)
+				this.LoadingFinished(this, e);
 		}
 
 		#endregion
@@ -1503,6 +1541,7 @@ namespace XmlExplorer.TreeView
 		}
 
 		#endregion
+
 	}
 }
 

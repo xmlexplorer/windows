@@ -151,6 +151,13 @@ namespace XmlExplorer.Controls.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap OpenLink {
+            get {
+                object obj = ResourceManager.GetObject("OpenLink", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap OptionsHS {
             get {
                 object obj = ResourceManager.GetObject("OptionsHS", resourceCulture);

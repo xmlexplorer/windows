@@ -56,6 +56,7 @@ namespace XmlExplorer.Controls
 			this.toolStripMenuItemFile = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItemNewFromClipboard = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItemOpen = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItemOpenUrl = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItemOpenInEditor = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItemClose = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
@@ -89,6 +90,7 @@ namespace XmlExplorer.Controls
 			this.toolStripMenuItemAbout = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripStandardButtons = new System.Windows.Forms.ToolStrip();
 			this.toolStripButtonOpen = new System.Windows.Forms.ToolStripButton();
+			this.toolStripButtonOpenUrl = new System.Windows.Forms.ToolStripButton();
 			this.toolStripButtonSave = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStripButtonCopyFormattedOuterXml = new System.Windows.Forms.ToolStripButton();
@@ -176,6 +178,7 @@ namespace XmlExplorer.Controls
 			this.toolStripMenuItemFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemNewFromClipboard,
             this.toolStripMenuItemOpen,
+            this.toolStripMenuItemOpenUrl,
             this.toolStripMenuItemOpenInEditor,
             this.toolStripMenuItemClose,
             this.toolStripSeparator,
@@ -201,6 +204,12 @@ namespace XmlExplorer.Controls
 			// 
 			resources.ApplyResources(this.toolStripMenuItemOpen, "toolStripMenuItemOpen");
 			this.toolStripMenuItemOpen.Name = "toolStripMenuItemOpen";
+			// 
+			// toolStripMenuItemOpenUrl
+			// 
+			this.toolStripMenuItemOpenUrl.Image = global::XmlExplorer.Controls.Properties.Resources.OpenLink;
+			this.toolStripMenuItemOpenUrl.Name = "toolStripMenuItemOpenUrl";
+			resources.ApplyResources(this.toolStripMenuItemOpenUrl, "toolStripMenuItemOpenUrl");
 			// 
 			// toolStripMenuItemOpenInEditor
 			// 
@@ -387,6 +396,7 @@ namespace XmlExplorer.Controls
 			this.toolStripStandardButtons.CanOverflow = false;
 			this.toolStripStandardButtons.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButtonOpen,
+            this.toolStripButtonOpenUrl,
             this.toolStripButtonSave,
             this.toolStripSeparator2,
             this.toolStripButtonCopyFormattedOuterXml,
@@ -412,6 +422,13 @@ namespace XmlExplorer.Controls
 			this.toolStripButtonOpen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
 			resources.ApplyResources(this.toolStripButtonOpen, "toolStripButtonOpen");
 			this.toolStripButtonOpen.Name = "toolStripButtonOpen";
+			// 
+			// toolStripButtonOpenUrl
+			// 
+			this.toolStripButtonOpenUrl.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.toolStripButtonOpenUrl.Image = global::XmlExplorer.Controls.Properties.Resources.OpenLink;
+			resources.ApplyResources(this.toolStripButtonOpenUrl, "toolStripButtonOpenUrl");
+			this.toolStripButtonOpenUrl.Name = "toolStripButtonOpenUrl";
 			// 
 			// toolStripButtonSave
 			// 
@@ -735,5 +752,7 @@ namespace XmlExplorer.Controls
 		private ToolStripLabel toolStripLabelResults;
 		private ToolStripMenuItem toolsToolStripMenuItem;
 		private ToolStripMenuItem toolStripMenuItemOptions;
+		private ToolStripMenuItem toolStripMenuItemOpenUrl;
+		private ToolStripButton toolStripButtonOpenUrl;
 	}
 }

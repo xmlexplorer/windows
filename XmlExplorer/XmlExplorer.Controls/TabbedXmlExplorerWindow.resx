@@ -209,6 +209,15 @@
   <data name="toolStripMenuItemOpen.Text" xml:space="preserve">
     <value>&amp;Open...</value>
   </data>
+  <data name="toolStripMenuItemOpenUrl.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+U</value>
+  </data>
+  <data name="toolStripMenuItemOpenUrl.Size" type="System.Drawing.Size, System.Drawing">
+    <value>235, 22</value>
+  </data>
+  <data name="toolStripMenuItemOpenUrl.Text" xml:space="preserve">
+    <value>Open &amp;Url...</value>
+  </data>
   <data name="toolStripMenuItemOpenInEditor.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Ctrl+E</value>
   </data>
@@ -534,6 +543,18 @@
   <data name="toolStripButtonOpen.ToolTipText" xml:space="preserve">
     <value>Open (Ctrl+O)</value>
   </data>
+  <data name="toolStripButtonOpenUrl.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>Magenta</value>
+  </data>
+  <data name="toolStripButtonOpenUrl.Size" type="System.Drawing.Size, System.Drawing">
+    <value>23, 22</value>
+  </data>
+  <data name="toolStripButtonOpenUrl.Text" xml:space="preserve">
+    <value>Open Url</value>
+  </data>
+  <data name="toolStripButtonOpenUrl.ToolTipText" xml:space="preserve">
+    <value>Open Url (Ctrl+U)</value>
+  </data>
   <data name="toolStripButtonSave.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -628,7 +649,7 @@
     <value>XPath:</value>
   </data>
   <data name="toolStripTextBoxXpath.Size" type="System.Drawing.Size, System.Drawing">
-    <value>360, 25</value>
+    <value>337, 25</value>
   </data>
   <data name="toolStripTextBoxXpath.ToolTipText" xml:space="preserve">
     <value>Enter an XPath expression.
@@ -823,7 +844,7 @@ Press Shift+Enter (or Launch button) to open the expression results in a new win
     <value>Copy Node &amp;XPath to Address Bar</value>
   </data>
   <data name="toolStripSeparator9.Size" type="System.Drawing.Size, System.Drawing">
-    <value>244, 6</value>
+    <value>57, 6</value>
   </data>
   <data name="contextMenuStripItemNodesExpandAll.Size" type="System.Drawing.Size, System.Drawing">
     <value>247, 22</value>
@@ -838,7 +859,7 @@ Press Shift+Enter (or Launch button) to open the expression results in a new win
     <value>Colla&amp;pse All</value>
   </data>
   <data name="contextMenuStripNodes.Size" type="System.Drawing.Size, System.Drawing">
-    <value>248, 120</value>
+    <value>61, 10</value>
   </data>
   <data name="&gt;&gt;contextMenuStripNodes.Name" xml:space="preserve">
     <value>contextMenuStripNodes</value>
@@ -2191,6 +2212,12 @@ Press Shift+Enter (or Launch button) to open the expression results in a new win
   <data name="&gt;&gt;toolStripMenuItemOpen.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;toolStripMenuItemOpenUrl.Name" xml:space="preserve">
+    <value>toolStripMenuItemOpenUrl</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItemOpenUrl.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;toolStripMenuItemOpenInEditor.Name" xml:space="preserve">
     <value>toolStripMenuItemOpenInEditor</value>
   </data>
@@ -2381,6 +2408,12 @@ Press Shift+Enter (or Launch button) to open the expression results in a new win
     <value>toolStripButtonOpen</value>
   </data>
   <data name="&gt;&gt;toolStripButtonOpen.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripButtonOpenUrl.Name" xml:space="preserve">
+    <value>toolStripButtonOpenUrl</value>
+  </data>
+  <data name="&gt;&gt;toolStripButtonOpenUrl.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;toolStripButtonSave.Name" xml:space="preserve">
