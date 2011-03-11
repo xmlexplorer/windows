@@ -405,6 +405,59 @@ namespace XmlExplorer.TreeView
 			new Thread(start).Start();
 		}
 
+		/// <summary>
+		/// Loads the specified XML data into the tree.
+		/// </summary>
+		/// <param name="bytes">XML data to load.</param>
+		public void BeginOpen(byte[] bytes)
+		{
+			this._loadingStarted = DateTime.Now;
+
+			this.IsLoading = true;
+
+			this.FileInfo = null;
+
+			ThreadStart start = delegate()
+			{
+				try
+				{
+					_navigator = ReadXPathNavigator(bytes);
+
+					this.LoadNamespaceDefinitions(_navigator);
+					this.Validate(_navigator);
+				}
+				catch (Exception ex)
+				{
+					Debug.WriteLine(ex);
+
+					this.AddError(ex.Message);
+				}
+				finally
+				{
+					this.Invoke(new MethodInvoker(this.LoadNavigator));
+
+					this.OnLoadingFinished(EventArgs.Empty);
+				}
+			};
+			new Thread(start).Start();
+		}
+
+		public void Clear()
+		{
+			this.FileInfo = null;
+			this.Navigator = null;
+			this.NodeIterator = null;
+			this.BeginUpdate();
+			try
+			{
+				this.Nodes.Clear();
+			}
+			finally
+			{
+				this.EndUpdate();
+			}
+		}
+
 		private void LoadNavigator()
 		{
 			XPathNavigatorTreeNode node = null;
@@ -489,6 +542,31 @@ namespace XmlExplorer.TreeView
 			XPathNavigator navigator = document.CreateNavigator();
 
 			return navigator;
+		}
+
+		private static XPathNavigator ReadXPathNavigator(byte[] bytes)
+		{
+			using (MemoryStream stream = new MemoryStream(bytes))
+			{
+				return ReadXPathNavigator(stream);
+			}
+		}
+
+		private static XPathNavigator ReadXPathNavigator(MemoryStream stream)
+		{
+			XmlReaderSettings readerSettings = new XmlReaderSettings();
+			readerSettings.ConformanceLevel = ConformanceLevel.Fragment;
+
+			using (XmlReader reader = XmlReader.Create(stream, readerSettings))
+			{
+				XPathDocument document = null;
+
+				document = new XPathDocument(reader);
+
+				XPathNavigator navigator = document.CreateNavigator();
+
+				return navigator;
+			}
 		}
 
 		/// <summary>
