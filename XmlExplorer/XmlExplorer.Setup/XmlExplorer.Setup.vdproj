@@ -16,43 +16,43 @@
         "Entry"
         {
         "MsmKey" = "8:_160AF1F60FF2494A3E26B4755A7BC0AB"
-        "OwnerKey" = "8:_8549E910C36144A9AD67E56456FAC14E"
+        "OwnerKey" = "8:_1F30F4184E5E4F379E1649661B71CCA4"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_160AF1F60FF2494A3E26B4755A7BC0AB"
-        "OwnerKey" = "8:_C0FBDE97AAA4F2B0CE876ED20A68EC40"
+        "OwnerKey" = "8:_B101A6FB6B69FBC9A04353165D3D096A"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_425F091333525885263648B5DCF667BC"
-        "OwnerKey" = "8:_8549E910C36144A9AD67E56456FAC14E"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_6676162BAB95B8B6DCCC733DAA8C1606"
-        "OwnerKey" = "8:_C0FBDE97AAA4F2B0CE876ED20A68EC40"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_6676162BAB95B8B6DCCC733DAA8C1606"
-        "OwnerKey" = "8:_8549E910C36144A9AD67E56456FAC14E"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_8549E910C36144A9AD67E56456FAC14E"
+        "MsmKey" = "8:_1F30F4184E5E4F379E1649661B71CCA4"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_C0FBDE97AAA4F2B0CE876ED20A68EC40"
-        "OwnerKey" = "8:_8549E910C36144A9AD67E56456FAC14E"
+        "MsmKey" = "8:_425F091333525885263648B5DCF667BC"
+        "OwnerKey" = "8:_1F30F4184E5E4F379E1649661B71CCA4"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_6636585412AA49C376C892E798C9A779"
+        "OwnerKey" = "8:_B101A6FB6B69FBC9A04353165D3D096A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_6636585412AA49C376C892E798C9A779"
+        "OwnerKey" = "8:_1F30F4184E5E4F379E1649661B71CCA4"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_B101A6FB6B69FBC9A04353165D3D096A"
+        "OwnerKey" = "8:_1F30F4184E5E4F379E1649661B71CCA4"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -64,31 +64,31 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_8549E910C36144A9AD67E56456FAC14E"
+        "OwnerKey" = "8:_425F091333525885263648B5DCF667BC"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_C0FBDE97AAA4F2B0CE876ED20A68EC40"
+        "OwnerKey" = "8:_1F30F4184E5E4F379E1649661B71CCA4"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_6676162BAB95B8B6DCCC733DAA8C1606"
+        "OwnerKey" = "8:_B101A6FB6B69FBC9A04353165D3D096A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_6636585412AA49C376C892E798C9A779"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_160AF1F60FF2494A3E26B4755A7BC0AB"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_425F091333525885263648B5DCF667BC"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -155,10 +155,15 @@
             "ComponentsUrl" = "8:"
                 "Items"
                 {
-                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Net.Framework.2.0"
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.0,Profile=Client"
                     {
-                    "Name" = "8:Microsoft .NET Framework 2.0"
-                    "ProductCode" = "8:Microsoft.Net.Framework.2.0"
+                    "Name" = "8:Microsoft .NET Framework 4 Client Profile (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.0,Profile=Client"
+                    }
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Windows.Installer.3.1"
+                    {
+                    "Name" = "8:Windows Installer 3.1"
+                    "ProductCode" = "8:Microsoft.Windows.Installer.3.1"
                     }
                 }
             }
@@ -179,7 +184,7 @@
         {
             "LaunchCondition"
             {
-                "{A06ECF26-33A3-4562-8140-9B0E340D4F24}:_A38848D546A84BAF9E4021C7FC7EE21A"
+                "{A06ECF26-33A3-4562-8140-9B0E340D4F24}:_51DF16E9509245CFBE695A36A743592F"
                 {
                 "Name" = "8:.NET Framework"
                 "Message" = "8:[VSDNETMSG]"
@@ -253,14 +258,14 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_6676162BAB95B8B6DCCC733DAA8C1606"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_6636585412AA49C376C892E798C9A779"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:XmlExplorer.TreeView, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:XmlExplorer.TreeView, Version=4.0.2.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_6676162BAB95B8B6DCCC733DAA8C1606"
+                    "_6636585412AA49C376C892E798C9A779"
                     {
                     "Name" = "8:XmlExplorer.TreeView.dll"
                     "Attributes" = "3:512"
@@ -284,14 +289,14 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_C0FBDE97AAA4F2B0CE876ED20A68EC40"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_B101A6FB6B69FBC9A04353165D3D096A"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:XmlExplorer.Controls, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:XmlExplorer.Controls, Version=4.0.2.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_C0FBDE97AAA4F2B0CE876ED20A68EC40"
+                    "_B101A6FB6B69FBC9A04353165D3D096A"
                     {
                     "Name" = "8:XmlExplorer.Controls.dll"
                     "Attributes" = "3:512"
@@ -391,15 +396,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:XML Explorer"
-        "ProductCode" = "8:{D3FB2D3A-C928-4DF9-B632-24DE8A0D3D6B}"
-        "PackageCode" = "8:{57A9D1D1-2B45-4388-B1E0-37D4CBE7D4D4}"
+        "ProductCode" = "8:{D8CE13B8-A407-4643-9F28-4102A6D588D6}"
+        "PackageCode" = "8:{0E23ECFF-3C26-490D-9687-8C74CBF2E313}"
         "UpgradeCode" = "8:{DCF30FC8-6E77-47AB-97A5-36C54754E243}"
         "AspNetVersion" = "8:4.0.30128.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:4.0.1"
+        "ProductVersion" = "8:4.0.2"
         "Manufacturer" = "8:XML Explorer"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:http://www.codeplex.com/xmlexplorer"
@@ -409,7 +414,7 @@
         "Keywords" = "8:XML Explorer viewer XPath expression"
         "ARPCOMMENTS" = "8:An extremely fast, lightweight XML file viewer."
         "ARPURLINFOABOUT" = "8:http://www.codeplex.com/xmlexplorer"
-        "ARPPRODUCTICON" = "8:_8549E910C36144A9AD67E56456FAC14E"
+        "ARPPRODUCTICON" = "8:_1F30F4184E5E4F379E1649661B71CCA4"
         "ARPIconIndex" = "3:32512"
         "SearchPath" = "8:"
         "UseSystemSearchPath" = "11:TRUE"
@@ -1244,10 +1249,10 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:32512"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_8549E910C36144A9AD67E56456FAC14E"
+            "Target" = "8:_1F30F4184E5E4F379E1649661B71CCA4"
             "Folder" = "8:_7F18FD03985C44688E5A05C7227C933A"
             "WorkingFolder" = "8:_75F333A7B9854A468C1E1BC9B434595C"
-            "Icon" = "8:_8549E910C36144A9AD67E56456FAC14E"
+            "Icon" = "8:_1F30F4184E5E4F379E1649661B71CCA4"
             "Feature" = "8:"
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_ABA1A5BBF7944A88AB74D975DEF1DA75"
@@ -1258,10 +1263,10 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:32512"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_8549E910C36144A9AD67E56456FAC14E"
+            "Target" = "8:_1F30F4184E5E4F379E1649661B71CCA4"
             "Folder" = "8:_3ADCBB71D03E4841B376FAF73F76F798"
             "WorkingFolder" = "8:_75F333A7B9854A468C1E1BC9B434595C"
-            "Icon" = "8:_8549E910C36144A9AD67E56456FAC14E"
+            "Icon" = "8:_1F30F4184E5E4F379E1649661B71CCA4"
             "Feature" = "8:"
             }
         }
@@ -1673,9 +1678,9 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_8549E910C36144A9AD67E56456FAC14E"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_1F30F4184E5E4F379E1649661B71CCA4"
             {
-            "SourcePath" = "8:..\\XmlExplorer\\obj\\Debug\\XmlExplorer.exe"
+            "SourcePath" = "8:..\\XmlExplorer\\obj\\Release\\XmlExplorer.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_75F333A7B9854A468C1E1BC9B434595C"
