@@ -97,6 +97,18 @@ namespace XmlExplorer.Controls
 			}
 		}
 
+		public ChildNodeDefinitionCollection ChildNodeDefinitions
+		{
+			get
+			{
+				return this.xmlTreeView.ChildNodeDefinitions;
+			}
+			set
+			{
+				this.xmlTreeView.ChildNodeDefinitions = value;
+			}
+		}
+
 		#endregion
 
 		#region Methods

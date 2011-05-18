@@ -41,6 +41,7 @@ namespace XmlExplorer.Controls
 
 		private string _dockSettingsFilename = null;
 		private DeserializeDockContent _deserializeDockContent;
+		private ChildNodeDefinitionCollection _childNodeDefinitions;
 
 		#endregion
 
@@ -282,6 +283,20 @@ namespace XmlExplorer.Controls
 
 				if (_settingsWindow.Settings != null)
 					_settingsWindow.Settings.SettingChanging += this.OnSettingChanging;
+			}
+		}
+
+		public ChildNodeDefinitionCollection ChildNodeDefinitions
+		{
+			get
+			{
+				return _childNodeDefinitions;
+			}
+
+			set
+			{
+				_childNodeDefinitions = value;
+				this.SetChildNodeDefinitions(_childNodeDefinitions);
 			}
 		}
 
@@ -554,6 +569,7 @@ namespace XmlExplorer.Controls
 			window.XmlFont = _treeFont;
 			window.XmlForeColor = _treeForeColor;
 			window.UseSyntaxHighlighting = _useSyntaxHighlighting;
+			window.ChildNodeDefinitions = _childNodeDefinitions;
 		}
 
 		/// <summary>
@@ -796,6 +812,19 @@ namespace XmlExplorer.Controls
 					continue;
 
 				xmlExplorerWindow.UseSyntaxHighlighting = useSyntaxHighlighting;
+			}
+		}
+
+		private void SetChildNodeDefinitions(ChildNodeDefinitionCollection childNodeDefinitions)
+		{
+			foreach (Form window in this.MdiChildren)
+			{
+				XmlExplorerWindow xmlExplorerWindow = window as XmlExplorerWindow;
+
+				if (xmlExplorerWindow == null)
+					continue;
+
+				xmlExplorerWindow.ChildNodeDefinitions = childNodeDefinitions;
 			}
 		}
 
@@ -1178,6 +1207,42 @@ namespace XmlExplorer.Controls
 		{
 			if (!_settingsWindow.Visible)
 				_settingsWindow.Show(this.dockPanel);
+		}
+
+		private void ExportChildNodeDefinitions()
+		{
+			using (SaveFileDialog dialog = new SaveFileDialog())
+			{
+				dialog.Filter = "XML Files (*.xml)|*.xml|All Files (*.*)|*.*";
+				dialog.FileName = "Child Node Definitions.xml";
+				if (dialog.ShowDialog(this) != System.Windows.Forms.DialogResult.OK)
+					return;
+
+				this.ExportChildNodeDefinitions(dialog.FileName);
+			}
+		}
+
+		private void ExportChildNodeDefinitions(string fileName)
+		{
+			this.ChildNodeDefinitions.Serialize(fileName);
+		}
+
+		private void ImportChildNodeDefinitions()
+		{
+			using (OpenFileDialog dialog = new OpenFileDialog())
+			{
+				dialog.Filter = "XML Files (*.xml)|*.xml|All Files (*.*)|*.*";
+
+				if (dialog.ShowDialog(this) != System.Windows.Forms.DialogResult.OK)
+					return;
+
+				this.ImportChildNodeDefinitions(dialog.FileName);
+			}
+		}
+
+		private void ImportChildNodeDefinitions(string fileName)
+		{
+			this.ChildNodeDefinitions.Import(fileName);
 		}
 
 		#endregion
@@ -2158,6 +2223,32 @@ namespace XmlExplorer.Controls
 			try
 			{
 				this.ShowOptions();
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine(ex);
+				MessageBox.Show(this, ex.ToString());
+			}
+		}
+
+		private void exportChildNodeDefinitionsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			try
+			{
+				this.ExportChildNodeDefinitions();
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine(ex);
+				MessageBox.Show(this, ex.ToString());
+			}
+		}
+
+		private void importChildNodeDefinitionsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			try
+			{
+				this.ImportChildNodeDefinitions();
 			}
 			catch (Exception ex)
 			{

@@ -97,6 +97,9 @@ namespace XmlExplorer
 				window.AutoUpdateUrl = Properties.Settings.Default.UpdateUrl;
 				window.MinimumReleaseStatus = Properties.Settings.Default.UpdateReleaseStatus;
 
+				// ChildNodeDefinitions
+				window.ChildNodeDefinitions = Properties.Settings.Default.ChildNodeDefinitions;
+
 				window.Shown += new EventHandler(OnWindowShown);
 			}
 			catch (Exception ex)

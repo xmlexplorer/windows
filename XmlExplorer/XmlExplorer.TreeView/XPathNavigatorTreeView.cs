@@ -620,9 +620,62 @@ namespace XmlExplorer.TreeView
 			// create and add a node for each navigator
 			foreach (XPathNavigator navigator in iterator)
 			{
-				XPathNavigatorTreeNode node = new XPathNavigatorTreeNode(navigator.Clone());
+				bool hasCustomChildNodes = this.HasCustomChildNodes(navigator, this.ChildNodeDefinitions);
+
+				XPathNavigatorTreeNode node = new XPathNavigatorTreeNode(navigator.Clone(), hasCustomChildNodes);
+
 				treeNodeCollection.Add(node);
 			}
+		}
+
+		private bool HasCustomChildNodes(XPathNavigator navigator, ChildNodeDefinitionCollection childNodeDefinitions)
+		{
+			foreach (var childNodeDefinition in childNodeDefinitions)
+			{
+				var iterator = this.GetCustomChildNodes(navigator, childNodeDefinition);
+
+				if (iterator != null && iterator.Count > 0)
+					return true;
+			}
+
+			return false;
+		}
+
+		private void LoadCustomChildNodes(XPathNavigatorTreeNode node, ChildNodeDefinitionCollection childNodeDefinitions)
+		{
+			foreach (var childNodeDefinition in childNodeDefinitions)
+			{
+				var iterator = this.GetCustomChildNodes(node.Navigator, childNodeDefinition);
+
+				if (iterator == null)
+					continue;
+
+				// create and add a node for each navigator
+				foreach (XPathNavigator navigator in iterator)
+				{
+					bool hasCustomChildNodes = this.HasCustomChildNodes(navigator, this.ChildNodeDefinitions);
+
+					XPathNavigatorTreeNode childNode = new XPathNavigatorTreeNode(navigator.Clone(), hasCustomChildNodes, childNodeDefinition.IdXpath);
+
+					node.Nodes.Add(childNode);
+				}
+			}
+		}
+
+		private XPathNodeIterator GetCustomChildNodes(XPathNavigator navigator, ChildNodeDefinition childNodeDefinition)
+		{
+			// get the id of the child node
+			string id = navigator.Evaluate("string(" + childNodeDefinition.IdXpath + ")") as string;
+			if (string.IsNullOrEmpty(id))
+				return null;
+
+			// get the child xpath
+			string xpath = string.Format(childNodeDefinition.ChildXpath, id);
+
+			// get any nodes that match the child xpath 
+			XPathNodeIterator iterator = navigator.Select(xpath);
+
+			return iterator;
 		}
 
 		private void LoadNamespaceDefinitions(XPathNavigator navigator)
@@ -1384,6 +1437,9 @@ namespace XmlExplorer.TreeView
 
 					// load the child nodes of the specified xml tree node
 					this.LoadNodes(node.Navigator.SelectChildren(XPathNodeType.All), node.Nodes);
+
+					// load any custom child node definitions
+					this.LoadCustomChildNodes(node, this.ChildNodeDefinitions);
 				}
 
 				if (node.Nodes.Count > 0)
@@ -1620,6 +1676,8 @@ namespace XmlExplorer.TreeView
 
 		#endregion
 
+
+		public ChildNodeDefinitionCollection ChildNodeDefinitions { get; set; }
 	}
 }
 

@@ -43,6 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChildNodeDefinition.cs" />
+    <Compile Include="ChildNodeDefinitionCollection.cs" />
     <Compile Include="Direction.cs" />
     <Compile Include="Error.cs" />
     <Compile Include="EventArgs.cs" />

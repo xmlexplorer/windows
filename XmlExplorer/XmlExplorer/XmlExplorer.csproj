@@ -195,6 +195,10 @@
       <Project>{BF406750-6711-4034-A05A-46F8F8026CC4}</Project>
       <Name>XmlExplorer.Controls</Name>
     </ProjectReference>
+    <ProjectReference Include="..\XmlExplorer.TreeView\XmlExplorer.TreeView.csproj">
+      <Project>{918E2E88-0904-4FB2-9C8C-41AAD77DC665}</Project>
+      <Name>XmlExplorer.TreeView</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="xml.ico">
