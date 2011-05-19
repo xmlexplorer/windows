@@ -117,42 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="pictureBoxSearch.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 6</value>
-  </data>
-  <data name="pictureBoxSearch.Size" type="System.Drawing.Size, System.Drawing">
-    <value>16, 20</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="pictureBoxSearch.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
-    <value>CenterImage</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="pictureBoxSearch.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;pictureBoxSearch.Name" xml:space="preserve">
-    <value>pictureBoxSearch</value>
-  </data>
-  <data name="&gt;&gt;pictureBoxSearch.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pictureBoxSearch.Parent" xml:space="preserve">
-    <value>panelExpressions</value>
-  </data>
-  <data name="&gt;&gt;pictureBoxSearch.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="listViewExpressions.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
-  </data>
   <data name="columnHeaderName.Text" xml:space="preserve">
     <value>Name</value>
   </data>
   <data name="columnHeaderExpression.Text" xml:space="preserve">
     <value>Expression</value>
   </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="columnHeaderExpression.Width" type="System.Int32, mscorlib">
     <value>600</value>
   </data>
@@ -162,11 +133,16 @@
   <data name="columnHeaderComments.Width" type="System.Int32, mscorlib">
     <value>74</value>
   </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="listViewExpressions.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="listViewExpressions.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 32</value>
+    <value>0, 25</value>
   </data>
   <data name="listViewExpressions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>735, 413</value>
+    <value>741, 423</value>
   </data>
   <data name="listViewExpressions.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -181,31 +157,94 @@
     <value>panelExpressions</value>
   </data>
   <data name="&gt;&gt;listViewExpressions.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>0</value>
   </data>
-  <data name="textBoxSearchExpressions.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
+  <metadata name="toolStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <data name="toolStripButtonLaunchXpath.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAIhSURBVDhPrZPfS1NxGMb9p7rQG7upqC686CovEwwMsbbB
+        FpSGRQ4SNSq0dJqaziw1M/sBauamm26KSq5iaXM/NX80XClr+55P552wTpeBB87NgefzPO/7vKeg4Cie
+        3lEfPa/meDIyS/dLL13DHjpfTNMx6KZ9wIXj+Qda+yd59HSCh33jtDjHyPuKWEOhNEVGKdJZxUFG8Sut
+        SB0okvsauz81tvY0NpIa8R8akR2NY6fLDiHiLOK6jgVs97xU1XuovOOl/LaX0uoZSqxuTl1xUXzJReFF
+        NycsfkJbBoDEFmdLo4eFb+ANwmQA3ixpDM4pelyK1vEsd19nqBv6zXFblNVNA0Bmltimhhlmv6LHhNgu
+        hLb5R2zXxaa2JEWWCMGEASALk5kFMPUJ3urOQz5Fr1vRJs6jGW49O8D6eI+K+9sUmiN8jvN3B7JtWZgA
+        3i1rrOvOq5vwJQErUVhaB//q4WgX6mM5QED/nl+iVCXbFsCwX+GcVjgmsjSOpLnZv4+tM0VVyw7lDXFK
+        a9coNIX5GDYApGepSgB9ulicxcHoPLUCY4tw7mogB1jWU+UTyJFIz5YmD+3vs9gHUtQ4U5gdSSoebOdi
+        i7OIz16ep8gcZjFkAMiFyZFcb/ZR4whyo/s7Vscmlc0blDUlOG+PU1Ib4+S1KMV6hWeqY7m68wnkPI0X
+        JkciPUtVsm0ZR2aW2OIs4vk1A0CuUWj/+x7FP3g0jD+qHVIhqzbEYgAAAABJRU5ErkJggg==
+</value>
   </data>
-  <data name="textBoxSearchExpressions.Location" type="System.Drawing.Point, System.Drawing">
-    <value>25, 6</value>
+  <data name="toolStripButtonLaunchXpath.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
   </data>
-  <data name="textBoxSearchExpressions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>713, 20</value>
+  <data name="toolStripButtonLaunchXpath.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>Magenta</value>
   </data>
-  <data name="textBoxSearchExpressions.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
+  <data name="toolStripButtonLaunchXpath.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 22</value>
   </data>
-  <data name="&gt;&gt;textBoxSearchExpressions.Name" xml:space="preserve">
-    <value>textBoxSearchExpressions</value>
+  <data name="toolStripButtonLaunchXpath.Text" xml:space="preserve">
+    <value>Launch...</value>
   </data>
-  <data name="&gt;&gt;textBoxSearchExpressions.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="toolStripButtonLaunchXpath.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleRight</value>
   </data>
-  <data name="&gt;&gt;textBoxSearchExpressions.Parent" xml:space="preserve">
+  <data name="toolStripButtonLaunchXpath.ToolTipText" xml:space="preserve">
+    <value>Launch XPath expression in a new tab (Shift+Enter)</value>
+  </data>
+  <data name="toolStripButtonEditExpressions.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>Magenta</value>
+  </data>
+  <data name="toolStripButtonEditExpressions.Size" type="System.Drawing.Size, System.Drawing">
+    <value>119, 22</value>
+  </data>
+  <data name="toolStripButtonEditExpressions.Text" xml:space="preserve">
+    <value>Edit Expressions...</value>
+  </data>
+  <data name="toolStripButtonDelete.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>Magenta</value>
+  </data>
+  <data name="toolStripButtonDelete.Size" type="System.Drawing.Size, System.Drawing">
+    <value>23, 22</value>
+  </data>
+  <data name="toolStripButtonDelete.Text" xml:space="preserve">
+    <value>Delete selected expressions</value>
+  </data>
+  <data name="toolStripLabelFilter.Size" type="System.Drawing.Size, System.Drawing">
+    <value>16, 22</value>
+  </data>
+  <data name="toolStripLabelFilter.ToolTipText" xml:space="preserve">
+    <value>Filter expressions list</value>
+  </data>
+  <data name="toolStripSpringTextBoxFilter.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 22</value>
+  </data>
+  <data name="toolStrip1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="toolStrip1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>741, 25</value>
+  </data>
+  <data name="toolStrip1.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="toolStrip1.Text" xml:space="preserve">
+    <value>toolStrip1</value>
+  </data>
+  <data name="&gt;&gt;toolStrip1.Name" xml:space="preserve">
+    <value>toolStrip1</value>
+  </data>
+  <data name="&gt;&gt;toolStrip1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStrip1.Parent" xml:space="preserve">
     <value>panelExpressions</value>
   </data>
-  <data name="&gt;&gt;textBoxSearchExpressions.ZOrder" xml:space="preserve">
-    <value>2</value>
+  <data name="&gt;&gt;toolStrip1.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="panelExpressions.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -282,6 +321,36 @@
   </data>
   <data name="&gt;&gt;columnHeaderComments.Type" xml:space="preserve">
     <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripButtonLaunchXpath.Name" xml:space="preserve">
+    <value>toolStripButtonLaunchXpath</value>
+  </data>
+  <data name="&gt;&gt;toolStripButtonLaunchXpath.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripButtonEditExpressions.Name" xml:space="preserve">
+    <value>toolStripButtonEditExpressions</value>
+  </data>
+  <data name="&gt;&gt;toolStripButtonEditExpressions.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripButtonDelete.Name" xml:space="preserve">
+    <value>toolStripButtonDelete</value>
+  </data>
+  <data name="&gt;&gt;toolStripButtonDelete.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripLabelFilter.Name" xml:space="preserve">
+    <value>toolStripLabelFilter</value>
+  </data>
+  <data name="&gt;&gt;toolStripLabelFilter.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripSpringTextBoxFilter.Name" xml:space="preserve">
+    <value>toolStripSpringTextBoxFilter</value>
+  </data>
+  <data name="&gt;&gt;toolStripSpringTextBoxFilter.Type" xml:space="preserve">
+    <value>XmlExplorer.Controls.ToolStripSpringTextBox, XmlExplorer.Controls, Version=4.0.2.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>ExpressionsWindow</value>

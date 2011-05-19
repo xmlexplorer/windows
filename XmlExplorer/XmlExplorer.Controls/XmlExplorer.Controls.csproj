@@ -291,6 +291,7 @@
   <ItemGroup>
     <None Include="Resources\settings_16.png" />
     <None Include="Resources\OpenLink.png" />
+    <None Include="Resources\EditTableHS.png" />
     <Content Include="Resources\Up.png" />
     <Content Include="Resources\Down.png" />
     <Content Include="Resources\Book_openHS.ico" />

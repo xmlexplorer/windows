@@ -149,6 +149,7 @@ namespace XmlExplorer.Controls
 			_expressionsWindow.ShowHint = WeifenLuo.WinFormsUI.Docking.DockState.DockBottom;
 			_expressionsWindow.SelectedExpressionChanged += this.OnExpressionsWindow_SelectedExpressionChanged;
 			_expressionsWindow.ExpressionsActivated += this.OnExpressionsWindow_ExpressionsActivated;
+			_expressionsWindow.ExpressionsLaunched += this.OnExpressionsWindow_ExpressionsLaunched;
 
 			// set up the namespaces window
 			_namespacesWindow = new NamespacesWindow();
@@ -1430,6 +1431,36 @@ namespace XmlExplorer.Controls
 			}
 		}
 
+		private void OnExpressionsWindow_ExpressionsLaunched(object sender, EventArgs e)
+		{
+			try
+			{
+				// reset any xpath expression error indicators
+				this.toolStripTextBoxXpath.BackColor = SystemColors.Window;
+				this.toolStripStatusLabelMain.Text = string.Empty;
+
+				this.LaunchSelectedExpressions();
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine(ex);
+				MessageBox.Show(this, ex.ToString());
+			}
+		}
+
+		private void LaunchSelectedExpressions()
+		{
+			foreach (String xpath in _expressionsWindow.SelectedExpressions)
+			{
+				// evaluate the expression
+				// if successful, open results in a new window
+				// if there is a problem with the expression, notify the user
+				// by highlighting the XPath text box
+				if (!this.LaunchXpathResults(xpath))
+					this.toolStripTextBoxXpath.BackColor = Color.LightPink;
+			}
+		}
+
 		private void OnExpressionsWindow_ExpressionsActivated(object sender, EventArgs e)
 		{
 			try
@@ -1441,15 +1472,7 @@ namespace XmlExplorer.Controls
 				if (System.Windows.Input.Keyboard.IsKeyDown(System.Windows.Input.Key.LeftShift))
 				{
 					// hold shift to launch
-					foreach (String xpath in _expressionsWindow.SelectedExpressions)
-					{
-						// evaluate the expression
-						// if successful, open results in a new window
-						// if there is a problem with the expression, notify the user
-						// by highlighting the XPath text box
-						if (!this.LaunchXpathResults(xpath))
-							this.toolStripTextBoxXpath.BackColor = Color.LightPink;
-					}
+					this.LaunchSelectedExpressions();
 				}
 				else if (_expressionsWindow.SelectedExpressions.Count > 0)
 				{
