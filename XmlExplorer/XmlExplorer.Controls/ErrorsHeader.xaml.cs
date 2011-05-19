@@ -40,5 +40,18 @@ namespace XmlExplorer.Controls
 				MessageBox.Show(ex.ToString());
 			}
 		}
+
+		private void XmlSchemaLink_Click(object sender, RoutedEventArgs e)
+		{
+			try
+			{
+				Process.Start("http://www.w3schools.com/Schema");
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine(ex);
+				MessageBox.Show(ex.ToString());
+			}
+		}
 	}
 }
