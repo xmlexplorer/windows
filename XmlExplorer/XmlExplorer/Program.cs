@@ -7,6 +7,7 @@ using System.IO;
 using System.Windows.Forms;
 using Microsoft.VisualBasic.ApplicationServices;
 using XmlExplorer.Controls;
+using XmlExplorer.TreeView;
 
 namespace XmlExplorer
 {
@@ -99,6 +100,11 @@ namespace XmlExplorer
 
 				// ChildNodeDefinitions
 				window.ChildNodeDefinitions = Properties.Settings.Default.ChildNodeDefinitions;
+				if (window.ChildNodeDefinitions == null)
+				{
+					window.ChildNodeDefinitions = new ChildNodeDefinitionCollection();
+					Properties.Settings.Default.ChildNodeDefinitions = window.ChildNodeDefinitions;
+				}
 
 				window.Shown += new EventHandler(OnWindowShown);
 			}
@@ -287,6 +293,7 @@ namespace XmlExplorer
 			Properties.Settings.Default.UseSyntaxHighlighting = window.UseSyntaxHighlighting;
 			Properties.Settings.Default.Expressions = window.Expressions;
 			Properties.Settings.Default.RecentlyUsedFiles = window.RecentlyUsedFiles;
+			Properties.Settings.Default.ChildNodeDefinitions = window.ChildNodeDefinitions;
 		}
 
 		#endregion

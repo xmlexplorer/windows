@@ -1426,14 +1426,35 @@ namespace XmlExplorer.Controls
 		{
 			try
 			{
-				foreach (String xpath in _expressionsWindow.SelectedExpressions)
+				if (System.Windows.Input.Keyboard.IsKeyDown(System.Windows.Input.Key.LeftShift))
 				{
+					// hold shift to launch
+					foreach (String xpath in _expressionsWindow.SelectedExpressions)
+					{
+						// evaluate the expression
+						// if successful, open results in a new window
+						// if there is a problem with the expression, notify the user
+						// by highlighting the XPath text box
+						if (!this.LaunchXpathResults(xpath))
+							this.toolStripTextBoxXpath.BackColor = Color.LightPink;
+					}
+				}
+				else if (_expressionsWindow.SelectedExpressions.Count > 0)
+				{
+					String xpath = _expressionsWindow.SelectedExpressions[0];
+
 					// evaluate the expression
-					// if successful, open results in a new window
+					// if successful, the first node of the result set will be selected
+					// (selection is performed by the window)
 					// if there is a problem with the expression, notify the user
 					// by highlighting the XPath text box
-					if (!this.LaunchXpathResults(xpath))
+					if (!this.FindByXpath(xpath))
 						this.toolStripTextBoxXpath.BackColor = Color.LightPink;
+
+					this.toolStripTextBoxXpath.Text = xpath;
+					this.toolStripTextBoxXpath.SelectionStart = this.toolStripTextBoxXpath.TextLength;
+
+					this.UpdateXPathExpressionTool(xpath);
 				}
 			}
 			catch (Exception ex)
@@ -1447,23 +1468,6 @@ namespace XmlExplorer.Controls
 		{
 			try
 			{
-				String xpath = null;
-
-				if (_expressionsWindow.SelectedExpressions.Count > 0)
-				{
-					xpath = _expressionsWindow.SelectedExpressions[0];
-
-					// evaluate the expression
-					// if successful, the first node of the result set will be selected
-					// (selection is performed by the window)
-					// if there is a problem with the expression, notify the user
-					// by highlighting the XPath text box
-					if (!this.FindByXpath(xpath))
-						this.toolStripTextBoxXpath.BackColor = Color.LightPink;
-					this.toolStripTextBoxXpath.SelectionStart = this.toolStripTextBoxXpath.TextLength;
-				}
-
-				this.UpdateXPathExpressionTool(xpath);
 			}
 			catch (Exception ex)
 			{

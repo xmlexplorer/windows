@@ -86,6 +86,10 @@ namespace XmlExplorer.TreeView
 			this.CopyNodeOnDrag = true;
 			this.ItemDrag += this.OnItemDrag;
 			this.AfterLabelEdit += this.OnAfterLabelEdit;
+
+			this.AfterExpand += new TreeViewEventHandler(XPathNavigatorTreeView_AfterExpand);
+			this.AfterCollapse += new TreeViewEventHandler(XPathNavigatorTreeView_AfterCollapse);
+			this.DrawNode += new DrawTreeNodeEventHandler(XPathNavigatorTreeView_DrawNode);
 		}
 
 		#endregion
@@ -248,6 +252,8 @@ namespace XmlExplorer.TreeView
 
 		public int CurrentResultPosition { get; private set; }
 		public int ResultCount { get; private set; }
+
+		public ChildNodeDefinitionCollection ChildNodeDefinitions { get; set; }
 
 		#endregion
 
@@ -1398,145 +1404,6 @@ namespace XmlExplorer.TreeView
 				this.LoadingFinished(this, e);
 		}
 
-		#endregion
-
-		#region Overrides
-
-		protected override void OnBeforeCollapse(TreeViewCancelEventArgs e)
-		{
-			// remove the end tag we inserted when the node was expanded
-			TreeNode node = e.Node.Tag as TreeNode;
-			if (node != null)
-			{
-				// remove it
-				TreeNodeCollection nodes = base.Nodes;
-				if (node.Parent != null)
-				{
-					nodes = node.Parent.Nodes;
-				}
-				nodes.Remove(node);
-			}
-
-			base.OnBeforeCollapse(e);
-		}
-
-		protected override void OnBeforeExpand(TreeViewCancelEventArgs e)
-		{
-			try
-			{
-				XPathNavigatorTreeNode node = e.Node as XPathNavigatorTreeNode;
-
-				if (node == null)
-					return;
-
-				// for better performance opening large files, tree nodes are loaded on demand.
-				if (!node.HasExpanded)
-				{
-					// make sure we don't have to load this tree node again.
-					node.HasExpanded = true;
-
-					// load the child nodes of the specified xml tree node
-					this.LoadNodes(node.Navigator.SelectChildren(XPathNodeType.All), node.Nodes);
-
-					// load any custom child node definitions
-					this.LoadCustomChildNodes(node, this.ChildNodeDefinitions);
-				}
-
-				if (node.Nodes.Count > 0)
-				{
-					TreeNodeCollection nodes = base.Nodes;
-					if (node.Parent != null)
-					{
-						nodes = node.Parent.Nodes;
-					}
-
-					// add a node for the xml end tag, such as </node>
-					node.Tag = nodes.Insert(e.Node.Index + 1, string.Format("</{0}>", node.Navigator.Name));
-				}
-			}
-			finally
-			{
-				base.OnBeforeExpand(e);
-			}
-		}
-
-		protected override void OnDrawNode(DrawTreeNodeEventArgs e)
-		{
-			try
-			{
-				if (!_useSyntaxHighlighting)
-				{
-					base.OnDrawNode(e);
-					return;
-				}
-
-				// not sure why the TreeView doesn't take care of this...
-				// I was getting requests to draw nodes that weren't even visible on the screen.
-				// Obviously, this was drastically slowing down the drawing of the tree!
-				if (!e.Node.IsVisible)
-					return;
-
-				Rectangle bounds = e.Bounds;
-
-				using (SolidBrush brush = new SolidBrush(this.BackColor))
-					e.Graphics.FillRectangle(brush, bounds);
-
-				if (e.Node.IsEditing)
-					return;
-
-				// I tried using the suggested TextRenderingHint.AntiAlias, but I don't think it looks right with
-				// small fonts, so I'm disabling it.  Need to make this a user option in a later version.
-
-				// this is required for sequentially rendering adjacent text, see the article
-				// 'Why text appears different when drawn with GDIPlus versus GDI', section 'How to Display Adjacent Text'
-				// http://support.microsoft.com/?id=307208 for more details
-				// e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
-
-				string text = e.Node.Text;
-
-				if ((e.State & TreeNodeStates.Selected) == TreeNodeStates.Selected)
-				{
-					// Fill the backgound with the highlight color
-					e.Graphics.FillRectangle(SystemBrushes.Highlight, bounds);
-
-					// Draw the string
-					e.Graphics.DrawString(text, this.Font, SystemBrushes.HighlightText, bounds, _stringFormat);
-
-					return;
-				}
-
-				// the node isn't selected, draw it's text with syntax highlights
-				bool drawn = false;
-
-				// don't bother with syntax highlighting for text nodes
-				XPathNavigatorTreeNode xpathNode = e.Node as XPathNavigatorTreeNode;
-				if (xpathNode == null || xpathNode.Navigator.NodeType != XPathNodeType.Text)
-				{
-					// draw non text nodes with syntax highlights
-					drawn = this.DrawStrings(text, bounds, e.Graphics);
-				}
-
-				// if the text wasn't matched by any of our regular expressions, it's likely just a text node
-				// draw it without any syntax highlights
-				if (!drawn)
-				{
-					// Draw the text
-					using (SolidBrush brush = new SolidBrush(this.ForeColor))
-					{
-						e.Graphics.DrawString(text, this.Font, brush, bounds, _stringFormat);
-					}
-				}
-
-				// If the node has focus, draw the focus rectangle.
-				if ((e.State & TreeNodeStates.Focused) != 0)
-					ControlPaint.DrawFocusRectangle(e.Graphics, e.Bounds);
-			}
-			catch (Exception ex)
-			{
-				Debug.WriteLine(ex);
-			}
-		}
-
 		private bool DrawStrings(string text, Rectangle bounds, Graphics graphics)
 		{
 			bool drawn = false;
@@ -1620,6 +1487,19 @@ namespace XmlExplorer.TreeView
 			return result;
 		}
 
+		private void HandleException(Exception exception)
+		{
+			try
+			{
+				Debug.WriteLine(exception);
+				MessageBox.Show(this, exception.ToString());
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine(ex);
+			}
+		}
+
 		#endregion
 
 		#region Event Handlers
@@ -1659,6 +1539,148 @@ namespace XmlExplorer.TreeView
 			e.CancelEdit = true;
 		}
 
+		void XPathNavigatorTreeView_AfterCollapse(object sender, TreeViewEventArgs e)
+		{
+			try
+			{
+				// remove the end tag we inserted when the node was expanded
+				TreeNode node = e.Node.Tag as TreeNode;
+				if (node != null)
+				{
+					// remove it
+					TreeNodeCollection nodes = base.Nodes;
+					if (node.Parent != null)
+					{
+						nodes = node.Parent.Nodes;
+					}
+					nodes.Remove(node);
+				}
+			}
+			catch (Exception ex)
+			{
+				this.HandleException(ex);
+			}
+		}
+
+		void XPathNavigatorTreeView_AfterExpand(object sender, TreeViewEventArgs e)
+		{
+			try
+			{
+				XPathNavigatorTreeNode node = e.Node as XPathNavigatorTreeNode;
+
+				if (node == null)
+					return;
+
+				// for better performance opening large files, tree nodes are loaded on demand.
+				if (!node.HasExpanded)
+				{
+					// make sure we don't have to load this tree node again.
+					node.HasExpanded = true;
+
+					// load the child nodes of the specified xml tree node
+					this.LoadNodes(node.Navigator.SelectChildren(XPathNodeType.All), node.Nodes);
+
+					// load any custom child node definitions
+					this.LoadCustomChildNodes(node, this.ChildNodeDefinitions);
+				}
+
+				if (node.Nodes.Count > 0)
+				{
+					TreeNodeCollection nodes = base.Nodes;
+					if (node.Parent != null)
+					{
+						nodes = node.Parent.Nodes;
+					}
+
+					var endTagNode = node.Tag as TreeNode;
+					if (endTagNode == null)
+					{
+						endTagNode = new TreeNode(string.Format("</{0}>", node.Navigator.Name));
+						node.Tag = endTagNode;
+					}
+
+					if (!nodes.Contains(endTagNode))
+						nodes.Insert(e.Node.Index + 1, endTagNode);
+				}
+			}
+			catch (Exception ex)
+			{
+				this.HandleException(ex);
+			}
+		}
+
+		void XPathNavigatorTreeView_DrawNode(object sender, DrawTreeNodeEventArgs e)
+		{
+			try
+			{
+				if (!_useSyntaxHighlighting)
+				{
+					e.DrawDefault = true;
+					return;
+				}
+
+				if (e.Node.IsEditing)
+				{
+					e.DrawDefault = true;
+					return;
+				}
+
+				if ((e.State & TreeNodeStates.Selected) == TreeNodeStates.Selected)
+				{
+					e.DrawDefault = true;
+					return;
+				}
+
+				// not sure why the TreeView doesn't take care of this...
+				// I was getting requests to draw nodes that weren't even visible on the screen.
+				// Obviously, this was drastically slowing down the drawing of the tree!
+				if (!e.Node.IsVisible)
+					return;
+
+				Rectangle bounds = e.Bounds;
+
+				// I tried using the suggested TextRenderingHint.AntiAlias, but I don't think it looks right with
+				// small fonts, so I'm disabling it.  Need to make this a user option in a later version.
+
+				// this is required for sequentially rendering adjacent text, see the article
+				// 'Why text appears different when drawn with GDIPlus versus GDI', section 'How to Display Adjacent Text'
+				// http://support.microsoft.com/?id=307208 for more details
+				// e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
+
+				string text = e.Node.Text;
+
+				// the node isn't selected, draw it's text with syntax highlights
+				bool drawn = false;
+
+				// don't bother with syntax highlighting for text nodes
+				XPathNavigatorTreeNode xpathNode = e.Node as XPathNavigatorTreeNode;
+				if (xpathNode == null || xpathNode.Navigator.NodeType != XPathNodeType.Text)
+				{
+					using (SolidBrush brush = new SolidBrush(this.BackColor))
+						e.Graphics.FillRectangle(brush, bounds);
+
+					// draw non text nodes with syntax highlights
+					drawn = this.DrawStrings(text, bounds, e.Graphics);
+				}
+
+				// if the text wasn't matched by any of our regular expressions, it's likely just a text node
+				// draw it without any syntax highlights
+				if (!drawn)
+				{
+					e.DrawDefault = true;
+					return;
+				}
+
+				//// If the node has focus, draw the focus rectangle.
+				//if ((e.State & TreeNodeStates.Focused) != 0)
+				//   ControlPaint.DrawFocusRectangle(e.Graphics, e.Bounds);
+			}
+			catch (Exception ex)
+			{
+				this.HandleException(ex);
+			}
+		}
+
 		#endregion
 
 		#region INotifyPropertyChanged values
@@ -1675,9 +1697,6 @@ namespace XmlExplorer.TreeView
 		}
 
 		#endregion
-
-
-		public ChildNodeDefinitionCollection ChildNodeDefinitions { get; set; }
 	}
 }
 

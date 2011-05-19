@@ -99,9 +99,9 @@ namespace XmlExplorer.TreeView
 
 				case XPathNodeType.Root:
 				case XPathNodeType.Element:
-					//// append the custom child node prefix, if any
-					//if (!string.IsNullOrEmpty(this.CustomChildNodePrefix))
-					//   builder.Append(this.CustomChildNodePrefix + " ");
+					// append the custom child node prefix, if any
+					if (!string.IsNullOrEmpty(this.CustomChildNodePrefix))
+						builder.Append(this.CustomChildNodePrefix + " ");
 
 					// append the start of the element
 					builder.AppendFormat("<{0}", _navigator.Name);
