@@ -923,6 +923,10 @@ namespace XmlExplorer.Controls
 			this.toolStripTextBoxXpath.Text = xpath;
 			if (e.Shift)
 			{
+				// reset any xpath expression error indicators
+				this.toolStripTextBoxXpath.BackColor = SystemColors.Window;
+				this.toolStripStatusLabelMain.Text = string.Empty;
+
 				// Shift-Enter has been pressed, evaluate the expression
 				// if successful, open results in a new window
 				// if there is a problem with the expression, notify the user
@@ -944,6 +948,10 @@ namespace XmlExplorer.Controls
 
 		private void SelectResult(string xpath, Direction direction)
 		{
+			// reset any xpath expression error indicators
+			this.toolStripTextBoxXpath.BackColor = SystemColors.Window;
+			this.toolStripStatusLabelMain.Text = string.Empty;
+
 			// evaluate the expression
 			// if successful, the next node of the result set will be selected
 			// if there is a problem with the expression, notify the user
@@ -1426,6 +1434,10 @@ namespace XmlExplorer.Controls
 		{
 			try
 			{
+				// reset any xpath expression error indicators
+				this.toolStripTextBoxXpath.BackColor = SystemColors.Window;
+				this.toolStripStatusLabelMain.Text = string.Empty;
+
 				if (System.Windows.Input.Keyboard.IsKeyDown(System.Windows.Input.Key.LeftShift))
 				{
 					// hold shift to launch
@@ -1766,10 +1778,6 @@ namespace XmlExplorer.Controls
 		{
 			try
 			{
-				// reset any xpath expression error indicators
-				this.toolStripTextBoxXpath.BackColor = SystemColors.Window;
-				this.toolStripStatusLabelMain.Text = string.Empty;
-
 				switch (e.KeyCode)
 				{
 					case Keys.Enter:
@@ -2009,6 +2017,10 @@ namespace XmlExplorer.Controls
 		{
 			try
 			{
+				// reset any xpath expression error indicators
+				this.toolStripTextBoxXpath.BackColor = SystemColors.Window;
+				this.toolStripStatusLabelMain.Text = string.Empty;
+
 				if (!this.LaunchXpathResults(this.toolStripTextBoxXpath.Text))
 					this.toolStripTextBoxXpath.BackColor = Color.LightPink;
 			}
@@ -2159,6 +2171,7 @@ namespace XmlExplorer.Controls
 			try
 			{
 				_expressionsWindow.AddOrEditXPathExpression(this.toolStripTextBoxXpath.Text);
+				this.UpdateXPathExpressionTool(this.toolStripTextBoxXpath.Text);
 			}
 			catch (Exception ex)
 			{
