@@ -1543,18 +1543,18 @@ namespace XmlExplorer.TreeView
 		{
 			try
 			{
-				// remove the end tag we inserted when the node was expanded
-				TreeNode node = e.Node.Tag as TreeNode;
-				if (node != null)
-				{
-					// remove it
-					TreeNodeCollection nodes = base.Nodes;
-					if (node.Parent != null)
-					{
-						nodes = node.Parent.Nodes;
-					}
-					nodes.Remove(node);
-				}
+				//// remove the end tag we inserted when the node was expanded
+				//TreeNode node = e.Node.Tag as TreeNode;
+				//if (node != null)
+				//{
+				//   // remove it
+				//   TreeNodeCollection nodes = base.Nodes;
+				//   if (node.Parent != null)
+				//   {
+				//      nodes = node.Parent.Nodes;
+				//   }
+				//   nodes.Remove(node);
+				//}
 			}
 			catch (Exception ex)
 			{
@@ -1584,24 +1584,24 @@ namespace XmlExplorer.TreeView
 					this.LoadCustomChildNodes(node, this.ChildNodeDefinitions);
 				}
 
-				if (node.Nodes.Count > 0)
-				{
-					TreeNodeCollection nodes = base.Nodes;
-					if (node.Parent != null)
-					{
-						nodes = node.Parent.Nodes;
-					}
+				//if (node.Nodes.Count > 0)
+				//{
+				//   TreeNodeCollection nodes = base.Nodes;
+				//   if (node.Parent != null)
+				//   {
+				//      nodes = node.Parent.Nodes;
+				//   }
 
-					var endTagNode = node.Tag as TreeNode;
-					if (endTagNode == null)
-					{
-						endTagNode = new TreeNode(string.Format("</{0}>", node.Navigator.Name));
-						node.Tag = endTagNode;
-					}
+				//   var endTagNode = node.Tag as TreeNode;
+				//   if (endTagNode == null)
+				//   {
+				//      endTagNode = new TreeNode(string.Format("</{0}>", node.Navigator.Name));
+				//      node.Tag = endTagNode;
+				//   }
 
-					if (!nodes.Contains(endTagNode))
-						nodes.Insert(e.Node.Index + 1, endTagNode);
-				}
+				//   if (!nodes.Contains(endTagNode))
+				//      nodes.Insert(e.Node.Index + 1, endTagNode);
+				//}
 			}
 			catch (Exception ex)
 			{

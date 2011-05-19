@@ -42,6 +42,9 @@ namespace XmlExplorer.Controls
 		private string _dockSettingsFilename = null;
 		private DeserializeDockContent _deserializeDockContent;
 		private ChildNodeDefinitionCollection _childNodeDefinitions;
+		private bool _showNodeToolTips;
+
+		private bool _ignoreSettingsChanges = false;
 
 		#endregion
 
@@ -86,6 +89,7 @@ namespace XmlExplorer.Controls
 			this.toolStripMenuItemFont.Click += this.OnToolStripMenuItemFontClick;
 
 			this.toolStripMenuItemUseHighlighting.Click += this.OnToolStripMenuItemUseHighlightingClick;
+			this.toolStripMenuItemShowNodeToolTips.Click += this.OnToolStripMenuItemShowNodeToolTipsClick;
 
 			this.toolStripMenuItemNewFromClipboard.Click += this.OnToolStripButtonNewFromClipboardClick;
 
@@ -220,6 +224,17 @@ namespace XmlExplorer.Controls
 			}
 		}
 
+		public bool ShowNodeToolTips
+		{
+			get { return _showNodeToolTips; }
+			set
+			{
+				_showNodeToolTips = value;
+				this.toolStripMenuItemShowNodeToolTips.Checked = _showNodeToolTips;
+				this.SetXmlExplorerWindowShowNodeToolTips(_showNodeToolTips);
+			}
+		}
+
 		public XPathExpressionLibrary Expressions
 		{
 			get
@@ -319,6 +334,8 @@ namespace XmlExplorer.Controls
 			// save the font
 			_treeFont = font;
 
+			this.UpdateSetting(font, "Font");
+
 			// apply the font to any open windows
 			this.SetXmlExplorerWindowFonts(font);
 		}
@@ -327,6 +344,8 @@ namespace XmlExplorer.Controls
 		{
 			// save the forecolor
 			_treeForeColor = color;
+
+			this.UpdateSetting(color, "ForeColor");
 
 			// apply the forecolor to any open windows
 			this.SetXmlExplorerWindowForeColors(color);
@@ -527,8 +546,7 @@ namespace XmlExplorer.Controls
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				this.HandleException(ex);
 			}
 		}
 
@@ -571,6 +589,7 @@ namespace XmlExplorer.Controls
 			window.XmlForeColor = _treeForeColor;
 			window.UseSyntaxHighlighting = _useSyntaxHighlighting;
 			window.ChildNodeDefinitions = _childNodeDefinitions;
+			window.TreeView.ShowNodeToolTips = _showNodeToolTips;
 		}
 
 		/// <summary>
@@ -598,6 +617,8 @@ namespace XmlExplorer.Controls
 		private void ApplySyntaxHighlighting(bool value)
 		{
 			_useSyntaxHighlighting = value;
+
+			UpdateSetting(value, "UseSyntaxHighlighting");
 
 			this.toolStripMenuItemUseHighlighting.Checked = _useSyntaxHighlighting;
 			this.SetXmlExplorerWindowHighlighting(_useSyntaxHighlighting);
@@ -649,8 +670,7 @@ namespace XmlExplorer.Controls
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				this.HandleException(ex);
 			}
 
 			return result;
@@ -717,8 +737,7 @@ namespace XmlExplorer.Controls
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				this.HandleException(ex);
 			}
 
 			return false;
@@ -741,8 +760,7 @@ namespace XmlExplorer.Controls
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				this.HandleException(ex);
 			}
 		}
 
@@ -760,8 +778,7 @@ namespace XmlExplorer.Controls
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				this.HandleException(ex);
 			}
 		}
 
@@ -813,6 +830,45 @@ namespace XmlExplorer.Controls
 					continue;
 
 				xmlExplorerWindow.UseSyntaxHighlighting = useSyntaxHighlighting;
+			}
+		}
+
+		public void ToggleShowNodeToolTips()
+		{
+			this.ApplyShowNodeToolTips(!_showNodeToolTips);
+		}
+
+		private void ApplyShowNodeToolTips(bool value)
+		{
+			_showNodeToolTips = value;
+
+			UpdateSetting(value, "ShowNodeToolTips");
+
+			this.toolStripMenuItemShowNodeToolTips.Checked = _showNodeToolTips;
+			this.SetXmlExplorerWindowShowNodeToolTips(_showNodeToolTips);
+		}
+
+		private void UpdateSetting(object value, string propertyName)
+		{
+			_ignoreSettingsChanges = true;
+
+			try { this.Settings[propertyName] = value; }
+			catch (Exception ex) { Debug.WriteLine(ex); }
+			finally { _ignoreSettingsChanges = false; }
+
+			_settingsWindow.PropertyGrid.Refresh();
+		}
+
+		private void SetXmlExplorerWindowShowNodeToolTips(bool showNodeToolTips)
+		{
+			foreach (Form window in this.MdiChildren)
+			{
+				XmlExplorerWindow xmlExplorerWindow = window as XmlExplorerWindow;
+
+				if (xmlExplorerWindow == null)
+					continue;
+
+				xmlExplorerWindow.TreeView.ShowNodeToolTips = showNodeToolTips;
 			}
 		}
 
@@ -1009,8 +1065,7 @@ namespace XmlExplorer.Controls
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				this.HandleException(ex);
 			}
 		}
 
@@ -1040,6 +1095,8 @@ namespace XmlExplorer.Controls
 					_namespacesWindow.Show(this.dockPanel);
 				if (!_errorWindow.Visible)
 					_errorWindow.Show(this.dockPanel);
+
+				this.toolStripMenuItemFileTypes.Visible = System.Windows.DefaultApplications.IsAssociationsWindowSupported;
 			}
 			catch (Exception ex)
 			{
@@ -1254,6 +1311,19 @@ namespace XmlExplorer.Controls
 			this.ChildNodeDefinitions.Import(fileName);
 		}
 
+		private void HandleException(Exception exception)
+		{
+			try
+			{
+				Debug.WriteLine(exception);
+				MessageBox.Show(exception.ToString());
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine(ex);
+			}
+		}
+
 		#endregion
 
 		#region Event Handlers
@@ -1308,8 +1378,7 @@ namespace XmlExplorer.Controls
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				this.HandleException(ex);
 			}
 		}
 
@@ -1338,8 +1407,7 @@ namespace XmlExplorer.Controls
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				this.HandleException(ex);
 			}
 		}
 
@@ -1358,8 +1426,7 @@ namespace XmlExplorer.Controls
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				this.HandleException(ex);
 			}
 		}
 
@@ -1386,8 +1453,7 @@ namespace XmlExplorer.Controls
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				this.HandleException(ex);
 			}
 		}
 
@@ -1426,8 +1492,7 @@ namespace XmlExplorer.Controls
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				this.HandleException(ex);
 			}
 		}
 
@@ -1443,8 +1508,7 @@ namespace XmlExplorer.Controls
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				this.HandleException(ex);
 			}
 		}
 
@@ -1494,8 +1558,7 @@ namespace XmlExplorer.Controls
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				this.HandleException(ex);
 			}
 		}
 
@@ -1506,8 +1569,7 @@ namespace XmlExplorer.Controls
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				this.HandleException(ex);
 			}
 		}
 
@@ -1541,8 +1603,7 @@ namespace XmlExplorer.Controls
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				this.HandleException(ex);
 			}
 		}
 
@@ -1554,8 +1615,7 @@ namespace XmlExplorer.Controls
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				this.HandleException(ex);
 			}
 		}
 
@@ -1578,8 +1638,7 @@ namespace XmlExplorer.Controls
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				this.HandleException(ex);
 			}
 		}
 
@@ -1673,10 +1732,17 @@ namespace XmlExplorer.Controls
 		{
 			try
 			{
+				if (_ignoreSettingsChanges)
+					return;
+
 				switch (e.SettingName)
 				{
 					case "UseSyntaxHighlighting":
 						this.ApplySyntaxHighlighting((bool)e.NewValue);
+						break;
+
+					case "ShowNodeToolTips":
+						this.ApplyShowNodeToolTips((bool)e.NewValue);
 						break;
 
 					case "ForeColor":
@@ -1707,8 +1773,7 @@ namespace XmlExplorer.Controls
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				this.HandleException(ex);
 			}
 		}
 
@@ -1720,8 +1785,7 @@ namespace XmlExplorer.Controls
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				this.HandleException(ex);
 			}
 		}
 
@@ -1733,8 +1797,7 @@ namespace XmlExplorer.Controls
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				this.HandleException(ex);
 			}
 		}
 
@@ -1760,8 +1823,7 @@ namespace XmlExplorer.Controls
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				this.HandleException(ex);
 			}
 		}
 
@@ -1792,8 +1854,7 @@ namespace XmlExplorer.Controls
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				this.HandleException(ex);
 			}
 		}
 
@@ -1811,8 +1872,7 @@ namespace XmlExplorer.Controls
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				this.HandleException(ex);
 			}
 		}
 
@@ -1833,8 +1893,7 @@ namespace XmlExplorer.Controls
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				this.HandleException(ex);
 			}
 		}
 
@@ -1858,8 +1917,7 @@ namespace XmlExplorer.Controls
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				this.HandleException(ex);
 			}
 		}
 
@@ -1872,8 +1930,7 @@ namespace XmlExplorer.Controls
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				this.HandleException(ex);
 			}
 		}
 
@@ -1886,8 +1943,7 @@ namespace XmlExplorer.Controls
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				this.HandleException(ex);
 			}
 		}
 
@@ -1899,8 +1955,7 @@ namespace XmlExplorer.Controls
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				this.HandleException(ex);
 			}
 		}
 
@@ -1912,8 +1967,19 @@ namespace XmlExplorer.Controls
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				this.HandleException(ex);
+			}
+		}
+
+		private void OnToolStripMenuItemShowNodeToolTipsClick(object sender, EventArgs e)
+		{
+			try
+			{
+				this.ToggleShowNodeToolTips();
+			}
+			catch (Exception ex)
+			{
+				this.HandleException(ex);
 			}
 		}
 
@@ -1925,8 +1991,7 @@ namespace XmlExplorer.Controls
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				this.HandleException(ex);
 			}
 		}
 
@@ -1938,8 +2003,7 @@ namespace XmlExplorer.Controls
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				this.HandleException(ex);
 			}
 		}
 
@@ -1951,8 +2015,7 @@ namespace XmlExplorer.Controls
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				this.HandleException(ex);
 			}
 		}
 
@@ -1964,8 +2027,7 @@ namespace XmlExplorer.Controls
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				this.HandleException(ex);
 			}
 		}
 
@@ -1981,8 +2043,7 @@ namespace XmlExplorer.Controls
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				this.HandleException(ex);
 			}
 		}
 
@@ -1994,8 +2055,7 @@ namespace XmlExplorer.Controls
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				this.HandleException(ex);
 			}
 		}
 
@@ -2007,8 +2067,7 @@ namespace XmlExplorer.Controls
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				this.HandleException(ex);
 			}
 		}
 
@@ -2031,8 +2090,7 @@ namespace XmlExplorer.Controls
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				this.HandleException(ex);
 			}
 		}
 
@@ -2049,8 +2107,7 @@ namespace XmlExplorer.Controls
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				this.HandleException(ex);
 			}
 		}
 
@@ -2062,8 +2119,7 @@ namespace XmlExplorer.Controls
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				this.HandleException(ex);
 			}
 		}
 
@@ -2075,8 +2131,7 @@ namespace XmlExplorer.Controls
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				this.HandleException(ex);
 			}
 		}
 
@@ -2088,8 +2143,7 @@ namespace XmlExplorer.Controls
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				this.HandleException(ex);
 			}
 		}
 
@@ -2101,8 +2155,7 @@ namespace XmlExplorer.Controls
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				this.HandleException(ex);
 			}
 		}
 
@@ -2114,8 +2167,7 @@ namespace XmlExplorer.Controls
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				this.HandleException(ex);
 			}
 		}
 
@@ -2127,8 +2179,7 @@ namespace XmlExplorer.Controls
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				this.HandleException(ex);
 			}
 		}
 
@@ -2151,8 +2202,7 @@ namespace XmlExplorer.Controls
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				this.HandleException(ex);
 			}
 			finally
 			{
@@ -2184,8 +2234,7 @@ namespace XmlExplorer.Controls
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				this.HandleException(ex);
 			}
 		}
 
@@ -2198,8 +2247,7 @@ namespace XmlExplorer.Controls
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				this.HandleException(ex);
 			}
 		}
 
@@ -2214,8 +2262,7 @@ namespace XmlExplorer.Controls
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				this.HandleException(ex);
 			}
 		}
 
@@ -2227,8 +2274,7 @@ namespace XmlExplorer.Controls
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				this.HandleException(ex);
 			}
 		}
 
@@ -2240,8 +2286,7 @@ namespace XmlExplorer.Controls
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				this.HandleException(ex);
 			}
 		}
 
@@ -2253,8 +2298,7 @@ namespace XmlExplorer.Controls
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				this.HandleException(ex);
 			}
 		}
 
@@ -2266,8 +2310,7 @@ namespace XmlExplorer.Controls
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				this.HandleException(ex);
 			}
 		}
 
@@ -2279,8 +2322,7 @@ namespace XmlExplorer.Controls
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				this.HandleException(ex);
 			}
 		}
 
@@ -2292,12 +2334,23 @@ namespace XmlExplorer.Controls
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				this.HandleException(ex);
+			}
+		}
+
+		private void toolStripMenuItemFileTypes_Click(object sender, EventArgs e)
+		{
+			try
+			{
+				if (System.Windows.DefaultApplications.IsAssociationsWindowSupported)
+					System.Windows.DefaultApplications.ShowAssociationsWindow("XML Explorer");
+			}
+			catch (Exception ex)
+			{
+				this.HandleException(ex);
 			}
 		}
 
 		#endregion
 	}
 }
-

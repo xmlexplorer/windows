@@ -437,16 +437,22 @@
 </value>
   </data>
   <data name="toolStripMenuItemFont.Size" type="System.Drawing.Size, System.Drawing">
-    <value>159, 22</value>
+    <value>184, 22</value>
   </data>
   <data name="toolStripMenuItemFont.Text" xml:space="preserve">
     <value>&amp;Font...</value>
   </data>
   <data name="toolStripMenuItemUseHighlighting.Size" type="System.Drawing.Size, System.Drawing">
-    <value>159, 22</value>
+    <value>184, 22</value>
   </data>
   <data name="toolStripMenuItemUseHighlighting.Text" xml:space="preserve">
     <value>&amp;Use Highlighing</value>
+  </data>
+  <data name="toolStripMenuItemShowNodeToolTips.Size" type="System.Drawing.Size, System.Drawing">
+    <value>184, 22</value>
+  </data>
+  <data name="toolStripMenuItemShowNodeToolTips.Text" xml:space="preserve">
+    <value>&amp;Show Node ToolTips</value>
   </data>
   <data name="toolStripMenuItemFormat.Size" type="System.Drawing.Size, System.Drawing">
     <value>57, 20</value>
@@ -461,6 +467,15 @@
     <value>&amp;Options...</value>
   </data>
   <data name="toolStripSeparator12.Size" type="System.Drawing.Size, System.Drawing">
+    <value>234, 6</value>
+  </data>
+  <data name="toolStripMenuItemFileTypes.Size" type="System.Drawing.Size, System.Drawing">
+    <value>237, 22</value>
+  </data>
+  <data name="toolStripMenuItemFileTypes.Text" xml:space="preserve">
+    <value>&amp;Choose file type associations...</value>
+  </data>
+  <data name="toolStripSeparator13.Size" type="System.Drawing.Size, System.Drawing">
     <value>234, 6</value>
   </data>
   <data name="importChildNodeDefinitionsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
@@ -2401,6 +2416,18 @@ Press Shift+Enter (or Launch button) to open the expression results in a new win
   <data name="&gt;&gt;toolStripSeparator12.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;toolStripMenuItemFileTypes.Name" xml:space="preserve">
+    <value>toolStripMenuItemFileTypes</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItemFileTypes.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator13.Name" xml:space="preserve">
+    <value>toolStripSeparator13</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator13.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;importChildNodeDefinitionsToolStripMenuItem.Name" xml:space="preserve">
     <value>importChildNodeDefinitionsToolStripMenuItem</value>
   </data>
@@ -2609,6 +2636,12 @@ Press Shift+Enter (or Launch button) to open the expression results in a new win
     <value>contextMenuStripItemNodesCollapeAll</value>
   </data>
   <data name="&gt;&gt;contextMenuStripItemNodesCollapeAll.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItemShowNodeToolTips.Name" xml:space="preserve">
+    <value>toolStripMenuItemShowNodeToolTips</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItemShowNodeToolTips.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">

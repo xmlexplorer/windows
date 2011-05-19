@@ -38,6 +38,14 @@ namespace XmlExplorer.Controls
 			}
 		}
 
+		public PropertyGrid PropertyGrid
+		{
+			get
+			{
+				return this.propertyGrid;
+			}
+		}
+
 		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
 			base.OnFormClosing(e);

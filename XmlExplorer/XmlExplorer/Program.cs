@@ -77,6 +77,7 @@ namespace XmlExplorer
 
 				// UseSyntaxHighlighting
 				window.UseSyntaxHighlighting = Properties.Settings.Default.UseSyntaxHighlighting;
+				window.ShowNodeToolTips = Properties.Settings.Default.ShowNodeToolTips;
 
 				// XPath Expression Library
 				window.Expressions = Properties.Settings.Default.Expressions;
@@ -294,6 +295,7 @@ namespace XmlExplorer
 			Properties.Settings.Default.Expressions = window.Expressions;
 			Properties.Settings.Default.RecentlyUsedFiles = window.RecentlyUsedFiles;
 			Properties.Settings.Default.ChildNodeDefinitions = window.ChildNodeDefinitions;
+			Properties.Settings.Default.ShowNodeToolTips = window.ShowNodeToolTips;
 		}
 
 		#endregion

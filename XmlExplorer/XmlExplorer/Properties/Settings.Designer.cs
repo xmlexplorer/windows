@@ -191,5 +191,17 @@ namespace XmlExplorer.Properties {
                 this["ChildNodeDefinitions"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ShowNodeToolTips {
+            get {
+                return ((bool)(this["ShowNodeToolTips"]));
+            }
+            set {
+                this["ShowNodeToolTips"] = value;
+            }
+        }
     }
 }

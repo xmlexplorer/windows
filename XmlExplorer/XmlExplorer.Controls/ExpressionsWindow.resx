@@ -204,6 +204,9 @@
   <data name="toolStripButtonEditExpressions.Text" xml:space="preserve">
     <value>Edit Expressions...</value>
   </data>
+  <data name="toolStripButtonDelete.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="toolStripButtonDelete.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
     <value>Magenta</value>
   </data>
@@ -220,7 +223,7 @@
     <value>Filter expressions list</value>
   </data>
   <data name="toolStripSpringTextBoxFilter.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 22</value>
+    <value>465, 25</value>
   </data>
   <data name="toolStrip1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>

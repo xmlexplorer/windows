@@ -85,6 +85,8 @@ namespace XmlExplorer.Controls
 			this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItemOptions = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
+			this.toolStripMenuItemFileTypes = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
 			this.importChildNodeDefinitionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.exportChildNodeDefinitionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItemHelp = new System.Windows.Forms.ToolStripMenuItem();
@@ -124,6 +126,7 @@ namespace XmlExplorer.Controls
 			this.contextMenuStripItemNodesExpandAll = new System.Windows.Forms.ToolStripMenuItem();
 			this.contextMenuStripItemNodesCollapeAll = new System.Windows.Forms.ToolStripMenuItem();
 			this.dockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
+			this.toolStripMenuItemShowNodeToolTips = new System.Windows.Forms.ToolStripMenuItem();
 			this.statusStrip.SuspendLayout();
 			this.menuStripMain.SuspendLayout();
 			this.toolStripStandardButtons.SuspendLayout();
@@ -343,7 +346,8 @@ namespace XmlExplorer.Controls
 			// 
 			this.toolStripMenuItemFormat.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemFont,
-            this.toolStripMenuItemUseHighlighting});
+            this.toolStripMenuItemUseHighlighting,
+            this.toolStripMenuItemShowNodeToolTips});
 			this.toolStripMenuItemFormat.Name = "toolStripMenuItemFormat";
 			resources.ApplyResources(this.toolStripMenuItemFormat, "toolStripMenuItemFormat");
 			// 
@@ -362,6 +366,8 @@ namespace XmlExplorer.Controls
 			this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemOptions,
             this.toolStripSeparator12,
+            this.toolStripMenuItemFileTypes,
+            this.toolStripSeparator13,
             this.importChildNodeDefinitionsToolStripMenuItem,
             this.exportChildNodeDefinitionsToolStripMenuItem});
 			this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
@@ -377,6 +383,17 @@ namespace XmlExplorer.Controls
 			// 
 			this.toolStripSeparator12.Name = "toolStripSeparator12";
 			resources.ApplyResources(this.toolStripSeparator12, "toolStripSeparator12");
+			// 
+			// toolStripMenuItemFileTypes
+			// 
+			this.toolStripMenuItemFileTypes.Name = "toolStripMenuItemFileTypes";
+			resources.ApplyResources(this.toolStripMenuItemFileTypes, "toolStripMenuItemFileTypes");
+			this.toolStripMenuItemFileTypes.Click += new System.EventHandler(this.toolStripMenuItemFileTypes_Click);
+			// 
+			// toolStripSeparator13
+			// 
+			this.toolStripSeparator13.Name = "toolStripSeparator13";
+			resources.ApplyResources(this.toolStripSeparator13, "toolStripSeparator13");
 			// 
 			// importChildNodeDefinitionsToolStripMenuItem
 			// 
@@ -678,6 +695,13 @@ namespace XmlExplorer.Controls
 			dockPanelSkin1.DockPaneStripSkin = dockPaneStripSkin1;
 			this.dockPanel.Skin = dockPanelSkin1;
 			// 
+			// toolStripMenuItemShowNodeToolTips
+			// 
+			this.toolStripMenuItemShowNodeToolTips.Checked = true;
+			this.toolStripMenuItemShowNodeToolTips.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.toolStripMenuItemShowNodeToolTips.Name = "toolStripMenuItemShowNodeToolTips";
+			resources.ApplyResources(this.toolStripMenuItemShowNodeToolTips, "toolStripMenuItemShowNodeToolTips");
+			// 
 			// TabbedXmlExplorerWindow
 			// 
 			resources.ApplyResources(this, "$this");
@@ -780,5 +804,8 @@ namespace XmlExplorer.Controls
 		private ToolStripSeparator toolStripSeparator12;
 		private ToolStripMenuItem importChildNodeDefinitionsToolStripMenuItem;
 		private ToolStripMenuItem exportChildNodeDefinitionsToolStripMenuItem;
+		private ToolStripMenuItem toolStripMenuItemFileTypes;
+		private ToolStripSeparator toolStripSeparator13;
+		private ToolStripMenuItem toolStripMenuItemShowNodeToolTips;
 	}
 }
