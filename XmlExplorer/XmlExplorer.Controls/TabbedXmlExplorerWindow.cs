@@ -76,6 +76,8 @@ namespace XmlExplorer.Controls
 			this.toolStripMenuItemEdit.DropDownOpening += this.OnToolStripMenuItemEditDropDownOpening;
 			this.toolStripMenuItemView.DropDownOpening += this.OnToolStripMenuItemViewDropDownOpening;
 
+			this.contextMenuStripNodes.Opening += this.OnContextMenuStripNodesOpening;
+
 			this.toolStripTextBoxXpath.KeyDown += this.OnToolStripTextBoxXpathKeyDown;
 			this.toolStripTextBoxXpath.TextChanged += this.OnToolStripTextBoxXpathTextChanged;
 
@@ -107,7 +109,7 @@ namespace XmlExplorer.Controls
 			this.toolStripButtonCopyFormattedOuterXml.Click += this.OnToolStripButtonCopyFormattedOuterXmlClick;
 			this.toolStripMenuItemCopyFormattedOuterXml.Click += this.OnToolStripButtonCopyFormattedOuterXmlClick;
 			this.contextMenuStripNodesItemCopyFormattedOuterXml.Click += this.OnToolStripButtonCopyFormattedOuterXmlClick;
-
+			
 			this.toolStripMenuItemCopy.Click += this.OnToolStripMenuItemCopyClick;
 			this.contextMenuStripNodesItemCopy.Click += this.OnToolStripMenuItemCopyClick;
 
@@ -2052,6 +2054,62 @@ namespace XmlExplorer.Controls
 			try
 			{
 				this.CopyFormattedOuterXml();
+			}
+			catch (Exception ex)
+			{
+				this.HandleException(ex);
+			}
+		}
+
+		private void OnContextMenuStripNodesOpening(object sender, System.ComponentModel.CancelEventArgs e)
+		{
+			try
+			{
+				XmlExplorerWindow window = this.ActiveMdiChild as XmlExplorerWindow;
+				if (window == null)
+					return;
+
+				XPathNavigatorTreeNode node = window.TreeView.SelectedNode as XPathNavigatorTreeNode;
+				if (node == null)
+					return;
+
+				if (node.Navigator == null)
+					return;
+
+				if (this.contextMenuStripNodesItemCopyXPathAttributes.DropDownItems != null)
+					foreach (ToolStripItem item in this.contextMenuStripNodesItemCopyXPathAttributes.DropDownItems)
+						item.Click -= this.OnCopyAttributeXPathClick; // not sure we need to do this, but memory leaks suck -mbelles
+				
+				this.contextMenuStripNodesItemCopyXPathAttributes.DropDownItems.Clear();
+
+				List<KeyValuePair<string, string>> pairs = window.TreeView.GetAttributeXPaths(node.Navigator);
+				if (pairs == null)
+				{
+					this.contextMenuStripNodesItemCopyXPathAttributes.DropDownItems.Add("No Attributes Available");
+					return;
+				}
+
+				foreach (KeyValuePair<string, string> pair in pairs)
+				{
+					ToolStripMenuItem item = new ToolStripMenuItem(pair.Key);
+					item.Click += this.OnCopyAttributeXPathClick;
+					item.Tag = pair.Value;
+
+					this.contextMenuStripNodesItemCopyXPathAttributes.DropDownItems.Add(item);
+				}
+			}
+			catch (Exception ex)
+			{
+				this.HandleException(ex);
+			}
+		}
+
+		private void OnCopyAttributeXPathClick(object sender, EventArgs e)
+		{
+			try
+			{
+				ToolStripMenuItem item = (ToolStripMenuItem)sender;				
+				this.toolStripTextBoxXpath.Text = item.Tag as string;
 			}
 			catch (Exception ex)
 			{

@@ -82,6 +82,7 @@ namespace XmlExplorer.Controls
 			this.toolStripMenuItemFormat = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItemFont = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItemUseHighlighting = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItemShowNodeToolTips = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItemOptions = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
@@ -126,7 +127,8 @@ namespace XmlExplorer.Controls
 			this.contextMenuStripItemNodesExpandAll = new System.Windows.Forms.ToolStripMenuItem();
 			this.contextMenuStripItemNodesCollapeAll = new System.Windows.Forms.ToolStripMenuItem();
 			this.dockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
-			this.toolStripMenuItemShowNodeToolTips = new System.Windows.Forms.ToolStripMenuItem();
+			this.contextMenuStripNodesItemCopyXPathAttributes = new System.Windows.Forms.ToolStripMenuItem();
+			this.contextMenuStripAttributes = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.statusStrip.SuspendLayout();
 			this.menuStripMain.SuspendLayout();
 			this.toolStripStandardButtons.SuspendLayout();
@@ -360,6 +362,13 @@ namespace XmlExplorer.Controls
 			// 
 			this.toolStripMenuItemUseHighlighting.Name = "toolStripMenuItemUseHighlighting";
 			resources.ApplyResources(this.toolStripMenuItemUseHighlighting, "toolStripMenuItemUseHighlighting");
+			// 
+			// toolStripMenuItemShowNodeToolTips
+			// 
+			this.toolStripMenuItemShowNodeToolTips.Checked = true;
+			this.toolStripMenuItemShowNodeToolTips.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.toolStripMenuItemShowNodeToolTips.Name = "toolStripMenuItemShowNodeToolTips";
+			resources.ApplyResources(this.toolStripMenuItemShowNodeToolTips, "toolStripMenuItemShowNodeToolTips");
 			// 
 			// toolsToolStripMenuItem
 			// 
@@ -604,6 +613,7 @@ namespace XmlExplorer.Controls
             this.contextMenuStripNodesItemCopy,
             this.contextMenuStripNodesItemCopyFormattedOuterXml,
             this.contextMenuStripNodesItemCopyXPath,
+            this.contextMenuStripNodesItemCopyXPathAttributes,
             this.toolStripSeparator9,
             this.contextMenuStripItemNodesExpandAll,
             this.contextMenuStripItemNodesCollapeAll});
@@ -695,12 +705,18 @@ namespace XmlExplorer.Controls
 			dockPanelSkin1.DockPaneStripSkin = dockPaneStripSkin1;
 			this.dockPanel.Skin = dockPanelSkin1;
 			// 
-			// toolStripMenuItemShowNodeToolTips
+			// contextMenuStripNodesItemCopyXPathAttributes
 			// 
-			this.toolStripMenuItemShowNodeToolTips.Checked = true;
-			this.toolStripMenuItemShowNodeToolTips.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.toolStripMenuItemShowNodeToolTips.Name = "toolStripMenuItemShowNodeToolTips";
-			resources.ApplyResources(this.toolStripMenuItemShowNodeToolTips, "toolStripMenuItemShowNodeToolTips");
+			this.contextMenuStripNodesItemCopyXPathAttributes.DropDown = this.contextMenuStripAttributes;
+			this.contextMenuStripNodesItemCopyXPathAttributes.Image = global::XmlExplorer.Controls.Properties.Resources.CopyHS;
+			this.contextMenuStripNodesItemCopyXPathAttributes.Name = "contextMenuStripNodesItemCopyXPathAttributes";
+			resources.ApplyResources(this.contextMenuStripNodesItemCopyXPathAttributes, "contextMenuStripNodesItemCopyXPathAttributes");
+			// 
+			// contextMenuStripAttributes
+			// 
+			this.contextMenuStripAttributes.Name = "contextMenuStripNodes";
+			this.contextMenuStripAttributes.OwnerItem = this.contextMenuStripNodesItemCopyXPathAttributes;
+			resources.ApplyResources(this.contextMenuStripAttributes, "contextMenuStripAttributes");
 			// 
 			// TabbedXmlExplorerWindow
 			// 
@@ -807,5 +823,7 @@ namespace XmlExplorer.Controls
 		private ToolStripMenuItem toolStripMenuItemFileTypes;
 		private ToolStripSeparator toolStripSeparator13;
 		private ToolStripMenuItem toolStripMenuItemShowNodeToolTips;
+		private ToolStripMenuItem contextMenuStripNodesItemCopyXPathAttributes;
+		private ContextMenuStrip contextMenuStripAttributes;
 	}
 }

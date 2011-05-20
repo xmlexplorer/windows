@@ -1136,12 +1136,42 @@ namespace XmlExplorer.TreeView
 			return sb.ToString();
 		}
 
+		public List<KeyValuePair<string, string>> GetAttributeXPaths(XPathNavigator navigator)
+		{
+			XPathNavigator n = navigator.Clone();
+			if (!n.HasAttributes)
+				return null;
+
+			string xpath = this.GetXmlNodeFullPath(navigator);
+			List<KeyValuePair<string, string>> pairs = new List<KeyValuePair<string, string>>();			
+			
+			// first attribute
+			n.MoveToFirstAttribute();
+			pairs.Add(this.FormatNameAndXPath(xpath, n.Name, n.Value));
+
+			// subsequent attributes
+			while (n.MoveToNextAttribute())
+				pairs.Add(this.FormatNameAndXPath(xpath, n.Name, n.Value));
+				
+			return pairs;
+		}
+
+		public KeyValuePair<string, string> FormatNameAndXPath(string nodeXPath, string name, string value)
+		{
+			string displayName = "@" + name;
+			string attributeValue = string.IsNullOrWhiteSpace(value) ? "value" : value;
+			string xpath = string.Format("{0}[@{1}='{2}']", nodeXPath, name, attributeValue);
+
+			// key=@name, value=/a/b/c[@name='value']
+			return new KeyValuePair<string, string>(displayName, xpath);
+		}
+
 		private void OnValidationEvent(object sender, ValidationEventArgs e)
 		{
 			Error error = new Error();
 			error.Description = e.Message;
 			error.Category = e.Severity;
-
+			
 			XmlSchemaValidationException exception = e.Exception as XmlSchemaValidationException;
 			if (exception != null)
 			{
