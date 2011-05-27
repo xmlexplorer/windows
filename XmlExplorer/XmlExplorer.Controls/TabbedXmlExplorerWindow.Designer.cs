@@ -72,8 +72,10 @@ namespace XmlExplorer.Controls
 			this.toolStripMenuItemExit = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItemEdit = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItemCopy = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItemCopyNodeValueBase64 = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItemCopyFormattedOuterXml = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItemCopyXPath = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItemCopyAttributesXPath = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStripMenuItemExpandAll = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItemCollapseAll = new System.Windows.Forms.ToolStripMenuItem();
@@ -121,14 +123,18 @@ namespace XmlExplorer.Controls
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.contextMenuStripNodes = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.contextMenuStripNodesItemCopy = new System.Windows.Forms.ToolStripMenuItem();
+			this.contextMenuStripItemCopyNodeValueBase64 = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
 			this.contextMenuStripNodesItemCopyFormattedOuterXml = new System.Windows.Forms.ToolStripMenuItem();
 			this.contextMenuStripNodesItemCopyXPath = new System.Windows.Forms.ToolStripMenuItem();
+			this.contextMenuStripNodesItemCopyXPathAttributes = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
 			this.contextMenuStripItemNodesExpandAll = new System.Windows.Forms.ToolStripMenuItem();
 			this.contextMenuStripItemNodesCollapeAll = new System.Windows.Forms.ToolStripMenuItem();
 			this.dockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
-			this.contextMenuStripNodesItemCopyXPathAttributes = new System.Windows.Forms.ToolStripMenuItem();
-			this.contextMenuStripAttributes = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.toolStripSeparator15 = new System.Windows.Forms.ToolStripSeparator();
+			this.toolStripMenuItemCopyNodeTextBase64 = new System.Windows.Forms.ToolStripMenuItem();
+			this.contextMenuStripItemCopyNodeTextBase64 = new System.Windows.Forms.ToolStripMenuItem();
 			this.statusStrip.SuspendLayout();
 			this.menuStripMain.SuspendLayout();
 			this.toolStripStandardButtons.SuspendLayout();
@@ -291,8 +297,12 @@ namespace XmlExplorer.Controls
 			// 
 			this.toolStripMenuItemEdit.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemCopy,
+            this.toolStripMenuItemCopyNodeTextBase64,
+            this.toolStripMenuItemCopyNodeValueBase64,
+            this.toolStripSeparator15,
             this.toolStripMenuItemCopyFormattedOuterXml,
             this.toolStripMenuItemCopyXPath,
+            this.toolStripMenuItemCopyAttributesXPath,
             this.toolStripSeparator10,
             this.toolStripMenuItemExpandAll,
             this.toolStripMenuItemCollapseAll});
@@ -304,6 +314,12 @@ namespace XmlExplorer.Controls
 			resources.ApplyResources(this.toolStripMenuItemCopy, "toolStripMenuItemCopy");
 			this.toolStripMenuItemCopy.Name = "toolStripMenuItemCopy";
 			// 
+			// toolStripMenuItemCopyNodeValueBase64
+			// 
+			this.toolStripMenuItemCopyNodeValueBase64.Image = global::XmlExplorer.Controls.Properties.Resources.CopyHS;
+			this.toolStripMenuItemCopyNodeValueBase64.Name = "toolStripMenuItemCopyNodeValueBase64";
+			resources.ApplyResources(this.toolStripMenuItemCopyNodeValueBase64, "toolStripMenuItemCopyNodeValueBase64");
+			// 
 			// toolStripMenuItemCopyFormattedOuterXml
 			// 
 			resources.ApplyResources(this.toolStripMenuItemCopyFormattedOuterXml, "toolStripMenuItemCopyFormattedOuterXml");
@@ -314,6 +330,12 @@ namespace XmlExplorer.Controls
 			this.toolStripMenuItemCopyXPath.Image = global::XmlExplorer.Controls.Properties.Resources.CopyHS;
 			this.toolStripMenuItemCopyXPath.Name = "toolStripMenuItemCopyXPath";
 			resources.ApplyResources(this.toolStripMenuItemCopyXPath, "toolStripMenuItemCopyXPath");
+			// 
+			// toolStripMenuItemCopyAttributesXPath
+			// 
+			this.toolStripMenuItemCopyAttributesXPath.Image = global::XmlExplorer.Controls.Properties.Resources.CopyHS;
+			this.toolStripMenuItemCopyAttributesXPath.Name = "toolStripMenuItemCopyAttributesXPath";
+			resources.ApplyResources(this.toolStripMenuItemCopyAttributesXPath, "toolStripMenuItemCopyAttributesXPath");
 			// 
 			// toolStripSeparator10
 			// 
@@ -611,6 +633,9 @@ namespace XmlExplorer.Controls
 			// 
 			this.contextMenuStripNodes.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.contextMenuStripNodesItemCopy,
+            this.contextMenuStripItemCopyNodeTextBase64,
+            this.contextMenuStripItemCopyNodeValueBase64,
+            this.toolStripSeparator14,
             this.contextMenuStripNodesItemCopyFormattedOuterXml,
             this.contextMenuStripNodesItemCopyXPath,
             this.contextMenuStripNodesItemCopyXPathAttributes,
@@ -625,6 +650,17 @@ namespace XmlExplorer.Controls
 			resources.ApplyResources(this.contextMenuStripNodesItemCopy, "contextMenuStripNodesItemCopy");
 			this.contextMenuStripNodesItemCopy.Name = "contextMenuStripNodesItemCopy";
 			// 
+			// contextMenuStripItemCopyNodeValueBase64
+			// 
+			this.contextMenuStripItemCopyNodeValueBase64.Image = global::XmlExplorer.Controls.Properties.Resources.CopyHS;
+			this.contextMenuStripItemCopyNodeValueBase64.Name = "contextMenuStripItemCopyNodeValueBase64";
+			resources.ApplyResources(this.contextMenuStripItemCopyNodeValueBase64, "contextMenuStripItemCopyNodeValueBase64");
+			// 
+			// toolStripSeparator14
+			// 
+			this.toolStripSeparator14.Name = "toolStripSeparator14";
+			resources.ApplyResources(this.toolStripSeparator14, "toolStripSeparator14");
+			// 
 			// contextMenuStripNodesItemCopyFormattedOuterXml
 			// 
 			resources.ApplyResources(this.contextMenuStripNodesItemCopyFormattedOuterXml, "contextMenuStripNodesItemCopyFormattedOuterXml");
@@ -635,6 +671,12 @@ namespace XmlExplorer.Controls
 			this.contextMenuStripNodesItemCopyXPath.Image = global::XmlExplorer.Controls.Properties.Resources.CopyHS;
 			this.contextMenuStripNodesItemCopyXPath.Name = "contextMenuStripNodesItemCopyXPath";
 			resources.ApplyResources(this.contextMenuStripNodesItemCopyXPath, "contextMenuStripNodesItemCopyXPath");
+			// 
+			// contextMenuStripNodesItemCopyXPathAttributes
+			// 
+			this.contextMenuStripNodesItemCopyXPathAttributes.Image = global::XmlExplorer.Controls.Properties.Resources.CopyHS;
+			this.contextMenuStripNodesItemCopyXPathAttributes.Name = "contextMenuStripNodesItemCopyXPathAttributes";
+			resources.ApplyResources(this.contextMenuStripNodesItemCopyXPathAttributes, "contextMenuStripNodesItemCopyXPathAttributes");
 			// 
 			// toolStripSeparator9
 			// 
@@ -705,18 +747,22 @@ namespace XmlExplorer.Controls
 			dockPanelSkin1.DockPaneStripSkin = dockPaneStripSkin1;
 			this.dockPanel.Skin = dockPanelSkin1;
 			// 
-			// contextMenuStripNodesItemCopyXPathAttributes
+			// toolStripSeparator15
 			// 
-			this.contextMenuStripNodesItemCopyXPathAttributes.DropDown = this.contextMenuStripAttributes;
-			this.contextMenuStripNodesItemCopyXPathAttributes.Image = global::XmlExplorer.Controls.Properties.Resources.CopyHS;
-			this.contextMenuStripNodesItemCopyXPathAttributes.Name = "contextMenuStripNodesItemCopyXPathAttributes";
-			resources.ApplyResources(this.contextMenuStripNodesItemCopyXPathAttributes, "contextMenuStripNodesItemCopyXPathAttributes");
+			this.toolStripSeparator15.Name = "toolStripSeparator15";
+			resources.ApplyResources(this.toolStripSeparator15, "toolStripSeparator15");
 			// 
-			// contextMenuStripAttributes
+			// toolStripMenuItemCopyNodeTextBase64
 			// 
-			this.contextMenuStripAttributes.Name = "contextMenuStripNodes";
-			this.contextMenuStripAttributes.OwnerItem = this.contextMenuStripNodesItemCopyXPathAttributes;
-			resources.ApplyResources(this.contextMenuStripAttributes, "contextMenuStripAttributes");
+			this.toolStripMenuItemCopyNodeTextBase64.Image = global::XmlExplorer.Controls.Properties.Resources.CopyHS;
+			this.toolStripMenuItemCopyNodeTextBase64.Name = "toolStripMenuItemCopyNodeTextBase64";
+			resources.ApplyResources(this.toolStripMenuItemCopyNodeTextBase64, "toolStripMenuItemCopyNodeTextBase64");
+			// 
+			// contextMenuStripItemCopyNodeTextBase64
+			// 
+			this.contextMenuStripItemCopyNodeTextBase64.Image = global::XmlExplorer.Controls.Properties.Resources.CopyHS;
+			this.contextMenuStripItemCopyNodeTextBase64.Name = "contextMenuStripItemCopyNodeTextBase64";
+			resources.ApplyResources(this.contextMenuStripItemCopyNodeTextBase64, "contextMenuStripItemCopyNodeTextBase64");
 			// 
 			// TabbedXmlExplorerWindow
 			// 
@@ -824,6 +870,12 @@ namespace XmlExplorer.Controls
 		private ToolStripSeparator toolStripSeparator13;
 		private ToolStripMenuItem toolStripMenuItemShowNodeToolTips;
 		private ToolStripMenuItem contextMenuStripNodesItemCopyXPathAttributes;
-		private ContextMenuStrip contextMenuStripAttributes;
+		private ToolStripMenuItem toolStripMenuItemCopyAttributesXPath;
+		private ToolStripMenuItem toolStripMenuItemCopyNodeValueBase64;
+		private ToolStripMenuItem contextMenuStripItemCopyNodeValueBase64;
+		private ToolStripSeparator toolStripSeparator14;
+		private ToolStripMenuItem toolStripMenuItemCopyNodeTextBase64;
+		private ToolStripSeparator toolStripSeparator15;
+		private ToolStripMenuItem contextMenuStripItemCopyNodeTextBase64;
 	}
 }

@@ -168,7 +168,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;statusStrip.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>6</value>
   </data>
   <metadata name="menuStripMain.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
@@ -339,6 +339,21 @@
   <data name="toolStripMenuItemCopy.Text" xml:space="preserve">
     <value>&amp;Copy</value>
   </data>
+  <data name="toolStripMenuItemCopyNodeTextBase64.Size" type="System.Drawing.Size, System.Drawing">
+    <value>312, 22</value>
+  </data>
+  <data name="toolStripMenuItemCopyNodeTextBase64.Text" xml:space="preserve">
+    <value>Copy (Base64 Decoded)</value>
+  </data>
+  <data name="toolStripMenuItemCopyNodeValueBase64.Size" type="System.Drawing.Size, System.Drawing">
+    <value>312, 22</value>
+  </data>
+  <data name="toolStripMenuItemCopyNodeValueBase64.Text" xml:space="preserve">
+    <value>Copy Value (Base64 Decoded)</value>
+  </data>
+  <data name="toolStripSeparator15.Size" type="System.Drawing.Size, System.Drawing">
+    <value>309, 6</value>
+  </data>
   <data name="toolStripMenuItemCopyFormattedOuterXml.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
@@ -374,6 +389,12 @@
   </data>
   <data name="toolStripMenuItemCopyXPath.Text" xml:space="preserve">
     <value>Copy Node &amp;XPath to Address Bar</value>
+  </data>
+  <data name="toolStripMenuItemCopyAttributesXPath.Size" type="System.Drawing.Size, System.Drawing">
+    <value>312, 22</value>
+  </data>
+  <data name="toolStripMenuItemCopyAttributesXPath.Text" xml:space="preserve">
+    <value>Copy Node XPath for Attributes</value>
   </data>
   <data name="toolStripSeparator10.Size" type="System.Drawing.Size, System.Drawing">
     <value>309, 6</value>
@@ -539,7 +560,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;menuStripMain.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>5</value>
   </data>
   <metadata name="toolStripStandardButtons.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>143, 17</value>
@@ -778,7 +799,7 @@ Press Shift+Enter (or Launch button) to open the expression results in a new win
     <value>$this</value>
   </data>
   <data name="&gt;&gt;toolStripStandardButtons.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>4</value>
   </data>
   <metadata name="contextMenuStripTabs.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>423, 17</value>
@@ -843,6 +864,21 @@ Press Shift+Enter (or Launch button) to open the expression results in a new win
   <data name="contextMenuStripNodesItemCopy.Text" xml:space="preserve">
     <value>&amp;Copy</value>
   </data>
+  <data name="contextMenuStripItemCopyNodeTextBase64.Size" type="System.Drawing.Size, System.Drawing">
+    <value>247, 22</value>
+  </data>
+  <data name="contextMenuStripItemCopyNodeTextBase64.Text" xml:space="preserve">
+    <value>Copy (Base64 Decoded)</value>
+  </data>
+  <data name="contextMenuStripItemCopyNodeValueBase64.Size" type="System.Drawing.Size, System.Drawing">
+    <value>247, 22</value>
+  </data>
+  <data name="contextMenuStripItemCopyNodeValueBase64.Text" xml:space="preserve">
+    <value>Copy Value (Base64 Decoded)</value>
+  </data>
+  <data name="toolStripSeparator14.Size" type="System.Drawing.Size, System.Drawing">
+    <value>244, 6</value>
+  </data>
   <data name="contextMenuStripNodesItemCopyFormattedOuterXml.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
@@ -873,18 +909,6 @@ Press Shift+Enter (or Launch button) to open the expression results in a new win
   <data name="contextMenuStripNodesItemCopyXPath.Text" xml:space="preserve">
     <value>Copy Node &amp;XPath to Address Bar</value>
   </data>
-  <metadata name="contextMenuStripAttributes.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>201, 53</value>
-  </metadata>
-  <data name="contextMenuStripAttributes.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 26</value>
-  </data>
-  <data name="&gt;&gt;contextMenuStripAttributes.Name" xml:space="preserve">
-    <value>contextMenuStripAttributes</value>
-  </data>
-  <data name="&gt;&gt;contextMenuStripAttributes.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="contextMenuStripNodesItemCopyXPathAttributes.Size" type="System.Drawing.Size, System.Drawing">
     <value>247, 22</value>
   </data>
@@ -907,7 +931,7 @@ Press Shift+Enter (or Launch button) to open the expression results in a new win
     <value>Colla&amp;pse All</value>
   </data>
   <data name="contextMenuStripNodes.Size" type="System.Drawing.Size, System.Drawing">
-    <value>248, 164</value>
+    <value>248, 214</value>
   </data>
   <data name="&gt;&gt;contextMenuStripNodes.Name" xml:space="preserve">
     <value>contextMenuStripNodes</value>
@@ -937,7 +961,7 @@ Press Shift+Enter (or Launch button) to open the expression results in a new win
     <value>$this</value>
   </data>
   <data name="&gt;&gt;dockPanel.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>3</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -2356,6 +2380,12 @@ Press Shift+Enter (or Launch button) to open the expression results in a new win
   <data name="&gt;&gt;toolStripMenuItemCopy.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;toolStripMenuItemCopyNodeValueBase64.Name" xml:space="preserve">
+    <value>toolStripMenuItemCopyNodeValueBase64</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItemCopyNodeValueBase64.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;toolStripMenuItemCopyFormattedOuterXml.Name" xml:space="preserve">
     <value>toolStripMenuItemCopyFormattedOuterXml</value>
   </data>
@@ -2366,6 +2396,12 @@ Press Shift+Enter (or Launch button) to open the expression results in a new win
     <value>toolStripMenuItemCopyXPath</value>
   </data>
   <data name="&gt;&gt;toolStripMenuItemCopyXPath.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItemCopyAttributesXPath.Name" xml:space="preserve">
+    <value>toolStripMenuItemCopyAttributesXPath</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItemCopyAttributesXPath.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;toolStripSeparator10.Name" xml:space="preserve">
@@ -2632,6 +2668,18 @@ Press Shift+Enter (or Launch button) to open the expression results in a new win
   <data name="&gt;&gt;contextMenuStripNodesItemCopy.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;contextMenuStripItemCopyNodeValueBase64.Name" xml:space="preserve">
+    <value>contextMenuStripItemCopyNodeValueBase64</value>
+  </data>
+  <data name="&gt;&gt;contextMenuStripItemCopyNodeValueBase64.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator14.Name" xml:space="preserve">
+    <value>toolStripSeparator14</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator14.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;contextMenuStripNodesItemCopyFormattedOuterXml.Name" xml:space="preserve">
     <value>contextMenuStripNodesItemCopyFormattedOuterXml</value>
   </data>
@@ -2642,6 +2690,12 @@ Press Shift+Enter (or Launch button) to open the expression results in a new win
     <value>contextMenuStripNodesItemCopyXPath</value>
   </data>
   <data name="&gt;&gt;contextMenuStripNodesItemCopyXPath.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;contextMenuStripNodesItemCopyXPathAttributes.Name" xml:space="preserve">
+    <value>contextMenuStripNodesItemCopyXPathAttributes</value>
+  </data>
+  <data name="&gt;&gt;contextMenuStripNodesItemCopyXPathAttributes.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;toolStripSeparator9.Name" xml:space="preserve">
@@ -2662,10 +2716,22 @@ Press Shift+Enter (or Launch button) to open the expression results in a new win
   <data name="&gt;&gt;contextMenuStripItemNodesCollapeAll.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;contextMenuStripNodesItemCopyXPathAttributes.Name" xml:space="preserve">
-    <value>contextMenuStripNodesItemCopyXPathAttributes</value>
+  <data name="&gt;&gt;toolStripSeparator15.Name" xml:space="preserve">
+    <value>toolStripSeparator15</value>
   </data>
-  <data name="&gt;&gt;contextMenuStripNodesItemCopyXPathAttributes.Type" xml:space="preserve">
+  <data name="&gt;&gt;toolStripSeparator15.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItemCopyNodeTextBase64.Name" xml:space="preserve">
+    <value>toolStripMenuItemCopyNodeTextBase64</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItemCopyNodeTextBase64.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;contextMenuStripItemCopyNodeTextBase64.Name" xml:space="preserve">
+    <value>contextMenuStripItemCopyNodeTextBase64</value>
+  </data>
+  <data name="&gt;&gt;contextMenuStripItemCopyNodeTextBase64.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">

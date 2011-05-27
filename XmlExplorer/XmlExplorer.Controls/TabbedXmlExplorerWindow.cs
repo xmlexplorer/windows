@@ -76,7 +76,21 @@ namespace XmlExplorer.Controls
 			this.toolStripMenuItemEdit.DropDownOpening += this.OnToolStripMenuItemEditDropDownOpening;
 			this.toolStripMenuItemView.DropDownOpening += this.OnToolStripMenuItemViewDropDownOpening;
 
-			this.contextMenuStripNodes.Opening += this.OnContextMenuStripNodesOpening;
+			// copy attributes xpath - context menu item
+			this.contextMenuStripNodesItemCopyXPathAttributes.DropDownItems.Add("[Placeholder]");
+			this.contextMenuStripNodesItemCopyXPathAttributes.DropDownOpening += this.OnCopyAttributesXPathMenuOpening;
+
+			// copy attributes xpath - toolstrip menu item
+			this.toolStripMenuItemCopyAttributesXPath.DropDownItems.Add("[Placeholder]");
+			this.toolStripMenuItemCopyAttributesXPath.DropDownOpening += this.OnCopyAttributesXPathMenuOpening;
+			
+			// copy base64 - text
+			this.toolStripMenuItemCopyNodeTextBase64.Click += this.OnCopyNodeTextBase64;
+			this.contextMenuStripItemCopyNodeTextBase64.Click += this.OnCopyNodeTextBase64;
+
+			// copy base64 - value
+			this.toolStripMenuItemCopyNodeValueBase64.Click += this.OnCopyNodeValueBase64;
+			this.contextMenuStripItemCopyNodeValueBase64.Click += this.OnCopyNodeValueBase64;
 
 			this.toolStripTextBoxXpath.KeyDown += this.OnToolStripTextBoxXpathKeyDown;
 			this.toolStripTextBoxXpath.TextChanged += this.OnToolStripTextBoxXpathTextChanged;
@@ -2061,10 +2075,12 @@ namespace XmlExplorer.Controls
 			}
 		}
 
-		private void OnContextMenuStripNodesOpening(object sender, System.ComponentModel.CancelEventArgs e)
+		private void OnCopyAttributesXPathMenuOpening(object sender, EventArgs e)
 		{
 			try
 			{
+				ToolStripMenuItem menuItem = (ToolStripMenuItem)sender;
+
 				XmlExplorerWindow window = this.ActiveMdiChild as XmlExplorerWindow;
 				if (window == null)
 					return;
@@ -2076,26 +2092,26 @@ namespace XmlExplorer.Controls
 				if (node.Navigator == null)
 					return;
 
-				if (this.contextMenuStripNodesItemCopyXPathAttributes.DropDownItems != null)
-					foreach (ToolStripItem item in this.contextMenuStripNodesItemCopyXPathAttributes.DropDownItems)
-						item.Click -= this.OnCopyAttributeXPathClick; // not sure we need to do this, but memory leaks suck -mbelles
-				
-				this.contextMenuStripNodesItemCopyXPathAttributes.DropDownItems.Clear();
+				if (menuItem.DropDownItems != null)
+					foreach (ToolStripItem item in menuItem.DropDownItems)
+						item.Click -= this.OnCopyAttributesXPathClick; // not sure we need to do this, but memory leaks suck -mbelles
+
+				menuItem.DropDownItems.Clear();
 
 				List<KeyValuePair<string, string>> pairs = window.TreeView.GetAttributeXPaths(node.Navigator);
 				if (pairs == null)
 				{
-					this.contextMenuStripNodesItemCopyXPathAttributes.DropDownItems.Add("No Attributes Available");
+					menuItem.DropDownItems.Add("No Attributes Available");
 					return;
 				}
 
 				foreach (KeyValuePair<string, string> pair in pairs)
 				{
 					ToolStripMenuItem item = new ToolStripMenuItem(pair.Key);
-					item.Click += this.OnCopyAttributeXPathClick;
+					item.Click += this.OnCopyAttributesXPathClick;
 					item.Tag = pair.Value;
 
-					this.contextMenuStripNodesItemCopyXPathAttributes.DropDownItems.Add(item);
+					menuItem.DropDownItems.Add(item);
 				}
 			}
 			catch (Exception ex)
@@ -2104,12 +2120,44 @@ namespace XmlExplorer.Controls
 			}
 		}
 
-		private void OnCopyAttributeXPathClick(object sender, EventArgs e)
+		private void OnCopyAttributesXPathClick(object sender, EventArgs e)
 		{
 			try
 			{
 				ToolStripMenuItem item = (ToolStripMenuItem)sender;				
 				this.toolStripTextBoxXpath.Text = item.Tag as string;
+			}
+			catch (Exception ex)
+			{
+				this.HandleException(ex);
+			}
+		}
+
+		private void OnCopyNodeTextBase64(object sender, EventArgs e)
+		{
+			try
+			{
+				XmlExplorerWindow window = this.ActiveMdiChild as XmlExplorerWindow;
+				if (window == null)
+					return;
+
+				Clipboard.SetText(window.TreeView.GetNodeTextBase64Decoded());
+			}
+			catch (Exception ex)
+			{
+				this.HandleException(ex);
+			}
+		}
+		
+		private void OnCopyNodeValueBase64(object sender, EventArgs e)
+		{
+			try
+			{
+				XmlExplorerWindow window = this.ActiveMdiChild as XmlExplorerWindow;
+				if (window == null)
+					return;
+
+				Clipboard.SetText(window.TreeView.GetNodeValueBase64Decoded());
 			}
 			catch (Exception ex)
 			{

@@ -1243,6 +1243,30 @@ namespace XmlExplorer.TreeView
 				Clipboard.SetText(text);
 		}
 
+		public string GetNodeTextBase64Decoded()
+		{
+			XPathNavigatorTreeNode selected = this.SelectedNode as XPathNavigatorTreeNode;
+			if (selected != null)
+			{
+				byte[] bytes = Convert.FromBase64String(selected.Text);
+				if (bytes != null)
+					return Encoding.UTF8.GetString(bytes);
+			}
+			return string.Empty;
+		}
+
+		public string GetNodeValueBase64Decoded()
+		{
+			XPathNavigatorTreeNode selected = this.SelectedNode as XPathNavigatorTreeNode;
+			if (selected != null)
+			{
+				byte[] bytes = Convert.FromBase64String(selected.Navigator.Value);
+				if (bytes != null)
+					return Encoding.UTF8.GetString(bytes);
+			}
+			return string.Empty;
+		}
+
 		/// <summary>
 		/// Returns the selected xml node (and all of it's sub nodes) as formatted XML text.
 		/// </summary>
