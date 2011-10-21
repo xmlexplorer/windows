@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
+using XmlExplorer.TreeView;
 
 namespace XmlExplorer.Controls
 {
@@ -74,7 +75,7 @@ namespace XmlExplorer.Controls
 			catch (Exception ex)
 			{
 				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				ExceptionDialog.ShowDialog(this, ex);
 			}
 		}
 
@@ -88,7 +89,7 @@ namespace XmlExplorer.Controls
 			catch (Exception ex)
 			{
 				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				ExceptionDialog.ShowDialog(this, ex);
 			}
 		}
 
@@ -102,7 +103,7 @@ namespace XmlExplorer.Controls
 			catch (Exception ex)
 			{
 				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				ExceptionDialog.ShowDialog(this, ex);
 			}
 		}
 	}

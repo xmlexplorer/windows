@@ -1,15 +1,13 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
 using System.Diagnostics;
-using WeifenLuo.WinFormsUI.Docking;
-using System.Collections;
-using System.Windows.Forms.Design;
 using System.Drawing.Design;
+using System.Windows.Forms;
+using System.Windows.Forms.Design;
+using WeifenLuo.WinFormsUI.Docking;
+using XmlExplorer.TreeView;
 
 namespace XmlExplorer.Controls
 {
@@ -293,7 +291,7 @@ namespace XmlExplorer.Controls
 			catch (Exception ex)
 			{
 				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				ExceptionDialog.ShowDialog(this, ex);
 			}
 		}
 
@@ -306,7 +304,7 @@ namespace XmlExplorer.Controls
 			catch (Exception ex)
 			{
 				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				ExceptionDialog.ShowDialog(this, ex);
 			}
 		}
 
@@ -320,7 +318,7 @@ namespace XmlExplorer.Controls
 			catch (Exception ex)
 			{
 				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				ExceptionDialog.ShowDialog(this, ex);
 			}
 		}
 
@@ -345,7 +343,7 @@ namespace XmlExplorer.Controls
 			catch (Exception ex)
 			{
 				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				ExceptionDialog.ShowDialog(this, ex);
 			}
 		}
 
@@ -371,7 +369,7 @@ namespace XmlExplorer.Controls
 			catch (Exception ex)
 			{
 				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				ExceptionDialog.ShowDialog(this, ex);
 			}
 		}
 
@@ -390,7 +388,7 @@ namespace XmlExplorer.Controls
 			catch (Exception ex)
 			{
 				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				ExceptionDialog.ShowDialog(this, ex);
 			}
 		}
 
@@ -404,7 +402,7 @@ namespace XmlExplorer.Controls
 			catch (Exception ex)
 			{
 				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				ExceptionDialog.ShowDialog(this, ex);
 			}
 		}
 
@@ -417,7 +415,7 @@ namespace XmlExplorer.Controls
 			catch (Exception ex)
 			{
 				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				ExceptionDialog.ShowDialog(this, ex);
 			}
 		}
 
@@ -430,7 +428,7 @@ namespace XmlExplorer.Controls
 			catch (Exception ex)
 			{
 				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				ExceptionDialog.ShowDialog(this, ex);
 			}
 		}
 

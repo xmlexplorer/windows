@@ -37,7 +37,7 @@ namespace XmlExplorer
 			catch (Exception ex)
 			{
 				Debug.WriteLine(ex);
-				MessageBox.Show(ex.ToString());
+				ExceptionDialog.ShowDialog(ex);
 			}
 		}
 
@@ -171,7 +171,7 @@ namespace XmlExplorer
 			catch (Exception ex)
 			{
 				Debug.WriteLine(ex.ToString());
-				MessageBox.Show(ex.ToString());
+				ExceptionDialog.ShowDialog(ex);
 			}
 		}
 
@@ -191,15 +191,15 @@ namespace XmlExplorer
 			catch (Exception ex)
 			{
 				Debug.WriteLine(ex);
-				MessageBox.Show(ex.ToString());
+				ExceptionDialog.ShowDialog(ex);
 			}
 		}
 
 		private static void OnUnhandledException(object sender, Microsoft.VisualBasic.ApplicationServices.UnhandledExceptionEventArgs e)
 		{
 			e.ExitApplication = false;
-			Debug.WriteLine(e.Exception.ToString());
-			MessageBox.Show(e.Exception.ToString());
+			Debug.WriteLine(e.Exception);
+			ExceptionDialog.ShowDialog(e.Exception);
 		}
 
 		private static void OnShutdown(object sender, EventArgs e)
@@ -272,7 +272,7 @@ namespace XmlExplorer
 			catch (Exception ex)
 			{
 				Debug.WriteLine(ex);
-				MessageBox.Show(ex.ToString());
+				ExceptionDialog.ShowDialog(ex);
 			}
 		}
 

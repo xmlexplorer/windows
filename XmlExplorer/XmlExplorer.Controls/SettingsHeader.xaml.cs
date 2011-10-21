@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
+using XmlExplorer.TreeView;
 
 namespace XmlExplorer.Controls
 {
@@ -27,7 +28,7 @@ namespace XmlExplorer.Controls
 			catch (Exception ex)
 			{
 				Debug.WriteLine(ex);
-				MessageBox.Show(ex.ToString());
+				ExceptionDialog.ShowDialog(ex);
 			}
 		}
 	}

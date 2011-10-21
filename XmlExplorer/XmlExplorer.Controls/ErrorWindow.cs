@@ -1,14 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
 using System.Diagnostics;
+using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
-using System.Xml.Schema;
-using System.Xml.XPath;
 using XmlExplorer.TreeView;
 
 namespace XmlExplorer.Controls
@@ -128,7 +122,7 @@ namespace XmlExplorer.Controls
 			catch (Exception ex)
 			{
 				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				ExceptionDialog.ShowDialog(this, ex);
 			}
 		}
 
@@ -142,7 +136,7 @@ namespace XmlExplorer.Controls
 			catch (Exception ex)
 			{
 				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				ExceptionDialog.ShowDialog(this, ex);
 			}
 		}
 

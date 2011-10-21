@@ -256,7 +256,7 @@ namespace XmlExplorer.Controls
 			catch (Exception ex)
 			{
 				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				ExceptionDialog.ShowDialog(this, ex);
 			}
 		}
 
@@ -276,7 +276,7 @@ namespace XmlExplorer.Controls
 			catch (Exception ex)
 			{
 				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				ExceptionDialog.ShowDialog(this, ex);
 			}
 		}
 

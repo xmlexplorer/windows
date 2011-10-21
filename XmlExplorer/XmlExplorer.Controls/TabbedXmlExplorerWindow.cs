@@ -83,7 +83,7 @@ namespace XmlExplorer.Controls
 			// copy attributes xpath - toolstrip menu item
 			this.toolStripMenuItemCopyAttributesXPath.DropDownItems.Add("[Placeholder]");
 			this.toolStripMenuItemCopyAttributesXPath.DropDownOpening += this.OnCopyAttributesXPathMenuOpening;
-			
+
 			// copy base64 - text
 			this.toolStripMenuItemCopyNodeTextBase64.Click += this.OnCopyNodeTextBase64;
 			this.contextMenuStripItemCopyNodeTextBase64.Click += this.OnCopyNodeTextBase64;
@@ -123,7 +123,7 @@ namespace XmlExplorer.Controls
 			this.toolStripButtonCopyFormattedOuterXml.Click += this.OnToolStripButtonCopyFormattedOuterXmlClick;
 			this.toolStripMenuItemCopyFormattedOuterXml.Click += this.OnToolStripButtonCopyFormattedOuterXmlClick;
 			this.contextMenuStripNodesItemCopyFormattedOuterXml.Click += this.OnToolStripButtonCopyFormattedOuterXmlClick;
-			
+
 			this.toolStripMenuItemCopy.Click += this.OnToolStripMenuItemCopyClick;
 			this.contextMenuStripNodesItemCopy.Click += this.OnToolStripMenuItemCopyClick;
 
@@ -557,7 +557,7 @@ namespace XmlExplorer.Controls
 				}
 				else
 				{
-					MessageBox.Show(this, ex.ToString());
+					ExceptionDialog.ShowDialog(this, ex);
 				}
 			}
 			catch (Exception ex)
@@ -1117,7 +1117,7 @@ namespace XmlExplorer.Controls
 			catch (Exception ex)
 			{
 				Debug.WriteLine(ex);
-				MessageBox.Show(ex.ToString());
+				ExceptionDialog.ShowDialog(this, ex);
 			}
 		}
 
@@ -1137,7 +1137,7 @@ namespace XmlExplorer.Controls
 			catch (Exception ex)
 			{
 				Debug.WriteLine(ex);
-				MessageBox.Show(ex.ToString());
+				ExceptionDialog.ShowDialog(this, ex);
 			}
 		}
 
@@ -1332,7 +1332,7 @@ namespace XmlExplorer.Controls
 			try
 			{
 				Debug.WriteLine(exception);
-				MessageBox.Show(exception.ToString());
+				ExceptionDialog.ShowDialog(this, exception);
 			}
 			catch (Exception ex)
 			{
@@ -1713,7 +1713,7 @@ namespace XmlExplorer.Controls
 			catch (Exception ex)
 			{
 				Debug.WriteLine(ex);
-				MessageBox.Show(ex.ToString());
+				ExceptionDialog.ShowDialog(this, ex);
 			}
 		}
 
@@ -1740,7 +1740,7 @@ namespace XmlExplorer.Controls
 			catch (Exception ex)
 			{
 				Debug.WriteLine(ex);
-				MessageBox.Show(ex.ToString());
+				ExceptionDialog.ShowDialog(this, ex);
 			}
 		}
 
@@ -1773,7 +1773,7 @@ namespace XmlExplorer.Controls
 			catch (Exception ex)
 			{
 				Debug.WriteLine(ex);
-				MessageBox.Show(ex.ToString());
+				ExceptionDialog.ShowDialog(this, ex);
 			}
 		}
 
@@ -2124,7 +2124,7 @@ namespace XmlExplorer.Controls
 		{
 			try
 			{
-				ToolStripMenuItem item = (ToolStripMenuItem)sender;				
+				ToolStripMenuItem item = (ToolStripMenuItem)sender;
 				this.toolStripTextBoxXpath.Text = item.Tag as string;
 			}
 			catch (Exception ex)
@@ -2148,7 +2148,7 @@ namespace XmlExplorer.Controls
 				this.HandleException(ex);
 			}
 		}
-		
+
 		private void OnCopyNodeValueBase64(object sender, EventArgs e)
 		{
 			try

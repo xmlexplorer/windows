@@ -259,74 +259,6 @@ namespace XmlExplorer.TreeView
 
 		#region Methods
 
-		///// <summary>
-		///// Loads XML file data from a given filename.
-		///// </summary>
-		///// <param name="filename"></param>
-		//public void Open(string filename)
-		//{
-		//    this.Filename = filename;
-
-		//    // begin loading the file on a background thread
-		//    this.BeginLoadFile();
-		//}
-
-		///// <summary>
-		///// Loads XML file data from a given stream.
-		///// </summary>
-		//public void Open(Stream stream)
-		//{
-		//    _stream = stream;
-
-		//    // set the tab text and tooltip
-		//    this.Text = "<Unknown>";
-		//    //this.ToolTipText = "This file was loaded from a stream (likely due to restricted permissions), and no filename is available.";
-
-		//    // begin loading the file on a background thread
-		//    this.BeginLoadFile();
-		//}
-
-		///// <summary>
-		///// Loads an XML node set.
-		///// </summary>
-		///// <param name="iterator"></param>
-		//public void Open(XPathNodeIterator iterator)
-		//{
-		//    _filename = string.Empty;
-		//    this.Text = "XPath results";
-
-		//    _nodes = iterator.Clone();
-
-		//    if (this.LoadingFileStarted != null)
-		//        this.LoadingFileStarted(this, EventArgs.Empty);
-
-		//    this.xmlTreeView.BeginUpdate();
-		//    try
-		//    {
-		//        this.xmlTreeView.LoadNodes(iterator, this.xmlTreeView.Nodes);
-
-		//        if (this.LoadingFileCompleted != null)
-		//            this.LoadingFileCompleted(this, EventArgs.Empty);
-		//    }
-		//    catch (ThreadAbortException ex)
-		//    {
-		//        Debug.WriteLine(ex);
-		//        if (this.LoadingFileFailed != null)
-		//            this.LoadingFileFailed(this, EventArgs.Empty);
-		//    }
-		//    catch (Exception ex)
-		//    {
-		//        Debug.WriteLine(ex);
-		//        MessageBox.Show(this, ex.ToString());
-		//        if (this.LoadingFileFailed != null)
-		//            this.LoadingFileFailed(this, EventArgs.Empty);
-		//    }
-		//    finally
-		//    {
-		//        this.xmlTreeView.EndUpdate();
-		//    }
-		//}
-
 		public void Reload()
 		{
 			if (this.FileInfo != null)
@@ -623,6 +555,8 @@ namespace XmlExplorer.TreeView
 
 			treeNodeCollection.Clear();
 
+			List<TreeNode> nodes = new List<TreeNode>();
+
 			// create and add a node for each navigator
 			foreach (XPathNavigator navigator in iterator)
 			{
@@ -630,12 +564,17 @@ namespace XmlExplorer.TreeView
 
 				XPathNavigatorTreeNode node = new XPathNavigatorTreeNode(navigator.Clone(), hasCustomChildNodes);
 
-				treeNodeCollection.Add(node);
+				nodes.Add(node);
 			}
+
+			treeNodeCollection.AddRange(nodes.ToArray());
 		}
 
 		private bool HasCustomChildNodes(XPathNavigator navigator, ChildNodeDefinitionCollection childNodeDefinitions)
 		{
+			if (childNodeDefinitions == null)
+				return false;
+
 			foreach (var childNodeDefinition in childNodeDefinitions)
 			{
 				var iterator = this.GetCustomChildNodes(navigator, childNodeDefinition);
@@ -649,12 +588,17 @@ namespace XmlExplorer.TreeView
 
 		private void LoadCustomChildNodes(XPathNavigatorTreeNode node, ChildNodeDefinitionCollection childNodeDefinitions)
 		{
+			if (childNodeDefinitions == null)
+				return;
+
 			foreach (var childNodeDefinition in childNodeDefinitions)
 			{
 				var iterator = this.GetCustomChildNodes(node.Navigator, childNodeDefinition);
 
 				if (iterator == null)
 					continue;
+
+				List<TreeNode> nodes = new List<TreeNode>();
 
 				// create and add a node for each navigator
 				foreach (XPathNavigator navigator in iterator)
@@ -663,25 +607,36 @@ namespace XmlExplorer.TreeView
 
 					XPathNavigatorTreeNode childNode = new XPathNavigatorTreeNode(navigator.Clone(), hasCustomChildNodes, childNodeDefinition.IdXpath);
 
-					node.Nodes.Add(childNode);
+					nodes.Add(childNode);
 				}
+
+				node.Nodes.AddRange(nodes.ToArray());
 			}
 		}
 
 		private XPathNodeIterator GetCustomChildNodes(XPathNavigator navigator, ChildNodeDefinition childNodeDefinition)
 		{
-			// get the id of the child node
-			string id = navigator.Evaluate("string(" + childNodeDefinition.IdXpath + ")") as string;
-			if (string.IsNullOrEmpty(id))
+			try
+			{
+				// get the id of the child node
+				string id = navigator.Evaluate("string(" + childNodeDefinition.IdXpath + ")") as string;
+				if (string.IsNullOrEmpty(id))
+					return null;
+
+				// get the child xpath
+				string xpath = string.Format(childNodeDefinition.ChildXpath, id);
+
+				// get any nodes that match the child xpath 
+				XPathNodeIterator iterator = navigator.Select(xpath);
+
+				return iterator;
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine(ex);
+
 				return null;
-
-			// get the child xpath
-			string xpath = string.Format(childNodeDefinition.ChildXpath, id);
-
-			// get any nodes that match the child xpath 
-			XPathNodeIterator iterator = navigator.Select(xpath);
-
-			return iterator;
+			}
 		}
 
 		private void LoadNamespaceDefinitions(XPathNavigator navigator)
@@ -1143,8 +1098,8 @@ namespace XmlExplorer.TreeView
 				return null;
 
 			string xpath = this.GetXmlNodeFullPath(navigator);
-			List<KeyValuePair<string, string>> pairs = new List<KeyValuePair<string, string>>();			
-			
+			List<KeyValuePair<string, string>> pairs = new List<KeyValuePair<string, string>>();
+
 			// first attribute
 			n.MoveToFirstAttribute();
 			pairs.Add(this.FormatNameAndXPath(xpath, n.Name, n.Value));
@@ -1152,7 +1107,7 @@ namespace XmlExplorer.TreeView
 			// subsequent attributes
 			while (n.MoveToNextAttribute())
 				pairs.Add(this.FormatNameAndXPath(xpath, n.Name, n.Value));
-				
+
 			return pairs;
 		}
 
@@ -1171,7 +1126,7 @@ namespace XmlExplorer.TreeView
 			Error error = new Error();
 			error.Description = e.Message;
 			error.Category = e.Severity;
-			
+
 			XmlSchemaValidationException exception = e.Exception as XmlSchemaValidationException;
 			if (exception != null)
 			{
@@ -1277,22 +1232,21 @@ namespace XmlExplorer.TreeView
 
 		public string GetXPathNavigatorFormattedOuterXml(XPathNavigator navigator)
 		{
-			using (MemoryStream stream = new MemoryStream())
+			StringBuilder stringBuilder = new StringBuilder();
+
+			XmlWriterSettings settings = new XmlWriterSettings();
+
+			settings.Indent = true;
+			settings.OmitXmlDeclaration = true;
+			settings.ConformanceLevel = ConformanceLevel.Fragment;
+
+			using (XmlWriter writer = XmlTextWriter.Create(stringBuilder, settings))
 			{
-				XmlWriterSettings settings = new XmlWriterSettings();
+				navigator.WriteSubtree(writer);
 
-				settings.Encoding = Encoding.ASCII;
-				settings.Indent = true;
-				settings.OmitXmlDeclaration = false;
+				writer.Flush();
 
-				using (XmlWriter writer = XmlTextWriter.Create(stream, settings))
-				{
-					navigator.WriteSubtree(writer);
-
-					writer.Flush();
-
-					return Encoding.ASCII.GetString(stream.ToArray());
-				}
+				return stringBuilder.ToString();
 			}
 		}
 
@@ -1546,7 +1500,7 @@ namespace XmlExplorer.TreeView
 			try
 			{
 				Debug.WriteLine(exception);
-				MessageBox.Show(this, exception.ToString());
+				ExceptionDialog.ShowDialog(this, exception);
 			}
 			catch (Exception ex)
 			{
@@ -1584,7 +1538,7 @@ namespace XmlExplorer.TreeView
 			catch (Exception ex)
 			{
 				Debug.WriteLine(ex);
-				MessageBox.Show(this, ex.ToString());
+				ExceptionDialog.ShowDialog(this, ex);
 			}
 		}
 
@@ -1620,24 +1574,28 @@ namespace XmlExplorer.TreeView
 		{
 			try
 			{
-				XPathNavigatorTreeNode node = e.Node as XPathNavigatorTreeNode;
-
-				if (node == null)
-					return;
-
-				// for better performance opening large files, tree nodes are loaded on demand.
-				if (!node.HasExpanded)
+				using (WaitCursorProvider provider = new WaitCursorProvider())
 				{
-					// make sure we don't have to load this tree node again.
-					node.HasExpanded = true;
+					XPathNavigatorTreeNode node = e.Node as XPathNavigatorTreeNode;
 
-					// load the child nodes of the specified xml tree node
-					this.LoadNodes(node.Navigator.SelectChildren(XPathNodeType.All), node.Nodes);
+					if (node == null)
+						return;
 
-					// load any custom child node definitions
-					this.LoadCustomChildNodes(node, this.ChildNodeDefinitions);
+					// for better performance opening large files, tree nodes are loaded on demand.
+					if (!node.HasExpanded)
+					{
+						// make sure we don't have to load this tree node again.
+						node.HasExpanded = true;
+
+						// load the child nodes of the specified xml tree node
+						this.LoadNodes(node.Navigator.SelectChildren(XPathNodeType.All), node.Nodes);
+
+						// load any custom child node definitions
+						this.LoadCustomChildNodes(node, this.ChildNodeDefinitions);
+					}
 				}
 
+				// // add the end tag node for the currently expanding node
 				//if (node.Nodes.Count > 0)
 				//{
 				//   TreeNodeCollection nodes = base.Nodes;
