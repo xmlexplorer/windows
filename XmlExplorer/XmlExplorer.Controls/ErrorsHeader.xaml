@@ -5,6 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" Height="auto">
     <Grid Margin="3">
-        <TextBlock TextWrapping="Wrap" Margin="3">XML Explorer performs <Hyperlink NavigateUri="http://www.w3schools.com/Schema" Click="XmlSchemaLink_Click">XML Schema</Hyperlink> validation and displays any errors and warnings in the list below.  Schema files specified in the documents are included automatically.  Both xsi:schemaLocation and xsi:noNamespaceSchemaLocation are supported.  You can also manually <Hyperlink Click="HyperlinkBrowse_Click">browse</Hyperlink> and specify schema files.</TextBlock>
+        <TextBlock TextWrapping="Wrap" Margin="3">XML Explorer performs <Hyperlink NavigateUri="http://www.w3schools.com/Schema" Click="XmlSchemaLink_Click">XML Schema</Hyperlink> validation and displays any errors and warnings in the list below.  Schema files specified in the documents are included automatically.  Both xsi:schemaLocation and xsi:noNamespaceSchemaLocation are supported.  You can also manually <Hyperlink Name="HyperlinkBrowseForSchema" Click="HyperlinkBrowse_Click">browse</Hyperlink> and specify schema files.</TextBlock>
     </Grid>
 </UserControl>

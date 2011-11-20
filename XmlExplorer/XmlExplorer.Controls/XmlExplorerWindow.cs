@@ -13,7 +13,7 @@ using XmlExplorer.TreeView;
 
 namespace XmlExplorer.Controls
 {
-	public partial class XmlExplorerWindow : DockContent
+	public partial class XmlExplorerWindow : DockContent, IXmlViewer
 	{
 		#region Variables
 
@@ -278,6 +278,51 @@ namespace XmlExplorer.Controls
 				Debug.WriteLine(ex);
 				ExceptionDialog.ShowDialog(this, ex);
 			}
+		}
+
+		#endregion
+
+		#region IXmlViewer Members
+
+		public void CollapseAll()
+		{
+			this.xmlTreeView.CollapseAll();
+		}
+
+		public void ExpandAll()
+		{
+			this.xmlTreeView.ExpandAll();
+		}
+
+		public void Save(bool formatting)
+		{
+			this.xmlTreeView.Save(formatting);
+		}
+
+		public void SaveAs(bool formatting)
+		{
+			this.xmlTreeView.SaveAs(formatting);
+		}
+
+		public FileInfo FileInfo
+		{
+			get
+			{
+				return this.xmlTreeView.FileInfo;
+			}
+
+			set
+			{
+				this.xmlTreeView.FileInfo = value;
+			}
+		}
+
+		public void Reload()
+		{
+			if (this.xmlTreeView.FileInfo != null)
+				this.xmlTreeView.Reload();
+			else if (this.xmlTreeView.Uri != null)
+				this.BeginOpenUri(this.xmlTreeView.Uri.ToString());
 		}
 
 		#endregion

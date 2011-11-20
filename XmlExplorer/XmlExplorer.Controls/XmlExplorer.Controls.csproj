@@ -124,6 +124,7 @@
     <Compile Include="ErrorsHeader.xaml.cs">
       <DependentUpon>ErrorsHeader.xaml</DependentUpon>
     </Compile>
+    <Compile Include="IXmlViewer.cs" />
     <Compile Include="NamespacesWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -266,7 +267,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\CopyHS.png" />
+    <Resource Include="Resources\CopyHS.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\FontHS.png" />
@@ -315,12 +316,15 @@
     <None Include="Resources\settings_16.png" />
     <None Include="Resources\OpenLink.png" />
     <None Include="Resources\EditTableHS.png" />
+    <None Include="Resources\TileWindowsVerticallyHS.png" />
+    <None Include="Resources\TileWindowsHorizontallyHS.png" />
+    <None Include="Resources\PublishToWebHS.png" />
     <Content Include="Resources\Up.png" />
     <Content Include="Resources\Down.png" />
     <Content Include="Resources\Book_openHS.ico" />
     <None Include="Resources\Warning16.png" />
     <None Include="Resources\CheckGrammarHS.png" />
-    <None Include="Resources\DeleteHS.png" />
+    <Resource Include="Resources\DeleteHS.png" />
     <None Include="Resources\NewDocumentHS.png" />
     <None Include="Resources\ExpandAll.png" />
     <None Include="Resources\CollapseAll.png" />

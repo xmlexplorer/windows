@@ -538,6 +538,21 @@
   <data name="toolStripMenuItemHelp.Text" xml:space="preserve">
     <value>&amp;Help</value>
   </data>
+  <data name="toolStripMenuItemUpdateAvailable.Size" type="System.Drawing.Size, System.Drawing">
+    <value>150, 20</value>
+  </data>
+  <data name="toolStripMenuItemUpdateAvailable.Text" xml:space="preserve">
+    <value>An &amp;update is available</value>
+  </data>
+  <data name="toolStripMenuItemUpdateAvailable.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="toolStripMenuItemCloseUpdateMessage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>28, 20</value>
+  </data>
+  <data name="toolStripMenuItemCloseUpdateMessage.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="menuStripMain.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
@@ -565,6 +580,15 @@
   <metadata name="toolStripStandardButtons.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>143, 17</value>
   </metadata>
+  <data name="toolStripButtonNewFromClipboard.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>Magenta</value>
+  </data>
+  <data name="toolStripButtonNewFromClipboard.Size" type="System.Drawing.Size, System.Drawing">
+    <value>23, 22</value>
+  </data>
+  <data name="toolStripButtonNewFromClipboard.Text" xml:space="preserve">
+    <value>&amp;New from Clipboard</value>
+  </data>
   <data name="toolStripButtonOpen.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -700,7 +724,7 @@
     <value>XPath:</value>
   </data>
   <data name="toolStripTextBoxXpath.Size" type="System.Drawing.Size, System.Drawing">
-    <value>337, 25</value>
+    <value>314, 25</value>
   </data>
   <data name="toolStripTextBoxXpath.ToolTipText" xml:space="preserve">
     <value>Enter an XPath expression.
@@ -805,28 +829,43 @@ Press Shift+Enter (or Launch button) to open the expression results in a new win
     <value>423, 17</value>
   </metadata>
   <data name="contextMenuStripMenuItemClose.Size" type="System.Drawing.Size, System.Drawing">
-    <value>201, 22</value>
+    <value>215, 22</value>
   </data>
   <data name="contextMenuStripMenuItemClose.Text" xml:space="preserve">
     <value>&amp;Close</value>
   </data>
   <data name="toolStripSeparator5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>198, 6</value>
+    <value>212, 6</value>
   </data>
   <data name="toolStripMenuItemCopyFullPath.Size" type="System.Drawing.Size, System.Drawing">
-    <value>201, 22</value>
+    <value>215, 22</value>
   </data>
   <data name="toolStripMenuItemCopyFullPath.Text" xml:space="preserve">
     <value>Copy Full Path</value>
   </data>
   <data name="toolStripMenuItemOpenContainingFolder.Size" type="System.Drawing.Size, System.Drawing">
-    <value>201, 22</value>
+    <value>215, 22</value>
   </data>
   <data name="toolStripMenuItemOpenContainingFolder.Text" xml:space="preserve">
     <value>Open Containing Folder</value>
   </data>
+  <data name="toolStripSeparator16.Size" type="System.Drawing.Size, System.Drawing">
+    <value>212, 6</value>
+  </data>
+  <data name="toolStripMenuItemNewVerticalTabGroup.Size" type="System.Drawing.Size, System.Drawing">
+    <value>215, 22</value>
+  </data>
+  <data name="toolStripMenuItemNewVerticalTabGroup.Text" xml:space="preserve">
+    <value>New &amp;Vertical Tab Group</value>
+  </data>
+  <data name="toolStripMenuItemNewHorizontalTabGroup.Size" type="System.Drawing.Size, System.Drawing">
+    <value>215, 22</value>
+  </data>
+  <data name="toolStripMenuItemNewHorizontalTabGroup.Text" xml:space="preserve">
+    <value>New Hori&amp;zontal Tab Group</value>
+  </data>
   <data name="contextMenuStripTabs.Size" type="System.Drawing.Size, System.Drawing">
-    <value>202, 76</value>
+    <value>216, 126</value>
   </data>
   <data name="&gt;&gt;contextMenuStripTabs.Name" xml:space="preserve">
     <value>contextMenuStripTabs</value>
@@ -931,7 +970,7 @@ Press Shift+Enter (or Launch button) to open the expression results in a new win
     <value>Colla&amp;pse All</value>
   </data>
   <data name="contextMenuStripNodes.Size" type="System.Drawing.Size, System.Drawing">
-    <value>248, 214</value>
+    <value>248, 192</value>
   </data>
   <data name="&gt;&gt;contextMenuStripNodes.Name" xml:space="preserve">
     <value>contextMenuStripNodes</value>
@@ -2380,11 +2419,23 @@ Press Shift+Enter (or Launch button) to open the expression results in a new win
   <data name="&gt;&gt;toolStripMenuItemCopy.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;toolStripMenuItemCopyNodeTextBase64.Name" xml:space="preserve">
+    <value>toolStripMenuItemCopyNodeTextBase64</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItemCopyNodeTextBase64.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;toolStripMenuItemCopyNodeValueBase64.Name" xml:space="preserve">
     <value>toolStripMenuItemCopyNodeValueBase64</value>
   </data>
   <data name="&gt;&gt;toolStripMenuItemCopyNodeValueBase64.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator15.Name" xml:space="preserve">
+    <value>toolStripSeparator15</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator15.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;toolStripMenuItemCopyFormattedOuterXml.Name" xml:space="preserve">
     <value>toolStripMenuItemCopyFormattedOuterXml</value>
@@ -2524,6 +2575,24 @@ Press Shift+Enter (or Launch button) to open the expression results in a new win
   <data name="&gt;&gt;toolStripMenuItemAbout.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;toolStripMenuItemUpdateAvailable.Name" xml:space="preserve">
+    <value>toolStripMenuItemUpdateAvailable</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItemUpdateAvailable.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItemCloseUpdateMessage.Name" xml:space="preserve">
+    <value>toolStripMenuItemCloseUpdateMessage</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItemCloseUpdateMessage.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripButtonNewFromClipboard.Name" xml:space="preserve">
+    <value>toolStripButtonNewFromClipboard</value>
+  </data>
+  <data name="&gt;&gt;toolStripButtonNewFromClipboard.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;toolStripButtonOpen.Name" xml:space="preserve">
     <value>toolStripButtonOpen</value>
   </data>
@@ -2600,7 +2669,7 @@ Press Shift+Enter (or Launch button) to open the expression results in a new win
     <value>toolStripTextBoxXpath</value>
   </data>
   <data name="&gt;&gt;toolStripTextBoxXpath.Type" xml:space="preserve">
-    <value>XmlExplorer.Controls.ToolStripSpringTextBox, XmlExplorer.Controls, Version=4.0.2.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>XmlExplorer.Controls.ToolStripSpringTextBox, XmlExplorer.Controls, Version=4.0.5.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;toolStripButtonXPathExpression.Name" xml:space="preserve">
     <value>toolStripButtonXPathExpression</value>
@@ -2656,6 +2725,24 @@ Press Shift+Enter (or Launch button) to open the expression results in a new win
   <data name="&gt;&gt;toolStripMenuItemOpenContainingFolder.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;toolStripSeparator16.Name" xml:space="preserve">
+    <value>toolStripSeparator16</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator16.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItemNewVerticalTabGroup.Name" xml:space="preserve">
+    <value>toolStripMenuItemNewVerticalTabGroup</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItemNewVerticalTabGroup.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItemNewHorizontalTabGroup.Name" xml:space="preserve">
+    <value>toolStripMenuItemNewHorizontalTabGroup</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItemNewHorizontalTabGroup.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;toolTip.Name" xml:space="preserve">
     <value>toolTip</value>
   </data>
@@ -2666,6 +2753,12 @@ Press Shift+Enter (or Launch button) to open the expression results in a new win
     <value>contextMenuStripNodesItemCopy</value>
   </data>
   <data name="&gt;&gt;contextMenuStripNodesItemCopy.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;contextMenuStripItemCopyNodeTextBase64.Name" xml:space="preserve">
+    <value>contextMenuStripItemCopyNodeTextBase64</value>
+  </data>
+  <data name="&gt;&gt;contextMenuStripItemCopyNodeTextBase64.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;contextMenuStripItemCopyNodeValueBase64.Name" xml:space="preserve">
@@ -2714,24 +2807,6 @@ Press Shift+Enter (or Launch button) to open the expression results in a new win
     <value>contextMenuStripItemNodesCollapeAll</value>
   </data>
   <data name="&gt;&gt;contextMenuStripItemNodesCollapeAll.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator15.Name" xml:space="preserve">
-    <value>toolStripSeparator15</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator15.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemCopyNodeTextBase64.Name" xml:space="preserve">
-    <value>toolStripMenuItemCopyNodeTextBase64</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItemCopyNodeTextBase64.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;contextMenuStripItemCopyNodeTextBase64.Name" xml:space="preserve">
-    <value>contextMenuStripItemCopyNodeTextBase64</value>
-  </data>
-  <data name="&gt;&gt;contextMenuStripItemCopyNodeTextBase64.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">

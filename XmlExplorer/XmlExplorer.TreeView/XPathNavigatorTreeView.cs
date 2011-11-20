@@ -110,7 +110,7 @@ namespace XmlExplorer.TreeView
 		public FileInfo FileInfo
 		{
 			get { return _fileInfo; }
-			private set
+			set
 			{
 				_fileInfo = value;
 				this.RaisePropertyChanged("FileInfo");
@@ -1182,6 +1182,18 @@ namespace XmlExplorer.TreeView
 				Clipboard.SetText(text);
 		}
 
+		public Stream GetFormattedOuterXmlStream()
+		{
+			XPathNavigatorTreeNode selected = this.GetRootXmlTreeNode();
+
+			if (selected == null)
+				return null;
+
+			Stream stream = GetXPathNavigatorFormattedOuterXmlStream(selected.Navigator);
+
+			return stream;
+		}
+
 		/// <summary>
 		/// Copies the current selected xml node to the clipboard as XML text.
 		/// </summary>
@@ -1248,6 +1260,29 @@ namespace XmlExplorer.TreeView
 
 				return stringBuilder.ToString();
 			}
+		}
+
+		public Stream GetXPathNavigatorFormattedOuterXmlStream(XPathNavigator navigator)
+		{
+			Stream stream = new MemoryStream();
+
+			XmlWriterSettings settings = new XmlWriterSettings();
+
+			settings.Indent = true;
+			settings.OmitXmlDeclaration = true;
+			settings.ConformanceLevel = ConformanceLevel.Fragment;
+
+			using (XmlWriter writer = XmlTextWriter.Create(stream, settings))
+			{
+				navigator.WriteSubtree(writer);
+
+				writer.Flush();
+			}
+
+			if (stream.CanSeek)
+				stream.Seek(0, SeekOrigin.Begin);
+
+			return stream;
 		}
 
 		public new void ExpandAll()
@@ -1343,8 +1378,15 @@ namespace XmlExplorer.TreeView
 			using (SaveFileDialog dialog = new SaveFileDialog())
 			{
 				dialog.Filter = "XML Files (*.xml)|*.xml|All Files (*.*)|*.*";
+
 				if (this.FileInfo != null)
+				{
 					dialog.FileName = Path.GetFileName(this.FileInfo.FullName);
+
+					if (string.Compare(this.FileInfo.Extension, ".xml", true) != 0)
+						dialog.Filter = string.Format("{0} Files (*{1})|*{1}|", this.FileInfo.Extension.TrimStart('.').ToUpper(), this.FileInfo.Extension) + dialog.Filter;
+				}
+
 				if (dialog.ShowDialog(this) != DialogResult.OK)
 					return;
 

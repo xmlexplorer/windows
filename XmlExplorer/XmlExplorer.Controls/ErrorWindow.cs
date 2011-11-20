@@ -13,6 +13,8 @@ namespace XmlExplorer.Controls
 
 		private List<Error> _errors;
 
+		private ErrorsHeader header;
+
 		#endregion
 
 		#region Constructors
@@ -23,7 +25,7 @@ namespace XmlExplorer.Controls
 
 			this.listView.ItemActivate += new EventHandler(listViewExpressions_ItemActivate);
 
-			ErrorsHeader header = new ErrorsHeader();
+			header = new ErrorsHeader();
 
 			header.BrowseClicked += new EventHandler(header_BrowseClicked);
 
@@ -45,6 +47,14 @@ namespace XmlExplorer.Controls
 			{
 				_errors = value;
 				this.LoadErrors(_errors);
+			}
+		}
+
+		public ErrorsHeader Header
+		{
+			get
+			{
+				return this.header;
 			}
 		}
 

@@ -13,7 +13,7 @@
     <ApplicationIcon>App.ico</ApplicationIcon>
     <ManifestCertificateThumbprint>D956BAFECF452F6F501D6374D9FA28AFCDCA7015</ManifestCertificateThumbprint>
     <ManifestKeyFile>XmlExplorer_TemporaryKey.pfx</ManifestKeyFile>
-    <GenerateManifests>true</GenerateManifests>
+    <GenerateManifests>false</GenerateManifests>
     <SignManifests>false</SignManifests>
     <IsWebBootstrapper>true</IsWebBootstrapper>
     <SccProjectName>Svn</SccProjectName>

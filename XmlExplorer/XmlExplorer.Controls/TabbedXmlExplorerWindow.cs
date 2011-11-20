@@ -63,25 +63,26 @@ namespace XmlExplorer.Controls
 				new UIPermission(UIPermissionWindow.AllWindows).Demand();
 				this.AllowDrop = true;
 			}
-			catch (SecurityException)
+			catch (SecurityException ex)
 			{
+				Debug.WriteLine(ex);
 			}
 
 			this.DragOver += this.OnDragOver;
 			this.DragDrop += this.OnDragDrop;
 
 			// wire up all of the toolbar and menu events
-			this.toolStripMenuItemFile.DropDownOpening += this.OnToolStripMenuItemFileDropDownOpening;
+			this.toolStripMenuItemFile.DropDownOpening += this.OnToolStripMenuItemDropDownOpening;
 			this.toolStripMenuItemRecentFiles.DropDownOpening += this.OnToolStripMenuItemRecentFilesDropDownOpening;
-			this.toolStripMenuItemEdit.DropDownOpening += this.OnToolStripMenuItemEditDropDownOpening;
-			this.toolStripMenuItemView.DropDownOpening += this.OnToolStripMenuItemViewDropDownOpening;
+			this.toolStripMenuItemEdit.DropDownOpening += this.OnToolStripMenuItemDropDownOpening;
+			this.toolStripMenuItemView.DropDownOpening += this.OnToolStripMenuItemDropDownOpening;
 
 			// copy attributes xpath - context menu item
-			this.contextMenuStripNodesItemCopyXPathAttributes.DropDownItems.Add("[Placeholder]");
+			this.contextMenuStripNodesItemCopyXPathAttributes.DropDownItems.Add("");
 			this.contextMenuStripNodesItemCopyXPathAttributes.DropDownOpening += this.OnCopyAttributesXPathMenuOpening;
 
 			// copy attributes xpath - toolstrip menu item
-			this.toolStripMenuItemCopyAttributesXPath.DropDownItems.Add("[Placeholder]");
+			this.toolStripMenuItemCopyAttributesXPath.DropDownItems.Add("");
 			this.toolStripMenuItemCopyAttributesXPath.DropDownOpening += this.OnCopyAttributesXPathMenuOpening;
 
 			// copy base64 - text
@@ -108,6 +109,7 @@ namespace XmlExplorer.Controls
 			this.toolStripMenuItemShowNodeToolTips.Click += this.OnToolStripMenuItemShowNodeToolTipsClick;
 
 			this.toolStripMenuItemNewFromClipboard.Click += this.OnToolStripButtonNewFromClipboardClick;
+			this.toolStripButtonNewFromClipboard.Click += this.OnToolStripButtonNewFromClipboardClick;
 
 			this.toolStripMenuItemOpen.Click += this.OnToolStripButtonOpenClick;
 			this.toolStripButtonOpen.Click += this.OnToolStripButtonOpenClick;
@@ -150,8 +152,13 @@ namespace XmlExplorer.Controls
 
 			this.toolStripMenuItemCopyFullPath.Click += this.OnToolStripMenuItemCopyFullPathClick;
 			this.toolStripMenuItemOpenContainingFolder.Click += this.OnToolStripMenuItemOpenContainingFolderClick;
+			this.toolStripMenuItemNewHorizontalTabGroup.Click += this.OnToolStripMenuItemNewHorizontalTabGroupClick;
+			this.toolStripMenuItemNewVerticalTabGroup.Click += this.OnToolStripMenuItemNewVerticalTabGroupClick;
 
 			this.toolStripMenuItemCheckForUpdates.Click += this.OnToolStripMenuItemCheckForUpdatesClick;
+			this.toolStripMenuItemUpdateAvailable.Click += this.OnToolStripMenuItemUpdateAvailableClick;
+			this.toolStripMenuItemCloseUpdateMessage.Click += this.OnToolStripMenuItemCloseUpdateMessageClick;
+
 			this.toolStripMenuItemAbout.Click += this.OnToolStripMenuItemAboutClick;
 
 			this.toolStripStatusLabelChildCount.Text = string.Empty;
@@ -332,6 +339,49 @@ namespace XmlExplorer.Controls
 			}
 		}
 
+		public DockWindow DocumentDockWindow
+		{
+			get
+			{
+				foreach (DockWindow window in this.dockPanel.DockWindows)
+					if (window.DockState == DockState.Document)
+						return window;
+
+				return null;
+			}
+		}
+
+		public bool TwoOrMoreOpenDocumentWindows
+		{
+			get
+			{
+				if (this.DocumentDockWindow == null)
+					return false;
+
+				return this.DocumentDockWindow.VisibleNestedPanes[0].Contents.Count > 1;
+			}
+		}
+
+		public bool IsDocumentVisible
+		{
+			get
+			{
+				return this.dockPanel.ActiveDocument != null;
+			}
+		}
+
+		public bool IsAtLeastOnePaneDocked
+		{
+			get
+			{
+				foreach (DockWindow Window in this.dockPanel.DockWindows)
+					if (Window.DockState != DockState.Document && Window.VisibleNestedPanes.Count > 0)
+						return true;
+
+				return false;
+			}
+		}
+
 		#endregion
 
 		#region Methods
@@ -483,14 +533,24 @@ namespace XmlExplorer.Controls
 		private void Reload()
 		{
 			// get the selected window
-			XmlExplorerWindow window = this.ActiveMdiChild as XmlExplorerWindow;
+			IXmlViewer window = this.ActiveMdiChild as IXmlViewer;
 			if (window == null)
 				return;
 
-			if (window.TreeView.FileInfo != null)
-				window.TreeView.Reload();
-			else if (window.TreeView.Uri != null)
-				window.BeginOpenUri(window.TreeView.Uri.ToString());
+			window.Reload();
+		}
+
+		private void Reload(FileInfo fileInfo)
+		{
+			foreach (var window in this.MdiChildren)
+			{
+				IXmlViewer viewer = window as IXmlViewer;
+				if (viewer == null)
+					continue;
+
+				if (string.Compare(viewer.FileInfo.FullName, fileInfo.FullName, true) == 0)
+					viewer.Reload();
+			}
 		}
 
 		public void OpenUri()
@@ -533,11 +593,11 @@ namespace XmlExplorer.Controls
 			try
 			{
 				// get the selected window
-				XmlExplorerWindow window = this.ActiveMdiChild as XmlExplorerWindow;
+				IXmlViewer window = this.ActiveMdiChild as IXmlViewer;
 				if (window == null)
 					return;
 
-				FileInfo fileInfo = window.TreeView.FileInfo;
+				FileInfo fileInfo = window.FileInfo;
 
 				if (fileInfo == null)
 					return;
@@ -767,12 +827,14 @@ namespace XmlExplorer.Controls
 			try
 			{
 				// get the selected window
-				XmlExplorerWindow window = this.ActiveMdiChild as XmlExplorerWindow;
+				IXmlViewer window = this.ActiveMdiChild as IXmlViewer;
 				if (window == null)
 					return;
 
 				// instruct the window to save with formatting
-				window.TreeView.Save(formatting);
+				window.Save(formatting);
+
+				this.Reload(window.FileInfo);
 			}
 			catch (Exception ex)
 			{
@@ -787,10 +849,12 @@ namespace XmlExplorer.Controls
 		{
 			try
 			{
-				XmlExplorerWindow window = this.ActiveMdiChild as XmlExplorerWindow;
+				IXmlViewer window = this.ActiveMdiChild as IXmlViewer;
 				if (window == null)
 					return;
-				window.TreeView.SaveAs(formatting);
+				window.SaveAs(formatting);
+
+				this.Reload(window.FileInfo);
 			}
 			catch (Exception ex)
 			{
@@ -1046,6 +1110,8 @@ namespace XmlExplorer.Controls
 				// update any tools that depend on one or more windows being open
 				bool hasOpenWindows = this.MdiChildren.Length > 0 && !isLastWindowClosing;
 
+				bool isXmlExplorerWindow = this.ActiveMdiChild is XmlExplorerWindow;
+
 				bool clipboardContainsText = Clipboard.ContainsText();
 
 				this.toolStripMenuItemNewFromClipboard.Enabled = clipboardContainsText;
@@ -1063,6 +1129,9 @@ namespace XmlExplorer.Controls
 				this.toolStripButtonCopyFormattedOuterXml.Enabled = hasOpenWindows;
 				this.toolStripMenuItemCopy.Enabled = hasOpenWindows;
 				this.toolStripMenuItemCopyXPath.Enabled = hasOpenWindows;
+				this.toolStripMenuItemCopyAttributesXPath.Enabled = hasOpenWindows;
+				this.toolStripMenuItemCopyNodeValueBase64.Enabled = hasOpenWindows;
+				this.toolStripMenuItemCopyNodeTextBase64.Enabled = hasOpenWindows;
 
 				this.toolStripMenuItemExpandAll.Enabled = hasOpenWindows;
 				this.toolStripButtonExpandAll.Enabled = hasOpenWindows;
@@ -1078,6 +1147,11 @@ namespace XmlExplorer.Controls
 				this.toolStripButtonPrevious.Enabled = hasOpenWindows;
 				this.toolStripButtonLaunchXpath.Enabled = hasOpenWindows;
 				this.toolStripButtonXPathExpression.Enabled = hasOpenWindows;
+
+				this.toolStripMenuItemNewVerticalTabGroup.Enabled = this.IsDocumentVisible && this.TwoOrMoreOpenDocumentWindows;
+				this.toolStripMenuItemNewHorizontalTabGroup.Enabled = this.IsDocumentVisible && this.TwoOrMoreOpenDocumentWindows;
+
+				this._errorWindow.Header.HyperlinkBrowseForSchema.IsEnabled = hasOpenWindows;
 			}
 			catch (Exception ex)
 			{
@@ -1147,7 +1221,7 @@ namespace XmlExplorer.Controls
 			{
 				WebClient webClient = new WebClient();
 				webClient.Proxy.Credentials = CredentialCache.DefaultCredentials;
-				webClient.DownloadDataCompleted += this.OnDownloadDataCompleted;
+				webClient.DownloadDataCompleted += this.OnCheckForUpdateCompleted;
 				webClient.DownloadDataAsync(new Uri(this.AutoUpdateUrl), userRequested);
 			});
 
@@ -1158,23 +1232,21 @@ namespace XmlExplorer.Controls
 		public void ExpandAll()
 		{
 			// get the selected window
-			XmlExplorerWindow window = this.ActiveMdiChild as XmlExplorerWindow;
-			if (window == null)
+			IXmlViewer viewer = this.ActiveMdiChild as IXmlViewer;
+			if (viewer == null)
 				return;
 
-			// instruct the window to copy
-			window.TreeView.ExpandAll();
+			viewer.ExpandAll();
 		}
 
 		public void CollapseAll()
 		{
 			// get the selected window
-			XmlExplorerWindow window = this.ActiveMdiChild as XmlExplorerWindow;
-			if (window == null)
+			IXmlViewer viewer = this.ActiveMdiChild as IXmlViewer;
+			if (viewer == null)
 				return;
 
-			// instruct the window to copy
-			window.TreeView.CollapseAll();
+			viewer.CollapseAll();
 		}
 
 		private void UpdateCurrentDocumentInformation()
@@ -1187,12 +1259,13 @@ namespace XmlExplorer.Controls
 			XPathNavigatorTreeView treeView = null;
 			bool isLoading = false;
 
+			if (this.ActiveMdiChild != null)
+				windowText = string.Format("XML Explorer - [{0}]", this.ActiveMdiChild.Text);
+
 			// get the selected window
 			XmlExplorerWindow window = this.ActiveMdiChild as XmlExplorerWindow;
 			if (window != null)
 			{
-				windowText = string.Format("XML Explorer - [{0}]", window.Text);
-
 				isLoading = window.TreeView.IsLoading;
 
 				if (!isLoading)
@@ -1327,6 +1400,34 @@ namespace XmlExplorer.Controls
 			this.ChildNodeDefinitions.Import(fileName);
 		}
 
+		private void NewVerticalTabGroup()
+		{
+			IDockContent dockContent = this.ActiveMdiChild as IDockContent;
+			if (dockContent == null)
+				return;
+
+			this.MoveToNewVerticalTabGroup(dockContent);
+		}
+
+		private void NewHorizontalTabGroup()
+		{
+			IDockContent dockContent = this.ActiveMdiChild as IDockContent;
+			if (dockContent == null)
+				return;
+
+			this.MoveToNewHorizontalTabGroup(dockContent);
+		}
+
+		private void MoveToNewVerticalTabGroup(IDockContent dockContent)
+		{
+			this.dockPanel.DockPaneFactory.CreateDockPane(dockContent, DockState.Document, true);
+		}
+
+		private void MoveToNewHorizontalTabGroup(IDockContent dockContent)
+		{
+			this.dockPanel.DockPaneFactory.CreateDockPane(dockContent, dockContent.DockHandler.Pane, DockAlignment.Bottom, 0.5, true);
+		}
+
 		private void HandleException(Exception exception)
 		{
 			try
@@ -1420,6 +1521,8 @@ namespace XmlExplorer.Controls
 					window.TreeView.KeyDown += this.OnWindow_XmlTreeView_KeyDown;
 
 				this.UpdateCurrentDocumentInformation();
+
+				this.UpdateTools(this.MdiChildren.Length == 1);
 			}
 			catch (Exception ex)
 			{
@@ -1658,13 +1761,13 @@ namespace XmlExplorer.Controls
 			}
 		}
 
-		private void OnDownloadDataCompleted(object sender, DownloadDataCompletedEventArgs e)
+		private void OnCheckForUpdateCompleted(object sender, DownloadDataCompletedEventArgs e)
 		{
 			try
 			{
 				if (this.InvokeRequired)
 				{
-					this.Invoke(new DownloadDataCompletedEventHandler(this.OnDownloadDataCompleted), sender, e);
+					this.Invoke(new DownloadDataCompletedEventHandler(this.OnCheckForUpdateCompleted), sender, e);
 					return;
 				}
 
@@ -1693,17 +1796,26 @@ namespace XmlExplorer.Controls
 					return;
 				}
 
-				if (latest.Version > currentVersion)
+				if (latest.Version > currentVersion && !string.IsNullOrEmpty(latest.Url))
 				{
 					// prompt user
-					string message = string.Format("{0} version {1} is available.\n\nWould you like to visit the release page?", AboutBox.AssemblyProduct, latest.Version.ToString());
+					string message = string.Format("{0} version {1} is available", AboutBox.AssemblyProduct, latest.Version.ToString());
 
-					DialogResult result = MessageBox.Show(this, message, AboutBox.AssemblyProduct, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
+					this.toolStripMenuItemUpdateAvailable.Text = message;
+					this.toolStripMenuItemUpdateAvailable.Visible = true;
+					this.toolStripMenuItemUpdateAvailable.Tag = latest.Url;
+					this.toolStripMenuItemCloseUpdateMessage.Visible = true;
 
-					if (result != DialogResult.Yes)
-						return;
+					if (userRequested)
+					{
+						DialogResult result = MessageBox.Show(this, message, AboutBox.AssemblyProduct, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
 
-					Process.Start(latest.Url);
+						if (result != DialogResult.Yes)
+							return;
+
+						Process.Start(latest.Url);
+					}
+
 					return;
 				}
 
@@ -1781,31 +1893,7 @@ namespace XmlExplorer.Controls
 
 		#region Tool Event Handlers
 
-		private void OnToolStripMenuItemFileDropDownOpening(object sender, EventArgs e)
-		{
-			try
-			{
-				this.UpdateTools();
-			}
-			catch (Exception ex)
-			{
-				this.HandleException(ex);
-			}
-		}
-
-		private void OnToolStripMenuItemEditDropDownOpening(object sender, EventArgs e)
-		{
-			try
-			{
-				this.UpdateTools();
-			}
-			catch (Exception ex)
-			{
-				this.HandleException(ex);
-			}
-		}
-
-		private void OnToolStripMenuItemViewDropDownOpening(object sender, EventArgs e)
+		private void OnToolStripMenuItemDropDownOpening(object sender, EventArgs e)
 		{
 			try
 			{
@@ -1918,18 +2006,11 @@ namespace XmlExplorer.Controls
 			try
 			{
 				// get the window for which the context menu was opened
-				XmlExplorerWindow page = this.contextMenuStripTabs.Tag as XmlExplorerWindow;
-				if (page == null)
-					page = this.ActiveMdiChild as XmlExplorerWindow;
+				if (this.ActiveMdiChild == null)
+					return;
 
 				// close the window
-				if (page != null)
-				{
-					page.Close();
-				}
-
-				// reset the context menu's tag
-				this.contextMenuStripTabs.Tag = null;
+				this.ActiveMdiChild.Close();
 			}
 			catch (Exception ex)
 			{
@@ -2051,11 +2132,7 @@ namespace XmlExplorer.Controls
 		{
 			try
 			{
-				XmlExplorerWindow page = this.ActiveMdiChild as XmlExplorerWindow;
-				if (page != null)
-				{
-					this.Reload();
-				}
+				this.Reload();
 			}
 			catch (Exception ex)
 			{
@@ -2294,25 +2371,18 @@ namespace XmlExplorer.Controls
 		{
 			try
 			{
-				XmlExplorerWindow page = this.ActiveMdiChild as XmlExplorerWindow;
-				if (page == null)
-					page = this.ActiveMdiChild as XmlExplorerWindow;
-
+				IXmlViewer page = this.ActiveMdiChild as IXmlViewer;
 				if (page == null)
 					return;
 
-				if (page.TreeView.FileInfo != null)
+				if (page.FileInfo != null)
 				{
-					Clipboard.SetText(page.TreeView.FileInfo.FullName);
+					Clipboard.SetText(page.FileInfo.FullName);
 				}
 			}
 			catch (Exception ex)
 			{
 				this.HandleException(ex);
-			}
-			finally
-			{
-				this.contextMenuStripTabs.Tag = null;
 			}
 		}
 
@@ -2321,28 +2391,48 @@ namespace XmlExplorer.Controls
 			try
 			{
 				// get the window for which the context menu was opened
-				XmlExplorerWindow page = this.contextMenuStripTabs.Tag as XmlExplorerWindow;
-				if (page == null)
-					page = this.ActiveMdiChild as XmlExplorerWindow;
-
+				IXmlViewer page = this.ActiveMdiChild as IXmlViewer;
 				if (page == null)
 					return;
 
 				// open an explorer window to the folder containing the selected window's file
-				if (page.TreeView.FileInfo != null)
+				if (page.FileInfo != null)
 				{
 					// open explorer to the file's parent folder, with the file selected
-					string args = string.Format("/select,\"{0}\"", page.TreeView.FileInfo.FullName);
+					string args = string.Format("/select,\"{0}\"", page.FileInfo.FullName);
 					Process.Start("explorer", args);
 				}
-
-				this.contextMenuStripTabs.Tag = null;
 			}
 			catch (Exception ex)
 			{
 				this.HandleException(ex);
 			}
 		}
+
+		private void OnToolStripMenuItemNewVerticalTabGroupClick(object sender, EventArgs e)
+		{
+			try
+			{
+				this.NewVerticalTabGroup();
+			}
+			catch (Exception ex)
+			{
+				this.HandleException(ex);
+			}
+		}
+
+		private void OnToolStripMenuItemNewHorizontalTabGroupClick(object sender, EventArgs e)
+		{
+			try
+			{
+				this.NewHorizontalTabGroup();
+			}
+			catch (Exception ex)
+			{
+				this.HandleException(ex);
+			}
+		}
+
 
 		private void OnToolStripButtonXPathExpressionClick(object sender, EventArgs e)
 		{
@@ -2372,11 +2462,45 @@ namespace XmlExplorer.Controls
 			}
 		}
 
+
 		private void OnToolStripMenuItemCheckForUpdatesClick(object sender, EventArgs e)
 		{
 			try
 			{
 				this.CheckForUpdates(true);
+			}
+			catch (Exception ex)
+			{
+				this.HandleException(ex);
+			}
+		}
+
+		void OnToolStripMenuItemUpdateAvailableClick(object sender, EventArgs e)
+		{
+			try
+			{
+				if (this.toolStripMenuItemUpdateAvailable.Tag == null)
+					return;
+
+				string url = this.toolStripMenuItemUpdateAvailable.Tag.ToString();
+
+				if (string.IsNullOrEmpty(url))
+					return;
+
+				Process.Start(url);
+			}
+			catch (Exception ex)
+			{
+				this.HandleException(ex);
+			}
+		}
+
+		void OnToolStripMenuItemCloseUpdateMessageClick(object sender, EventArgs e)
+		{
+			try
+			{
+				this.toolStripMenuItemUpdateAvailable.Visible = false;
+				this.toolStripMenuItemCloseUpdateMessage.Visible = false;
 			}
 			catch (Exception ex)
 			{
