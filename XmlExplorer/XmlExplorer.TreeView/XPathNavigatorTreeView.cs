@@ -448,7 +448,8 @@ namespace XmlExplorer.TreeView
 		private static XPathNavigator ReadXPathNavigator(FileInfo fileInfo)
 		{
 			XmlReaderSettings readerSettings = new XmlReaderSettings();
-			readerSettings.ConformanceLevel = ConformanceLevel.Fragment;
+			readerSettings.ConformanceLevel = ConformanceLevel.Auto;
+			readerSettings.DtdProcessing = DtdProcessing.Ignore;
 
 			XPathDocument document = null;
 
