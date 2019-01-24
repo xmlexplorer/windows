@@ -16,6 +16,8 @@ namespace XmlExplorer.Controls
 	using WeifenLuo.WinFormsUI.Docking;
 	using XmlExplorer.TreeView;
 
+    using Wmhelp.XPath2;
+
 	public partial class TabbedXmlExplorerWindow : Form
 	{
 		#region Variables
@@ -511,13 +513,13 @@ namespace XmlExplorer.Controls
 			this.UpdateTools();
 		}
 
-		/// <summary>
-		/// Opens a window for the specified node set.  This method is used to open XPath expressions that 
-		/// evaluate to a node set.
-		/// </summary>
-		/// <param name="iterator">An XPathNodeIterator with which to open a window.</param>
-		public void Open(XPathNodeIterator iterator)
-		{
+        /// <summary>
+        /// Opens a window for the specified node set.  This method is used to open XPath expressions that 
+        /// evaluate to a node set.
+        /// </summary>
+        /// <param name="iterator">An XPathNodeIterator with which to open a window.</param>
+        public void Open(XPath2NodeIterator iterator)
+        {
 			// create a window
 			XmlExplorerWindow window = this.CreateXmlExplorerWindow();
 
@@ -786,11 +788,11 @@ namespace XmlExplorer.Controls
 				if (window == null)
 					return false;
 
-				// evaluate the expression
-				XPathNodeIterator iterator = window.TreeView.SelectXmlNodes(xpath) as XPathNodeIterator;
+                // evaluate the expression
+                XPath2NodeIterator iterator = window.TreeView.SelectXmlNodes(xpath) as XPath2NodeIterator;
 
-				// check for empty results
-				if (iterator == null || iterator.Count < 1)
+                // check for empty results
+                if (iterator == null || iterator.Count < 1)
 					return false;
 
 				// open the results in a new window

@@ -85,6 +85,7 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Windows.DefaultApplications">
       <HintPath>..\System.Windows.DefaultApplications.dll</HintPath>
     </Reference>
@@ -101,6 +102,9 @@
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="WindowsFormsIntegration" />
+    <Reference Include="XPath2, Version=1.0.7.0, Culture=neutral, PublicKeyToken=463c6d7fb740c7e5, processorArchitecture=MSIL">
+      <HintPath>..\packages\XPath2.1.0.6.1\lib\net40\XPath2.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AboutBox.cs">
@@ -270,6 +274,7 @@
     <Resource Include="Resources\CopyHS.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="Resources\FontHS.png" />
   </ItemGroup>
   <ItemGroup>
