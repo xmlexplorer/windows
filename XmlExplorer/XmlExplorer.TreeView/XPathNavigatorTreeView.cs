@@ -1472,20 +1472,29 @@ namespace XmlExplorer.TreeView
                 }
                 else if (this.NodeIterator != null)
                 {
-                    foreach (XPathNavigator node in this.NodeIterator)
+                    foreach (XPathItem item in this.NodeIterator)
                     {
-                        switch (node.NodeType)
+                        XPathNavigator node = item as XPathNavigator; 
+                        if (node != null)
                         {
-                            case XPathNodeType.Attribute:
-                                writer.WriteString(node.Value);
-                                writer.WriteWhitespace(Environment.NewLine);
-                                break;
-
-                            default:
-                                node.WriteSubtree(writer);
-                                if (node.NodeType == XPathNodeType.Text)
+                            switch (node.NodeType)
+                            {
+                                case XPathNodeType.Attribute:
+                                    writer.WriteString(node.Value);
                                     writer.WriteWhitespace(Environment.NewLine);
-                                break;
+                                    break;
+
+                                default:
+                                    node.WriteSubtree(writer);
+                                    if (node.NodeType == XPathNodeType.Text)
+                                        writer.WriteWhitespace(Environment.NewLine);
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            writer.WriteString(item.Value);
+                            writer.WriteWhitespace(Environment.NewLine);
                         }
                     }
                 }
